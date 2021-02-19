@@ -4,8 +4,10 @@
   "description": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack",
-    "start": "webpack --watch"
+    "build": "webpack --mode=production",
+    "build:dev": "webpack --mode=development",
+    "start": "webpack --watch --mode=production",
+    "start:dev": "webpack --watch --mode=development"
   },
   "dependencies": {
     "react": "^17.0.1",

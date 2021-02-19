@@ -1,14 +1,15 @@
 import * as React from "react";
-import logo from "./logo.svg";
 import "./App.css";
+import {useChat} from "./hooks/useChat";
 
 export const App = () => {
+  const [messages, addMessage] = useChat();
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Web Chat extension
+          Web Chat extension {JSON.stringify(messages)}
         </p>
       </header>
     </div>
