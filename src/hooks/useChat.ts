@@ -23,10 +23,17 @@ export const useChat = (): UseChat => {
   }, [api])
 
   useEffect(() => {
-    if (!!chat)
-      setMessages(chat.getMessages())
-    else
+    if (chat == null) {
       setMessages([]);
+      return;
+    }
+
+    const updateMessages = async () => {
+      const result = await chat.getMessages();
+      setMessages(result);
+    }
+
+    updateMessages();
   }, [chat])
 
   const addMessage = async (text: string) => {

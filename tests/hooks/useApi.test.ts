@@ -5,7 +5,6 @@ import * as apiAdaptersModule from "../../src/adapters/api";
 import {ApiAdapterMock} from "../mocks/adapters/ApiAdapterMock";
 
 const apiAdapterMock = new ApiAdapterMock();
-
 // @ts-ignore
 apiAdaptersModule.getAdapter = () => apiAdapterMock;
 

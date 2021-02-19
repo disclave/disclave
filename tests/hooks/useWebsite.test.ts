@@ -9,7 +9,6 @@ const query = '?query=val';
 const url = `https://${host}${path}${query}`
 
 const websiteAdapterMock = new WebsiteAdapterMock(url);
-
 // @ts-ignore
 websiteAdaptersModule.getAdapter = () => websiteAdapterMock;
 
