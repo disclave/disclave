@@ -5,8 +5,7 @@ test('should get messages from api', async () => {
   const apiAdapter = new ApiAdapterMock()
   const chat = new Chat(apiAdapter)
 
-  const messages = chat.getMessages();
+  const messages = await chat.getMessages();
 
   expect(messages).toHaveLength(1);
-
 })

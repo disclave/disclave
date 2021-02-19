@@ -6,7 +6,7 @@ export class Chat {
   constructor(private api: IApiAdapter) {
   }
 
-  public getMessages(): Array<Message> {
+  public async getMessages(): Promise<Array<Message>> {
     // TODO:
     return [
       {

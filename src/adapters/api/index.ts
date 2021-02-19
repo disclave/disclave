@@ -4,8 +4,6 @@ export interface IApiAdapter {
   // add methods like 'getComments(websiteId, pageId)'
 }
 
-export const getAdapter = (websiteInfo: IWebsiteInfo): IApiAdapter => {
-  return {
-
-  }
+export function getAdapter(websiteInfo: IWebsiteInfo): IApiAdapter {
+  return {}
 }

@@ -8,6 +8,6 @@ export interface IWebsiteAdapter {
   getCurrentWebsiteInfo(): Promise<IWebsiteInfo>;
 }
 
-export const getAdapter = (): IWebsiteAdapter => {
+export function getAdapter(): IWebsiteAdapter {
   return new ChromeAdapter();
 }
