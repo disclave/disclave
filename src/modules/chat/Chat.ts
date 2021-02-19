@@ -14,7 +14,7 @@ export class Chat {
     ];
   }
 
-  public addMessage() {
+  public async addMessage(text: string) {
     // TODO:
   }
 }

@@ -23,14 +23,17 @@ export const useChat = (): UseChat => {
   }, [api])
 
   useEffect(() => {
-    if (chat == null)
-      setMessages([]);
-    else
+    if (!!chat)
       setMessages(chat.getMessages())
+    else
+      setMessages([]);
   }, [chat])
 
   const addMessage = async (text: string) => {
-    // TODO:
+    if (chat == null)
+      throw 'Can not add message. API is not initialized.'
+
+    await chat.addMessage(text);
   }
 
   return [messages, addMessage];
