@@ -7,6 +7,7 @@ export class Chat {
   }
 
   public getMessages(): Array<Message> {
+    // TODO:
     return [
       {
         text: 'test message'
