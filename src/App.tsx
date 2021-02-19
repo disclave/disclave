@@ -9,7 +9,7 @@ export const App = () => {
     <div className="App">
       <header className="App-header">
         <p>
-          Web Chat extension {JSON.stringify(messages)}
+          Web Chat extension {JSON.stringify(messages)} ??
         </p>
       </header>
     </div>

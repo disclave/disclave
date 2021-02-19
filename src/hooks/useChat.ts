@@ -16,24 +16,22 @@ export const useChat = (): UseChat => {
   const [messages, setMessages] = useState<Array<Message>>([]);
 
   useEffect(() => {
-    if (!!api)
-      setChat(new Chat(api));
-    else
-      setChat(null);
+    if (api == null || chat != null)
+      return;
+
+    setChat(new Chat(api));
   }, [api])
 
   useEffect(() => {
-    if (chat == null) {
-      setMessages([]);
+    if (chat == null)
       return;
-    }
 
-    const updateMessages = async () => {
+    const updateMessages = async (chat: Chat) => {
       const result = await chat.getMessages();
       setMessages(result);
     }
 
-    updateMessages();
+    updateMessages(chat);
   }, [chat])
 
   const addMessage = async (text: string) => {
