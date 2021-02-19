@@ -10,7 +10,7 @@ export class Chat {
     // TODO:
     return [
       {
-        text: 'test message'
+        text: 'test message text'
       }
     ];
   }
