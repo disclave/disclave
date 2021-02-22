@@ -3,10 +3,6 @@
 /.pnp
 .pnp.js
 
-# IDE
-/.idea
-*.iml
-
 # testing
 /coverage
 
