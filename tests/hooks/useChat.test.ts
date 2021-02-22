@@ -1,17 +1,15 @@
 import {renderHook} from "@testing-library/react-hooks";
-import * as apiAdaptersModule from "../../src/adapters/api";
-import * as websiteAdaptersModule from "../../src/adapters/website";
 import {ApiAdapterMock} from "../mocks/adapters/ApiAdapterMock";
 import {useChat} from "../../src/hooks/useChat";
 import {WebsiteAdapterMock} from "../mocks/adapters/WebsiteAdapterMock";
+import {setAdapter as setApiAdapter} from "../../src/adapters/api";
+import {setAdapter as setWebsiteAdapter} from "../../src/adapters/website";
 
 const apiAdapterMock = new ApiAdapterMock();
-// @ts-ignore
-apiAdaptersModule.getAdapter = () => apiAdapterMock;
+setApiAdapter(apiAdapterMock)
 
 const websiteAdapterMock = new WebsiteAdapterMock('https://google.com');
-// @ts-ignore
-websiteAdaptersModule.getAdapter = () => websiteAdapterMock;
+setWebsiteAdapter(websiteAdapterMock)
 
 test('should return current messages', async () => {
   const { result, waitForNextUpdate } = renderHook(() => useChat());

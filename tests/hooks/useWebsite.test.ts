@@ -1,7 +1,7 @@
 import {renderHook} from "@testing-library/react-hooks";
-import * as websiteAdaptersModule from "../../src/adapters/website";
 import {WebsiteAdapterMock} from "../mocks/adapters/WebsiteAdapterMock";
 import {useWebsite} from "../../src/hooks/useWebsite";
+import {setAdapter} from "../../src/adapters/website";
 
 const host = 'google.com';
 const path = '/test/path';
@@ -9,8 +9,7 @@ const query = '?query=val';
 const url = `https://${host}${path}${query}`
 
 const websiteAdapterMock = new WebsiteAdapterMock(url);
-// @ts-ignore
-websiteAdaptersModule.getAdapter = () => websiteAdapterMock;
+setAdapter(websiteAdapterMock)
 
 test('should return website info', async () => {
   const { result, waitForNextUpdate } = renderHook(() => useWebsite());

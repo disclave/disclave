@@ -1,12 +1,11 @@
 import {IWebsiteInfo} from "../../src/adapters/website";
 import {renderHook} from "@testing-library/react-hooks";
 import {useApi} from "../../src/hooks/useApi";
-import * as apiAdaptersModule from "../../src/adapters/api";
 import {ApiAdapterMock} from "../mocks/adapters/ApiAdapterMock";
+import {setAdapter} from "../../src/adapters/api";
 
 const apiAdapterMock = new ApiAdapterMock();
-// @ts-ignore
-apiAdaptersModule.getAdapter = () => apiAdapterMock;
+setAdapter(apiAdapterMock)
 
 test('should not return api if no website info provided', () => {
   const websiteInfo: IWebsiteInfo | null = null;
