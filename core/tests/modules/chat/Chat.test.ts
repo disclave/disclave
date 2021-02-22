@@ -1,5 +1,5 @@
-import {Chat} from "../../../src/modules/chat";
 import {ApiAdapterMock} from "../../mocks/adapters/ApiAdapterMock";
+import {Chat} from "../../../src";
 
 test('should get messages from api', async () => {
   const apiAdapter = new ApiAdapterMock()

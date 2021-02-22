@@ -1,7 +1,7 @@
 import {useWebsite} from "./useWebsite";
 import {useApi} from "./useApi";
-import {Chat, Message} from "../modules/chat";
 import {useEffect, useState} from "react";
+import {Chat, Message} from "@webchat/core";
 
 type UseChat = [
   Array<Message>,
@@ -10,7 +10,7 @@ type UseChat = [
 
 export const useChat = (): UseChat => {
   const websiteInfo = useWebsite();
-  const api = useApi(websiteInfo);
+  const api = useApi();
 
   const [chat, setChat] = useState<Chat | null>(null);
   const [messages, setMessages] = useState<Array<Message>>([]);

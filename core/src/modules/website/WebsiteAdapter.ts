@@ -8,11 +8,11 @@ export interface IWebsiteAdapter {
 
 let websiteAdapter: IWebsiteAdapter | null = null
 
-export const setAdapter = (adapterInterface: IWebsiteAdapter) => {
+export const setWebsiteAdapter = (adapterInterface: IWebsiteAdapter) => {
   websiteAdapter = adapterInterface
 }
 
-export const getAdapter = (): IWebsiteAdapter => {
+export const getWebsiteAdapter = (): IWebsiteAdapter => {
   if (websiteAdapter == null)
     throw `Website adapter not configured`
 

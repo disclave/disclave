@@ -1,9 +1,5 @@
-import {IWebsiteInfo} from "../adapters/website";
-import {getAdapter, IApiAdapter} from "../adapters/api";
+import {getApiAdapter, IApiAdapter} from "@webchat/core";
 
-export const useApi = (websiteInfo: IWebsiteInfo | null): IApiAdapter | null => {
-  if (!websiteInfo)
-    return null;
-
-  return getAdapter(websiteInfo)
+export const useApi = (): IApiAdapter => {
+  return getApiAdapter()
 }

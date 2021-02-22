@@ -1,5 +1,5 @@
-import {IWebsiteAdapter, IWebsiteInfo} from "./";
 import Tab = chrome.tabs.Tab;
+import {IWebsiteAdapter, IWebsiteInfo} from "@webchat/core"
 
 export class ChromeAdapter implements IWebsiteAdapter {
 

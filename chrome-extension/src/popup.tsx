@@ -4,9 +4,8 @@ import * as ReactDOM from "react-dom";
 import {App} from "./App";
 import "./popup.css";
 
-import {setAdapter as setApiAdapter} from "./adapters/api";
-import {setAdapter as setWebsiteAdapter} from "./adapters/website";
 import {ChromeAdapter} from "./adapters/website/ChromeAdapter";
+import {setApiAdapter, setWebsiteAdapter} from "@webchat/core";
 
 setApiAdapter({})
 setWebsiteAdapter(new ChromeAdapter())

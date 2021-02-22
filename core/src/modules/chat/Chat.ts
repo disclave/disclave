@@ -1,4 +1,4 @@
-import {IApiAdapter} from "../../adapters/api";
+import {IApiAdapter} from "../api";
 import {Message} from "./Message";
 
 export class Chat {
