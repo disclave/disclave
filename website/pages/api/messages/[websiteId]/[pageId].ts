@@ -1,10 +1,7 @@
 import {NextApiRequest, NextApiResponse} from "next";
-// import {ChatService} from "@webchat/core";
-// import {ChatRepositoryMock} from "../../../../../core/tests/mocks/ChatRepositoryMock";
+import {MessageService} from "../../../../server/messages/MessageService";
 
-// // TODO: change to real DB repository
-// const repository = new ChatRepositoryMock()
-// const chatService = new ChatService(repository)
+const service = new MessageService();
 
 const getHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   const {
@@ -16,8 +13,7 @@ const getHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   // TODO: add request params validation
 
-  // const response = await chatService.getMessages(websiteId as string, pageId as string)
-  const response = "test get"
+  const response = await service.getMessages(websiteId as string, pageId as string)
 
   res.status(200).json(response)
 }
@@ -33,14 +29,8 @@ const postHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   // TODO: add request params and body validation
 
   const text = req.body
-  const request = {
-    text,
-    websiteId: websiteId as string,
-    pageId: pageId as string
-  }
 
-  // const response = await chatService.postMessage(request)
-  const response = "test post"
+  const response = service.addMessage(text, websiteId as string, pageId as string)
 
   res.status(200).json(response)
 }
