@@ -1,11 +1,5 @@
 {
   "name": "@webchat/monorepo",
   "private": true,
-  "version": "0.1.0",
-  "workspaces": [
-    "api-client",
-    "backend",
-    "core",
-    "ui"
-  ]
+  "version": "0.1.0"
 }
