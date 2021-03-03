@@ -1,4 +1,4 @@
-import {IChatRepository, Message} from "../../src/modules/chat/ChatService";
+import {IChatRepository, Message} from "../../src";
 import {v4 as uuidv4} from 'uuid'
 
 const DB = new Map<string, Map<string, Array<MessageEntity>>>()

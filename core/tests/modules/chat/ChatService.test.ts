@@ -1,4 +1,4 @@
-import {ChatService} from "../../../src/modules/chat/ChatService";
+import {ChatService} from "../../../src";
 import {ChatRepositoryMock} from "../../mocks/ChatRepositoryMock";
 
 describe('ChatService', () => {
