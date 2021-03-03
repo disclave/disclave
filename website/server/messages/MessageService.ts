@@ -11,12 +11,7 @@ export class MessageService {
   }
 
   public async addMessage(text: string, websiteId: string, pageId: string): Promise<Message> {
-    const result = await repository.saveMessage({
-      id: '',
-      text,
-      websiteId,
-      pageId
-    })
+    const result = await repository.saveMessage(text, websiteId, pageId)
     return MessageService.toDomain(result)
   }
 

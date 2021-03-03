@@ -20,12 +20,19 @@ export class MessageRepository {
     })
   }
 
-  public async saveMessage(entity: MessageEntity): Promise<MessageEntity> {
-    const ref = MessageRepository.getMessagesCollectionRef(entity.websiteId, entity.pageId)
+  public async saveMessage(text: string, websiteId: string, pageId: string): Promise<MessageEntity> {
+    const ref = MessageRepository.getMessagesCollectionRef(websiteId, pageId)
 
-    await ref.add(entity)
+    const doc = await ref.add({
+      text
+    })
 
-    return entity
+    return {
+      id: doc.id,
+      text,
+      websiteId,
+      pageId
+    }
   }
 
   private static getMessagesCollectionRef(websiteId: string, pageId: string) {
