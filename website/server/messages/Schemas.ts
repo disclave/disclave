@@ -1,10 +1,16 @@
 import {gql} from "apollo-server-micro"
 
 export const typeDefs = gql`
+  input MessageInput {
+    text: String
+    websiteId: String
+    pageId: String
+  }
+  
   type  Message {
     id: ID
     text: String
-    websiteId: String,
+    websiteId: String
     pageId: String
   }
 
@@ -13,6 +19,6 @@ export const typeDefs = gql`
   }
   
   type Mutation {
-    addMessage(text: String!, websiteId: String!, pageId: String!): Message
+    createMessage(message: MessageInput!): Message
   }
 `
