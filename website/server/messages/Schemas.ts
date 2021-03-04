@@ -1,13 +1,13 @@
 import {gql} from "apollo-server-micro"
 
 export const typeDefs = gql`
-    type  User {
+    type  Message {
         id: ID
-        login: String
-        avatar_url: String
+        text: String
+        websiteId: String,
+        pageId: String
     }
 
     type  Query {
-        getUsers: [User]
-        getUser(name: String!): User!
+        getMessages(websiteId: String!, pageId: String!): [Message]
     }`

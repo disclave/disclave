@@ -2,11 +2,11 @@ import * as admin from 'firebase-admin'
 
 const cert = process.env.FIREBASE_CERT
 
-// if (!admin.app) {
+if (!admin.apps.length) {
   admin.initializeApp({
     credential: admin.credential.cert(JSON.parse(cert))
   })
-// }
+}
 
 export const app = admin.app
 export const firestore = admin.firestore()
