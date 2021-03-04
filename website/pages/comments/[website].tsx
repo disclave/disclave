@@ -5,6 +5,7 @@ import {GetServerSideProps} from "next";
 import {CommentModel} from "../../modules/comments/CommentModel"
 import {CommentsView} from "../../modules/comments/components/CommentsView";
 import {createComment, getComments} from "../../modules/comments/CommentClient";
+import {Test} from "@webchat/client-core"
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const service = new CommentService()
@@ -39,6 +40,8 @@ const Website: React.FC<WebsiteProps> = (props) => {
     <div>
       <main>
         {website}
+
+        <Test/>
 
         <CommentsView comments={comments} onCommentAdd={onCommentAdd}/>
       </main>
