@@ -1,7 +1,9 @@
 import React from "react";
 
-export const Test = props => (
-  <div>
-    Test ts
-  </div>
-);
+export const Test = () => {
+  return (
+    <div>
+      Test ts!!!
+    </div>
+  );
+}
