@@ -1,19 +1,19 @@
-import {Message} from "./Message";
-import {MessageRepository} from "./db/MessageRepository";
-import {MessageEntity} from "./db/MessageEntity";
+import {Comment} from "./Comment";
+import {CommentRepository} from "./db/CommentRepository";
+import {CommentEntity} from "./db/CommentEntity";
 
-const repository = new MessageRepository()
+const repository = new CommentRepository()
 
-export class MessageService {
-  public async getMessages(url: string): Promise<Array<Message>> {
+export class CommentService {
+  public async getComments(url: string): Promise<Array<Comment>> {
     const parsedUrl = parseUrl(url)
-    const messages = await repository.findMessages(parsedUrl.websiteId, parsedUrl.pageId)
-    return messages.map(toDomain)
+    const comments = await repository.findComments(parsedUrl.websiteId, parsedUrl.pageId)
+    return comments.map(toDomain)
   }
 
-  public async addMessage(text: string, url: string): Promise<Message> {
+  public async addComment(text: string, url: string): Promise<Comment> {
     const parsedUrl = parseUrl(url)
-    const result = await repository.saveMessage(text, parsedUrl.websiteId, parsedUrl.pageId)
+    const result = await repository.addComment(text, parsedUrl.websiteId, parsedUrl.pageId)
     return toDomain(result)
   }
 }
@@ -36,7 +36,7 @@ const encodeURI = (str: string): string => {
     .replace(/[!'()*]/g, c => '%' + c.charCodeAt(0).toString(16))
 }
 
-const toDomain = (entity: MessageEntity): Message => {
+const toDomain = (entity: CommentEntity): Comment => {
   return {
     id: entity.id,
     text: entity.text,

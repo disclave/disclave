@@ -1,23 +1,23 @@
 import {gql} from "apollo-server-micro"
 
 export const typeDefs = gql`
-  input MessageInput {
+  input CommentInput {
     text: String
     url: String
   }
   
-  type  Message {
+  type Comment {
     id: ID
     text: String
     websiteId: String
     pageId: String
   }
 
-  type  Query {
-    getMessages(url: String!): [Message]
+  type Query {
+    getComments(url: String!): [Comment]
   }
   
   type Mutation {
-    createMessage(message: MessageInput!): Message
+    createComment(comment: CommentInput!): Comment
   }
 `

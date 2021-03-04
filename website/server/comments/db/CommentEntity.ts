@@ -1,4 +1,4 @@
-export interface MessageEntity {
+export interface CommentEntity {
   id: string,
   text: string,
   websiteId: string,

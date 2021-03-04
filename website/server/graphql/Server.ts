@@ -1,7 +1,7 @@
 import Cors from 'micro-cors'
 import {ApolloServer} from 'apollo-server-micro'
-import {typeDefs} from '../messages/Schemas'
-import {resolvers} from '../messages/Resolvers'
+import {typeDefs} from '../comments/Schemas'
+import {resolvers} from '../comments/Resolvers'
 
 const cors = Cors();
 
