@@ -2,7 +2,8 @@ import React from "react";
 import {useRouter} from "next/router";
 import {CommentService} from "../../server/comments/CommentService";
 import {GetServerSideProps} from "next";
-import {Comment} from "../../server/comments/Comment";
+import {CommentModel} from "../../modules/comments/CommentModel"
+import {CommentsList} from "../../modules/comments/components/CommentsList";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const service = new CommentService()
@@ -17,7 +18,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 }
 
 interface WebsiteProps {
-  comments: Array<Comment>
+  comments: Array<CommentModel>
 }
 
 const Website: React.FC<WebsiteProps> = ({comments}) => {
@@ -29,7 +30,7 @@ const Website: React.FC<WebsiteProps> = ({comments}) => {
       <main>
         {website}
 
-        {JSON.stringify(comments)}
+        <CommentsList comments={comments}/>
       </main>
     </div>
   )
