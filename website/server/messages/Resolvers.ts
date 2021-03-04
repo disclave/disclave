@@ -7,8 +7,7 @@ export const resolvers = {
   Query: {
     getMessages: async (_, args) => {
       const messages = await service.getMessages(
-        args.websiteId,
-        args.pageId
+        args.url
       )
       return messages.map(messageToResponse)
     }
@@ -17,8 +16,7 @@ export const resolvers = {
     createMessage: async (_, args) => {
       const message = await service.addMessage(
         args.message.text,
-        args.message.websiteId,
-        args.message.pageId
+        args.message.url
       )
       return messageToResponse(message)
     }

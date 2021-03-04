@@ -3,8 +3,7 @@ import {gql} from "apollo-server-micro"
 export const typeDefs = gql`
   input MessageInput {
     text: String
-    websiteId: String
-    pageId: String
+    url: String
   }
   
   type  Message {
@@ -15,7 +14,7 @@ export const typeDefs = gql`
   }
 
   type  Query {
-    getMessages(websiteId: String!, pageId: String!): [Message]
+    getMessages(url: String!): [Message]
   }
   
   type Mutation {
