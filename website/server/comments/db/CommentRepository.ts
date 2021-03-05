@@ -29,7 +29,7 @@ export class CommentRepository {
     const entity: CommentEntity = {
       id: '',
       text: text,
-      timestamp: 0,
+      timestamp: '',
       url: {
         raw: url.raw,
         websiteId: url.websiteId,
