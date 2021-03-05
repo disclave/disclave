@@ -4,6 +4,8 @@ const repository = new UserRepository()
 
 export class UserService {
   public async createProfile(userId: string, name: string): Promise<string> {
+    // TODO: verify if user logged in
+
     const user = await repository.getUser(userId)
     if (user.disabled)
       throw 'User account is disabled'
