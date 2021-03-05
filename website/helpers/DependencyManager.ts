@@ -1,5 +1,5 @@
 
-class DependencyManager<T> {
+export class DependencyManager<T> {
   private default: T
   private current: T
 
