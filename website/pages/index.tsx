@@ -1,5 +1,4 @@
 import Head from 'next/head'
-import {Test} from "@webchat/client-core";
 
 const Home = () => {
   return (
@@ -11,8 +10,6 @@ const Home = () => {
 
       <main>
         WebChat
-
-        <Test/>
       </main>
     </div>
   )
