@@ -27,7 +27,10 @@ const commentToResponse = (message: Comment) => {
   return {
     id: message.id,
     text: message.text,
-    websiteId: message.websiteId,
-    pageId: message.pageId
+    timestamp: message.timestamp,
+    urlMeta: {
+      websiteId: message.urlMeta.websiteId,
+      pageId: message.urlMeta.pageId
+    }
   }
 }

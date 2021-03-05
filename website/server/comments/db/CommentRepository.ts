@@ -1,7 +1,11 @@
-import {CommentEntity} from "./CommentEntity";
-import {admin, firestore} from "../../firebase/firebase";
-
-type CollectionReference<T> = admin.firestore.CollectionReference<T>;
+import {CommentEntity} from "./CommentEntity"
+import {
+  admin,
+  DocumentData,
+  firestore,
+  FirestoreDataConverter,
+  QueryDocumentSnapshot
+} from "../../firebase/firebase"
 
 interface UrlMeta {
   raw: string,
@@ -16,15 +20,16 @@ interface FirestoreComment {
 }
 
 export class CommentRepository {
-  public async findComments(websiteId: string, pageId: string): Promise<Array<CommentEntity>> {
-    const snapshot = await commentsCollectionRef(websiteId, pageId).get()
-    return snapshot.docs.map(docToEntity)
+  public async findComments(url: UrlMeta): Promise<Array<CommentEntity>> {
+    const snapshot = await commentsCollectionRef(url.websiteId, url.pageId).get()
+    return snapshot.docs.map(d => d.data())
   }
 
   public async addComment(text: string, url: UrlMeta): Promise<CommentEntity> {
-    const firestoreComment: FirestoreComment = {
+    const entity: CommentEntity = {
+      id: '',
       text: text,
-      timestamp: admin.firestore.FieldValue.serverTimestamp(),
+      timestamp: 0,
       url: {
         raw: url.raw,
         websiteId: url.websiteId,
@@ -32,30 +37,44 @@ export class CommentRepository {
       }
     }
 
-    const doc = await commentsCollectionRef(url.websiteId, url.pageId)
-      .add(firestoreComment)
+    const result = await commentsCollectionRef(url.websiteId, url.pageId)
+      .add(entity)
+    const doc = await result.withConverter(commentConverter).get()
+    console.log(doc.data())
+    return doc.data()
+  }
+}
 
-    return docToEntity(doc)
+const commentConverter: FirestoreDataConverter<CommentEntity> = {
+  toFirestore(entity: CommentEntity): DocumentData<FirestoreComment> {
+    return {
+      text: entity.text,
+      timestamp: admin.firestore.FieldValue.serverTimestamp(),
+      url: {
+        raw: entity.url.raw,
+        websiteId: entity.url.websiteId,
+        pageId: entity.url.pageId
+      }
+    }
+  },
+  fromFirestore(snapshot: QueryDocumentSnapshot<FirestoreComment>): CommentEntity {
+    const data: FirestoreComment = snapshot.data()
+    return {
+      id: snapshot.id,
+      text: data.text,
+      timestamp: data.timestamp.toMillis(),
+      url: {
+        raw: data.url.raw,
+        websiteId: data.url.websiteId,
+        pageId: data.url.pageId
+      }
+    }
   }
 }
 
 const websitesCollection = 'websites'
 const pagesCollection = 'pages'
 const commentsCollection = 'comments'
-
-const docToEntity = (doc:  CollectionReference<FirestoreComment>): CommentEntity => {
-  const data: FirestoreComment = doc.data()
-  return {
-    id: doc.id,
-    text: data.text,
-    timestamp: data.timestamp.toMillis(),
-    url: {
-      raw: data.url.raw,
-      websiteId: data.url.websiteId,
-      pageId: data.url.pageId
-    }
-  }
-}
 
 const commentsCollectionRef = (websiteId: string, pageId: string) => {
   return firestore
@@ -64,4 +83,5 @@ const commentsCollectionRef = (websiteId: string, pageId: string) => {
     .collection(pagesCollection)
     .doc(pageId)
     .collection(commentsCollection)
+    .withConverter(commentConverter)
 }

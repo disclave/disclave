@@ -6,11 +6,16 @@ export const typeDefs = gql`
     url: String
   }
   
+  type CommentUrlMeta {
+    websiteId: String,
+    pageId: String
+  }
+  
   type Comment {
     id: ID
-    text: String
-    websiteId: String
-    pageId: String
+    text: String,
+    timestamp: String,
+    urlMeta: CommentUrlMeta
   }
 
   type Query {

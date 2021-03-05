@@ -29,8 +29,11 @@ const responseToModel = (data: any): CommentModel => {
   return {
     id: data.id,
     text: data.text,
-    websiteId: data.websiteId,
-    pageId: data.pageId
+    timestamp: data.timestamp,
+    urlMeta: {
+      websiteId: data.urlMeta.websiteId,
+      pageId: data.urlMeta.pageId
+    }
   }
 }
 
@@ -39,8 +42,11 @@ const GET_COMMENTS = gql`
     getComments(url: $url) {
       id
       text
-      websiteId
-      pageId
+      timestamp
+      urlMeta {
+        websiteId
+        pageId
+      }
     }
   }
 `
@@ -50,8 +56,11 @@ const CREATE_COMMENT = gql`
     createComment(comment: $comment) {
       id
       text
-      websiteId
-      pageId
+      timestamp
+      urlMeta {
+        websiteId
+        pageId
+      }
     }
   }
 `

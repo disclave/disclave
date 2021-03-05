@@ -11,3 +11,8 @@ if (!admin.apps.length) {
 export { admin }
 export const app = admin.app
 export const firestore = admin.firestore()
+
+export type FirestoreDataConverter<T> = admin.firestore.FirestoreDataConverter<T>
+export type CollectionReference<T> = admin.firestore.CollectionReference<T>
+export type DocumentData<T> = admin.firestore.DocumentData<T>
+export type QueryDocumentSnapshot<T> = admin.firestore.QueryDocumentSnapshot<T>

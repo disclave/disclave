@@ -9,7 +9,7 @@ const urlService = new UrlService()
 export class CommentService {
   public async getComments(url: string): Promise<Array<Comment>> {
     const parsedUrl = urlService.parseUrl(url)
-    const comments = await repository.findComments(parsedUrl.websiteId, parsedUrl.pageId)
+    const comments = await repository.findComments(parsedUrl)
     return comments.map(toDomain)
   }
 
