@@ -7,6 +7,6 @@ interface CommentEntityUrlMeta {
 export interface CommentEntity {
   id: string,
   text: string,
-  timestamp: number,
+  timestamp: string,
   url: CommentEntityUrlMeta
 }

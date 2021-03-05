@@ -40,7 +40,6 @@ export class CommentRepository {
     const result = await commentsCollectionRef(url.websiteId, url.pageId)
       .add(entity)
     const doc = await result.withConverter(commentConverter).get()
-    console.log(doc.data())
     return doc.data()
   }
 }
@@ -62,7 +61,7 @@ const commentConverter: FirestoreDataConverter<CommentEntity> = {
     return {
       id: snapshot.id,
       text: data.text,
-      timestamp: data.timestamp.toMillis(),
+      timestamp: data.timestamp.toDate().toISOString(),
       url: {
         raw: data.url.raw,
         websiteId: data.url.websiteId,

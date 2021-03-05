@@ -6,6 +6,6 @@ export interface CommentUrlMeta {
 export interface CommentModel {
   id: string,
   text: string,
-  timestamp: number,
+  timestamp: string,
   urlMeta: CommentUrlMeta
 }
