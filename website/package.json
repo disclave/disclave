@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test": "ts-jest"
+    "test": "jest"
   },
   "dependencies": {
     "@apollo/client": "^3.3.11",
