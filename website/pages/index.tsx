@@ -9,7 +9,7 @@ const Home = () => {
       </Head>
 
       <main>
-        WebChat
+        WebChat!
       </main>
     </div>
   )

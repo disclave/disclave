@@ -2,13 +2,17 @@ import React, {useState} from "react";
 import {Input} from "../../ui/Input";
 import {Form} from "../../ui/Form";
 
-export const LoginForm: React.FC = () => {
+export interface LoginFormProps {
+  onLogin: (email: string, password: string) => Promise<void>
+}
+
+export const LoginForm: React.FC<LoginFormProps> = (props) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
   const handleLogin = async (event) => {
     event.preventDefault()
-
+    await props.onLogin(email, password)
     setEmail('')
     setPassword('')
   }
