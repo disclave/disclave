@@ -1,4 +1,6 @@
 import React, {useState} from "react";
+import {Input} from "../../ui/Input";
+import {Form} from "../../ui/Form";
 
 export interface CommentAddProps {
   onSubmit: (text: string) => Promise<void>
@@ -7,8 +9,8 @@ export interface CommentAddProps {
 export const CommentAdd: React.FC<CommentAddProps> = ({onSubmit}) => {
   const [text, setText] = useState('')
 
-  const handleChange = (event) => {
-    setText(event.target.value)
+  const handleChange = (newText: string) => {
+    setText(newText)
   }
 
   const handleSubmit = async (event) => {
@@ -18,12 +20,12 @@ export const CommentAdd: React.FC<CommentAddProps> = ({onSubmit}) => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit}>
       <label>
         Add comment:
-        <input type="text" name="text" value={text} onChange={handleChange}/>
+        <Input type="text" name="text" value={text} onChange={handleChange}/>
       </label>
-      <input type="submit" value="Submit" />
-    </form>
+      <Input type="submit" value="Submit" />
+    </Form>
   )
 }
