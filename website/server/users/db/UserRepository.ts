@@ -1,11 +1,12 @@
 import {auth, firestore, FirestoreDataConverter, QueryDocumentSnapshot} from "../../firebase/firebase"
 import {UserProfileEntity} from "./UserProfileEntity";
+import {IUserRepository} from "./index";
 
 interface FirestoreProfile {
   name: string
 }
 
-export class UserRepository {
+export class UserRepository implements IUserRepository{
   public async getUser(uid: string) {
     return auth.getUser(uid)
   }

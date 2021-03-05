@@ -14,3 +14,5 @@ export const auth = admin.auth()
 
 export type FirestoreDataConverter<T> = admin.firestore.FirestoreDataConverter<T>
 export type QueryDocumentSnapshot<T> = admin.firestore.QueryDocumentSnapshot<T>
+
+export type UserRecord = admin.auth.UserRecord

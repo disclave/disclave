@@ -3,8 +3,9 @@ import {auth} from "../firebase/firebase";
 import {UserProfile} from "./UserProfile";
 import {UserProfileEntity} from "./db/UserProfileEntity";
 import {IUserService} from "./index";
+import {getUserRepository} from "./db";
 
-const repository = new UserRepository()
+const repository = getUserRepository()
 
 export class UserService implements IUserService {
   public async verifyIdToken(idToken: string, checkIfRevoked: boolean = false): Promise<string> {
