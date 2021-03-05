@@ -1,7 +1,6 @@
 import {CommentEntity} from "./CommentEntity"
 import {
   admin,
-  DocumentData,
   firestore,
   FirestoreDataConverter,
   QueryDocumentSnapshot
@@ -15,7 +14,7 @@ interface UrlMeta {
 
 interface FirestoreComment {
   text: string,
-  timestamp: admin.firestore.Timestamp,
+  timestamp: admin.firestore.Timestamp | admin.firestore.FieldValue,
   url: UrlMeta
 }
 
@@ -45,7 +44,7 @@ export class CommentRepository {
 }
 
 const commentConverter: FirestoreDataConverter<CommentEntity> = {
-  toFirestore(entity: CommentEntity): DocumentData<FirestoreComment> {
+  toFirestore(entity: CommentEntity): FirestoreComment {
     return {
       text: entity.text,
       timestamp: admin.firestore.FieldValue.serverTimestamp(),
@@ -61,7 +60,7 @@ const commentConverter: FirestoreDataConverter<CommentEntity> = {
     return {
       id: snapshot.id,
       text: data.text,
-      timestamp: data.timestamp.toDate().toISOString(),
+      timestamp: (data.timestamp as admin.firestore.Timestamp).toDate().toISOString(),
       url: {
         raw: data.url.raw,
         websiteId: data.url.websiteId,
