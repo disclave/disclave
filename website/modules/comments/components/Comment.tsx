@@ -8,7 +8,7 @@ interface CommentProps {
 export const Comment: React.FC<CommentProps> = ({comment}) => {
   return (
     <p>
-      {comment.text}
+      {comment.text} ({JSON.stringify(comment)})
     </p>
   )
 }

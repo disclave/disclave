@@ -15,7 +15,7 @@ export class CommentService {
 
   public async addComment(text: string, url: string): Promise<Comment> {
     const parsedUrl = urlService.parseUrl(url)
-    const result = await repository.addComment(text, parsedUrl.websiteId, parsedUrl.pageId)
+    const result = await repository.addComment(text, parsedUrl)
     return toDomain(result)
   }
 }
