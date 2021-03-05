@@ -2,10 +2,10 @@ import {UserService} from "./UserService"
 
 const service = new UserService()
 
-export const resolvers = {
+export const usersResolvers = {
   Mutation: {
     createUserProfile: async (_, args) => {
-      await service.createProfile(
+      return await service.createProfile(
         args.uid,
         args.profile.name
       )

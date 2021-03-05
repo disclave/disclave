@@ -1,13 +1,32 @@
 import Cors from 'micro-cors'
-import {ApolloServer} from 'apollo-server-micro'
-import {typeDefs} from '../comments/Schemas'
-import {resolvers} from '../comments/Resolvers'
+import {ApolloServer, gql} from 'apollo-server-micro'
+import {commentsTypeDefs} from '../comments/Schemas'
+import {commentsResolvers} from '../comments/Resolvers'
+import {usersTypeDefs} from "../users/Schemas";
+import {usersResolvers} from "../users/Resolvers";
 
 const cors = Cors();
 
+const baseTypes = gql`
+  type Query {
+    _: String
+  }
+  
+  type Mutation {
+    _: String
+  }
+`
+
 const apolloServer = new ApolloServer({
-  typeDefs,
-  resolvers
+  typeDefs: [
+    baseTypes,
+    commentsTypeDefs,
+    usersTypeDefs
+  ],
+  resolvers: [
+    commentsResolvers,
+    usersResolvers
+  ]
 })
 
 export default (path: string) => {

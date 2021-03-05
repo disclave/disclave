@@ -3,7 +3,7 @@ import {Comment} from "./Comment";
 
 const service = new CommentService();
 
-export const resolvers = {
+export const commentsResolvers = {
   Query: {
     getComments: async (_, args) => {
       const comments = await service.getComments(

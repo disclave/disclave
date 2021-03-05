@@ -9,7 +9,7 @@ export class UserRepository {
     return auth.getUser(uid)
   }
 
-  public async createProfile(userId: string, profile: FirestoreProfile) {
+  public async createProfile(userId: string, profile: FirestoreProfile): Promise<string> {
     const ref = profilesCollectionRef().doc(userId)
     await firestore.runTransaction(async t => {
       // TODO: check for user with the same name
@@ -20,6 +20,7 @@ export class UserRepository {
 
       await t.set(ref, profile)
     })
+    return userId
   }
 }
 

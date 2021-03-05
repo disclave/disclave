@@ -1,6 +1,6 @@
 import {gql} from "apollo-server-micro"
 
-export const typeDefs = gql`
+export const commentsTypeDefs = gql`
   input CommentInput {
     text: String
     url: String
@@ -18,11 +18,11 @@ export const typeDefs = gql`
     urlMeta: CommentUrlMeta
   }
 
-  type Query {
+  extend type Query {
     getComments(url: String!): [Comment]
   }
   
-  type Mutation {
+  extend type Mutation {
     createComment(comment: CommentInput!): Comment
   }
 `
