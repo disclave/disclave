@@ -1,6 +1,11 @@
+export interface CommentUrlMeta {
+  websiteId: string,
+  pageId: string
+}
+
 export interface Comment {
   id: string,
   text: string,
-  websiteId: string,
-  pageId: string
+  timestamp: number,
+  urlMeta: CommentUrlMeta
 }

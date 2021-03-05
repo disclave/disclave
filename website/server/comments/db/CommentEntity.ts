@@ -1,6 +1,12 @@
+interface CommentEntityUrlMeta {
+  raw: string,
+  websiteId: string,
+  pageId: string
+}
+
 export interface CommentEntity {
   id: string,
   text: string,
-  websiteId: string,
-  pageId: string
+  timestamp: number,
+  url: CommentEntityUrlMeta
 }

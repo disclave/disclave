@@ -24,7 +24,10 @@ const toDomain = (entity: CommentEntity): Comment => {
   return {
     id: entity.id,
     text: entity.text,
-    websiteId: entity.websiteId,
-    pageId: entity.pageId
+    timestamp: entity.timestamp,
+    urlMeta: {
+      websiteId: entity.url.websiteId,
+      pageId: entity.url.pageId
+    }
   }
 }
