@@ -34,24 +34,26 @@ export class CommentRepository {
 
   public async addComment(author: AuthorInfo, text: string, url: UrlMeta): Promise<CommentEntity> {
     const result = await commentsCollectionRef(url.websiteId, url.pageId)
-      .add({
-        id: '',
-        text: text,
-        author: {
-          id: author.id,
-          name: author.name
-        },
-        timestamp: '',
-        url: {
-          raw: url.raw,
-          websiteId: url.websiteId,
-          pageId: url.pageId
-        }
-      })
+      .add(toCommentEntity(author, text, url))
     const doc = await result.get()
     return doc.data()
   }
 }
+
+const toCommentEntity = (author: AuthorInfo, text: string, url: UrlMeta): CommentEntity => ({
+  id: '',
+  text: text,
+  author: {
+    id: author.id,
+    name: author.name
+  },
+  timestamp: '',
+  url: {
+    raw: url.raw,
+    websiteId: url.websiteId,
+    pageId: url.pageId
+  }
+})
 
 const commentConverter: FirestoreDataConverter<CommentEntity> = {
   toFirestore(entity: CommentEntity): FirestoreComment {
