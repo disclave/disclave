@@ -1,11 +1,11 @@
 import {Comment} from "./Comment";
 import {CommentRepository} from "./db/CommentRepository";
 import {CommentEntity} from "./db/CommentEntity";
-import {UrlService} from "../url/UrlService";
-import {UserService} from "../users/UserService";
+import {UserService} from "../users";
+import {getUrlService} from "../url";
 
 const repository = new CommentRepository()
-const urlService = new UrlService()
+const urlService = getUrlService()
 const userService = new UserService()
 
 export class CommentService {

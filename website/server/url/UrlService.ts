@@ -1,10 +1,6 @@
-export interface ParsedUrlData {
-  raw: string,
-  websiteId: string,
-  pageId: string
-}
+import {IUrlService, ParsedUrlData} from "./index";
 
-export class UrlService {
+export class UrlService implements IUrlService{
   public parseUrl(raw: string): ParsedUrlData {
     const url = new URL(raw)
     return {
