@@ -1,4 +1,4 @@
-import {UserRecord} from "../../firebase/firebase";
+import {UserRecord} from "../../firebase";
 import {UserProfileEntity} from "./UserProfileEntity";
 import {UserRepository} from "./UserRepository";
 

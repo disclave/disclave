@@ -8,11 +8,6 @@ if (!admin.apps.length) {
   })
 }
 
-export { admin }
+export {admin}
 export const firestore = admin.firestore()
 export const auth = admin.auth()
-
-export type FirestoreDataConverter<T> = admin.firestore.FirestoreDataConverter<T>
-export type QueryDocumentSnapshot<T> = admin.firestore.QueryDocumentSnapshot<T>
-
-export type UserRecord = admin.auth.UserRecord

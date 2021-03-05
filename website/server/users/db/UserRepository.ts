@@ -1,4 +1,4 @@
-import {auth, firestore, FirestoreDataConverter, QueryDocumentSnapshot} from "../../firebase/firebase"
+import {auth, firestore, FirestoreDataConverter, QueryDocumentSnapshot} from "../../firebase"
 import {UserProfileEntity} from "./UserProfileEntity";
 import {IUserRepository} from "./index";
 

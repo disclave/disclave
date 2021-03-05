@@ -1,4 +1,4 @@
-import {auth} from "../firebase/firebase";
+import {auth} from "../firebase";
 import {UserProfile} from "./UserProfile";
 import {UserProfileEntity} from "./db/UserProfileEntity";
 import {IUserService} from "./index";

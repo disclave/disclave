@@ -4,7 +4,7 @@ import {
   firestore,
   FirestoreDataConverter,
   QueryDocumentSnapshot
-} from "../../firebase/firebase"
+} from "../../firebase"
 
 interface UrlMeta {
   raw: string,
