@@ -7,8 +7,4 @@ export interface IUserService {
   getProfile(idToken: string): Promise<UserProfile>
 }
 
-let service: IUserService = new UserService()
-export const setUserService = (instance: IUserService) => {
-  service = instance
-}
-export const getUserService = (): IUserService => service
+export const userServiceManager = new DependencyManager<IUserService>(new UserService())

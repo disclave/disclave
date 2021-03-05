@@ -10,8 +10,4 @@ export interface IUrlService {
   parseUrl(raw: String): ParsedUrlData
 }
 
-let service: IUrlService = new UrlService()
-export const setUrlService = (instance: IUrlService) => {
-  service = instance
-}
-export const getUrlService = (): IUrlService => service
+export const urlServiceManager = new DependencyManager<IUrlService>(new UrlService())

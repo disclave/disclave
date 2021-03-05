@@ -1,12 +1,12 @@
 import {Comment} from "./Comment";
 import {CommentRepository} from "./db/CommentRepository";
 import {CommentEntity} from "./db/CommentEntity";
-import {getUrlService} from "../url";
-import {getUserService} from "../users";
+import {urlServiceManager} from "../url";
+import {userServiceManager} from "../users";
 
 const repository = new CommentRepository()
-const urlService = getUrlService()
-const userService = getUserService()
+const urlService = urlServiceManager.get()
+const userService = userServiceManager.get()
 
 export class CommentService {
   public async getComments(url: string): Promise<Array<Comment>> {

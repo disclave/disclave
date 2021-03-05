@@ -12,8 +12,4 @@ export interface IUserRepository {
   getUserProfile(uid: string): Promise<UserProfileEntity>
 }
 
-let repository: IUserRepository = new UserRepository()
-export const setUserRepository = (instance: IUserRepository) => {
-  repository = instance
-}
-export const getUserRepository = (): IUserRepository => repository
+export const userRepositoryManager = new DependencyManager<IUserRepository>(new UserRepository())
