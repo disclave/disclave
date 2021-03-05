@@ -29,6 +29,10 @@ const responseToModel = (data: any): CommentModel => {
   return {
     id: data.id,
     text: data.text,
+    author: {
+      id: data.author.id,
+      name: data.author.name
+    },
     timestamp: data.timestamp,
     urlMeta: {
       websiteId: data.urlMeta.websiteId,
@@ -42,6 +46,10 @@ const GET_COMMENTS = gql`
     getComments(url: $url) {
       id
       text
+      author {
+        id
+        name
+      }
       timestamp
       urlMeta {
         websiteId
@@ -56,6 +64,10 @@ const CREATE_COMMENT = gql`
     createComment(comment: $comment) {
       id
       text
+      author {
+        id
+        name
+      }
       timestamp
       urlMeta {
         websiteId

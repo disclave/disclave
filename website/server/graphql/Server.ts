@@ -29,7 +29,6 @@ const apolloServer = new ApolloServer({
   ],
   context: ({req}) => {
     const idToken = req.headers.idtoken || null
-    console.log('req token', req.headers)
     return {
       idToken
     }

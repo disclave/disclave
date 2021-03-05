@@ -29,10 +29,13 @@ const Website: React.FC<WebsiteProps> = (props) => {
   const [comments, setComments] = useState(props.comments)
 
   const onCommentAdd = async (text: string) => {
-    const url = website as string
-    await createComment(text, url)
-    const newComments = await getComments(url)
-    setComments(newComments)
+    try {
+      const url = website as string
+      const addedComment = await createComment(text, url)
+      setComments([...comments, addedComment])
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   return (
