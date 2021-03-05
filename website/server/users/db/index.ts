@@ -1,6 +1,7 @@
 import {UserRecord} from "../../firebase";
 import {UserProfileEntity} from "./UserProfileEntity";
 import {UserRepository} from "./UserRepository";
+import {DependencyManager} from "../../../helpers/DependencyManager";
 
 interface CreateProfileData {
   name: string

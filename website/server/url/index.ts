@@ -1,4 +1,5 @@
 import {UrlService} from "./UrlService";
+import {DependencyManager} from "../../helpers/DependencyManager";
 
 export interface ParsedUrlData {
   raw: string,
