@@ -12,6 +12,8 @@ export class UserRepository {
   public async createProfile(userId: string, profile: FirestoreProfile) {
     const ref = profilesCollectionRef().doc(userId)
     await firestore.runTransaction(async t => {
+      // TODO: check for user with the same name
+
       const checkProfile = await t.get(ref)
       if (checkProfile.exists)
         throw 'User profile already exists'
