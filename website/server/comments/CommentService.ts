@@ -2,9 +2,11 @@ import {Comment} from "./Comment";
 import {CommentRepository} from "./db/CommentRepository";
 import {CommentEntity} from "./db/CommentEntity";
 import {UrlService} from "../url/UrlService";
+import {UserService} from "../users/UserService";
 
 const repository = new CommentRepository()
 const urlService = new UrlService()
+const userService = new UserService()
 
 export class CommentService {
   public async getComments(url: string): Promise<Array<Comment>> {
@@ -13,9 +15,10 @@ export class CommentService {
     return comments.map(toDomain)
   }
 
-  public async addComment(text: string, url: string): Promise<Comment> {
+  public async addComment(idToken: string, text: string, url: string): Promise<Comment> {
+    const author = await userService.getProfile(idToken)
     const parsedUrl = urlService.parseUrl(url)
-    const result = await repository.addComment(text, parsedUrl)
+    const result = await repository.addComment(author, text, parsedUrl)
     return toDomain(result)
   }
 }
@@ -24,6 +27,10 @@ const toDomain = (entity: CommentEntity): Comment => {
   return {
     id: entity.id,
     text: entity.text,
+    author: {
+      id: entity.author.id,
+      name: entity.author.name
+    },
     timestamp: entity.timestamp,
     urlMeta: {
       websiteId: entity.url.websiteId,

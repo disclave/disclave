@@ -12,8 +12,14 @@ interface UrlMeta {
   pageId: string
 }
 
+interface AuthorInfo {
+  id: string,
+  name: string
+}
+
 interface FirestoreComment {
   text: string,
+  author: AuthorInfo,
   timestamp: admin.firestore.Timestamp | admin.firestore.FieldValue,
   url: UrlMeta
 }
@@ -24,21 +30,23 @@ export class CommentRepository {
     return snapshot.docs.map(d => d.data())
   }
 
-  public async addComment(text: string, url: UrlMeta): Promise<CommentEntity> {
-    const entity: CommentEntity = {
-      id: '',
-      text: text,
-      timestamp: '',
-      url: {
-        raw: url.raw,
-        websiteId: url.websiteId,
-        pageId: url.pageId
-      }
-    }
-
+  public async addComment(author: AuthorInfo, text: string, url: UrlMeta): Promise<CommentEntity> {
     const result = await commentsCollectionRef(url.websiteId, url.pageId)
-      .add(entity)
-    const doc = await result.withConverter(commentConverter).get()
+      .add({
+        id: '',
+        text: text,
+        author: {
+          id: author.id,
+          name: author.name
+        },
+        timestamp: '',
+        url: {
+          raw: url.raw,
+          websiteId: url.websiteId,
+          pageId: url.pageId
+        }
+      })
+    const doc = await result.get()
     return doc.data()
   }
 }
@@ -48,6 +56,10 @@ const commentConverter: FirestoreDataConverter<CommentEntity> = {
     return {
       text: entity.text,
       timestamp: admin.firestore.FieldValue.serverTimestamp(),
+      author: {
+        id: entity.author.id,
+        name: entity.author.name
+      },
       url: {
         raw: entity.url.raw,
         websiteId: entity.url.websiteId,
@@ -60,6 +72,10 @@ const commentConverter: FirestoreDataConverter<CommentEntity> = {
     return {
       id: snapshot.id,
       text: data.text,
+      author: {
+        id: data.author.id,
+        name: data.author.name
+      },
       timestamp: (data.timestamp as admin.firestore.Timestamp).toDate().toISOString(),
       url: {
         raw: data.url.raw,

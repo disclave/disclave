@@ -13,8 +13,12 @@ export const commentsResolvers = {
     }
   },
   Mutation: {
-    createComment: async (_, args) => {
+    createComment: async (_, args, context) => {
+      if (!context.idToken)
+        throw 'Unauthorized'
+
       const comment = await service.addComment(
+        context.idToken,
         args.comment.text,
         args.comment.url
       )
@@ -27,6 +31,10 @@ const commentToResponse = (message: Comment) => {
   return {
     id: message.id,
     text: message.text,
+    author: {
+      id: message.author.id,
+      name: message.author.name
+    },
     timestamp: message.timestamp,
     urlMeta: {
       websiteId: message.urlMeta.websiteId,

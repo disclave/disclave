@@ -11,9 +11,15 @@ export const commentsTypeDefs = gql`
     pageId: String
   }
   
+  type CommentAuthor {
+    id: ID,
+    name: String
+  }
+  
   type Comment {
     id: ID
     text: String,
+    author: CommentAuthor,
     timestamp: String,
     urlMeta: CommentUrlMeta
   }

@@ -26,7 +26,14 @@ const apolloServer = new ApolloServer({
   resolvers: [
     commentsResolvers,
     usersResolvers
-  ]
+  ],
+  context: ({req}) => {
+    const idToken = req.headers.idtoken || null
+    console.log('req token', req.headers)
+    return {
+      idToken
+    }
+  }
 })
 
 export default (path: string) => {

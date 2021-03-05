@@ -1,4 +1,5 @@
-import {auth, firestore} from "../../firebase/firebase"
+import {auth, firestore, FirestoreDataConverter, QueryDocumentSnapshot} from "../../firebase/firebase"
+import {UserProfileEntity} from "./UserProfileEntity";
 
 interface FirestoreProfile {
   name: string
@@ -22,10 +23,32 @@ export class UserRepository {
     })
     return userId
   }
+
+  public async getUserProfile(uid: string): Promise<UserProfileEntity> {
+    const doc = await profilesCollectionRef().doc(uid).get()
+    return doc.data()
+  }
+}
+
+const profileConverter: FirestoreDataConverter<UserProfileEntity> = {
+  toFirestore(entity: UserProfileEntity): FirestoreProfile {
+    return {
+      name: entity.name
+    }
+  },
+  fromFirestore(snapshot: QueryDocumentSnapshot<FirestoreProfile>): UserProfileEntity {
+    const data: FirestoreProfile = snapshot.data()
+    return {
+      id: snapshot.id,
+      name: data.name
+    }
+  }
 }
 
 const profilesCollection = 'profiles'
 
 const profilesCollectionRef = () => {
-  return firestore.collection(profilesCollection)
+  return firestore
+    .collection(profilesCollection)
+    .withConverter(profileConverter)
 }
