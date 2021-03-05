@@ -9,12 +9,8 @@ export interface CommentAddProps {
 export const CommentAdd: React.FC<CommentAddProps> = ({onSubmit}) => {
   const [text, setText] = useState('')
 
-  const handleChange = (newText: string) => {
-    setText(newText)
-  }
-
   const handleSubmit = async (event) => {
-    event.preventDefault();
+    event.preventDefault()
     await onSubmit(text)
     setText('')
   }
@@ -23,7 +19,7 @@ export const CommentAdd: React.FC<CommentAddProps> = ({onSubmit}) => {
     <Form onSubmit={handleSubmit}>
       <label>
         Add comment:
-        <Input type="text" name="text" value={text} onChange={handleChange}/>
+        <Input type="text" name="text" value={text} onChange={setText}/>
       </label>
       <Input type="submit" value="Submit" />
     </Form>
