@@ -59,7 +59,30 @@ describe("Testing CommentService", () => {
     }
   })
 
-  // TODO add tests
+  test('should return comments only for selected url', async () => {
+    const idToken = 'id-token'
+    const comments = [
+      {
+        url: 'https://google.com/example/path?q=123#bb',
+        text: 'Comment 1'
+      },
+      {
+        url: 'https://google.com/another/path?q=123#bb',
+        text: 'Comment 2'
+      }
+    ]
+
+    for (const c of comments)
+      await service.addComment(idToken, c.text, c.url)
+
+    for (const c of comments) {
+      const parsedUrl = urlService.parseUrl(c.url)
+      const result = await service.getComments(c.url)
+
+      expect(result).toHaveLength(1)
+      expectCommentToEqualInput(result[0], c.text, parsedUrl)
+    }
+  })
 
   const expectCommentToEqualInput = (comment: Comment, text: string, parsedUrl: ParsedUrlData) => {
     expect(comment.id).not.toBeNull()
