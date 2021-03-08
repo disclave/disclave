@@ -10,4 +10,4 @@ export interface IUserService {
   getProfile(idToken: string): Promise<UserProfile>
 }
 
-export const userService = new Port<IUserService>(UserService)
+export const userServicePort = new Port<IUserService>(UserService)

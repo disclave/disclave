@@ -11,4 +11,4 @@ export interface IUrlService {
   parseUrl(raw: String): ParsedUrlData
 }
 
-export const urlService = new Port<IUrlService>(UrlService)
+export const urlServicePort = new Port<IUrlService>(UrlService)

@@ -20,4 +20,4 @@ export interface IUserRepository {
   getUserProfile(uid: string): Promise<UserProfileEntity>
 }
 
-export const userRepository = new Port<IUserRepository>(UserRepository)
+export const userRepositoryPort = new Port<IUserRepository>(UserRepository)

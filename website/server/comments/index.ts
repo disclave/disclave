@@ -8,4 +8,4 @@ export interface ICommentService {
   addComment(idToken: string, text: string, url: string): Promise<Comment>
 }
 
-export const commentService = new Port<ICommentService>(CommentService)
+export const commentServicePort = new Port<ICommentService>(CommentService)

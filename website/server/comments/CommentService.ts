@@ -1,7 +1,7 @@
 import {Comment} from "./Comment";
-import {CommentEntity, commentRepository, ICommentRepository} from "./db";
-import {IUrlService, urlService} from "../url";
-import {IUserService, userService} from "../users";
+import {CommentEntity, commentRepositoryPort, ICommentRepository} from "./db";
+import {IUrlService, urlServicePort} from "../url";
+import {IUserService, userServicePort} from "../users";
 import {ICommentService} from "./index";
 
 export class CommentService implements ICommentService {
@@ -10,9 +10,9 @@ export class CommentService implements ICommentService {
   private userService: IUserService
 
   public constructor() {
-    this.repository = commentRepository.get()
-    this.urlService = urlService.get()
-    this.userService = userService.get()
+    this.repository = commentRepositoryPort.get()
+    this.urlService = urlServicePort.get()
+    this.userService = userServicePort.get()
   }
 
   public async getComments(url: string): Promise<Array<Comment>> {

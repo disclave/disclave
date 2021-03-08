@@ -1,6 +1,6 @@
-import {userService} from "../../../server/users";
+import {userServicePort} from "../../../server/users";
 
-const service = userService.get()
+const service = userServicePort.get()
 
 describe("Testing UserService with mocked repository", () => {
   beforeEach(() => {

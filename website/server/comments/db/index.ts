@@ -23,4 +23,4 @@ export interface ICommentRepository {
   addComment(author: AuthorInfo, text: string, url: UrlMeta): Promise<CommentEntity>
 }
 
-export const commentRepository = new Port<ICommentRepository>(CommentRepository)
+export const commentRepositoryPort = new Port<ICommentRepository>(CommentRepository)
