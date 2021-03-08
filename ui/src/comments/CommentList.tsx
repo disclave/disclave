@@ -9,9 +9,12 @@ export interface CommentListProps {
 export const CommentList: React.VFC<CommentListProps> = ({ comments }) => {
   return (
     <div>
-      {comments.map((c) => (
-        <Comment comment={c} />
-      ))}
+      <div>
+        {comments.map((c) => (
+          <Comment comment={c} />
+        ))}
+      </div>
+      <div>Add comment or login/register</div>
     </div>
   );
 };
