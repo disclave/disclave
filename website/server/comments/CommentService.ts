@@ -1,24 +1,30 @@
 import {Comment} from "./Comment";
-import {CommentRepository} from "./db/CommentRepository";
-import {CommentEntity} from "./db/CommentEntity";
-import {urlService} from "../url";
-import {userService} from "../users";
+import {CommentEntity, commentRepository, ICommentRepository} from "./db";
+import {IUrlService, urlService} from "../url";
+import {IUserService, userService} from "../users";
+import {ICommentService} from "./index";
 
-const repository = new CommentRepository()
-const urlService = urlService.get()
-const userService = userService.get()
+export class CommentService implements ICommentService {
+  private repository: ICommentRepository
+  private urlService: IUrlService
+  private userService: IUserService
 
-export class CommentService {
+  public constructor() {
+    this.repository = commentRepository.get()
+    this.urlService = urlService.get()
+    this.userService = userService.get()
+  }
+
   public async getComments(url: string): Promise<Array<Comment>> {
-    const parsedUrl = urlService.parseUrl(url)
-    const comments = await repository.findComments(parsedUrl)
+    const parsedUrl = this.urlService.parseUrl(url)
+    const comments = await this.repository.findComments(parsedUrl)
     return comments.map(toDomain)
   }
 
   public async addComment(idToken: string, text: string, url: string): Promise<Comment> {
-    const author = await userService.getProfile(idToken)
-    const parsedUrl = urlService.parseUrl(url)
-    const result = await repository.addComment(author, text, parsedUrl)
+    const author = await this.userService.getProfile(idToken)
+    const parsedUrl = this.urlService.parseUrl(url)
+    const result = await this.repository.addComment(author, text, parsedUrl)
     return toDomain(result)
   }
 }

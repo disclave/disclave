@@ -5,17 +5,10 @@ import {
   FirestoreDataConverter,
   QueryDocumentSnapshot
 } from "../../firebase"
+import {AuthorInfo, ICommentRepository, UrlMeta} from "./index";
 
-interface UrlMeta {
-  raw: string,
-  websiteId: string,
-  pageId: string
-}
 
-interface AuthorInfo {
-  id: string,
-  name: string
-}
+
 
 interface FirestoreComment {
   text: string,
@@ -24,7 +17,7 @@ interface FirestoreComment {
   url: UrlMeta
 }
 
-export class CommentRepository {
+export class CommentRepository implements ICommentRepository{
   public async findComments(url: UrlMeta): Promise<Array<CommentEntity>> {
     const snapshot = await commentsCollectionRef(url.websiteId, url.pageId)
       .orderBy('timestamp', 'asc')
