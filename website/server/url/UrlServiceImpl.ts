@@ -1,8 +1,8 @@
-import {IUrlService, ParsedUrlData} from "./index";
+import {UrlService, ParsedUrlData} from "./index";
 import {injectable} from "inversify";
 
 @injectable()
-export class UrlService implements IUrlService {
+export class UrlServiceImpl implements UrlService {
   public parseUrl(raw: string): ParsedUrlData {
     const url = new URL(raw)
     return {

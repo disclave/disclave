@@ -5,11 +5,10 @@ import {GetServerSideProps} from "next";
 import {CommentModel} from "../../modules/comments/CommentModel"
 import {CommentsView} from "../../modules/comments/components/CommentsView";
 import {createComment} from "../../modules/comments/CommentClient";
-import {TYPES} from "../../server/types";
-import {ICommentService} from "../../server/comments";
+import {CommentService} from "../../server/comments";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const service = container.get<ICommentService>(TYPES.ICommentService)
+  const service = container.get(CommentService)
   const {website} = context.query
   const comments = await service.getComments(website as string)
 

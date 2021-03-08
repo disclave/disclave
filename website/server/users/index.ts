@@ -4,10 +4,10 @@ export type {
   UserProfile
 }
 
-export interface IUserService {
-  verifyIdToken(idToken: string, checkIfRevoked: boolean): Promise<string>
+export abstract class UserService {
+  abstract verifyIdToken(idToken: string, checkIfRevoked: boolean): Promise<string>
 
-  createProfile(idToken: string, name: string): Promise<string>
+  abstract createProfile(idToken: string, name: string): Promise<string>
 
-  getProfile(idToken: string): Promise<UserProfile>
+  abstract getProfile(idToken: string): Promise<UserProfile>
 }

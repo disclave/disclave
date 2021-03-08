@@ -1,15 +1,14 @@
 import {auth} from "../firebase";
 import {UserProfile} from "./UserProfile";
-import {IUserService} from "./index";
-import {IUserRepository, UserProfileEntity} from "./db";
+import {UserService} from "./index";
+import {UserRepository, UserProfileEntity} from "./db";
 import {inject, injectable} from "inversify";
-import {TYPES} from "../types";
 
 @injectable()
-export class UserService implements IUserService {
+export class UserServiceImpl implements UserService {
 
-  @inject(TYPES.IUserRepository)
-  private repository: IUserRepository
+  @inject(UserRepository)
+  private repository: UserRepository
 
   public async verifyIdToken(idToken: string, checkIfRevoked: boolean = false): Promise<string> {
     // TODO create auth port/adapter and get it in constructor

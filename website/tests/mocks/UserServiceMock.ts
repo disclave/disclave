@@ -1,6 +1,8 @@
-import {IUserService, UserProfile} from "../../server/users";
+import {UserService, UserProfile} from "../../server/users";
+import {injectable} from "inversify";
 
-export class UserServiceMock implements IUserService {
+@injectable()
+export class UserServiceMock implements UserService {
 
   public static defaultUserProfile: UserProfile = {
     id: 'mock-user-id',

@@ -1,10 +1,12 @@
-import {AuthorInfo, CommentEntity, ICommentRepository, UrlMeta} from "../../server/comments/db";
+import {AuthorInfo, CommentEntity, CommentRepository, UrlMeta} from "../../server/comments/db";
+import {injectable} from "inversify";
 
 type DBPage = Array<CommentEntity>
 type DBWebsite = Map<string, DBPage>
 type DB = Map<string, DBWebsite>
 
-export class CommentRepositoryMock implements ICommentRepository {
+@injectable()
+export class CommentRepositoryMock implements CommentRepository {
 
   public static db: DB = new Map<string, DBWebsite>()
   public static mockDate = new Date(1615190730000)

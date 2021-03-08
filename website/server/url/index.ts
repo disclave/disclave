@@ -5,6 +5,6 @@ export interface ParsedUrlData {
   pageId: string
 }
 
-export interface IUrlService {
-  parseUrl(raw: String): ParsedUrlData
+export abstract class UrlService {
+  abstract parseUrl(raw: String): ParsedUrlData
 }

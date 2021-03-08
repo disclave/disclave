@@ -1,6 +1,6 @@
-import {CreateProfileData, IUserRepository, UserProfileEntity, UserRecord} from "../../server/users/db";
+import {CreateProfileData, UserRepository, UserProfileEntity, UserRecord} from "../../server/users/db";
 
-export class UserRepositoryMock implements IUserRepository {
+export class UserRepositoryMock implements UserRepository {
   // TODO update repository with mock logic
 
   async createProfile(userId: string, profile: CreateProfileData): Promise<string> {

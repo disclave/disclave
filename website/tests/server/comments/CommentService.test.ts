@@ -1,37 +1,38 @@
-import {ICommentRepository} from "../../../server/comments/db";
+import {CommentRepository} from "../../../server/comments/db";
 import {CommentRepositoryMock} from "../../mocks/CommentRepositoryMock";
-import {IUserService} from "../../../server/users";
+import {UserService} from "../../../server/users";
 import {UserServiceMock} from "../../mocks/UserServiceMock";
-import {IUrlService} from "../../../server/url";
+import {UrlService} from "../../../server/url";
 import {Container} from "inversify";
-import {TYPES} from "../../../server/types";
-import {UrlService} from "../../../server/url/UrlService";
-import {ICommentService} from "../../../server/comments";
-import {CommentService} from "../../../server/comments/CommentService";
+import {UrlServiceImpl} from "../../../server/url/UrlServiceImpl";
+import {CommentService} from "../../../server/comments";
+import {CommentServiceImpl} from "../../../server/comments/CommentServiceImpl";
 
 
 describe("Testing CommentService", () => {
 
   const container = new Container()
-  container.bind<IUrlService>(TYPES.IUrlService).to(UrlService)
-  container.bind<IUserService>(TYPES.IUserService).to(UserServiceMock)
-  container.bind<ICommentRepository>(TYPES.ICommentRepository).to(CommentRepositoryMock)
+  const urlService = new UrlServiceImpl()
 
-  container.bind<ICommentService>(CommentService).toSelf()
-  const service = container.get<ICommentService>(CommentService)
+  container.bind(UrlService).toConstantValue(urlService)
+  container.bind(UserService).to(UserServiceMock)
+  container.bind(CommentRepository).to(CommentRepositoryMock)
+
+  container.bind<CommentService>(CommentServiceImpl).toSelf()
+  const service = container.get<CommentService>(CommentServiceImpl)
 
   test('should add and return comment', async () => {
     const idToken = 'id-token'
     const text = 'Comment text!'
     const url = 'https://google.com/example/path?q=123#bb'
-    const parsedUrl = container.get<IUrlService>(TYPES.IUrlService).parseUrl(url)
+    const parsedUrl = urlService.parseUrl(url)
 
     const result = await service.addComment(idToken, text, url)
 
     expect(result.id).not.toBeNull()
     expect(result.id).not.toBe('')
     expect(result.text).toEqual(text)
-    expect(Date.parse(result.timestamp)).toEqual(CommentRepositoryMock.mockDate)
+    expect(result.timestamp).toEqual(CommentRepositoryMock.mockDate.toISOString())
     expect(result.urlMeta.websiteId).toEqual(parsedUrl.websiteId)
     expect(result.urlMeta.pageId).toEqual(parsedUrl.pageId)
     expect(result.author.id).toEqual(UserServiceMock.defaultUserProfile.id)

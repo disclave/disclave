@@ -4,8 +4,8 @@ export type {
   Comment
 }
 
-export interface ICommentService {
-  getComments(url: string): Promise<Array<Comment>>
+export abstract class CommentService {
+  abstract getComments(url: string): Promise<Array<Comment>>
 
-  addComment(idToken: string, text: string, url: string): Promise<Comment>
+  abstract addComment(idToken: string, text: string, url: string): Promise<Comment>
 }

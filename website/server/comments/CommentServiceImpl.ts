@@ -1,20 +1,19 @@
-import {CommentEntity, ICommentRepository} from "./db";
-import {IUrlService} from "../url";
-import {IUserService} from "../users";
-import {ICommentService, Comment} from "./index";
+import {CommentEntity, CommentRepository} from "./db";
+import {UrlService} from "../url";
+import {UserService} from "../users";
+import {CommentService, Comment} from "./index";
 import {inject, injectable} from "inversify";
-import {TYPES} from "../types";
 
 @injectable()
-export class CommentService implements ICommentService {
-  @inject(TYPES.IUrlService)
-  private urlService: IUrlService
+export class CommentServiceImpl implements CommentService {
+  @inject(UrlService)
+  private urlService: UrlService
 
-  @inject(TYPES.IUserService)
-  private userService: IUserService
+  @inject(UserService)
+  private userService: UserService
 
-  @inject(TYPES.ICommentRepository)
-  private repository: ICommentRepository
+  @inject(CommentRepository)
+  private repository: CommentRepository
 
   public async getComments(url: string): Promise<Array<Comment>> {
     const parsedUrl = this.urlService.parseUrl(url)

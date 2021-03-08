@@ -1,8 +1,8 @@
 import {container} from "../inversify.config";
 import {TYPES} from "../types";
-import {IUserService} from "./index";
+import {UserService} from "./index";
 
-const service = container.get<IUserService>(TYPES.IUserService)
+const service = container.get<UserService>(TYPES.IUserService)
 
 export const usersResolvers = {
   Mutation: {

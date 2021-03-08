@@ -10,10 +10,10 @@ export interface CreateProfileData {
   name: string
 }
 
-export interface IUserRepository {
-  getUser(uid: string): Promise<UserRecord>
+export abstract class UserRepository {
+  abstract getUser(uid: string): Promise<UserRecord>
 
-  createProfile(userId: string, profile: CreateProfileData): Promise<string>
+  abstract createProfile(userId: string, profile: CreateProfileData): Promise<string>
 
-  getUserProfile(uid: string): Promise<UserProfileEntity>
+  abstract getUserProfile(uid: string): Promise<UserProfileEntity>
 }

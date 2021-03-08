@@ -15,8 +15,8 @@ export interface AuthorInfo {
   name: string
 }
 
-export interface ICommentRepository {
-  findComments(url: UrlMeta): Promise<Array<CommentEntity>>
+export abstract class CommentRepository {
+  abstract findComments(url: UrlMeta): Promise<Array<CommentEntity>>
 
-  addComment(author: AuthorInfo, text: string, url: UrlMeta): Promise<CommentEntity>
+  abstract addComment(author: AuthorInfo, text: string, url: UrlMeta): Promise<CommentEntity>
 }
