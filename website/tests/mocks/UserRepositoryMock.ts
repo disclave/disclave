@@ -1,5 +1,7 @@
 import {CreateProfileData, UserRepository, UserProfileEntity, UserRecord} from "../../server/users/db";
+import {injectable} from "inversify";
 
+@injectable()
 export class UserRepositoryMock implements UserRepository {
   // TODO update repository with mock logic
 

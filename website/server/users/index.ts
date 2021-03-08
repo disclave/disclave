@@ -5,7 +5,7 @@ export type {
 }
 
 export abstract class UserService {
-  abstract verifyIdToken(idToken: string, checkIfRevoked: boolean): Promise<string>
+  abstract verifyIdToken(idToken: string, checkIfRevoked?: boolean): Promise<string>
 
   abstract createProfile(idToken: string, name: string): Promise<string>
 
