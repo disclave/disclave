@@ -1,30 +1,31 @@
-import {commentRepositoryPort} from "../../../server/comments/db";
+import {ICommentRepository} from "../../../server/comments/db";
 import {CommentRepositoryMock} from "../../mocks/CommentRepositoryMock";
-import {userServicePort} from "../../../server/users";
+import {IUserService} from "../../../server/users";
 import {UserServiceMock} from "../../mocks/UserServiceMock";
-import {commentServicePort} from "../../../server/comments";
-import {urlServicePort} from "../../../server/url";
+import {IUrlService} from "../../../server/url";
+import {Container} from "inversify";
+import {TYPES} from "../../../server/types";
+import {UrlService} from "../../../server/url/UrlService";
+import {ICommentService} from "../../../server/comments";
+import {CommentService} from "../../../server/comments/CommentService";
 
 
 describe("Testing CommentService", () => {
 
-  beforeEach(() => {
-    commentRepositoryPort.set(CommentRepositoryMock)
-    userServicePort.set(UserServiceMock)
-  })
+  const container = new Container()
+  container.bind<IUrlService>(TYPES.IUrlService).to(UrlService)
+  container.bind<IUserService>(TYPES.IUserService).to(UserServiceMock)
+  container.bind<ICommentRepository>(TYPES.ICommentRepository).to(CommentRepositoryMock)
 
-  afterEach(() => {
-    userServicePort.reset()
-    commentRepositoryPort.reset()
-  })
+  container.bind<ICommentService>(CommentService).toSelf()
+  const service = container.get<ICommentService>(CommentService)
 
   test('should add and return comment', async () => {
     const idToken = 'id-token'
     const text = 'Comment text!'
     const url = 'https://google.com/example/path?q=123#bb'
-    const parsedUrl = urlServicePort.get().parseUrl(url)
+    const parsedUrl = container.get<IUrlService>(TYPES.IUrlService).parseUrl(url)
 
-    const service = commentServicePort.get()
     const result = await service.addComment(idToken, text, url)
 
     expect(result.id).not.toBeNull()
