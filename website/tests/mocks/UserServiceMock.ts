@@ -1,16 +1,22 @@
 import {IUserService, UserProfile} from "../../server/users";
 
 export class UserServiceMock implements IUserService {
-  createProfile(idToken: string, name: string): Promise<string> {
-    return Promise.resolve("");
+
+  public static defaultUserProfile: UserProfile = {
+    id: 'mock-user-id',
+    name: 'mock_user_name'
   }
 
-  getProfile(idToken: string): Promise<UserProfile> {
-    return Promise.resolve(undefined);
+  async createProfile(idToken: string, name: string): Promise<string> {
+    return UserServiceMock.defaultUserProfile.id
   }
 
-  verifyIdToken(idToken: string, checkIfRevoked: boolean): Promise<string> {
-    return Promise.resolve("");
+  async getProfile(idToken: string): Promise<UserProfile> {
+    return UserServiceMock.defaultUserProfile
+  }
+
+  async verifyIdToken(idToken: string, checkIfRevoked: boolean): Promise<string> {
+    return UserServiceMock.defaultUserProfile.id
   }
 
 }
