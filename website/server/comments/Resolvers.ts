@@ -1,9 +1,8 @@
 import {Comment} from "./Comment";
 import {container} from "../inversify.config";
 import {CommentService} from "./index";
-import {TYPES} from "../types";
 
-const service = container.get<CommentService>(TYPES.ICommentService)
+const service = container.get(CommentService)
 
 export const commentsResolvers = {
   Query: {
