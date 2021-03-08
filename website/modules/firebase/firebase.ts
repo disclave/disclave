@@ -1,12 +1,12 @@
-import firebase from "firebase/app"
-import "firebase/auth"
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
-const firebaseConfig = JSON.parse(process.env.FIREBASE_CLIENT_CONFIG)
+const firebaseConfig = JSON.parse(process.env.FIREBASE_CLIENT_CONFIG);
 
 if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig)
+  firebase.initializeApp(firebaseConfig);
 }
 
-export default firebase
+export default firebase;
 
-export const auth = firebase.auth()
+export const auth = firebase.auth();

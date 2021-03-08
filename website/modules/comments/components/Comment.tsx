@@ -1,14 +1,14 @@
-import React from "react";
-import {CommentModel} from "../CommentModel";
+import React from 'react';
+import { CommentModel } from '../CommentModel';
 
 interface CommentProps {
-  comment: CommentModel
+  comment: CommentModel;
 }
 
-export const Comment: React.FC<CommentProps> = ({comment}) => {
+export const Comment: React.FC<CommentProps> = ({ comment }) => {
   return (
     <p>
       {comment.text} ({JSON.stringify(comment)})
     </p>
-  )
-}
+  );
+};

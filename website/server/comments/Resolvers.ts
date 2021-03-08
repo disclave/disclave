@@ -1,32 +1,29 @@
-import {Comment} from "./Comment";
-import {container} from "../inversify.config";
-import {CommentService} from "./index";
+import { Comment } from './Comment';
+import { container } from '../inversify.config';
+import { CommentService } from './index';
 
-const service = container.get(CommentService)
+const service = container.get(CommentService);
 
 export const commentsResolvers = {
   Query: {
     getComments: async (_, args) => {
-      const comments = await service.getComments(
-        args.url
-      )
-      return comments.map(commentToResponse)
+      const comments = await service.getComments(args.url);
+      return comments.map(commentToResponse);
     }
   },
   Mutation: {
     createComment: async (_, args, context) => {
-      if (!context.idToken)
-        throw 'Unauthorized'
+      if (!context.idToken) throw 'Unauthorized';
 
       const comment = await service.addComment(
         context.idToken,
         args.comment.text,
         args.comment.url
-      )
-      return commentToResponse(comment)
+      );
+      return commentToResponse(comment);
     }
   }
-}
+};
 
 const commentToResponse = (message: Comment) => {
   return {
@@ -41,5 +38,5 @@ const commentToResponse = (message: Comment) => {
       websiteId: message.urlMeta.websiteId,
       pageId: message.urlMeta.pageId
     }
-  }
-}
+  };
+};

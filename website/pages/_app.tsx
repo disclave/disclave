@@ -1,11 +1,11 @@
-import '../styles/globals.css'
-import {useEffect, useState} from "react";
-import {currentUser, onAuthStateChanged} from "../modules/auth/auth";
-import {UserContext} from "../modules/auth/UserContext";
+import '../styles/globals.css';
+import { useEffect, useState } from 'react';
+import { currentUser, onAuthStateChanged } from '../modules/auth/auth';
+import { UserContext } from '../modules/auth/UserContext';
 
 const App = ({ Component, pageProps }) => {
-  const [user, setUser] = useState(undefined)
-  useEffect(() => onAuthStateChanged(setUser))
+  const [user, setUser] = useState(undefined);
+  useEffect(() => onAuthStateChanged(setUser));
 
   // // TODO: remove after testing!
   // useEffect(() => {
@@ -18,6 +18,6 @@ const App = ({ Component, pageProps }) => {
     <UserContext.Provider value={user}>
       <Component {...pageProps} />
     </UserContext.Provider>
-  )
-}
-export default App
+  );
+};
+export default App;

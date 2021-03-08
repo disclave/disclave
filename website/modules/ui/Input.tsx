@@ -1,24 +1,18 @@
-import React from "react";
+import React from 'react';
 
 interface InputProps {
-  type: string,
-  name?: string,
-  value: string,
-  onChange?: (string) => void
+  type: string;
+  name?: string;
+  value: string;
+  onChange?: (string) => void;
 }
 
 export const Input: React.FC<InputProps> = (props) => {
-
   const onInputValChange = (event) => {
-    props.onChange(event.target.value)
-  }
+    props.onChange(event.target.value);
+  };
 
   return (
-    <input
-      type={props.type}
-      name={props.name}
-      value={props.value}
-      onChange={onInputValChange}
-    />
-  )
-}
+    <input type={props.type} name={props.name} value={props.value} onChange={onInputValChange} />
+  );
+};

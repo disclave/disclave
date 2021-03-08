@@ -1,17 +1,17 @@
 export interface CommentUrlMeta {
-  websiteId: string,
-  pageId: string
+  websiteId: string;
+  pageId: string;
 }
 
 export interface CommentAuthor {
-  id: string,
-  name: string
+  id: string;
+  name: string;
 }
 
 export interface CommentModel {
-  id: string,
-  text: string,
-  author: CommentAuthor,
-  timestamp: string,
-  urlMeta: CommentUrlMeta
+  id: string;
+  text: string;
+  author: CommentAuthor;
+  timestamp: string;
+  urlMeta: CommentUrlMeta;
 }

@@ -1,35 +1,34 @@
-import {auth, firestore, FirestoreDataConverter, QueryDocumentSnapshot} from "../../firebase"
-import {UserProfileEntity} from "./UserProfileEntity";
-import {UserRepository} from "./index";
-import {injectable} from "inversify";
+import { auth, firestore, FirestoreDataConverter, QueryDocumentSnapshot } from '../../firebase';
+import { UserProfileEntity } from './UserProfileEntity';
+import { UserRepository } from './index';
+import { injectable } from 'inversify';
 
 interface FirestoreProfile {
-  name: string
+  name: string;
 }
 
 @injectable()
 export class UserFirestoreRepository implements UserRepository {
   public async getUser(uid: string) {
-    return auth.getUser(uid)
+    return auth.getUser(uid);
   }
 
   public async createProfile(userId: string, profile: FirestoreProfile): Promise<string> {
-    const ref = profilesCollectionRef().doc(userId)
-    await firestore.runTransaction(async t => {
+    const ref = profilesCollectionRef().doc(userId);
+    await firestore.runTransaction(async (t) => {
       // TODO: check for user with the same name
 
-      const checkProfile = await t.get(ref)
-      if (checkProfile.exists)
-        throw 'User profile already exists'
+      const checkProfile = await t.get(ref);
+      if (checkProfile.exists) throw 'User profile already exists';
 
-      await t.set(ref, profile)
-    })
-    return userId
+      await t.set(ref, profile);
+    });
+    return userId;
   }
 
   public async getUserProfile(uid: string): Promise<UserProfileEntity> {
-    const doc = await profilesCollectionRef().doc(uid).get()
-    return doc.data()
+    const doc = await profilesCollectionRef().doc(uid).get();
+    return doc.data();
   }
 }
 
@@ -37,21 +36,19 @@ const profileConverter: FirestoreDataConverter<UserProfileEntity> = {
   toFirestore(entity: UserProfileEntity): FirestoreProfile {
     return {
       name: entity.name
-    }
+    };
   },
   fromFirestore(snapshot: QueryDocumentSnapshot<FirestoreProfile>): UserProfileEntity {
-    const data: FirestoreProfile = snapshot.data()
+    const data: FirestoreProfile = snapshot.data();
     return {
       id: snapshot.id,
       name: data.name
-    }
+    };
   }
-}
+};
 
-const profilesCollection = 'profiles'
+const profilesCollection = 'profiles';
 
 const profilesCollectionRef = () => {
-  return firestore
-    .collection(profilesCollection)
-    .withConverter(profileConverter)
-}
+  return firestore.collection(profilesCollection).withConverter(profileConverter);
+};

@@ -1,6 +1,6 @@
-import {client} from "../graphql/Client";
-import {CommentModel} from "./CommentModel";
-import {gql} from "@apollo/client";
+import { client } from '../graphql/Client';
+import { CommentModel } from './CommentModel';
+import { gql } from '@apollo/client';
 
 export const getComments = async (url: string): Promise<Array<CommentModel>> => {
   const result = await client.query({
@@ -8,9 +8,9 @@ export const getComments = async (url: string): Promise<Array<CommentModel>> => 
     variables: {
       url
     }
-  })
-  return result.data.getComments.map(responseToModel)
-}
+  });
+  return result.data.getComments.map(responseToModel);
+};
 
 export const createComment = async (text: string, url: string): Promise<CommentModel> => {
   const result = await client.mutate({
@@ -21,9 +21,9 @@ export const createComment = async (text: string, url: string): Promise<CommentM
         url
       }
     }
-  })
-  return responseToModel(result.data.createComment)
-}
+  });
+  return responseToModel(result.data.createComment);
+};
 
 const responseToModel = (data: any): CommentModel => {
   return {
@@ -38,8 +38,8 @@ const responseToModel = (data: any): CommentModel => {
       websiteId: data.urlMeta.websiteId,
       pageId: data.urlMeta.pageId
     }
-  }
-}
+  };
+};
 
 const GET_COMMENTS = gql`
   query($url: String!) {
@@ -57,7 +57,7 @@ const GET_COMMENTS = gql`
       }
     }
   }
-`
+`;
 
 const CREATE_COMMENT = gql`
   mutation($comment: CommentInput!) {
@@ -75,4 +75,4 @@ const CREATE_COMMENT = gql`
       }
     }
   }
-`
+`;
