@@ -1,3 +1,4 @@
+import {initContainer} from "../../server/inversify.config";
 import React, {useEffect, useState} from "react";
 import {useRouter} from "next/router";
 import {CommentService} from "../../server/comments/CommentService";
@@ -5,9 +6,13 @@ import {GetServerSideProps} from "next";
 import {CommentModel} from "../../modules/comments/CommentModel"
 import {CommentsView} from "../../modules/comments/components/CommentsView";
 import {createComment, getComments} from "../../modules/comments/CommentClient";
+import {TYPES} from "../../server/types";
+import {ICommentService} from "../../server/comments";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const service = new CommentService()
+  const container = initContainer()
+
+  const service = container.get<ICommentService>(TYPES.ICommentService)
   const {website} = context.query
   const comments = await service.getComments(website as string)
 

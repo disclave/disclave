@@ -6,9 +6,7 @@ import {
   QueryDocumentSnapshot
 } from "../../firebase"
 import {AuthorInfo, ICommentRepository, UrlMeta} from "./index";
-
-
-
+import {injectable} from "inversify";
 
 interface FirestoreComment {
   text: string,
@@ -17,6 +15,7 @@ interface FirestoreComment {
   url: UrlMeta
 }
 
+@injectable()
 export class CommentRepository implements ICommentRepository{
   public async findComments(url: UrlMeta): Promise<Array<CommentEntity>> {
     const snapshot = await commentsCollectionRef(url.websiteId, url.pageId)

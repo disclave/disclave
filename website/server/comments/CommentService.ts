@@ -1,15 +1,18 @@
-import {CommentEntity, commentRepositoryPort, ICommentRepository} from "./db";
+import {CommentEntity, ICommentRepository} from "./db";
 import {IUrlService, urlServicePort} from "../url";
 import {IUserService, userServicePort} from "../users";
 import {ICommentService, Comment} from "./index";
+import {inject, injectable} from "inversify";
+import {TYPES} from "../types";
 
+@injectable()
 export class CommentService implements ICommentService {
-  private repository: ICommentRepository
   private urlService: IUrlService
   private userService: IUserService
 
+  @inject(TYPES.ICommentRepository) private repository: ICommentRepository
+
   public constructor() {
-    this.repository = commentRepositoryPort.get()
     this.urlService = urlServicePort.get()
     this.userService = userServicePort.get()
   }
