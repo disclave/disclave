@@ -10,8 +10,12 @@ import {UserService} from "./users";
 import {UserServiceImpl} from "./users/UserServiceImpl";
 import {UrlServiceImpl} from "./url/UrlServiceImpl";
 import {UrlService} from "./url";
+import {AuthProvider} from "./auth";
+import {FirebaseAuthProvider} from "./auth/FirebaseAuthProvider";
 
 const container = new Container()
+
+container.bind(AuthProvider).to(FirebaseAuthProvider)
 
 container.bind(UserRepository).to(UserFirestoreRepository)
 container.bind(CommentRepository).to(CommentFirestoreRepository)
