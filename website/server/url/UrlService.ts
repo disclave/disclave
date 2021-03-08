@@ -1,6 +1,6 @@
 import {IUrlService, ParsedUrlData} from "./index";
 
-export class UrlService implements IUrlService{
+export class UrlService implements IUrlService {
   public parseUrl(raw: string): ParsedUrlData {
     const url = new URL(raw)
     return {

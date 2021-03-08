@@ -1,5 +1,5 @@
 import {UrlService} from "./UrlService";
-import {DependencyManager} from "../../helpers/DependencyManager";
+import {Port} from "../../helpers/Port";
 
 export interface ParsedUrlData {
   raw: string,
@@ -11,4 +11,4 @@ export interface IUrlService {
   parseUrl(raw: String): ParsedUrlData
 }
 
-export const urlServiceManager = new DependencyManager<IUrlService>(new UrlService())
+export const urlService = new Port<IUrlService>(UrlService)

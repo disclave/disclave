@@ -1,4 +1,4 @@
-import {DependencyManager} from "../../helpers/DependencyManager";
+import {Port} from "../../helpers/Port";
 
 interface TestInterface {
   val: string
@@ -22,12 +22,12 @@ test('should allow to manipulate instances', () => {
   const classA = new TestClassA()
   const classB = new TestClassB()
 
-  const manager = new DependencyManager<TestInterface>(classA)
-  expect(manager.get()).toEqual(classA)
+  const port = new Port<TestInterface>(TestClassA)
+  expect(port.get()).toBeInstanceOf(TestClassA)
 
-  manager.set(classB)
-  expect(manager.get()).toEqual(classB)
+  port.set(TestClassB)
+  expect(port.get()).toBeInstanceOf(TestClassB)
 
-  manager.reset()
-  expect(manager.get()).toEqual(classA)
+  port.reset()
+  expect(port.get()).toBeInstanceOf(TestClassA)
 })

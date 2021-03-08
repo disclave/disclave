@@ -1,9 +1,14 @@
 import {UserRecord} from "../../firebase";
 import {UserProfileEntity} from "./UserProfileEntity";
 import {UserRepository} from "./UserRepository";
-import {DependencyManager} from "../../../helpers/DependencyManager";
+import {Port} from "../../../helpers/Port";
 
-interface CreateProfileData {
+export type {
+  UserRecord,
+  UserProfileEntity
+}
+
+export interface CreateProfileData {
   name: string
 }
 
@@ -13,4 +18,4 @@ export interface IUserRepository {
   getUserProfile(uid: string): Promise<UserProfileEntity>
 }
 
-export const userRepositoryManager = new DependencyManager<IUserRepository>(new UserRepository())
+export const userRepository = new Port<IUserRepository>(UserRepository)

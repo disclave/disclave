@@ -1,6 +1,6 @@
-import {urlServiceManager} from "../../../server/url";
+import {urlService} from "../../../server/url";
 
-const service = urlServiceManager.get()
+const service = urlService.get()
 
 test('should parse basic url', () => {
   const url = 'https://google.com/example/path'

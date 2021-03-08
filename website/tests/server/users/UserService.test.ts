@@ -1,3 +1,13 @@
-import {getUserService} from "../../../server/users";
+import {userService} from "../../../server/users";
 
-const service = getUserService()
+const service = userService.get()
+
+describe("Testing UserService with mocked repository", () => {
+  beforeEach(() => {
+
+  })
+
+  afterEach(() => {
+
+  })
+})
