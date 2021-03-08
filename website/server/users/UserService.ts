@@ -1,12 +1,16 @@
 import {auth} from "../firebase";
 import {UserProfile} from "./UserProfile";
-import {UserProfileEntity} from "./db/UserProfileEntity";
 import {IUserService} from "./index";
-import {userRepository} from "./db";
-
-const repository = userRepository.get()
+import {IUserRepository, UserProfileEntity, userRepository} from "./db";
 
 export class UserService implements IUserService {
+
+  private repository: IUserRepository
+
+  public constructor() {
+    this.repository = userRepository.get()
+  }
+
   public async verifyIdToken(idToken: string, checkIfRevoked: boolean = false): Promise<string> {
     const token = await auth.verifyIdToken(idToken, checkIfRevoked)
     return token.uid
@@ -15,19 +19,19 @@ export class UserService implements IUserService {
   public async createProfile(idToken: string, name: string): Promise<string> {
     const uid = await this.verifyIdToken(idToken)
 
-    const user = await repository.getUser(uid)
+    const user = await this.repository.getUser(uid)
     // TODO: is this check required? can user with disabled account generate the idToken?
     if (user.disabled)
       throw 'User account is disabled'
 
-    return await repository.createProfile(uid, {
+    return await this.repository.createProfile(uid, {
       name: name
     })
   }
 
   public async getProfile(idToken: string): Promise<UserProfile> {
     const uid = await this.verifyIdToken(idToken)
-    const profile = await repository.getUserProfile(uid)
+    const profile = await this.repository.getUserProfile(uid)
     return toDomain(profile)
   }
 }
