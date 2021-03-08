@@ -1,11 +1,10 @@
 import {initContainer} from "../../server/inversify.config";
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {useRouter} from "next/router";
-import {CommentService} from "../../server/comments/CommentService";
 import {GetServerSideProps} from "next";
 import {CommentModel} from "../../modules/comments/CommentModel"
 import {CommentsView} from "../../modules/comments/components/CommentsView";
-import {createComment, getComments} from "../../modules/comments/CommentClient";
+import {createComment} from "../../modules/comments/CommentClient";
 import {TYPES} from "../../server/types";
 import {ICommentService} from "../../server/comments";
 
