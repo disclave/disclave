@@ -14,7 +14,9 @@ export interface CreateProfileData {
 
 export interface IUserRepository {
   getUser(uid: string): Promise<UserRecord>
+
   createProfile(userId: string, profile: CreateProfileData): Promise<string>
+
   getUserProfile(uid: string): Promise<UserProfileEntity>
 }
 

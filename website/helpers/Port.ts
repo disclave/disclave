@@ -1,4 +1,3 @@
-
 type Adapter<T> = new () => T
 
 export class Port<T> {

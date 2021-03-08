@@ -6,6 +6,7 @@ interface TestInterface {
 
 class TestClassA implements TestInterface {
   val: string
+
   constructor() {
     this.val = 'A'
   }
@@ -13,6 +14,7 @@ class TestClassA implements TestInterface {
 
 class TestClassB implements TestInterface {
   val: string
+
   constructor() {
     this.val = 'B'
   }

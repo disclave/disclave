@@ -6,7 +6,7 @@ interface FirestoreProfile {
   name: string
 }
 
-export class UserRepository implements IUserRepository{
+export class UserRepository implements IUserRepository {
   public async getUser(uid: string) {
     return auth.getUser(uid)
   }
