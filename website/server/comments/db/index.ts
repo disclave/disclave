@@ -1,6 +1,4 @@
 import {CommentEntity} from "./CommentEntity";
-import {CommentRepository} from "./CommentRepository";
-import {Port} from "../../../helpers/Port";
 
 export type {
   CommentEntity
@@ -22,5 +20,3 @@ export interface ICommentRepository {
 
   addComment(author: AuthorInfo, text: string, url: UrlMeta): Promise<CommentEntity>
 }
-
-export const commentRepositoryPort = new Port<ICommentRepository>(CommentRepository)

@@ -1,11 +1,13 @@
 import {auth, firestore, FirestoreDataConverter, QueryDocumentSnapshot} from "../../firebase"
 import {UserProfileEntity} from "./UserProfileEntity";
 import {IUserRepository} from "./index";
+import {injectable} from "inversify";
 
 interface FirestoreProfile {
   name: string
 }
 
+@injectable()
 export class UserRepository implements IUserRepository {
   public async getUser(uid: string) {
     return auth.getUser(uid)

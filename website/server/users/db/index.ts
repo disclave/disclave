@@ -1,7 +1,5 @@
 import {UserRecord} from "../../firebase";
 import {UserProfileEntity} from "./UserProfileEntity";
-import {UserRepository} from "./UserRepository";
-import {Port} from "../../../helpers/Port";
 
 export type {
   UserRecord,
@@ -19,5 +17,3 @@ export interface IUserRepository {
 
   getUserProfile(uid: string): Promise<UserProfileEntity>
 }
-
-export const userRepositoryPort = new Port<IUserRepository>(UserRepository)
