@@ -6,11 +6,9 @@ import {CommentRepository} from "./comments/db/CommentRepository";
 import {ICommentService} from "./comments";
 import {CommentService} from "./comments/CommentService";
 
-export const initContainer = () => {
-  const container = new Container()
+const container = new Container()
 
-  container.bind<ICommentRepository>(TYPES.ICommentRepository).to(CommentRepository)
-  container.bind<ICommentService>(TYPES.ICommentService).to(CommentService)
+container.bind<ICommentRepository>(TYPES.ICommentRepository).to(CommentRepository)
+container.bind<ICommentService>(TYPES.ICommentService).to(CommentService)
 
-  return container
-}
+export {container}
