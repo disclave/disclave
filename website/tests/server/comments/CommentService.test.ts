@@ -2,10 +2,10 @@ import {CommentRepository} from "../../../server/comments/db";
 import {CommentRepositoryMock} from "../../mocks/CommentRepositoryMock";
 import {UserService} from "../../../server/users";
 import {UserServiceMock} from "../../mocks/UserServiceMock";
-import {UrlService} from "../../../server/url";
+import {ParsedUrlData, UrlService} from "../../../server/url";
 import {Container} from "inversify";
 import {UrlServiceImpl} from "../../../server/url/UrlServiceImpl";
-import {CommentService} from "../../../server/comments";
+import {Comment, CommentService} from "../../../server/comments";
 import {CommentServiceImpl} from "../../../server/comments/CommentServiceImpl";
 
 
@@ -21,6 +21,10 @@ describe("Testing CommentService", () => {
   container.bind<CommentService>(CommentServiceImpl).toSelf()
   const service = container.get<CommentService>(CommentServiceImpl)
 
+  afterEach(() => {
+    CommentRepositoryMock.deleteAll()
+  })
+
   test('should add and return comment', async () => {
     const idToken = 'id-token'
     const text = 'Comment text!'
@@ -29,15 +33,42 @@ describe("Testing CommentService", () => {
 
     const result = await service.addComment(idToken, text, url)
 
-    expect(result.id).not.toBeNull()
-    expect(result.id).not.toBe('')
-    expect(result.text).toEqual(text)
-    expect(result.timestamp).toEqual(CommentRepositoryMock.mockDate.toISOString())
-    expect(result.urlMeta.websiteId).toEqual(parsedUrl.websiteId)
-    expect(result.urlMeta.pageId).toEqual(parsedUrl.pageId)
-    expect(result.author.id).toEqual(UserServiceMock.defaultUserProfile.id)
-    expect(result.author.name).toEqual(UserServiceMock.defaultUserProfile.name)
+    expectCommentToEqualInput(result, text, parsedUrl)
+  })
+
+  test('should return added comments', async () => {
+    const idToken = 'id-token'
+    const url = 'https://google.com/example/path?q=123#bb'
+    const parsedUrl = urlService.parseUrl(url)
+    const texts = [
+      'Comment text 1!',
+      'Comment text 2!',
+      'Comment text 3!'
+    ]
+
+    for (const t of texts)
+      await service.addComment(idToken, t, url)
+
+    const result = await service.getComments(url)
+
+    expect(result).toHaveLength(texts.length)
+    for (const r of result) {
+      const t = texts.find(t => t == r.text)
+      expect(t).not.toBeUndefined()
+      expectCommentToEqualInput(r, t, parsedUrl)
+    }
   })
 
   // TODO add tests
+
+  const expectCommentToEqualInput = (comment: Comment, text: string, parsedUrl: ParsedUrlData) => {
+    expect(comment.id).not.toBeNull()
+    expect(comment.id).not.toBe('')
+    expect(comment.text).toEqual(text)
+    expect(comment.timestamp).toEqual(CommentRepositoryMock.mockDate.toISOString())
+    expect(comment.urlMeta.websiteId).toEqual(parsedUrl.websiteId)
+    expect(comment.urlMeta.pageId).toEqual(parsedUrl.pageId)
+    expect(comment.author.id).toEqual(UserServiceMock.defaultUserProfile.id)
+    expect(comment.author.name).toEqual(UserServiceMock.defaultUserProfile.name)
+  }
 })

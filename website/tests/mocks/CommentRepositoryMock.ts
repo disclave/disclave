@@ -11,6 +11,10 @@ export class CommentRepositoryMock implements CommentRepository {
   public static db: DB = new Map<string, DBWebsite>()
   public static mockDate = new Date(1615190730000)
 
+  public static deleteAll() {
+    this.db.clear()
+  }
+
   async addComment(author: AuthorInfo, text: string, url: UrlMeta): Promise<CommentEntity> {
     const entity: CommentEntity = {
       id: 'random-id-' + Math.random(),
