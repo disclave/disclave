@@ -7,6 +7,7 @@ type DB = Map<string, DBWebsite>
 export class CommentRepositoryMock implements ICommentRepository {
 
   public static db: DB = new Map<string, DBWebsite>()
+  public static mockDate = new Date(1615190730000)
 
   async addComment(author: AuthorInfo, text: string, url: UrlMeta): Promise<CommentEntity> {
     const entity: CommentEntity = {
@@ -16,7 +17,7 @@ export class CommentRepositoryMock implements ICommentRepository {
         id: author.id,
         name: author.name
       },
-      timestamp: new Date().toISOString(),
+      timestamp: CommentRepositoryMock.mockDate.toISOString(),
       url: {
         raw: url.raw,
         websiteId: url.websiteId,

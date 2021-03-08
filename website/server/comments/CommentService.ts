@@ -1,8 +1,7 @@
-import {Comment} from "./Comment";
 import {CommentEntity, commentRepositoryPort, ICommentRepository} from "./db";
 import {IUrlService, urlServicePort} from "../url";
 import {IUserService, userServicePort} from "../users";
-import {ICommentService} from "./index";
+import {ICommentService, Comment} from "./index";
 
 export class CommentService implements ICommentService {
   private repository: ICommentRepository
