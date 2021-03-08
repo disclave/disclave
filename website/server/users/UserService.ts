@@ -12,6 +12,7 @@ export class UserService implements IUserService {
   }
 
   public async verifyIdToken(idToken: string, checkIfRevoked: boolean = false): Promise<string> {
+    // TODO create auth port/adapter and get it in constructor
     const token = await auth.verifyIdToken(idToken, checkIfRevoked)
     return token.uid
   }
@@ -24,6 +25,7 @@ export class UserService implements IUserService {
     if (user.disabled)
       throw 'User account is disabled'
 
+    // TODO: verify if user name is unique and contains only allowed character
     return await this.repository.createProfile(uid, {
       name: name
     })

@@ -1,13 +1,14 @@
-import {userServicePort} from "../../../server/users";
-
-const service = userServicePort.get()
+import {UserRepositoryMock} from "./UserRepositoryMock";
+import {userRepositoryPort} from "../../../server/users/db";
 
 describe("Testing UserService with mocked repository", () => {
   beforeEach(() => {
-
+    userRepositoryPort.set(UserRepositoryMock)
   })
 
   afterEach(() => {
-
+    userRepositoryPort.reset()
   })
+
+  // TODO add tests
 })
