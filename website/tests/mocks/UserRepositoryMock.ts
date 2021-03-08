@@ -1,4 +1,4 @@
-import {CreateProfileData, IUserRepository, UserProfileEntity, UserRecord} from "../../../server/users/db";
+import {CreateProfileData, IUserRepository, UserProfileEntity, UserRecord} from "../../server/users/db";
 
 export class UserRepositoryMock implements IUserRepository {
   // TODO update repository with mock logic

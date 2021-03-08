@@ -2,6 +2,10 @@ import {UserProfile} from "./UserProfile";
 import {UserService} from "./UserService";
 import {Port} from "../../helpers/Port";
 
+export type {
+  UserProfile
+}
+
 export interface IUserService {
   verifyIdToken(idToken: string, checkIfRevoked: boolean): Promise<string>
 
