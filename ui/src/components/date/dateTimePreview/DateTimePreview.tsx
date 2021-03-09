@@ -1,4 +1,6 @@
-import * as React from "react";
+import React from "react";
+
+import "./DateTimePreview.css";
 
 export interface DateTimePreviewProps {
   iso: string;

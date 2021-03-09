@@ -1,4 +1,6 @@
-import * as React from "react";
+import React from "react";
+
+import "./Input.css";
 
 export type InputType = "text" | "email" | "password";
 

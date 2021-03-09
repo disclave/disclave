@@ -1,13 +1,14 @@
-import * as React from "react";
+import React from "react";
 
 import { Input, InputProps } from "./Input";
+import { Story } from "@storybook/react";
 
 export default {
   title: "Forms/Input",
   component: Input,
 };
 
-const Template = (args: InputProps) => <Input {...args} />;
+const Template: Story<InputProps> = (args) => <Input {...args} />;
 
 export const Default = Template.bind({});
 
