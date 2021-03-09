@@ -1,6 +1,9 @@
-import * as React from "react";
+import React from "react";
+
+import "./CommentsList.css";
+
 import { CommentModel } from "../CommentModel";
-import { ListItem } from "./ListItem";
+import { ListItem } from "./item";
 
 export interface CommentsListProps {
   comments: Array<CommentModel>;

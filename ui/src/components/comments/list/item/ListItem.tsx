@@ -1,6 +1,9 @@
-import * as React from "react";
-import { CommentModel } from "../CommentModel";
-import { DateTimePreview } from "../../date/DateTimePreview";
+import React from "react";
+
+import "./ListItem.css";
+
+import { CommentModel } from "../../CommentModel";
+import { DateTimePreview } from "../../../date/dateTimePreview";
 
 export interface ListItemProps {
   comment: CommentModel;

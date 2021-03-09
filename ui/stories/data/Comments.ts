@@ -1,4 +1,4 @@
-import { CommentModel } from "../../src/comments/CommentModel";
+import { CommentModel } from "../../src/components/comments/CommentModel";
 
 export const ExampleComment: CommentModel = {
   id: "mock-comment-id",

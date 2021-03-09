@@ -1,7 +1,7 @@
-import * as React from "react";
-import { Input } from "../../forms/Input";
+import React from "react";
 import { useState } from "react";
-import { Button } from "../../button/Button";
+import { Input } from "../../forms/input";
+import { Button } from "../../button";
 
 interface CommentAddFormProps {
   onSubmit: (text: string) => Promise<void>;
