@@ -5,7 +5,7 @@ export interface DateTimePreviewProps {
 }
 
 export const DateTimePreview: React.VFC<DateTimePreviewProps> = ({ iso }) => {
-  const date = Date.parse(iso);
+  const date = new Date(iso);
   const str = date.toLocaleString();
 
   // TODO: modify formatting (remove seconds, etc.)
