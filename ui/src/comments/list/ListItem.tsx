@@ -2,7 +2,7 @@ import * as React from "react";
 import { CommentModel } from "../CommentModel";
 import { DateTimePreview } from "../../date/DateTimePreview";
 
-interface ListItemProps {
+export interface ListItemProps {
   comment: CommentModel;
 }
 
