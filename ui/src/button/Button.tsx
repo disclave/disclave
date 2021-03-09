@@ -1,10 +1,10 @@
 import * as React from "react";
 
-interface InputProps {
+export interface ButtonProps {
   onClick?: () => void;
 }
 
-export const Button: React.FC<InputProps> = (props) => {
+export const Button: React.FC<ButtonProps> = (props) => {
   const onClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     props.onClick?.();
   };
