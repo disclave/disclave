@@ -11,7 +11,7 @@ export interface CommentsListProps {
 
 export const CommentsList: React.VFC<CommentsListProps> = ({ comments }) => {
   return (
-    <div>
+    <div className="space-y-4">
       {comments.map((c) => (
         <ListItem comment={c} />
       ))}

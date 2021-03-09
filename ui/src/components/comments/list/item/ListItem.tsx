@@ -13,12 +13,12 @@ export const ListItem: React.VFC<ListItemProps> = ({ comment }) => {
   return (
     <div>
       <div>
-        <div className="font-semibold">@{comment.author.name}</div>
-        <div className="font-light text-sm">
+        <span className="font-semibold">{comment.author.name}</span>
+        <span className="ml-2 font-light text-sm">
           <DateTimePreview iso={comment.timestamp} />
-        </div>
+        </span>
       </div>
-      <div className="mt-2">
+      <div className="mt-1">
         <p>{comment.text}</p>
       </div>
     </div>
