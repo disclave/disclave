@@ -1,12 +1,12 @@
 import * as React from "react";
-import { CommentModel } from "./CommentModel";
-import { DateTimePreview } from "../date/DateTimePreview";
+import { CommentModel } from "../CommentModel";
+import { DateTimePreview } from "../../date/DateTimePreview";
 
-interface CommentProps {
+interface ListItemProps {
   comment: CommentModel;
 }
 
-export const Comment: React.VFC<CommentProps> = ({ comment }) => {
+export const ListItem: React.VFC<ListItemProps> = ({ comment }) => {
   return (
     <div>
       <div>

@@ -4,12 +4,12 @@ interface InputProps {
   type: string;
   name?: string;
   value: string;
-  onChange?: (string) => void;
+  onChange?: (value: string) => void;
 }
 
 export const Input: React.VFC<InputProps> = (props) => {
-  const onInputValChange = (event) => {
-    props.onChange(event.target.value);
+  const onInputValChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    props.onChange?.(event.target.value);
   };
 
   return (
