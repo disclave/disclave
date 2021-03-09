@@ -3,7 +3,7 @@ import { CommentModel } from "../CommentModel";
 import { ListItem } from "./ListItem";
 
 export interface CommentsListProps {
-  comments: CommentModel[];
+  comments: Array<CommentModel>;
 }
 
 export const CommentsList: React.VFC<CommentsListProps> = ({ comments }) => {
