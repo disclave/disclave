@@ -1,11 +1,13 @@
 {
   "compilerOptions": {
     "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
+    "strict": false,
     "outDir": "./dist/",
     "sourceMap": true,
-    "strict": true,
+    "esModuleInterop": true,
     "noImplicitReturns": true,
     "noImplicitAny": true,
     "module": "esnext",
