@@ -1,8 +1,8 @@
 import React from "react";
 
 import { CommentsList, CommentsListProps } from "./CommentsList";
-import { ExampleCommentsList } from "../../../../stories/data/Comments";
 import { Story } from "@storybook/react";
+import { ExampleCommentsList } from "../../../stories/data/Comments";
 
 export default {
   title: "Comments/List/CommentsList",
