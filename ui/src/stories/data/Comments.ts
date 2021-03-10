@@ -1,14 +1,31 @@
 import { CommentModel } from "../../components/comments/CommentModel";
 
-export const buildExampleComment = (text: string): CommentModel => ({
+const randomDate = (start: Date, end: Date): Date => {
+  return new Date(
+    start.getTime() + Math.random() * (end.getTime() - start.getTime())
+  );
+};
+
+export const buildExampleComment = (
+  text: string,
+  timestamp: Date = randomDate(new Date(2012, 0, 1), new Date())
+): CommentModel => ({
   id: "mock-comment-id-" + Math.random(),
   text: text,
   author: {
     id: "mock-author-id" + Math.random(),
     name: "author_name",
   },
-  timestamp: new Date().toISOString(),
+  timestamp: timestamp.toISOString(),
 });
+
+export const RandomCommentsList = (size: number): CommentModel[] => {
+  const result: CommentModel[] = [];
+  while (size--) {
+    result.push(buildExampleComment("Comment text " + Math.random()));
+  }
+  return result;
+};
 
 export const ExampleComment: CommentModel = {
   id: "mock-comment-id",
