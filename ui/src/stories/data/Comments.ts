@@ -6,6 +6,9 @@ const randomDate = (start: Date, end: Date): Date => {
   );
 };
 
+export const commentsTimestampComparator = (a: CommentModel, b: CommentModel) =>
+  Date.parse(b.timestamp) - Date.parse(a.timestamp);
+
 export const buildExampleComment = (
   text: string,
   timestamp: Date = randomDate(new Date(2012, 0, 1), new Date())

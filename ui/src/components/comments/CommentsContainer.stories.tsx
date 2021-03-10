@@ -2,10 +2,13 @@ import React from "react";
 
 import { CommentsContainer, CommentsContainerProps } from "./CommentsContainer";
 import { Story } from "@storybook/react";
-import { RandomCommentsList } from "../../stories/data/Comments";
+import {
+  commentsTimestampComparator,
+  RandomCommentsList,
+} from "../../stories/data/Comments";
 
 const exampleComments = RandomCommentsList(50).sort(
-  (a, b) => Date.parse(b.timestamp) - Date.parse(a.timestamp)
+  commentsTimestampComparator
 );
 
 export default {
@@ -14,10 +17,18 @@ export default {
 };
 
 const Template: Story<CommentsContainerProps> = (args) => (
-  <CommentsContainer {...args} />
+  <div>
+    <CommentsContainer {...args} />
+  </div>
 );
 
 export const Default = Template.bind({});
 Default.args = {
   comments: exampleComments,
+};
+
+export const CustomClasses = Template.bind({});
+CustomClasses.args = {
+  comments: exampleComments,
+  className: "max-h-56",
 };

@@ -6,12 +6,18 @@ import { CommentModel } from "../CommentModel";
 import { ListItem } from "./item";
 
 export interface CommentsListProps {
+  className?: string;
   comments: Array<CommentModel>;
 }
 
-export const CommentsList: React.VFC<CommentsListProps> = ({ comments }) => {
+export const CommentsList: React.VFC<CommentsListProps> = ({
+  comments,
+  className = "",
+}) => {
+  const containerClasses = ["space-y-4", className].join(" ");
+
   return (
-    <div className="space-y-4">
+    <div className={containerClasses}>
       {comments.map((c) => (
         <ListItem key={c.id} comment={c} />
       ))}

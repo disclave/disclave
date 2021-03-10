@@ -2,11 +2,12 @@ import React from "react";
 
 import { CommentsList, CommentsListProps } from "./CommentsList";
 import { Story } from "@storybook/react";
-import { ExampleCommentsList } from "../../../stories/data/Comments";
+import {
+  commentsTimestampComparator,
+  ExampleCommentsList,
+} from "../../../stories/data/Comments";
 
-const exampleComments = ExampleCommentsList.sort(
-  (a, b) => Date.parse(b.timestamp) - Date.parse(a.timestamp)
-);
+const exampleComments = ExampleCommentsList.sort(commentsTimestampComparator);
 
 export default {
   title: "Comments/List/CommentsList",
