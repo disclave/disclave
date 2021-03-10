@@ -23,13 +23,7 @@ export const Input: React.VFC<InputProps> = ({
     onChange?.(event.target.value);
   };
 
-  const classes = `
-    border rounded
-    border-gray-400 focus:border-gray-600
-    focus:outline-none
-    transition-colors
-    px-3 py-1.5
-  `;
+  const classes = `form-input`;
 
   return (
     <input

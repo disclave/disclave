@@ -1,0 +1,16 @@
+import React from "react";
+
+import { Textarea, TextareaProps } from "./Textarea";
+import { Story } from "@storybook/react";
+
+export default {
+  title: "Forms/Textarea",
+  component: Textarea,
+};
+
+const Template: Story<TextareaProps> = (args) => <Textarea {...args} />;
+
+export const Default = Template.bind({});
+Default.args = {
+  placeholder: "Text",
+};

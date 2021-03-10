@@ -1,0 +1,7 @@
+@import "../../index.css";
+
+.form-input {
+    @apply border rounded border-gray-400 focus:border-gray-600 focus:outline-none;
+    @apply transition-colors;
+    @apply px-3 py-1.5;
+}
