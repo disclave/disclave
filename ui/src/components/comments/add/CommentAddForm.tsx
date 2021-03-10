@@ -3,7 +3,9 @@ import { useState } from "react";
 import { Input } from "../../forms/input";
 import { Button } from "../../button";
 
-interface CommentAddFormProps {
+import "./CommentAddForm.css";
+
+export interface CommentAddFormProps {
   onSubmit: (text: string) => Promise<void>;
 }
 
@@ -17,9 +19,12 @@ export const CommentAddForm: React.VFC<CommentAddFormProps> = (props) => {
   };
 
   return (
-    <div>
+    <div className="flex flex-col">
+      {/*TODO: change input to textbox*/}
       <Input type="text" value={text} onChange={setText} />
-      <Button onClick={onButtonClick}>Send</Button>
+      <div>
+        <Button onClick={onButtonClick}>Add Comment</Button>
+      </div>
     </div>
   );
 };
