@@ -8,6 +8,7 @@ export interface InputProps {
   type?: InputType;
   name?: string;
   value: string;
+  placeholder?: string;
   onChange?: (value: string) => void;
 }
 
@@ -15,6 +16,7 @@ export const Input: React.VFC<InputProps> = ({
   type = "text",
   name,
   value,
+  placeholder,
   onChange,
 }) => {
   const onInputValChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,6 +37,7 @@ export const Input: React.VFC<InputProps> = ({
       type={type}
       name={name}
       value={value}
+      placeholder={placeholder}
       onChange={onInputValChange}
     />
   );
