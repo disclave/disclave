@@ -11,9 +11,11 @@ export interface CommentsContainerProps {
 
 export const CommentsContainer: React.VFC<CommentsContainerProps> = (props) => {
   return (
-    <div className="flex flex-col space-y-3">
+    <div className="flex flex-col">
+      <div className="sticky top-0 py-2">
+        <CommentAddForm onSubmit={props.onSubmit} />
+      </div>
       <CommentsList comments={props.comments} />
-      <CommentAddForm onSubmit={props.onSubmit} />
     </div>
   );
 };

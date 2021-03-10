@@ -2,9 +2,9 @@ import React from "react";
 
 import { CommentsContainer, CommentsContainerProps } from "./CommentsContainer";
 import { Story } from "@storybook/react";
-import { ExampleCommentsList } from "../../stories/data/Comments";
+import { RandomCommentsList } from "../../stories/data/Comments";
 
-const exampleComments = ExampleCommentsList.sort(
+const exampleComments = RandomCommentsList(50).sort(
   (a, b) => Date.parse(b.timestamp) - Date.parse(a.timestamp)
 );
 
