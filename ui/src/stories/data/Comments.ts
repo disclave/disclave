@@ -1,5 +1,15 @@
 import { CommentModel } from "../../components/comments/CommentModel";
 
+export const buildExampleComment = (text: string): CommentModel => ({
+  id: "mock-comment-id-" + Math.random(),
+  text: text,
+  author: {
+    id: "mock-author-id" + Math.random(),
+    name: "author_name",
+  },
+  timestamp: new Date().toISOString(),
+});
+
 export const ExampleComment: CommentModel = {
   id: "mock-comment-id",
   text: "This is example comment text!",

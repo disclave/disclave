@@ -13,7 +13,7 @@ export const CommentsList: React.VFC<CommentsListProps> = ({ comments }) => {
   return (
     <div className="space-y-4">
       {comments.map((c) => (
-        <ListItem comment={c} />
+        <ListItem key={c.id} comment={c} />
       ))}
     </div>
   );
