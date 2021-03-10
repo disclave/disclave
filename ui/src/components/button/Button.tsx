@@ -9,9 +9,10 @@ export interface ButtonProps {
 export const Button: React.FC<ButtonProps> = (props) => {
   const classes = `
     bg-gray-700
-    text-white
+    text-white text-sm 
+    font-medium uppercase
     rounded
-    px-4 py-2
+    px-3.5 py-1.5
     focus:outline-none
   `;
 

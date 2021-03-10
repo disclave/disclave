@@ -9,7 +9,7 @@ export default {
 };
 
 const Template: Story<ButtonProps> = (args) => (
-  <Button {...args}>A Button</Button>
+  <Button {...args}>Button</Button>
 );
 
 export const Default = Template.bind({});
