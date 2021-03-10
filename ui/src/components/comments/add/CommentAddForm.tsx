@@ -18,8 +18,14 @@ export const CommentAddForm: React.VFC<CommentAddFormProps> = (props) => {
   };
 
   return (
-    <div className="flex flex-row">
-      <Textarea value={text} onChange={setText} placeholder="Add comment" />
+    <div className="flex flex-row content-center space-x-4">
+      <Textarea
+        className="flex-1"
+        value={text}
+        onChange={setText}
+        autoGrow
+        placeholder="Add comment"
+      />
       <div>
         <Button onClick={onButtonClick}>Add</Button>
       </div>

@@ -12,7 +12,7 @@ export const Button: React.FC<ButtonProps> = (props) => {
     text-white text-sm 
     font-medium uppercase
     rounded
-    px-3.5 py-1.5
+    px-3.5 py-2
     focus:outline-none
   `;
 
