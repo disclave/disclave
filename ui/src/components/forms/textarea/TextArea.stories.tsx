@@ -14,3 +14,10 @@ export const Default = Template.bind({});
 Default.args = {
   placeholder: "Text",
 };
+
+export const NotResizable = Template.bind({});
+NotResizable.args = {
+  placeholder: "Text",
+  resizable: false,
+  rows: 4,
+};
