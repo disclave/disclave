@@ -1,8 +1,7 @@
 import React from "react";
 import { useState } from "react";
-import { Input } from "../../forms/input";
 import { Button } from "../../button";
-
+import { Textarea } from "../../forms/textarea";
 import "./CommentAddForm.css";
 
 export interface CommentAddFormProps {
@@ -19,11 +18,10 @@ export const CommentAddForm: React.VFC<CommentAddFormProps> = (props) => {
   };
 
   return (
-    <div className="flex flex-col">
-      {/*TODO: change input to textbox*/}
-      <Input type="text" value={text} onChange={setText} />
+    <div className="flex flex-row">
+      <Textarea value={text} onChange={setText} placeholder="Add comment" />
       <div>
-        <Button onClick={onButtonClick}>Add Comment</Button>
+        <Button onClick={onButtonClick}>Add</Button>
       </div>
     </div>
   );
