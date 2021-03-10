@@ -21,3 +21,8 @@ NotResizable.args = {
   resizable: false,
   rows: 4,
 };
+
+export const AutoGrow = Template.bind({});
+AutoGrow.args = {
+  autoGrow: true,
+};
