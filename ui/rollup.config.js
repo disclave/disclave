@@ -10,18 +10,20 @@ import postcssImport from "postcss-import";
 export default {
   input: pkg.source,
   output: [
-    { file: pkg.main, format: "cjs" },
-    { file: pkg.module, format: "esm" },
+    { dir: ".", entryFileNames: pkg.main, format: "cjs", sourcemap: true },
+    { dir: ".", entryFileNames: pkg.module, format: "es", sourcemap: true },
   ],
   plugins: [
+    del({ targets: ["dist/*"] }),
     external(),
+    typescript({
+      exclude: ["**/*.test.*", "**/*.stories.*"],
+    }),
     babel({
       presets: ["@babel/env", "@babel/preset-react"],
       exclude: "node_modules/**",
       babelHelpers: "bundled",
     }),
-    del({ targets: ["dist/*"] }),
-    typescript(),
     postcss({
       extensions: [".css"],
       extract: path.resolve("dist/index.css"),
