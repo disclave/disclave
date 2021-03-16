@@ -14,16 +14,15 @@ export const CommentsContainer: React.VFC<CommentsContainerProps> = (props) => {
   const containerClasses = [
     "flex flex-col",
     "overflow-auto",
-    "my-4",
     props.className ?? "",
   ].join(" ");
 
   return (
     <div className={containerClasses}>
-      <div className="sticky top-0 py-2">
+      <CommentsList comments={props.comments} />
+      <div className="sticky bottom-0 py-2">
         <CommentAddForm onSubmit={props.onSubmit} />
       </div>
-      <CommentsList comments={props.comments} />
     </div>
   );
 };

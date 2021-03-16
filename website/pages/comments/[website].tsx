@@ -39,12 +39,17 @@ const Website: React.FC<WebsiteProps> = (props) => {
     }
   };
 
+  const headerHeight = '48px';
+
   return (
     <div>
-      <main className="m-4">
-        {website}
-
-        <CommentsContainer comments={comments} onSubmit={onCommentAdd} />
+      <main>
+        <div style={{ height: headerHeight }} className="p-3">
+          {website}
+        </div>
+        <div style={{ height: `calc(100vh - ${headerHeight})` }} className="p-3">
+          <CommentsContainer className="max-h-full" comments={comments} onSubmit={onCommentAdd} />
+        </div>
       </main>
     </div>
   );
