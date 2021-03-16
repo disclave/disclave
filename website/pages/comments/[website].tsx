@@ -41,7 +41,7 @@ const Website: React.FC<WebsiteProps> = (props) => {
 
   return (
     <div>
-      <main>
+      <main className="m-4">
         {website}
 
         <CommentsContainer comments={comments} onSubmit={onCommentAdd} />
