@@ -6,6 +6,7 @@ import { CommentModel } from '../../modules/comments/CommentModel';
 import { CommentsView } from '../../modules/comments/components/CommentsView';
 import { createComment } from '../../modules/comments/CommentClient';
 import { CommentService } from '../../server/comments';
+import { CommentsContainer } from '@webchat/ui';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const service = container.get(CommentService);
@@ -33,7 +34,7 @@ const Website: React.FC<WebsiteProps> = (props) => {
     try {
       const url = website as string;
       const addedComment = await createComment(text, url);
-      setComments([...comments, addedComment]);
+      setComments([addedComment, ...comments]);
     } catch (e) {
       console.error(e);
     }
@@ -44,7 +45,9 @@ const Website: React.FC<WebsiteProps> = (props) => {
       <main>
         {website}
 
-        <CommentsView comments={comments} onCommentAdd={onCommentAdd} />
+        {/*<CommentsView comments={comments} onCommentAdd={onCommentAdd} />*/}
+
+        <CommentsContainer comments={comments} onSubmit={onCommentAdd} />
       </main>
     </div>
   );
