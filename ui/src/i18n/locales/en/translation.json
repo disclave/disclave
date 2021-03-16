@@ -1,3 +1,8 @@
 {
-  "Test translation": "This is test translation!!!"
+  "Test translation": "This is test translation!!!",
+  "comments": {
+    "add": {
+      "button": "Add"
+    }
+  }
 }

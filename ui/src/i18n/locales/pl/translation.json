@@ -1,3 +1,8 @@
 {
-  "Test translation": "To po polsku!"
+  "Test translation": "To po polsku!",
+  "comments": {
+    "add": {
+      "button": "Dodaj"
+    }
+  }
 }
