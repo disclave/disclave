@@ -5,8 +5,12 @@
     "bootstrap": "lerna bootstrap"
   },
   "version": "0.1.0",
-  "workspaces": [],
+  "workspaces": [
+    "ui",
+    "website"
+  ],
   "devDependencies": {
-    "lerna": "^4.0.0"
+    "lerna": "^4.0.0",
+    "yarn": "^1.22.10"
   }
 }
