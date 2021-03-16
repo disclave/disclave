@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 import { CommentModel } from '../../modules/comments/CommentModel';
-import { CommentsView } from '../../modules/comments/components/CommentsView';
 import { createComment } from '../../modules/comments/CommentClient';
 import { CommentService } from '../../server/comments';
 import { CommentsContainer } from '@webchat/ui';
@@ -44,8 +43,6 @@ const Website: React.FC<WebsiteProps> = (props) => {
     <div>
       <main>
         {website}
-
-        {/*<CommentsView comments={comments} onCommentAdd={onCommentAdd} />*/}
 
         <CommentsContainer comments={comments} onSubmit={onCommentAdd} />
       </main>
