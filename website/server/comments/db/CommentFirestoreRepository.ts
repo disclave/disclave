@@ -14,7 +14,7 @@ interface FirestoreComment {
 export class CommentFirestoreRepository implements CommentRepository {
   public async findComments(url: UrlMeta): Promise<Array<CommentEntity>> {
     const snapshot = await commentsCollectionRef(url.websiteId, url.pageId)
-      .orderBy('timestamp', 'asc')
+      .orderBy('timestamp', 'desc')
       .get();
     return snapshot.docs.map((d) => d.data());
   }

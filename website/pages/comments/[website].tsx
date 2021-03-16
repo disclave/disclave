@@ -3,9 +3,9 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 import { CommentModel } from '../../modules/comments/CommentModel';
-import { CommentsView } from '../../modules/comments/components/CommentsView';
 import { createComment } from '../../modules/comments/CommentClient';
 import { CommentService } from '../../server/comments';
+import { CommentsContainer } from '@webchat/ui';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const service = container.get(CommentService);
@@ -33,18 +33,23 @@ const Website: React.FC<WebsiteProps> = (props) => {
     try {
       const url = website as string;
       const addedComment = await createComment(text, url);
-      setComments([...comments, addedComment]);
+      setComments([addedComment, ...comments]);
     } catch (e) {
       console.error(e);
     }
   };
 
+  const headerHeight = '48px';
+
   return (
     <div>
       <main>
-        {website}
-
-        <CommentsView comments={comments} onCommentAdd={onCommentAdd} />
+        <div style={{ height: headerHeight }} className="p-3">
+          {website}
+        </div>
+        <div style={{ height: `calc(100vh - ${headerHeight})` }} className="p-3">
+          <CommentsContainer className="max-h-full" comments={comments} onSubmit={onCommentAdd} />
+        </div>
       </main>
     </div>
   );
