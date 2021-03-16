@@ -2,17 +2,10 @@ import '../styles/globals.css';
 import { useEffect, useState } from 'react';
 import { currentUser, onAuthStateChanged } from '../modules/auth/auth';
 import { UserContext } from '../modules/auth/UserContext';
-import { LocaleContext } from '@webchat/ui';
-import { useRouter } from 'next/router';
 
 const App = ({ Component, pageProps }) => {
   const [user, setUser] = useState(undefined);
   useEffect(() => onAuthStateChanged(setUser));
-
-  const router = useRouter();
-  const localeData = {
-    locale: router.locale
-  };
 
   // // TODO: remove after testing!
   // useEffect(() => {
@@ -22,11 +15,9 @@ const App = ({ Component, pageProps }) => {
   // }, [user])
 
   return (
-    <LocaleContext.Provider value={localeData}>
-      <UserContext.Provider value={user}>
-        <Component {...pageProps} />
-      </UserContext.Provider>
-    </LocaleContext.Provider>
+    <UserContext.Provider value={user}>
+      <Component {...pageProps} />
+    </UserContext.Provider>
   );
 };
 export default App;
