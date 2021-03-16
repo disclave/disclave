@@ -1,6 +1,3 @@
-import "./index.css"
-
-export { Button } from "./components/button"
+import "./index.css";
 
 export { CommentsContainer } from "./components/comments";
-
