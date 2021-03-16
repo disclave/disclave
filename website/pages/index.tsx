@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import { Button } from "@webchat/ui";
 
 const Home = () => {
   return (
@@ -9,7 +8,6 @@ const Home = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Button>Button!</Button>
       <main>WebChat!</main>
     </div>
   );
