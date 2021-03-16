@@ -27,7 +27,7 @@ export default {
       extensions: ['.css'],
       extract: path.resolve('dist/index.css'),
       // modules: true,
-      // minimize: true,
+      minimize: true,
       config: {
         path: './postcss.config.js'
       },
