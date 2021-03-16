@@ -17,7 +17,9 @@ export default {
   plugins: [
     external(),
     babel({
-      exclude: 'node_modules/**'
+      presets: ["@babel/env", "@babel/preset-react"],
+      exclude: 'node_modules/**',
+      // babelHelper: 'bundled'  // TODO: test this
     }),
     del({ targets: ['dist/*'] }),
     typescript(),
