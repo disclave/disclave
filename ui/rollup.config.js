@@ -19,7 +19,7 @@ export default {
     babel({
       presets: ["@babel/env", "@babel/preset-react"],
       exclude: 'node_modules/**',
-      // babelHelper: 'bundled'  // TODO: test this
+      babelHelpers: 'bundled'
     }),
     del({ targets: ['dist/*'] }),
     typescript(),
