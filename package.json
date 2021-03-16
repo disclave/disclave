@@ -2,7 +2,8 @@
   "name": "@webchat/monorepo",
   "private": true,
   "scripts": {
-    "bootstrap": "lerna bootstrap"
+    "bootstrap": "lerna bootstrap",
+    "build": "lerna run build"
   },
   "version": "0.1.0",
   "workspaces": [
