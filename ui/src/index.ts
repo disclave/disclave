@@ -1,6 +1,6 @@
 import "./index.css";
 
-import "./locales";
+export { changeLanguage } from "./locales";
 
 export { LocaleContext } from "./context/localeContext";
 
