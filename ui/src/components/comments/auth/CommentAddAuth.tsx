@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "../../../button";
+import { Button } from "../../button";
 import { useTranslation } from "react-i18next";
 
 export interface CommentAddAuthProps {

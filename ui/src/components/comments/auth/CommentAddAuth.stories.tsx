@@ -4,7 +4,7 @@ import { CommentAddAuth, CommentAddAuthProps } from "./CommentAddAuth";
 import { Story } from "@storybook/react";
 
 export default {
-  title: "Comments/Add/Auth",
+  title: "Comments/Auth",
   component: CommentAddAuth,
 };
 
