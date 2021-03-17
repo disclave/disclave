@@ -18,8 +18,8 @@ export const LoginUserInfo: React.VFC<LoginUserInfoProps> = (props) => {
 
   return (
     <div className="flex flex-eow space-x-4 items-center">
-      <div>Hello, {props.userProfile.name}! </div>
-      <Button onClick={logout}>Logout</Button>
+      <div>{t("login.user info.hello", { name: props.userProfile.name })}</div>
+      <Button onClick={logout}>{t("logout.button")}</Button>
     </div>
   );
 };
