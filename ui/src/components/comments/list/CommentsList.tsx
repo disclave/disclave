@@ -1,7 +1,4 @@
 import React from "react";
-
-import "./CommentsList.css";
-
 import { CommentModel } from "../CommentModel";
 import { ListItem } from "./item";
 

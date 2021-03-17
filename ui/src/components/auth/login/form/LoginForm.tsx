@@ -1,7 +1,6 @@
 import React from "react";
 import { useState } from "react";
 import { Button } from "../../../button";
-import "./LoginForm.css";
 import { useTranslation } from "react-i18next";
 import { Input } from "../../../forms/input";
 
