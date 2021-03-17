@@ -3,6 +3,10 @@
     "button": "Dodaj",
     "input": {
       "placeholder": "Dodaj komentarz"
+    },
+    "login": {
+      "text": "Zaloguj się, aby dodawać komentarze.",
+      "button": "Logowanie"
     }
   }
 }

@@ -3,6 +3,10 @@
     "button": "Add",
     "input": {
       "placeholder": "Add comment"
+    },
+    "login": {
+      "text": "Log in to add comments.",
+      "button": "Login"
     }
   }
 }
