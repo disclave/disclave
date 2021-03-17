@@ -9,7 +9,7 @@ export const LoginFormContainer: React.VFC<LoginFormContainerProps> = (
   props
 ) => {
   return (
-    <div className="max-w-md border rounded p-6">
+    <div className="max-w-sm border rounded p-6">
       <LoginForm onSubmit={props.onSubmit} />
     </div>
   );

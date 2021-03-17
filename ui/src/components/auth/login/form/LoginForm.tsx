@@ -35,7 +35,7 @@ export const LoginForm: React.VFC<LoginFormProps> = (props) => {
         placeholder={t("login.password.placeholder")}
         type="password"
       />
-      <div>
+      <div className="flex justify-end">
         <Button onClick={onButtonClick}>{t("login.button")}</Button>
       </div>
     </div>
