@@ -7,33 +7,35 @@ import { useRouter } from 'next/router';
 const Login = () => {
   const user = useContext(UserContext);
 
-  if (!user) {
-    const router = useRouter();
-    const redirect: string | undefined = router.query.redirect as string;
-
-    const onLogin = async (email: string, password: string) => {
-      await login(email, password);
-
-      if (redirect) await router.push(redirect);
+  // TODO: get profile from global context
+  let userProfile = undefined;
+  if (user === null) userProfile = null;
+  else if (!!user)
+    userProfile = {
+      uid: user.uid,
+      email: user.email,
+      name: user.email // TODO: get user name instead of email
     };
 
-    return (
-      <div className="w-screen h-screen">
-        <div className="mx-auto mt-16 max-w-max">
-          <LoginFormContainer onSubmit={onLogin} />
-        </div>
-      </div>
-    );
-  }
+  const router = useRouter();
+  const redirect: string | undefined = router.query.redirect as string;
 
-  // TODO: refactor layout if user logged in
+  const onLogin = async (email: string, password: string) => {
+    await login(email, password);
+
+    if (redirect) await router.push(redirect);
+  };
+
+  const onLogout = async () => {
+    await logout();
+  };
+
   return (
-    <>
-      <div>User: {JSON.stringify(user)}</div>
-      <div>
-        <button onClick={logout}>Logout</button>
+    <div className="w-screen h-screen">
+      <div className="mx-auto mt-16 max-w-max">
+        <LoginFormContainer onLogin={onLogin} onLogout={onLogout} userProfile={userProfile} />
       </div>
-    </>
+    </div>
   );
 };
 export default Login;
