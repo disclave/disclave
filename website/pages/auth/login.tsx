@@ -13,7 +13,8 @@ const Login = () => {
 
     const onLogin = async (email: string, password: string) => {
       await login(email, password);
-      await router.push(redirect);
+
+      if (redirect) await router.push(redirect);
     };
 
     return (
