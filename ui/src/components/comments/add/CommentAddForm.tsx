@@ -11,7 +11,7 @@ export interface CommentAddFormProps {
 
 export const CommentAddForm: React.VFC<CommentAddFormProps> = (props) => {
   const [text, setText] = useState("");
-  const { t } = useTranslation();
+  const { t } = useTranslation("comments");
 
   const onButtonClick = async () => {
     // TODO: add error handling
@@ -29,7 +29,7 @@ export const CommentAddForm: React.VFC<CommentAddFormProps> = (props) => {
         placeholder="Add comment"
       />
       <div>
-        <Button onClick={onButtonClick}>{t("comments.add.button")}</Button>
+        <Button onClick={onButtonClick}>{t("add.button")}</Button>
       </div>
     </div>
   );

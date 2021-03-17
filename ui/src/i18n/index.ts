@@ -2,15 +2,15 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 
-import enTranslation from "./locales/en/translation.json";
-import plTranslation from "./locales/pl/translation.json";
+import enComments from "./locales/en/comments.json";
+import plComments from "./locales/pl/comments.json";
 
 export const resources = {
   en: {
-    translation: enTranslation,
+    comments: enComments,
   },
   pl: {
-    translation: plTranslation,
+    comments: plComments,
   },
 } as const;
 
