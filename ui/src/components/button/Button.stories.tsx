@@ -13,3 +13,8 @@ const Template: Story<ButtonProps> = (args) => (
 );
 
 export const Default = Template.bind({});
+
+export const Flat = Template.bind({});
+Flat.args = {
+  flat: true,
+};
