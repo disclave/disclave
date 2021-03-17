@@ -2,13 +2,18 @@ import { useContext } from 'react';
 import { UserContext } from '../../modules/auth/UserContext';
 import { login, logout } from '../../modules/auth/auth';
 import { LoginFormContainer } from '@webchat/ui';
+import { useRouter } from 'next/router';
 
 const Login = () => {
   const user = useContext(UserContext);
 
   if (!user) {
+    const router = useRouter();
+    const redirect: string | undefined = router.query.redirect as string;
+
     const onLogin = async (email: string, password: string) => {
       await login(email, password);
+      await router.push(redirect);
     };
 
     return (
