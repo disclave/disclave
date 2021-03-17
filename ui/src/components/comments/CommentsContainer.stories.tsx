@@ -7,6 +7,10 @@ import {
   RandomCommentsList,
 } from "../../stories/data/Comments";
 
+const exampleCommentsShort = RandomCommentsList(10).sort(
+  commentsTimestampComparator
+);
+
 const exampleComments = RandomCommentsList(50).sort(
   commentsTimestampComparator
 );
@@ -24,11 +28,20 @@ const Template: Story<CommentsContainerProps> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  comments: exampleComments,
+  authenticated: true,
+  comments: exampleCommentsShort,
 };
 
 export const CustomClasses = Template.bind({});
 CustomClasses.args = {
+  authenticated: true,
+  comments: exampleComments,
+  className: "max-h-56",
+};
+
+export const NotAuthenticated = Template.bind({});
+NotAuthenticated.args = {
+  authenticated: false,
   comments: exampleComments,
   className: "max-h-56",
 };
