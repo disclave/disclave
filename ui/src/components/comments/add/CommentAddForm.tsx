@@ -26,7 +26,7 @@ export const CommentAddForm: React.VFC<CommentAddFormProps> = (props) => {
         value={text}
         onChange={setText}
         autoGrow
-        placeholder="Add comment"
+        placeholder={t("add.input.placeholder")}
       />
       <div>
         <Button onClick={onButtonClick}>{t("add.button")}</Button>
