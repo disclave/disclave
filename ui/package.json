@@ -14,11 +14,15 @@
     "build-storybook": "build-storybook"
   },
   "dependencies": {
+    "@rollup/plugin-json": "^4.1.0",
     "@tailwindcss/postcss7-compat": "^2.0.3",
     "autoprefixer": "9",
+    "i18next": "^19.9.2",
+    "i18next-browser-languagedetector": "^6.0.1",
     "postcss": "7",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-i18next": "^11.8.10",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat"
   },
   "devDependencies": {

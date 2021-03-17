@@ -1,1 +1,0 @@
-export { LocaleContext } from "./LocaleContext";

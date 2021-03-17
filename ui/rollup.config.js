@@ -6,6 +6,7 @@ import pkg from "./package.json";
 import typescript from "@rollup/plugin-typescript";
 import postcss from "rollup-plugin-postcss";
 import postcssImport from "postcss-import";
+import json from "@rollup/plugin-json";
 
 export default {
   input: pkg.source,
@@ -33,6 +34,7 @@ export default {
       },
       plugins: [postcssImport()],
     }),
+    json(),
   ],
   external: Object.keys(pkg.peerDependencies || {}),
 };

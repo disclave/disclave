@@ -1,7 +1,7 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import "./DateTimePreview.css";
-import { LocaleContext } from "../../../context/localeContext";
+import { getLanguage } from "../../../i18n";
 
 export interface DateTimePreviewProps {
   iso: string;
@@ -12,8 +12,7 @@ export const DateTimePreview: React.VFC<DateTimePreviewProps> = ({
   iso,
   locales,
 }) => {
-  const localeContext = useContext(LocaleContext);
-  const dateLocales = locales ?? localeContext.locale;
+  const dateLocales = locales ?? getLanguage();
 
   const date = new Date(iso);
 
