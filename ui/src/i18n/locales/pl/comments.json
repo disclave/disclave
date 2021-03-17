@@ -1,5 +1,8 @@
 {
   "add": {
-    "button": "Dodaj"
+    "button": "Dodaj",
+    "input": {
+      "placeholder": "Dodaj komentarz"
+    }
   }
 }
