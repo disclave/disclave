@@ -1,4 +1,6 @@
-import handler from '../../server/graphql/Server';
+import { init, graphqlHandler } from '@webchat/server';
+
+init(JSON.parse(process.env.FIREBASE_CERT));
 
 export const config = {
   api: {
@@ -6,4 +8,4 @@ export const config = {
   }
 };
 
-export default handler('/api/graphql');
+export default graphqlHandler('/api/graphql');

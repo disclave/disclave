@@ -1,5 +1,7 @@
 {
   "packages": [
+    "client",
+    "server",
     "ui",
     "website"
   ],

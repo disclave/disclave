@@ -1,19 +1,18 @@
-import { container } from '../../server/inversify.config';
 import React, { useContext, useState } from 'react';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
-import { CommentModel } from '../../modules/comments/CommentModel';
-import { createComment } from '../../modules/comments/CommentClient';
-import { CommentService } from '../../server/comments';
 import { CommentsContainer } from '@webchat/ui';
 import { UserContext } from '../../modules/auth/UserContext';
 import { loginHref } from '../auth/login';
+import { createComment, CommentModel } from '@webchat/client';
+import { getCommentService, init } from '@webchat/server';
 
 export const websiteCommentsHref = (url: string) => websiteCommentsHrefRaw + url;
 export const websiteCommentsHrefRaw = '/comments/';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const service = container.get(CommentService);
+  init(JSON.parse(process.env.FIREBASE_CERT));
+  const service = getCommentService();
   const { website } = context.query;
   const comments = await service.getComments(website as string);
 
