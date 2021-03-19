@@ -1,8 +1,13 @@
-import { ApolloClient, createHttpLink, InMemoryCache, NormalizedCacheObject } from "@apollo/client";
+import {
+  ApolloClient,
+  createHttpLink,
+  InMemoryCache,
+  NormalizedCacheObject,
+} from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { currentUser } from "../auth";
 
-let clientInstance:  ApolloClient<NormalizedCacheObject> | null = null;
+let clientInstance: ApolloClient<NormalizedCacheObject> | null = null;
 
 const initApolloClient = (uri: string) => {
   const httpLink = createHttpLink({
