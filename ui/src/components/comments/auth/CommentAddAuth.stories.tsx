@@ -13,3 +13,6 @@ const Template: Story<CommentAddAuthProps> = (args) => (
 );
 
 export const Default = Template.bind({});
+Default.args = {
+  loginHref: "https://google.com",
+};

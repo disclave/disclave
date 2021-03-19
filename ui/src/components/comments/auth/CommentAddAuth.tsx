@@ -3,7 +3,7 @@ import { Button } from "../../button";
 import { useTranslation } from "react-i18next";
 
 export interface CommentAddAuthProps {
-  onLogin: () => Promise<void>;
+  loginHref: string;
 }
 
 export const CommentAddAuth: React.VFC<CommentAddAuthProps> = (props) => {
@@ -12,7 +12,7 @@ export const CommentAddAuth: React.VFC<CommentAddAuthProps> = (props) => {
   return (
     <div className="flex flex-row items-center justify-between bg-white py-1">
       <div>{t("add.login.text")}</div>
-      <Button onClick={props.onLogin}>{t("add.login.button")}</Button>
+      <Button href={props.loginHref}>{t("add.login.button")}</Button>
     </div>
   );
 };

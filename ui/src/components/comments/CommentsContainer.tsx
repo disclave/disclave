@@ -5,11 +5,11 @@ import { CommentAddForm } from "./add";
 import { CommentAddAuth } from "./auth";
 
 export interface CommentsContainerProps {
+  authenticated: boolean;
   className?: string;
   comments: Array<CommentModel>;
-  authenticated: boolean;
+  loginHref: string;
   onSubmit: (text: string) => Promise<void>;
-  onLogin: () => Promise<void>;
 }
 
 export const CommentsContainer: React.VFC<CommentsContainerProps> = (props) => {
@@ -31,7 +31,7 @@ export const CommentsContainer: React.VFC<CommentsContainerProps> = (props) => {
         {props.authenticated ? (
           <CommentAddForm onSubmit={props.onSubmit} />
         ) : (
-          <CommentAddAuth onLogin={props.onLogin} />
+          <CommentAddAuth loginHref={props.loginHref} />
         )}
       </div>
     </div>

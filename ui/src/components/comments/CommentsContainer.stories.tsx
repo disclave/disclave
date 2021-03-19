@@ -44,4 +44,5 @@ NotAuthenticated.args = {
   authenticated: false,
   comments: exampleComments,
   className: "max-h-56",
+  loginHref: "https://google.com",
 };
