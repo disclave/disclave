@@ -4,7 +4,7 @@ import { login, logout } from '../../modules/auth/auth';
 import { LoginFormContainer } from '@webchat/ui';
 import { useRouter } from 'next/router';
 
-export const loginPath = (redirect?: string) => {
+export const loginHref = (redirect?: string) => {
   const path = '/auth/login';
   return redirect ? `${path}?redirect=${redirect}` : path;
 };

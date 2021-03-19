@@ -7,7 +7,7 @@ import { createComment } from '../../modules/comments/CommentClient';
 import { CommentService } from '../../server/comments';
 import { CommentsContainer } from '@webchat/ui';
 import { UserContext } from '../../modules/auth/UserContext';
-import { loginPath } from '../auth/login';
+import { loginHref } from '../auth/login';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const service = container.get(CommentService);
@@ -56,7 +56,7 @@ const Website: React.FC<WebsiteProps> = (props) => {
             authenticated={!!user}
             comments={comments}
             className="max-h-full"
-            loginHref={loginPath(router.asPath)}
+            loginHref={loginHref(router.asPath)}
             onSubmit={onCommentAdd}
           />
         </div>
