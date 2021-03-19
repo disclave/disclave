@@ -1,13 +1,13 @@
 {
   "name": "@webchat/chrome-extension",
   "version": "0.1.0",
-  "description": "",
+  "private": true,
   "scripts": {
-    "test": "jest",
     "build": "webpack --mode=production",
     "build:dev": "webpack --mode=development",
     "start": "webpack --watch --mode=production",
-    "start:dev": "webpack --watch --mode=development"
+    "start:dev": "webpack --watch --mode=development",
+    "test": "jest"
   },
   "dependencies": {
     "react": "^17.0.1",
