@@ -5,7 +5,19 @@ import { commentsResolvers } from "../comments/Resolvers";
 import { usersTypeDefs } from "../users/Schemas";
 import { usersResolvers } from "../users/Resolvers";
 
-const cors = Cors();
+const cors = Cors({
+  allowMethods: ["POST", "GET", "OPTIONS"],
+  allowHeaders: [
+    "X-Requested-With",
+    "Access-Control-Allow-Origin",
+    "X-HTTP-Method-Override",
+    "Content-Type",
+    "Authorization",
+    "Accept",
+    "idtoken",
+  ],
+  origin: "*",
+});
 
 const baseTypes = gql`
   type Query {
@@ -31,7 +43,11 @@ const apolloServer = new ApolloServer({
 export const graphqlHandler = (path: string) => {
   const handler = apolloServer.createHandler({ path });
 
-  return cors((req, res) =>
-    req.method === "OPTIONS" ? res.end() : handler(req, res)
-  );
+  return cors((req, res) => {
+    if (req.method === "OPTIONS") {
+      return res.end();
+    }
+
+    return handler(req, res);
+  });
 };
