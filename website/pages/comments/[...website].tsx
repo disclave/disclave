@@ -9,6 +9,9 @@ import { CommentsContainer } from '@webchat/ui';
 import { UserContext } from '../../modules/auth/UserContext';
 import { loginHref } from '../auth/login';
 
+export const websiteCommentsHref = (url: string) => websiteCommentsHrefRaw + url;
+export const websiteCommentsHrefRaw = '/comments/';
+
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const service = container.get(CommentService);
   const { website } = context.query;
@@ -45,6 +48,8 @@ const Website: React.FC<WebsiteProps> = (props) => {
 
   const headerHeight = '48px';
 
+  const loginHrefWithRedirect = loginHref(websiteCommentsHrefRaw, website as string);
+
   return (
     <div>
       <main>
@@ -56,7 +61,7 @@ const Website: React.FC<WebsiteProps> = (props) => {
             authenticated={!!user}
             comments={comments}
             className="max-h-full"
-            loginHref={loginHref(router.asPath)}
+            loginHref={loginHrefWithRedirect}
             onSubmit={onCommentAdd}
           />
         </div>
