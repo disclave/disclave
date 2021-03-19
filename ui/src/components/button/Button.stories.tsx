@@ -18,3 +18,8 @@ export const Flat = Template.bind({});
 Flat.args = {
   flat: true,
 };
+
+export const AsAnchorLink = Template.bind({});
+AsAnchorLink.args = {
+  href: "https://google.com",
+};
