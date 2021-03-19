@@ -9,6 +9,7 @@
   "version": "0.1.0",
   "workspaces": [
     "client",
+    "server",
     "ui",
     "website"
   ],
