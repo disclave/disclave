@@ -16,15 +16,16 @@ export const initApolloClient = (uri: string) => {
 
   const authLink = setContext(async (_, { headers }) => {
     const user = await currentUser();
-    let idToken: string = undefined;
+    let authorization: string = undefined;
     if (user != null) {
-      idToken = await user.getIdToken();
+      const idToken = await user.getIdToken();
+      authorization = "Bearer " + idToken;
     }
 
     return {
       headers: {
         ...headers,
-        idToken,
+        authorization,
       },
     };
   });

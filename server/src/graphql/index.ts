@@ -14,7 +14,6 @@ const cors = Cors({
     "Content-Type",
     "Authorization",
     "Accept",
-    "idtoken",
   ],
   origin: "*",
 });
@@ -33,7 +32,11 @@ const apolloServer = new ApolloServer({
   typeDefs: [baseTypes, commentsTypeDefs, usersTypeDefs],
   resolvers: [commentsResolvers, usersResolvers],
   context: ({ req }) => {
-    const idToken = req.headers.idtoken || null;
+    let idToken: string | null = null;
+    const authorization = req.headers.authorization || null;
+    if (authorization && authorization.startsWith("Bearer "))
+      idToken = authorization.replace("Bearer ", "");
+
     return {
       idToken,
     };
