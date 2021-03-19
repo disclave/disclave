@@ -3,7 +3,7 @@ import {
   UserRepository,
   UserProfileEntity,
   UserRecord
-} from '../../server/users/db';
+} from '../../src/server/users/db';
 import { injectable } from 'inversify';
 
 @injectable()

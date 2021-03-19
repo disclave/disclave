@@ -1,4 +1,9 @@
-import { AuthorInfo, CommentEntity, CommentRepository, UrlMeta } from '../../server/comments/db';
+import {
+  AuthorInfo,
+  CommentEntity,
+  CommentRepository,
+  UrlMeta
+} from '../../src/server/comments/db';
 import { injectable } from 'inversify';
 
 type DBPage = Array<CommentEntity>;

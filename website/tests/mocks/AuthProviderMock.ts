@@ -1,5 +1,5 @@
 import { injectable } from 'inversify';
-import { AuthProvider, DecodedIdToken } from '../../server/auth';
+import { AuthProvider, DecodedIdToken } from '../../src/server/auth';
 
 @injectable()
 export class AuthProviderMock implements AuthProvider {

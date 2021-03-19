@@ -1,12 +1,12 @@
-import { CommentRepository } from '../../../server/comments/db';
+import { CommentRepository } from '../../../src/server/comments/db';
 import { CommentRepositoryMock } from '../../mocks/CommentRepositoryMock';
-import { UserService } from '../../../server/users';
+import { UserService } from '../../../src/server/users';
 import { UserServiceMock } from '../../mocks/UserServiceMock';
-import { ParsedUrlData, UrlService } from '../../../server/url';
+import { ParsedUrlData, UrlService } from '../../../src/server/url';
 import { Container } from 'inversify';
-import { UrlServiceImpl } from '../../../server/url/UrlServiceImpl';
-import { Comment, CommentService } from '../../../server/comments';
-import { CommentServiceImpl } from '../../../server/comments/CommentServiceImpl';
+import { UrlServiceImpl } from '../../../src/server/url/UrlServiceImpl';
+import { Comment, CommentService } from '../../../src/server/comments';
+import { CommentServiceImpl } from '../../../src/server/comments/CommentServiceImpl';
 
 describe('Testing CommentService', () => {
   const container = new Container();
