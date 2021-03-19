@@ -7,14 +7,13 @@
   "types": "dist/index.d.ts",
   "source": "src/index.ts",
   "scripts": {
-    "build": "rollup -c",
+    "build": "rollup -c --environment NODE_ENV:production",
     "build-watch": "rollup -c -w",
     "test": "jest",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
   "dependencies": {
-    "@rollup/plugin-json": "^4.1.0",
     "@tailwindcss/postcss7-compat": "^2.0.3",
     "autoprefixer": "9",
     "i18next": "^19.9.2",
@@ -31,6 +30,7 @@
     "@babel/preset-env": "^7.13.10",
     "@babel/preset-react": "^7.12.13",
     "@rollup/plugin-babel": "^5.3.0",
+    "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-typescript": "^8.2.0",
     "@storybook/addon-actions": "^6.1.21",
     "@storybook/addon-essentials": "^6.1.21",

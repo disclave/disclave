@@ -1,4 +1,4 @@
-import { UrlServiceImpl } from '../../../server/url/UrlServiceImpl';
+import { UrlServiceImpl } from '../../../src/server/url/UrlServiceImpl';
 
 const service = new UrlServiceImpl();
 

@@ -1,10 +1,10 @@
-import { UserService } from '../../../server/users';
+import { UserService } from '../../../src/server/users';
 import { Container } from 'inversify';
-import { AuthProvider } from '../../../server/auth';
+import { AuthProvider } from '../../../src/server/auth';
 import { AuthProviderMock } from '../../mocks/AuthProviderMock';
-import { UserRepository } from '../../../server/users/db';
+import { UserRepository } from '../../../src/server/users/db';
 import { UserRepositoryMock } from '../../mocks/UserRepositoryMock';
-import { UserServiceImpl } from '../../../server/users/UserServiceImpl';
+import { UserServiceImpl } from '../../../src/server/users/UserServiceImpl';
 
 describe('Testing UserService', () => {
   const container = new Container();

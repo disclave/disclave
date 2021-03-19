@@ -1,7 +1,4 @@
 import React from "react";
-
-import "./ListItem.css";
-
 import { CommentModel } from "../../CommentModel";
 import { DateTimePreview } from "../../../date/dateTimePreview";
 

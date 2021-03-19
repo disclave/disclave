@@ -13,3 +13,13 @@ const Template: Story<ButtonProps> = (args) => (
 );
 
 export const Default = Template.bind({});
+
+export const Flat = Template.bind({});
+Flat.args = {
+  flat: true,
+};
+
+export const AsAnchorLink = Template.bind({});
+AsAnchorLink.args = {
+  href: "https://google.com",
+};

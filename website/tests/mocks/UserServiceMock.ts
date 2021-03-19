@@ -1,4 +1,4 @@
-import { UserService, UserProfile } from '../../server/users';
+import { UserService, UserProfile } from '../../src/server/users';
 import { injectable } from 'inversify';
 
 @injectable()

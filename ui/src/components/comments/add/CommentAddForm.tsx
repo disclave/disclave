@@ -2,7 +2,6 @@ import React from "react";
 import { useState } from "react";
 import { Button } from "../../button";
 import { Textarea } from "../../forms/textarea";
-import "./CommentAddForm.css";
 import { useTranslation } from "react-i18next";
 
 export interface CommentAddFormProps {

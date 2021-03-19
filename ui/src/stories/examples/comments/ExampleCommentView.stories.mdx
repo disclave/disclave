@@ -16,7 +16,9 @@ Using comments container between other page components.
     <CommentsContainer
       className="max-h-64"
       comments={RandomCommentsList(50).sort(commentsTimestampComparator)}
+      authenticated={true}
       onSubmit={() => {}}
+      onLogin={() => {}}
     />
     <div className="py-3 bg-yellow-100">
       Page footer

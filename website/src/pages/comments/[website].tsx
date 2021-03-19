@@ -1,11 +1,16 @@
 import { container } from '../../server/inversify.config';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 import { CommentModel } from '../../modules/comments/CommentModel';
 import { createComment } from '../../modules/comments/CommentClient';
 import { CommentService } from '../../server/comments';
 import { CommentsContainer } from '@webchat/ui';
+import { UserContext } from '../../modules/auth/UserContext';
+import { loginHref } from '../auth/login';
+
+export const websiteCommentsHref = (url: string) => websiteCommentsHrefRaw + url;
+export const websiteCommentsHrefRaw = '/comments/';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const service = container.get(CommentService);
@@ -24,6 +29,8 @@ interface WebsiteProps {
 }
 
 const Website: React.FC<WebsiteProps> = (props) => {
+  const user = useContext(UserContext);
+
   const router = useRouter();
   const { website } = router.query;
 
@@ -41,6 +48,8 @@ const Website: React.FC<WebsiteProps> = (props) => {
 
   const headerHeight = '48px';
 
+  const loginHrefWithRedirect = loginHref(websiteCommentsHrefRaw, website as string);
+
   return (
     <div>
       <main>
@@ -48,7 +57,13 @@ const Website: React.FC<WebsiteProps> = (props) => {
           {website}
         </div>
         <div style={{ height: `calc(100vh - ${headerHeight})` }} className="p-3">
-          <CommentsContainer className="max-h-full" comments={comments} onSubmit={onCommentAdd} />
+          <CommentsContainer
+            authenticated={!!user}
+            comments={comments}
+            className="max-h-full"
+            loginHref={loginHrefWithRedirect}
+            onSubmit={onCommentAdd}
+          />
         </div>
       </main>
     </div>
