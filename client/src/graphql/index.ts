@@ -35,7 +35,7 @@ export const initApolloClient = (uri: string) => {
   });
 };
 
-export const index = () => {
+export const client = () => {
   if (clientInstance == null)
     throw "Client is not initialized. Run initApolloClient first!";
 
