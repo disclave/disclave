@@ -9,7 +9,7 @@ import { currentUser } from "../auth";
 
 let clientInstance: ApolloClient<NormalizedCacheObject> | null = null;
 
-const initApolloClient = (uri: string) => {
+export const initApolloClient = (uri: string) => {
   const httpLink = createHttpLink({
     uri,
   });
