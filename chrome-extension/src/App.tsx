@@ -10,6 +10,7 @@ export const App = () => {
   return (
     <div className="w-80 m-4">
       <CommentsContainer
+        className="max-h-96"
         authenticated={false}
         comments={comments}
         loginHref="#login"
