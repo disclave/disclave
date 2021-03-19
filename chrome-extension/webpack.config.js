@@ -17,7 +17,7 @@ const config = {
       },
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"],
+        use: ["style-loader", "css-loader", "postcss-loader"],
         exclude: /\.module\.css$/,
       },
       {
@@ -73,4 +73,7 @@ const config = {
   ],
 };
 
-module.exports = config;
+module.exports = (env, options) => {
+  process.env.NODE_ENV = options.mode;
+  return config;
+};

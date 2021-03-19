@@ -5,10 +5,10 @@ import { useComments } from "./hooks";
 export const App = () => {
   const [comments, addComment] = useComments();
 
-  if (comments == null) return <div>loading</div>;
+  if (comments == null) return <div className="m-4">loading</div>;
 
   return (
-    <div>
+    <div className="w-80 m-4">
       <CommentsContainer
         authenticated={false}
         comments={comments}
