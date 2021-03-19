@@ -1,5 +1,5 @@
 import { client } from "../../graphql";
-import { CommentModel } from "./CommentModel";
+import { CommentModel } from "./";
 import { CREATE_COMMENT, GET_COMMENTS } from "./schemas";
 
 export const getComments = async (

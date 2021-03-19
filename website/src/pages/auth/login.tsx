@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { UserContext } from '../../modules/auth/UserContext';
-import { login, logout } from '../../modules/auth/auth';
+import { login, logout } from '@webchat/client';
 import { LoginFormContainer } from '@webchat/ui';
 import { useRouter } from 'next/router';
 

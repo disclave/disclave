@@ -8,8 +8,8 @@
   },
   "version": "0.1.0",
   "workspaces": [
-    "ui",
     "client",
+    "ui",
     "website"
   ],
   "devDependencies": {
