@@ -2,9 +2,9 @@ import {
   AuthorInfo,
   CommentEntity,
   CommentRepository,
-  UrlMeta
-} from '../../src/server/comments/db';
-import { injectable } from 'inversify';
+  UrlMeta,
+} from "../../src/comments/db";
+import { injectable } from "inversify";
 
 type DBPage = Array<CommentEntity>;
 type DBWebsite = Map<string, DBPage>;
@@ -19,27 +19,33 @@ export class CommentRepositoryMock implements CommentRepository {
     this.db.clear();
   }
 
-  async addComment(author: AuthorInfo, text: string, url: UrlMeta): Promise<CommentEntity> {
+  async addComment(
+    author: AuthorInfo,
+    text: string,
+    url: UrlMeta
+  ): Promise<CommentEntity> {
     const entity: CommentEntity = {
-      id: 'random-id-' + Math.random(),
+      id: "random-id-" + Math.random(),
       text: text,
       author: {
         id: author.id,
-        name: author.name
+        name: author.name,
       },
       timestamp: CommentRepositoryMock.mockDate.toISOString(),
       url: {
         raw: url.raw,
         websiteId: url.websiteId,
-        pageId: url.pageId
-      }
+        pageId: url.pageId,
+      },
     };
 
     const db = CommentRepositoryMock.db;
-    if (!db.has(url.websiteId)) db.set(url.websiteId, new Map<string, DBPage>());
+    if (!db.has(url.websiteId))
+      db.set(url.websiteId, new Map<string, DBPage>());
 
     const website = db.get(url.websiteId)!;
-    if (!website.has(url.pageId)) website.set(url.pageId, new Array<CommentEntity>());
+    if (!website.has(url.pageId))
+      website.set(url.pageId, new Array<CommentEntity>());
 
     const page = website.get(url.pageId)!;
     page.push(entity);

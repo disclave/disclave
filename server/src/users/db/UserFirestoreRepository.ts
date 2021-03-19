@@ -1,7 +1,12 @@
-import { auth, firestore, FirestoreDataConverter, QueryDocumentSnapshot } from '../../firebase';
-import { UserProfileEntity } from './UserProfileEntity';
-import { UserRepository } from './index';
-import { injectable } from 'inversify';
+import {
+  auth,
+  firestore,
+  FirestoreDataConverter,
+  QueryDocumentSnapshot,
+} from "../../firebase";
+import { UserProfileEntity } from "./UserProfileEntity";
+import { UserRepository } from "./index";
+import { injectable } from "inversify";
 
 interface FirestoreProfile {
   name: string;
@@ -10,16 +15,19 @@ interface FirestoreProfile {
 @injectable()
 export class UserFirestoreRepository implements UserRepository {
   public async getUser(uid: string) {
-    return auth.getUser(uid);
+    return auth().getUser(uid);
   }
 
-  public async createProfile(userId: string, profile: FirestoreProfile): Promise<string> {
+  public async createProfile(
+    userId: string,
+    profile: FirestoreProfile
+  ): Promise<string> {
     const ref = profilesCollectionRef().doc(userId);
-    await firestore.runTransaction(async (t) => {
+    await firestore().runTransaction(async (t) => {
       // TODO: check for user with the same name
 
       const checkProfile = await t.get(ref);
-      if (checkProfile.exists) throw 'User profile already exists';
+      if (checkProfile.exists) throw "User profile already exists";
 
       await t.set(ref, profile);
     });
@@ -35,20 +43,24 @@ export class UserFirestoreRepository implements UserRepository {
 const profileConverter: FirestoreDataConverter<UserProfileEntity> = {
   toFirestore(entity: UserProfileEntity): FirestoreProfile {
     return {
-      name: entity.name
+      name: entity.name,
     };
   },
-  fromFirestore(snapshot: QueryDocumentSnapshot<FirestoreProfile>): UserProfileEntity {
+  fromFirestore(
+    snapshot: QueryDocumentSnapshot<FirestoreProfile>
+  ): UserProfileEntity {
     const data: FirestoreProfile = snapshot.data();
     return {
       id: snapshot.id,
-      name: data.name
+      name: data.name,
     };
-  }
+  },
 };
 
-const profilesCollection = 'profiles';
+const profilesCollection = "profiles";
 
 const profilesCollectionRef = () => {
-  return firestore.collection(profilesCollection).withConverter(profileConverter);
+  return firestore()
+    .collection(profilesCollection)
+    .withConverter(profileConverter);
 };

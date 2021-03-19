@@ -1,11 +1,11 @@
-import { UserService, UserProfile } from '../../src/server/users';
-import { injectable } from 'inversify';
+import { UserService, UserProfile } from "../../src/users";
+import { injectable } from "inversify";
 
 @injectable()
 export class UserServiceMock implements UserService {
   public static defaultUserProfile: UserProfile = {
-    id: 'mock-user-id',
-    name: 'mock_user_name'
+    id: "mock-user-id",
+    name: "mock_user_name",
   };
 
   async createProfile(idToken: string, name: string): Promise<string> {
@@ -16,7 +16,10 @@ export class UserServiceMock implements UserService {
     return UserServiceMock.defaultUserProfile;
   }
 
-  async verifyIdToken(idToken: string, checkIfRevoked: boolean): Promise<string> {
+  async verifyIdToken(
+    idToken: string,
+    checkIfRevoked: boolean
+  ): Promise<string> {
     return UserServiceMock.defaultUserProfile.id;
   }
 }
