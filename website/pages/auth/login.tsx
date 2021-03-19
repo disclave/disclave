@@ -4,6 +4,11 @@ import { login, logout } from '../../modules/auth/auth';
 import { LoginFormContainer } from '@webchat/ui';
 import { useRouter } from 'next/router';
 
+export const loginPath = (redirect?: string) => {
+  const path = '/auth/login';
+  return redirect ? `${path}?redirect=${redirect}` : path;
+};
+
 const Login = () => {
   const user = useContext(UserContext);
 
