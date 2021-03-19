@@ -43,11 +43,6 @@ const Website: React.FC<WebsiteProps> = (props) => {
     }
   };
 
-  const onLogin = async () => {
-    // TODO: use Next.js Links
-    await router.push('/auth/login?redirect=' + router.asPath);
-  };
-
   const headerHeight = '48px';
 
   return (
@@ -58,11 +53,11 @@ const Website: React.FC<WebsiteProps> = (props) => {
         </div>
         <div style={{ height: `calc(100vh - ${headerHeight})` }} className="p-3">
           <CommentsContainer
-            className="max-h-full"
-            comments={comments}
             authenticated={!!user}
+            comments={comments}
+            className="max-h-full"
+            loginHref={'/auth/login?redirect=' + router.asPath}
             onSubmit={onCommentAdd}
-            onLogin={onLogin}
           />
         </div>
       </main>
