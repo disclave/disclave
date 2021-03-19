@@ -1,19 +1,20 @@
 import * as React from "react";
-import "./App.css";
-import {useChat} from "./hooks/useChat";
-import {UIExample} from "@webchat/ui";
+import { CommentsContainer } from "@webchat/ui";
+import { useComments } from "./hooks";
 
 export const App = () => {
-  const [messages, addMessage] = useChat();
+  const [comments, addComment] = useComments();
+
+  if (comments == null) return <div>loading</div>;
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Web Chat extension {JSON.stringify(messages)} ??
-        </p>
-        <UIExample text="from extension" />
-      </header>
+    <div>
+      <CommentsContainer
+        authenticated={false}
+        comments={comments}
+        loginHref="#login"
+        onSubmit={addComment}
+      />
     </div>
   );
 };

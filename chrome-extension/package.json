@@ -10,6 +10,8 @@
     "test": "jest"
   },
   "dependencies": {
+    "@webchat/client": "^0.1.0",
+    "@webchat/ui": "^0.1.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-hot-loader": "^4.13.0"
@@ -21,7 +23,7 @@
     "@hot-loader/react-dom": "^17.0.1",
     "@testing-library/react": "^11.2.5",
     "@testing-library/react-hooks": "^5.0.3",
-    "@types/chrome": "^0.0.132",
+    "@types/chrome": "^0.0.133",
     "@types/jest": "^26.0.20",
     "@types/react": "^17.0.1",
     "@types/react-dom": "^17.0.1",
