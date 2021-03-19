@@ -1,13 +1,16 @@
 import React from "react";
+import { getAnchorWrapper } from "../../config";
 
 export interface ButtonProps {
   onClick?: () => void;
   flat?: boolean;
+  href?: string;
 }
 
 export const Button: React.FC<ButtonProps> = ({
   children,
   flat = false,
+  href,
   onClick,
 }) => {
   const classes = [
@@ -18,9 +21,14 @@ export const Button: React.FC<ButtonProps> = ({
     "focus:outline-none",
   ].join(" ");
 
+  const AnchorTag = getAnchorWrapper() ?? "a";
+
+  const Tag = href ? AnchorTag : "button";
+  const Role = href ? "button" : undefined;
+
   return (
-    <button className={classes} onClick={onClick}>
+    <Tag role={Role} className={classes} onClick={onClick} href={href}>
       {children}
-    </button>
+    </Tag>
   );
 };
