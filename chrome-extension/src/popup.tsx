@@ -3,10 +3,8 @@ import * as ReactDOM from "react-dom";
 import { App } from "./App";
 import { init } from "@webchat/client";
 
-// TODO: get all data from env
-
-const firebaseConfig = JSON.parse(config);
-init(firebaseConfig, url);
+const firebaseConfig = JSON.parse(process.env.FIREBASE_CLIENT_CONFIG as string);
+init(firebaseConfig, process.env.API_URL as string);
 
 const mountNode = document.getElementById("popup");
 ReactDOM.render(<App />, mountNode);
