@@ -28,17 +28,19 @@ export const RegisterEmailPassForm: React.VFC<RegisterEmailPassFormProps> = (
       <Input
         value={email}
         onChange={setEmail}
-        placeholder={t("register.email.placeholder")}
+        placeholder={t("register.email-password.email.placeholder")}
         type="email"
       />
       <Input
         value={password}
         onChange={setPassword}
-        placeholder={t("register.password.placeholder")}
+        placeholder={t("register.email-password.password.placeholder")}
         type="password"
       />
       <div className="flex justify-end">
-        <Button onClick={onButtonClick}>{t("register.button")}</Button>
+        <Button onClick={onButtonClick}>
+          {t("register.email-password.button")}
+        </Button>
       </div>
     </div>
   );
