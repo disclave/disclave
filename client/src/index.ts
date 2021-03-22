@@ -11,7 +11,6 @@ export {
   logout,
   currentUser,
   onAuthStateChanged,
-  UserContext,
   useUserProfile,
 } from "./auth";
 export { getComments, createComment } from "./modules/comments";

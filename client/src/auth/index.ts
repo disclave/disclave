@@ -8,6 +8,5 @@ export const onAuthStateChanged = (callback) =>
   auth().onAuthStateChanged(callback);
 export const currentUser = () => auth().currentUser;
 
-export { UserContext } from "./UserContext";
 export type { UserProfileModel } from "./UserProfileModel";
 export { useUserProfile } from "./useUserProfile";
