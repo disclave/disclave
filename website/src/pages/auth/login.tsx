@@ -1,5 +1,4 @@
-import { useContext } from 'react';
-import { login, logout, UserContext } from '@webchat/client';
+import { login, logout, useUserProfile } from '@webchat/client';
 import { LoginFormContainer } from '@webchat/ui';
 import { useRouter } from 'next/router';
 
@@ -22,17 +21,7 @@ export const loginHref = (redirectPath?: string, redirectPathParamToEncode?: str
 };
 
 const Login = () => {
-  const user = useContext(UserContext);
-
-  // TODO: get profile from global context
-  let userProfile = undefined;
-  if (user === null) userProfile = null;
-  else if (!!user)
-    userProfile = {
-      uid: user.uid,
-      email: user.email,
-      name: user.email // TODO: get user name instead of email
-    };
+  const [userProfile, loadingProfile] = useUserProfile();
 
   const router = useRouter();
   const query = router.query;
@@ -57,7 +46,11 @@ const Login = () => {
   return (
     <div className="w-screen h-screen">
       <div className="mx-auto mt-16 max-w-max">
-        <LoginFormContainer onLogin={onLogin} onLogout={onLogout} userProfile={userProfile} />
+        <LoginFormContainer
+          onLogin={onLogin}
+          onLogout={onLogout}
+          userProfile={!loadingProfile ? userProfile : undefined}
+        />
       </div>
     </div>
   );
