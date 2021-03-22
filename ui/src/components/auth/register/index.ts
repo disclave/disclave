@@ -1,0 +1,1 @@
+export { RegisterFormContainer } from "./RegisterFormContainer";

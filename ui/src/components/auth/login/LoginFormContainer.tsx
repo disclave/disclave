@@ -1,7 +1,9 @@
 import React from "react";
 import { LoginForm } from "./form";
 import { UserProfileModel } from "../UserProfileModel";
-import { LoginUserInfo } from "./user";
+import { UserInfo } from "../user";
+import { ContainerWrapper } from "../../container";
+import { Loading } from "../../loading";
 
 export interface LoginFormContainerProps {
   onLogin: (email: string, password: string) => Promise<void>;
@@ -12,25 +14,38 @@ export interface LoginFormContainerProps {
 export const LoginFormContainer: React.VFC<LoginFormContainerProps> = (
   props
 ) => {
-  const Wrapper: React.FC = ({ children }) => (
-    <div className="max-w-sm border rounded p-6">{children}</div>
-  );
-
-  if (props.userProfile === undefined) return <Wrapper>Loading...</Wrapper>; // TODO: use loading component
-
-  if (props.userProfile === null)
-    return (
-      <Wrapper>
-        <LoginForm onSubmit={props.onLogin} />
-      </Wrapper>
-    );
+  const Component = () => {
+    const state = getState(props.userProfile);
+    switch (state) {
+      case State.LOADING:
+        return <Loading />;
+      case State.LOGIN_FORM:
+        return <LoginForm onSubmit={props.onLogin} />;
+      case State.USER_INFO:
+        return (
+          <UserInfo
+            userProfile={props.userProfile!}
+            onLogout={props.onLogout}
+          />
+        );
+    }
+  };
 
   return (
-    <Wrapper>
-      <LoginUserInfo
-        userProfile={props.userProfile}
-        onLogout={props.onLogout}
-      />
-    </Wrapper>
+    <ContainerWrapper>
+      <Component />
+    </ContainerWrapper>
   );
 };
+
+const getState = (userProfile?: UserProfileModel | null): State => {
+  if (userProfile === undefined) return State.LOADING;
+  else if (userProfile === null) return State.LOGIN_FORM;
+  else return State.USER_INFO;
+};
+
+enum State {
+  LOADING,
+  LOGIN_FORM,
+  USER_INFO,
+}

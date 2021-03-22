@@ -6,8 +6,8 @@ type UseUserProfile = [UserProfileModel | null, Loading];
 
 export const useUserProfile = (): UseUserProfile => {
   const [user, setUser] = useState(null);
-  const [profile, setProfile] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [profile, setProfile] = useState<UserProfileModel | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => onAuthStateChanged(setUser));
 
@@ -19,6 +19,7 @@ export const useUserProfile = (): UseUserProfile => {
         uid: user.uid,
         email: user.email,
         name: user.email, // TODO: fetch user profile from DB and get user name instead of email
+        profileFillPending: false, // TODO: fill based on user profile in DB
       });
     }
 
