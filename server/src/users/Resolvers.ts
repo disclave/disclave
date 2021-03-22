@@ -8,6 +8,7 @@ export const usersResolvers = {
     getSelfProfile: async (_, args, context) => {
       if (!context.idToken) throw "Unauthorized";
       const profile = await service.getProfile(context.idToken);
+      if (!profile) return null;
       return profileToResponse(profile);
     },
   },
@@ -18,6 +19,7 @@ export const usersResolvers = {
         context.idToken,
         args.profile.name
       );
+
       return profileToResponse(profile);
     },
   },

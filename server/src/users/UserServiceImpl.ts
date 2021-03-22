@@ -36,7 +36,7 @@ export class UserServiceImpl implements UserService {
     });
   }
 
-  public async getProfile(idToken: string): Promise<UserProfile> {
+  public async getProfile(idToken: string): Promise<UserProfile | null> {
     const uid = await this.verifyIdToken(idToken);
     const profile = await this.repository.getUserProfile(uid);
     return toDomain(profile);

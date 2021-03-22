@@ -15,5 +15,5 @@ export abstract class UserRepository {
     profile: CreateProfileData
   ): Promise<UserProfileEntity>;
 
-  abstract getUserProfile(uid: string): Promise<UserProfileEntity>;
+  abstract getUserProfile(uid: string): Promise<UserProfileEntity | null>;
 }

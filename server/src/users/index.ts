@@ -10,5 +10,5 @@ export abstract class UserService {
 
   abstract createProfile(idToken: string, name: string): Promise<UserProfile>;
 
-  abstract getProfile(idToken: string): Promise<UserProfile>;
+  abstract getProfile(idToken: string): Promise<UserProfile | null>;
 }

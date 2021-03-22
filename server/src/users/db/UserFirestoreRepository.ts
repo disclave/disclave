@@ -35,8 +35,9 @@ export class UserFirestoreRepository implements UserRepository {
     return doc.data();
   }
 
-  public async getUserProfile(uid: string): Promise<UserProfileEntity> {
+  public async getUserProfile(uid: string): Promise<UserProfileEntity | null> {
     const doc = await profilesCollectionRef().doc(uid).get();
+    if (!doc.exists) return null;
     return doc.data();
   }
 }
