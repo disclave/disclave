@@ -37,6 +37,8 @@ export const useUserProfile = (): UseUserProfile => {
 
       updateProfile(profile);
     };
+
+    fetchUserProfile(user);
   }, [user?.uid]);
 
   return [profile, loading];
