@@ -1,19 +1,21 @@
 import * as React from "react";
-import "./App.css";
-import {useChat} from "./hooks/useChat";
-import {UIExample} from "@webchat/ui";
+import { MemoryRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { Home, homeHref } from "./pages/Home";
+import { Login, loginHref } from "./pages/Login";
 
 export const App = () => {
-  const [messages, addMessage] = useChat();
-
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Web Chat extension {JSON.stringify(messages)} ??
-        </p>
-        <UIExample text="from extension" />
-      </header>
-    </div>
+    <Router>
+      <div className="m-4 w-80">
+        <Switch>
+          <Route path={loginHref}>
+            <Login />
+          </Route>
+          <Route path={homeHref}>
+            <Home />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
   );
 };

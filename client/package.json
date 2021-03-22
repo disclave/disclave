@@ -15,6 +15,9 @@
     "@apollo/client": "^3.3.11",
     "firebase": "^8.2.10"
   },
+  "peerDependencies": {
+    "react": "^17.0.1"
+  },
   "devDependencies": {
     "@babel/cli": "^7.13.10",
     "@babel/core": "^7.13.10",

@@ -7,3 +7,6 @@ export const logout = async () => auth().signOut();
 export const onAuthStateChanged = (callback) =>
   auth().onAuthStateChanged(callback);
 export const currentUser = () => auth().currentUser;
+
+export type { UserProfileModel } from "./UserProfileModel";
+export { useUserProfile } from "./useUserProfile";

@@ -3,7 +3,8 @@
     "client",
     "server",
     "ui",
-    "website"
+    "website",
+    "chrome-extension"
   ],
   "version": "independent",
   "npmClient": "yarn",
