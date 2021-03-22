@@ -1,1 +1,6 @@
-export { valuesToParamsArray, routerQueryToRedirectUrl } from './RedirectHelpers';
+export {
+  valuesToParamsArray,
+  routerQueryToRedirectUrl,
+  routerQueryToRedirectParams,
+  redirectParamsToUrl
+} from './RedirectHelpers';

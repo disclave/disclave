@@ -17,24 +17,14 @@ export const routerQueryToRedirectUrl = (query: ParsedUrlQuery): string => {
   return redirectParamsToUrl(redirectParams);
 };
 
-const RedirectQueryParams = {
-  RedirectPath: 'r',
-  RedirectPathParamToEncode: 'rpp'
-};
-
-interface RedirectParams {
-  redirectPath?: string;
-  redirectPathParamToEncode?: string;
-}
-
-const routerQueryToRedirectParams = (query: ParsedUrlQuery): RedirectParams => {
+export const routerQueryToRedirectParams = (query: ParsedUrlQuery): RedirectParams => {
   return {
     redirectPath: getQueryParam(query, RedirectQueryParams.RedirectPath),
     redirectPathParamToEncode: getQueryParam(query, RedirectQueryParams.RedirectPathParamToEncode)
   };
 };
 
-const redirectParamsToUrl = (params: RedirectParams): string => {
+export const redirectParamsToUrl = (params: RedirectParams): string => {
   let url = '';
 
   if (!!params.redirectPath) url += params.redirectPath;
@@ -44,6 +34,16 @@ const redirectParamsToUrl = (params: RedirectParams): string => {
 
   return url;
 };
+
+const RedirectQueryParams = {
+  RedirectPath: 'r',
+  RedirectPathParamToEncode: 'rpp'
+};
+
+interface RedirectParams {
+  redirectPath?: string;
+  redirectPathParamToEncode?: string;
+}
 
 const getQueryParam = (query: ParsedUrlQuery, param: string): string | undefined => {
   return query[param] as string | undefined;
