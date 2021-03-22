@@ -3,6 +3,7 @@ import { LoginForm } from "./form";
 import { UserProfileModel } from "../UserProfileModel";
 import { UserInfo } from "../user";
 import { ContainerWrapper } from "../../container";
+import { Loading } from "../../loading";
 
 export interface LoginFormContainerProps {
   onLogin: (email: string, password: string) => Promise<void>;
@@ -14,7 +15,11 @@ export const LoginFormContainer: React.VFC<LoginFormContainerProps> = (
   props
 ) => {
   if (props.userProfile === undefined)
-    return <ContainerWrapper>Loading...</ContainerWrapper>; // TODO: use loading component
+    return (
+      <ContainerWrapper>
+        <Loading />
+      </ContainerWrapper>
+    );
 
   if (props.userProfile === null)
     return (

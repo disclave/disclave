@@ -3,6 +3,7 @@ import { RegisterEmailPassForm, RegisterUsernameForm } from "./form";
 import { UserProfileModel } from "../UserProfileModel";
 import { UserInfo } from "../user";
 import { ContainerWrapper } from "../../container";
+import { Loading } from "../../loading";
 
 export interface RegisterFormContainerProps {
   loading: boolean;
@@ -15,7 +16,12 @@ export interface RegisterFormContainerProps {
 export const RegisterFormContainer: React.VFC<RegisterFormContainerProps> = (
   props
 ) => {
-  if (props.loading) return <ContainerWrapper>Loading...</ContainerWrapper>; // TODO: use loading component
+  if (props.loading)
+    return (
+      <ContainerWrapper>
+        <Loading />
+      </ContainerWrapper>
+    );
 
   if (props.userProfile != null && !props.userProfile.profileFillPending)
     return (
