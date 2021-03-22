@@ -1,8 +1,9 @@
-import { logout, useUserProfile } from '@webchat/client';
+import { register, logout, useUserProfile, createSelfProfile } from '@webchat/client';
 import { RegisterFormContainer } from '@webchat/ui';
 import { useRouter } from 'next/router';
 import { routerQueryToRedirectUrl, valuesToParamsArray } from '../../modules/redirect';
 import { useEffect, useState } from 'react';
+import { loginHref } from './login';
 
 export const registerHref = (redirectPath?: string, redirectPathParamToEncode?: string): string => {
   let path = '/auth/register';
@@ -25,19 +26,22 @@ const Register = () => {
   const redirectUrl = routerQueryToRedirectUrl(router.query);
 
   const onRegisterEmailPass = async (email: string, password: string) => {
-    // TODO: try to create user account with email and password
-    // await login(email, password);
+    setLoading(true);
+    await register(email, password);
   };
 
   const onCreateUsername = async (name: string) => {
-    // TODO: try to save user profile in DB
-    // if (!redirectUrl) return;
-    //
-    // await router.push(redirectUrl);
+    setLoading(true);
+    await createSelfProfile(name);
+
+    if (!redirectUrl) return;
+
+    await router.push(redirectUrl);
   };
 
   const onLogout = async () => {
     await logout();
+    await router.push(loginHref());
   };
 
   return (
