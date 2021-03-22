@@ -8,8 +8,8 @@ export class UserServiceMock implements UserService {
     name: "mock_user_name",
   };
 
-  async createProfile(idToken: string, name: string): Promise<string> {
-    return UserServiceMock.defaultUserProfile.id;
+  async createProfile(idToken: string, name: string): Promise<UserProfile> {
+    return UserServiceMock.defaultUserProfile;
   }
 
   async getProfile(idToken: string): Promise<UserProfile> {

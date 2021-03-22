@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 import { CommentsContainer } from '@webchat/ui';
 import { loginHref } from '../auth/login';
-import { createComment, CommentModel, useUserProfile } from '@webchat/client';
+import { createComment, CommentModel, useSession } from '@webchat/client';
 import { getCommentService, init } from '@webchat/server';
 
 export const websiteCommentsHref = (url: string) => websiteCommentsHrefRaw + url;
@@ -27,8 +27,7 @@ interface WebsiteProps {
 }
 
 const Website: React.FC<WebsiteProps> = (props) => {
-  const [userProfile] = useUserProfile();
-  const authenticated = userProfile != null;
+  const [, , isActiveAccount] = useSession();
 
   const router = useRouter();
   const { website } = router.query;
@@ -57,7 +56,7 @@ const Website: React.FC<WebsiteProps> = (props) => {
         </div>
         <div style={{ height: `calc(100vh - ${headerHeight})` }} className="p-3">
           <CommentsContainer
-            authenticated={authenticated}
+            authenticated={isActiveAccount}
             comments={comments}
             className="max-h-full"
             loginHref={loginHrefWithRedirect}

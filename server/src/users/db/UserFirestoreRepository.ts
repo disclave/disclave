@@ -21,7 +21,7 @@ export class UserFirestoreRepository implements UserRepository {
   public async createProfile(
     userId: string,
     profile: FirestoreProfile
-  ): Promise<string> {
+  ): Promise<UserProfileEntity> {
     const ref = profilesCollectionRef().doc(userId);
     await firestore().runTransaction(async (t) => {
       // TODO: check for user with the same name
@@ -31,11 +31,13 @@ export class UserFirestoreRepository implements UserRepository {
 
       await t.set(ref, profile);
     });
-    return userId;
+    const doc = await ref.get();
+    return doc.data();
   }
 
-  public async getUserProfile(uid: string): Promise<UserProfileEntity> {
+  public async getUserProfile(uid: string): Promise<UserProfileEntity | null> {
     const doc = await profilesCollectionRef().doc(uid).get();
+    if (!doc.exists) return null;
     return doc.data();
   }
 }

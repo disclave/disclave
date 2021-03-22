@@ -9,9 +9,14 @@ export const init = (firebaseOptions: Object, graphqlUri: string) => {
 export {
   login,
   logout,
+  register,
   currentUser,
   onAuthStateChanged,
-  useUserProfile,
+  useSession,
 } from "./auth";
+
 export { getComments, createComment } from "./modules/comments";
 export type { CommentModel } from "./modules/comments";
+
+export { getSelfProfile, createSelfProfile } from "./modules/users";
+export type { UserProfileModel } from "./modules/users";
