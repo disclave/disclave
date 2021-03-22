@@ -1,0 +1,1 @@
+export { RegisterEmailPassForm } from "./RegisterEmailPassForm";
