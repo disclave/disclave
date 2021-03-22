@@ -11,7 +11,9 @@ export const getSelfProfile = async (): Promise<UserProfileModel | null> => {
   return responseToModel(profile);
 };
 
-export const createSelfProfile = async (): Promise<UserProfileModel> => {
+export const createSelfProfile = async (
+  name: string
+): Promise<UserProfileModel> => {
   const result = await client().mutate({
     mutation: CREATE_SELF_PROFILE,
     variables: {
