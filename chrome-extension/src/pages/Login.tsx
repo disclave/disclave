@@ -1,14 +1,14 @@
 import * as React from "react";
 import { useHistory } from "react-router-dom";
 import { LoginFormContainer } from "@webchat/ui";
-import { login, logout, useUserProfile } from "@webchat/client";
+import { login, logout, useSession } from "@webchat/client";
 import { homeHref } from "./Home";
 
 export const loginHref = "/login";
 
 export const Login = () => {
   const history = useHistory();
-  const [userProfile, loadingProfile] = useUserProfile();
+  const [userProfile, isLoadingProfile] = useSession();
 
   const onLogin = async (email: string, password: string) => {
     await login(email, password);
@@ -25,7 +25,7 @@ export const Login = () => {
       <LoginFormContainer
         onLogin={onLogin}
         onLogout={onLogout}
-        userProfile={!loadingProfile ? userProfile : undefined}
+        userProfile={!isLoadingProfile ? userProfile : undefined}
       />
     </div>
   );
