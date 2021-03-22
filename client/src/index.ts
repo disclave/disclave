@@ -6,6 +6,12 @@ export const init = (firebaseOptions: Object, graphqlUri: string) => {
   initApolloClient(graphqlUri);
 };
 
-export { login, logout, currentUser, onAuthStateChanged } from "./auth";
+export {
+  login,
+  logout,
+  currentUser,
+  onAuthStateChanged,
+  UserContext,
+} from "./auth";
 export { getComments, createComment } from "./modules/comments";
 export type { CommentModel } from "./modules/comments";

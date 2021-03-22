@@ -1,10 +1,9 @@
 import '../styles/globals.css';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { UserContext } from '../modules/auth/UserContext';
 import { appWithTranslation } from 'next-i18next';
 import { setAnchorWrapper } from '@webchat/ui';
-import { init, currentUser, onAuthStateChanged } from '@webchat/client';
+import { init, currentUser, onAuthStateChanged, UserContext } from '@webchat/client';
 
 setAnchorWrapper((props) => (
   <Link href={props.href}>

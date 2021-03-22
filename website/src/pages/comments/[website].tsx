@@ -2,9 +2,8 @@ import React, { useContext, useState } from 'react';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 import { CommentsContainer } from '@webchat/ui';
-import { UserContext } from '../../modules/auth/UserContext';
 import { loginHref } from '../auth/login';
-import { createComment, CommentModel } from '@webchat/client';
+import { createComment, CommentModel, UserContext } from '@webchat/client';
 import { getCommentService, init } from '@webchat/server';
 
 export const websiteCommentsHref = (url: string) => websiteCommentsHrefRaw + url;
