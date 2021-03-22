@@ -14,23 +14,38 @@ export interface LoginFormContainerProps {
 export const LoginFormContainer: React.VFC<LoginFormContainerProps> = (
   props
 ) => {
-  if (props.userProfile === undefined)
-    return (
-      <ContainerWrapper>
-        <Loading />
-      </ContainerWrapper>
-    );
-
-  if (props.userProfile === null)
-    return (
-      <ContainerWrapper>
-        <LoginForm onSubmit={props.onLogin} />
-      </ContainerWrapper>
-    );
+  const Component = () => {
+    const state = getState(props.userProfile);
+    switch (state) {
+      case State.LOADING:
+        return <Loading />;
+      case State.LOGIN_FORM:
+        return <LoginForm onSubmit={props.onLogin} />;
+      case State.USER_INFO:
+        return (
+          <UserInfo
+            userProfile={props.userProfile!}
+            onLogout={props.onLogout}
+          />
+        );
+    }
+  };
 
   return (
     <ContainerWrapper>
-      <UserInfo userProfile={props.userProfile} onLogout={props.onLogout} />
+      <Component />
     </ContainerWrapper>
   );
 };
+
+const getState = (userProfile?: UserProfileModel | null): State => {
+  if (userProfile === undefined) return State.LOADING;
+  else if (userProfile === null) return State.LOGIN_FORM;
+  else return State.USER_INFO;
+};
+
+enum State {
+  LOADING,
+  LOGIN_FORM,
+  USER_INFO,
+}

@@ -16,30 +16,46 @@ export interface RegisterFormContainerProps {
 export const RegisterFormContainer: React.VFC<RegisterFormContainerProps> = (
   props
 ) => {
-  if (props.loading)
-    return (
-      <ContainerWrapper>
-        <Loading />
-      </ContainerWrapper>
-    );
-
-  if (props.userProfile != null && !props.userProfile.profileFillPending)
-    return (
-      <ContainerWrapper>
-        <UserInfo userProfile={props.userProfile} onLogout={props.onLogout} />
-      </ContainerWrapper>
-    );
-
-  if (props.userProfile === null)
-    return (
-      <ContainerWrapper>
-        <RegisterEmailPassForm onSubmit={props.onRegisterEmailPass} />
-      </ContainerWrapper>
-    );
+  const Component = () => {
+    const state = getState(props.loading, props.userProfile);
+    switch (state) {
+      case State.LOADING:
+        return <Loading />;
+      case State.USER_INFO:
+        return (
+          <UserInfo
+            userProfile={props.userProfile!}
+            onLogout={props.onLogout}
+          />
+        );
+      case State.EMAIL_PASS:
+        return <RegisterEmailPassForm onSubmit={props.onRegisterEmailPass} />;
+      case State.USERNAME:
+        return <RegisterUsernameForm onSubmit={props.onCreateUsername} />;
+    }
+  };
 
   return (
     <ContainerWrapper>
-      <RegisterUsernameForm onSubmit={props.onCreateUsername} />
+      <Component />
     </ContainerWrapper>
   );
 };
+
+const getState = (
+  loading: boolean,
+  userProfile: UserProfileModel | null
+): State => {
+  if (loading) return State.LOADING;
+  else if (userProfile !== null && !userProfile.profileFillPending)
+    return State.USER_INFO;
+  else if (userProfile === null) return State.EMAIL_PASS;
+  else return State.USERNAME;
+};
+
+enum State {
+  LOADING,
+  USER_INFO,
+  EMAIL_PASS,
+  USERNAME,
+}
