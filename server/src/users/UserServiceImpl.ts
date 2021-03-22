@@ -39,6 +39,7 @@ export class UserServiceImpl implements UserService {
   public async getProfile(idToken: string): Promise<UserProfile | null> {
     const uid = await this.verifyIdToken(idToken);
     const profile = await this.repository.getUserProfile(uid);
+    if (profile == null) return null;
     return toDomain(profile);
   }
 }
