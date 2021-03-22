@@ -28,7 +28,7 @@ export const RegisterUsernameForm: React.VFC<RegisterUsernameFormProps> = (
         value={name}
         onChange={setName}
         placeholder={t("register.username.name.placeholder")}
-        type="email"
+        type="text"
       />
       <div className="flex justify-end">
         <Button onClick={onButtonClick}>{t("register.username.button")}</Button>
