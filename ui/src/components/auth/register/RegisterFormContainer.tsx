@@ -1,7 +1,7 @@
 import React from "react";
 import { RegisterEmailPassForm, RegisterUsernameForm } from "./form";
 import { UserProfileModel } from "../UserProfileModel";
-import { LoginUserInfo } from "../login/user";
+import { UserInfo } from "../user";
 import { ContainerWrapper } from "../../container";
 
 export interface RegisterFormContainerProps {
@@ -20,10 +20,7 @@ export const RegisterFormContainer: React.VFC<RegisterFormContainerProps> = (
   if (props.userProfile != null && !props.userProfile.profileFillPending)
     return (
       <ContainerWrapper>
-        <LoginUserInfo
-          userProfile={props.userProfile}
-          onLogout={props.onLogout}
-        />
+        <UserInfo userProfile={props.userProfile} onLogout={props.onLogout} />
       </ContainerWrapper>
     );
 

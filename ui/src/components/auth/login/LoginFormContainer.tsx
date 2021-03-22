@@ -1,7 +1,7 @@
 import React from "react";
 import { LoginForm } from "./form";
 import { UserProfileModel } from "../UserProfileModel";
-import { LoginUserInfo } from "./user";
+import { UserInfo } from "../user";
 import { ContainerWrapper } from "../../container";
 
 export interface LoginFormContainerProps {
@@ -25,10 +25,7 @@ export const LoginFormContainer: React.VFC<LoginFormContainerProps> = (
 
   return (
     <ContainerWrapper>
-      <LoginUserInfo
-        userProfile={props.userProfile}
-        onLogout={props.onLogout}
-      />
+      <UserInfo userProfile={props.userProfile} onLogout={props.onLogout} />
     </ContainerWrapper>
   );
 };
