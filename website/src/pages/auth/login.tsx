@@ -1,7 +1,12 @@
 import { login, logout, useUserProfile } from '@webchat/client';
 import { LoginFormContainer } from '@webchat/ui';
 import { useRouter } from 'next/router';
-import { routerQueryToRedirectUrl, valuesToParamsArray } from '../../modules/redirect';
+import {
+  redirectParamsToUrl,
+  routerQueryToRedirectParams,
+  valuesToParamsArray
+} from '../../modules/redirect';
+import { registerHref } from './register';
 
 export const loginHref = (redirectPath?: string, redirectPathParamToEncode?: string): string => {
   let path = '/auth/login';
@@ -16,10 +21,18 @@ const Login = () => {
   const [userProfile, loadingProfile] = useUserProfile();
 
   const router = useRouter();
-  const redirectUrl = routerQueryToRedirectUrl(router.query);
+  const redirectParams = routerQueryToRedirectParams(router.query);
+  const redirectUrl = redirectParamsToUrl(redirectParams);
 
   const onLogin = async (email: string, password: string) => {
     await login(email, password);
+    if (userProfile.profileFillPending) {
+      await router.push(
+        registerHref(redirectParams.redirectPath, redirectParams.redirectPathParamToEncode)
+      );
+      return;
+    }
+
     if (!redirectUrl) return;
 
     await router.push(redirectUrl);
