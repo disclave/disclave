@@ -1,4 +1,4 @@
-import { register, logout, useUserProfile, createSelfProfile } from '@webchat/client';
+import { register, logout, useSession, createSelfProfile } from '@webchat/client';
 import { RegisterFormContainer } from '@webchat/ui';
 import { useRouter } from 'next/router';
 import { routerQueryToRedirectUrl, valuesToParamsArray } from '../../modules/redirect';
@@ -16,14 +16,24 @@ export const registerHref = (redirectPath?: string, redirectPathParamToEncode?: 
 
 const Register = () => {
   const [loading, setLoading] = useState(true);
-  const [userProfile, loadingProfile] = useUserProfile();
+  const [userProfile, isLoadingProfile, isActiveAccount, updateUserProfile] = useSession();
 
   useEffect(() => {
-    setLoading(loadingProfile);
-  }, [loadingProfile]);
+    setLoading(isLoadingProfile);
+  }, [isLoadingProfile]);
 
   const router = useRouter();
   const redirectUrl = routerQueryToRedirectUrl(router.query);
+
+  useEffect(() => {
+    if (!isActiveAccount || !redirectUrl) return;
+
+    const runRedirects = async () => {
+      await router.push(redirectUrl);
+    };
+
+    runRedirects();
+  }, [isActiveAccount]);
 
   const onRegisterEmailPass = async (email: string, password: string) => {
     setLoading(true);
@@ -33,10 +43,8 @@ const Register = () => {
   const onCreateUsername = async (name: string) => {
     setLoading(true);
     await createSelfProfile(name);
-
-    if (!redirectUrl) return;
-
-    await router.push(redirectUrl);
+    await updateUserProfile();
+    setLoading(false);
   };
 
   const onLogout = async () => {

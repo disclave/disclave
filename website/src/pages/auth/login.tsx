@@ -1,4 +1,4 @@
-import { login, logout, useUserProfile } from '@webchat/client';
+import { login, logout, useSession } from '@webchat/client';
 import { LoginFormContainer } from '@webchat/ui';
 import { useRouter } from 'next/router';
 import {
@@ -19,25 +19,28 @@ export const loginHref = (redirectPath?: string, redirectPathParamToEncode?: str
 };
 
 const Login = () => {
-  const [userProfile, loadingProfile] = useUserProfile();
+  const [userProfile, isLoadingProfile] = useSession();
 
   const router = useRouter();
   const redirectParams = routerQueryToRedirectParams(router.query);
   const redirectUrl = redirectParamsToUrl(redirectParams);
+
+  const redirectToRegisterPage = async () => {
+    await router.push(
+      registerHref(redirectParams.redirectPath, redirectParams.redirectPathParamToEncode)
+    );
+  };
 
   useEffect(() => {
     if (userProfile == null) return;
 
     const checkRedirects = async () => {
       if (userProfile.profileFillPending) {
-        await router.push(
-          registerHref(redirectParams.redirectPath, redirectParams.redirectPathParamToEncode)
-        );
+        await redirectToRegisterPage();
         return;
       }
 
       if (!redirectUrl) return;
-
       await router.push(redirectUrl);
     };
 
@@ -58,7 +61,7 @@ const Login = () => {
         <LoginFormContainer
           onLogin={onLogin}
           onLogout={onLogout}
-          userProfile={!loadingProfile ? userProfile : undefined}
+          userProfile={!isLoadingProfile ? userProfile : undefined}
         />
       </div>
     </div>

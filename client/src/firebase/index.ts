@@ -14,3 +14,5 @@ export const initFirebaseApp = (options: Object) => {
 
 export default firebase;
 export const auth = () => firebase.auth();
+
+export type User = firebase.User;

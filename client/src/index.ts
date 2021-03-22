@@ -12,7 +12,7 @@ export {
   register,
   currentUser,
   onAuthStateChanged,
-  useUserProfile,
+  useSession,
 } from "./auth";
 
 export { getComments, createComment } from "./modules/comments";
