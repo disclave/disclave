@@ -12,6 +12,7 @@ export {
   currentUser,
   onAuthStateChanged,
   UserContext,
+  useUserProfile,
 } from "./auth";
 export { getComments, createComment } from "./modules/comments";
 export type { CommentModel } from "./modules/comments";
