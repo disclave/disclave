@@ -1,8 +1,8 @@
 import React from "react";
 import { useState } from "react";
-import { Button } from "../../../button";
+import { Button } from "../../../../button";
 import { useTranslation } from "react-i18next";
-import { Input } from "../../../forms/input";
+import { Input } from "../../../../forms/input";
 
 export interface RegisterEmailPassFormProps {
   onSubmit: (email: string, password: string) => Promise<void>;
