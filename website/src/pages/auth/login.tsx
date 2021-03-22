@@ -1,20 +1,12 @@
 import { login, logout, useUserProfile } from '@webchat/client';
 import { LoginFormContainer } from '@webchat/ui';
 import { useRouter } from 'next/router';
-
-const QueryParams = {
-  redirectPath: 'r',
-  redirectPathParamToEncode: 'rpp'
-};
+import { routerQueryToRedirectUrl, valuesToParamsArray } from '../../modules/redirect';
 
 export const loginHref = (redirectPath?: string, redirectPathParamToEncode?: string): string => {
   let path = '/auth/login';
 
-  let params = [];
-  if (redirectPath) params.push(`${QueryParams.redirectPath}=${redirectPath}`);
-  if (redirectPathParamToEncode)
-    params.push(`${QueryParams.redirectPathParamToEncode}=${redirectPathParamToEncode}`);
-
+  const params = valuesToParamsArray(redirectPath, redirectPathParamToEncode);
   if (params.length) path += '?' + params.join('&');
 
   return path;
@@ -24,19 +16,13 @@ const Login = () => {
   const [userProfile, loadingProfile] = useUserProfile();
 
   const router = useRouter();
-  const query = router.query;
-  const redirectPath: string | undefined = query[QueryParams.redirectPath] as string | undefined;
-  const redirectPathParamToEncode: string | undefined = query[
-    QueryParams.redirectPathParamToEncode
-  ] as string | undefined;
+  const redirectUrl = routerQueryToRedirectUrl(router.query);
 
   const onLogin = async (email: string, password: string) => {
     await login(email, password);
-    if (!redirectPath) return;
+    if (!redirectUrl) return;
 
-    let url = redirectPath;
-    if (redirectPathParamToEncode) url += encodeURIComponent(redirectPathParamToEncode);
-    await router.push(url);
+    await router.push(redirectUrl);
   };
 
   const onLogout = async () => {
