@@ -7,6 +7,7 @@ import {
   valuesToParamsArray
 } from '../../modules/redirect';
 import { registerHref } from './register';
+import { useEffect } from 'react';
 
 export const loginHref = (redirectPath?: string, redirectPathParamToEncode?: string): string => {
   let path = '/auth/login';
@@ -24,18 +25,27 @@ const Login = () => {
   const redirectParams = routerQueryToRedirectParams(router.query);
   const redirectUrl = redirectParamsToUrl(redirectParams);
 
+  useEffect(() => {
+    if (userProfile == null) return;
+
+    const checkRedirects = async () => {
+      if (userProfile.profileFillPending) {
+        await router.push(
+          registerHref(redirectParams.redirectPath, redirectParams.redirectPathParamToEncode)
+        );
+        return;
+      }
+
+      if (!redirectUrl) return;
+
+      await router.push(redirectUrl);
+    };
+
+    checkRedirects();
+  }, [userProfile]);
+
   const onLogin = async (email: string, password: string) => {
     await login(email, password);
-    if (userProfile.profileFillPending) {
-      await router.push(
-        registerHref(redirectParams.redirectPath, redirectParams.redirectPathParamToEncode)
-      );
-      return;
-    }
-
-    if (!redirectUrl) return;
-
-    await router.push(redirectUrl);
   };
 
   const onLogout = async () => {
