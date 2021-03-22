@@ -9,6 +9,7 @@ export const init = (firebaseOptions: Object, graphqlUri: string) => {
 export {
   login,
   logout,
+  register,
   currentUser,
   onAuthStateChanged,
   useUserProfile,
