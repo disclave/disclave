@@ -1,14 +1,14 @@
 import React from "react";
 
-import { Input, InputProps } from "./Input";
+import { TextField, TextFieldProps } from "./TextField";
 import { Story } from "@storybook/react";
 
 export default {
-  title: "Forms/Input",
-  component: Input,
+  title: "Forms/TextField",
+  component: TextField,
 };
 
-const Template: Story<InputProps> = (args) => <Input {...args} />;
+const Template: Story<TextFieldProps> = (args) => <TextField {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
@@ -25,5 +25,4 @@ export const Password = Template.bind({});
 Password.args = {
   type: "password",
   placeholder: "Password",
-  value: "Password",
 };

@@ -1,6 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { FormInputProps } from "./FormInputProps";
+import { FormInputChildProps } from "../input/Input";
 
 export interface FormProps {
   className?: string;
@@ -20,7 +20,7 @@ export const Form: React.FC<FormProps> = ({
     <form className={className} onSubmit={handleSubmit(onSubmit)}>
       {React.Children.map(
         children as any,
-        (child: React.ReactElement<FormInputProps<any>>) => {
+        (child: React.ReactElement<FormInputChildProps<any>>) => {
           return child.props.name
             ? React.createElement(child.type, {
                 ...{

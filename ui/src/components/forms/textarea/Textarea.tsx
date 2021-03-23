@@ -1,10 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 
-import "./Textarea.css";
-import { FormInputProps } from "../FormInputProps";
-import { FieldError } from "react-hook-form";
+import { FormInputChildProps, Input } from "../input/Input";
 
-export interface TextareaProps extends FormInputProps<HTMLTextAreaElement> {
+export interface TextareaProps
+  extends FormInputChildProps<HTMLTextAreaElement> {
   autoGrow?: boolean;
   className?: string;
   cols?: number;
@@ -31,9 +30,6 @@ export const Textarea: React.VFC<TextareaProps> = ({
 }) => {
   const [rowsNum, setRowsNum] = useState(rows);
   const textAreaRef = useRef<HTMLTextAreaElement>();
-
-  const error: FieldError | undefined = errors ? errors[name] : undefined;
-  const errorMessage = error ? error.message || error.type : undefined; // TODO: use translations for type
 
   useEffect(() => {
     if (autoGrow) {
@@ -69,13 +65,12 @@ export const Textarea: React.VFC<TextareaProps> = ({
   };
 
   const classes = [
-    "form-input",
     !autoGrow && resizable ? "resize" : "resize-none",
     className,
   ].join(" ");
 
   return (
-    <div className="flex flex-col">
+    <Input errors={errors} name={name}>
       <textarea
         ref={(e) => {
           register?.(e, options);
@@ -88,7 +83,6 @@ export const Textarea: React.VFC<TextareaProps> = ({
         placeholder={placeholder}
         rows={rowsNum}
       />
-      {errorMessage}
-    </div>
+    </Input>
   );
 };

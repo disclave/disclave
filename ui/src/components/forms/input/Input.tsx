@@ -1,37 +1,41 @@
 import React from "react";
-import { FieldError } from "react-hook-form";
-import "./Input.css";
-import { FormInputProps } from "../FormInputProps";
+import { FieldError, FieldErrors, RegisterOptions } from "react-hook-form";
 
-export type InputType = "text" | "email" | "password";
+type RegisterWithRef<T> = (
+  element: T | null,
+  options?: RegisterOptions
+) => void;
 
-export interface InputProps extends FormInputProps<HTMLInputElement> {
-  type?: InputType;
-  placeholder?: string;
+export interface FormInputChildProps<T> {
+  register?: RegisterWithRef<T>;
+  options?: RegisterOptions;
+  errors?: FieldErrors;
+  name: string;
 }
 
-export const Input: React.VFC<InputProps> = ({
-  register,
-  errors,
-  options,
-  type = "text",
-  name,
-  placeholder,
-}) => {
-  const classes = `form-input`;
+export interface InputProps {
+  children: React.ReactElement;
+  errors?: FieldErrors;
+  name: string;
+}
+
+export const Input: React.VFC<InputProps> = ({ children, errors, name }) => {
+  const className = [
+    "border rounded border-gray-400 focus:border-gray-600 focus:outline-none",
+    "transition-colors",
+    "px-3 py-1.5",
+    children.props.className || "",
+  ].join(" ");
 
   const error: FieldError | undefined = errors ? errors[name] : undefined;
   const errorMessage = error ? error.message || error.type : undefined; // TODO: use translations for type
 
   return (
     <div className="flex flex-col">
-      <input
-        ref={(e) => register?.(e, options)}
-        className={classes}
-        type={type}
-        name={name}
-        placeholder={placeholder}
-      />
+      {React.cloneElement(children, {
+        ...children.props,
+        className: className,
+      })}
       {errorMessage}
     </div>
   );

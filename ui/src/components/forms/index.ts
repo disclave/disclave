@@ -1,4 +1,4 @@
 export { Form } from "./Form";
 
-export { Input } from "./input";
+export { TextField } from "./textfield";
 export { Textarea } from "./textarea";
