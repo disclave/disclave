@@ -1,8 +1,15 @@
 import React from "react";
-import { useState } from "react";
 import { Button } from "../../../button";
 import { useTranslation } from "react-i18next";
-import { Input } from "../../../forms/input";
+import { FormFactory, TextField } from "../../../forms";
+
+const emailField = "email";
+const passField = "pass";
+
+interface FormData {
+  [emailField]: string;
+  [passField]: string;
+}
 
 export interface LoginFormProps {
   onSubmit: (email: string, password: string) => Promise<void>;
@@ -10,38 +17,35 @@ export interface LoginFormProps {
 }
 
 export const LoginForm: React.VFC<LoginFormProps> = (props) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const { t } = useTranslation("auth");
 
-  const onLoginClick = async () => {
+  const onSubmit = async (data: FormData) => {
     // TODO: add error handling
-    await props.onSubmit(email, password);
-
-    setEmail("");
-    setPassword("");
+    await props.onSubmit(data[emailField], data[passField]);
   };
 
+  const Form = FormFactory<FormData>();
+
   return (
-    <div className="flex flex-col space-y-4">
-      <Input
-        value={email}
-        onChange={setEmail}
+    <Form className="flex flex-col space-y-4" onSubmit={onSubmit}>
+      <TextField
+        name={emailField}
         placeholder={t("login.email.placeholder")}
         type="email"
+        options={{ required: true }}
       />
-      <Input
-        value={password}
-        onChange={setPassword}
+      <TextField
+        name={passField}
         placeholder={t("login.password.placeholder")}
         type="password"
+        options={{ required: true }}
       />
       <div className="flex justify-end space-x-2">
         <Button href={props.registerHref} flat>
           {t("login.button.register")}
         </Button>
-        <Button onClick={onLoginClick}>{t("login.button.login")}</Button>
+        <Button type="submit">{t("login.button.login")}</Button>
       </div>
-    </div>
+    </Form>
   );
 };

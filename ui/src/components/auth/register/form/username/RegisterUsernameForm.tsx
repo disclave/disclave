@@ -1,8 +1,13 @@
 import React from "react";
-import { useState } from "react";
 import { Button } from "../../../../button";
 import { useTranslation } from "react-i18next";
-import { Input } from "../../../../forms/input";
+import { FormFactory, TextField } from "../../../../forms";
+
+const nameField = "name";
+
+interface FormData {
+  [nameField]: string;
+}
 
 export interface RegisterUsernameFormProps {
   userEmail: string;
@@ -13,15 +18,12 @@ export interface RegisterUsernameFormProps {
 export const RegisterUsernameForm: React.VFC<RegisterUsernameFormProps> = (
   props
 ) => {
-  const [name, setName] = useState("");
   const { t } = useTranslation("auth");
 
-  const onSaveClick = async () => {
+  const onSubmit = async (data: FormData) => {
     // TODO: add error handling
     // TODO: verify for valid name characters
-    await props.onSubmit(name);
-
-    setName("");
+    await props.onSubmit(data[nameField]);
   };
 
   const onLogoutClick = async () => {
@@ -29,25 +31,25 @@ export const RegisterUsernameForm: React.VFC<RegisterUsernameFormProps> = (
     await props.onLogout();
   };
 
+  const Form = FormFactory<FormData>();
+
   return (
-    <div className="flex flex-col space-y-4">
+    <Form className="flex flex-col space-y-4" onSubmit={onSubmit}>
       <div>
         {t("register.username.logged in as", { email: props.userEmail })}
       </div>
-      <Input
-        value={name}
-        onChange={setName}
+      <TextField
+        name={nameField}
         placeholder={t("register.username.name.placeholder")}
         type="text"
+        options={{ required: true }}
       />
       <div className="flex justify-end space-x-2">
         <Button onClick={onLogoutClick} flat>
           {t("register.username.button.use different account")}
         </Button>
-        <Button onClick={onSaveClick}>
-          {t("register.username.button.save")}
-        </Button>
+        <Button type="submit">{t("register.username.button.save")}</Button>
       </div>
-    </div>
+    </Form>
   );
 };

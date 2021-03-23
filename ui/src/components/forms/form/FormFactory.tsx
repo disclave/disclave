@@ -1,20 +1,16 @@
 import React from "react";
-import { useForm } from "react-hook-form";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { FormInputChildProps } from "../input/Input";
 
-export interface FormProps {
+export interface FormProps<T extends FieldValues> {
   className?: string;
-  defaultValues?: Record<string, any>;
-  onSubmit: React.FormEventHandler<HTMLFormElement>;
+  onSubmit: SubmitHandler<T>;
 }
 
-export const Form: React.FC<FormProps> = ({
-  className,
-  defaultValues,
-  onSubmit,
-  children,
-}) => {
-  const { handleSubmit, register, errors } = useForm({ defaultValues });
+export const FormFactory = <T extends FieldValues>(): React.FC<
+  FormProps<T>
+> => ({ className, onSubmit, children }) => {
+  const { handleSubmit, register, errors } = useForm<T>();
 
   return (
     <form className={className} onSubmit={handleSubmit(onSubmit)}>

@@ -1,35 +1,44 @@
 import React from "react";
-import { useState } from "react";
 import { Button } from "../../button";
-import { Textarea } from "../../forms/textarea";
+import { Textarea } from "../../forms";
 import { useTranslation } from "react-i18next";
+import { FormFactory, TextField } from "../../forms";
+
+const commentField = "comment";
+
+interface FormData {
+  [commentField]: string;
+}
 
 export interface CommentAddFormProps {
   onSubmit: (text: string) => Promise<void>;
 }
 
 export const CommentAddForm: React.VFC<CommentAddFormProps> = (props) => {
-  const [text, setText] = useState("");
   const { t } = useTranslation("comments");
 
-  const onButtonClick = async () => {
+  const onSubmit = async (data: FormData) => {
     // TODO: add error handling
-    await props.onSubmit(text);
-    setText("");
+    await props.onSubmit(data[commentField]);
   };
 
+  const Form = FormFactory<FormData>();
+
   return (
-    <div className="flex flex-row content-center space-x-4">
+    <Form
+      className="flex flex-row content-center space-x-4"
+      onSubmit={onSubmit}
+    >
       <Textarea
         className="flex-1"
-        value={text}
-        onChange={setText}
+        name={commentField}
         autoGrow
         placeholder={t("add.input.placeholder")}
+        options={{ required: true }}
       />
       <div>
-        <Button onClick={onButtonClick}>{t("add.button")}</Button>
+        <Button type="submit">{t("add.button")}</Button>
       </div>
-    </div>
+    </Form>
   );
 };

@@ -1,8 +1,15 @@
 import React from "react";
-import { useState } from "react";
 import { Button } from "../../../../button";
 import { useTranslation } from "react-i18next";
-import { Input } from "../../../../forms/input";
+import { FormFactory, TextField } from "../../../../forms";
+
+const emailField = "email";
+const passField = "pass";
+
+interface FormData {
+  [emailField]: string;
+  [passField]: string;
+}
 
 export interface RegisterEmailPassFormProps {
   onSubmit: (email: string, password: string) => Promise<void>;
@@ -12,40 +19,37 @@ export interface RegisterEmailPassFormProps {
 export const RegisterEmailPassForm: React.VFC<RegisterEmailPassFormProps> = (
   props
 ) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const { t } = useTranslation("auth");
 
-  const onButtonClick = async () => {
+  const onSubmit = async (data: FormData) => {
     // TODO: add error handling
-    await props.onSubmit(email, password);
-
-    setEmail("");
-    setPassword("");
+    await props.onSubmit(data[emailField], data[passField]);
   };
 
+  const Form = FormFactory<FormData>();
+
   return (
-    <div className="flex flex-col space-y-4">
-      <Input
-        value={email}
-        onChange={setEmail}
+    <Form className="flex flex-col space-y-4" onSubmit={onSubmit}>
+      <TextField
+        name={emailField}
         placeholder={t("register.email-password.email.placeholder")}
         type="email"
+        options={{ required: true }}
       />
-      <Input
-        value={password}
-        onChange={setPassword}
+      <TextField
+        name={passField}
         placeholder={t("register.email-password.password.placeholder")}
         type="password"
+        options={{ required: true }}
       />
       <div className="flex justify-end space-x-2">
         <Button href={props.loginHref} flat>
           {t("register.email-password.button.login")}
         </Button>
-        <Button onClick={onButtonClick}>
+        <Button type="submit">
           {t("register.email-password.button.register")}
         </Button>
       </div>
-    </div>
+    </Form>
   );
 };
