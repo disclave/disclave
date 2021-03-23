@@ -1,6 +1,7 @@
 import React from "react";
 import { Input } from "../input";
 import { FormInputChildProps } from "../input/Input";
+import { useTranslation } from "react-i18next";
 
 export type InputType = "text" | "email" | "password";
 
@@ -17,6 +18,15 @@ export const TextField: React.VFC<TextFieldProps> = ({
   name,
   placeholder,
 }) => {
+  const { t } = useTranslation("form");
+
+  if (type == "email") {
+    options = {
+      pattern: { value: /^\S+@\S+$/i, message: t("error.email") },
+      ...options,
+    };
+  }
+
   return (
     <Input errors={errors} name={name}>
       <input

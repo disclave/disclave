@@ -7,6 +7,7 @@
     "minLength": "This field needs to be longer",
     "maxLength": "This field needs to be shorter",
     "pattern": "This field needs to match pattern.",
-    "validate": "This field needs to pass validation."
+    "validate": "This field needs to pass validation.",
+    "email": "Invalid email address format."
   }
 }

@@ -1,7 +1,10 @@
 import { useTranslation } from "react-i18next";
-import { FieldError, FieldErrors } from "react-hook-form";
-import { LiteralUnion } from "react-hook-form/dist/types/utils";
-import { RegisterOptions } from "react-hook-form/dist/types/validator";
+import {
+  FieldError,
+  FieldErrors,
+  LiteralUnion,
+  RegisterOptions,
+} from "react-hook-form";
 
 type FormError = {
   message: string;
