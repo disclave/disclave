@@ -4,6 +4,7 @@ import { UserProfileModel } from "../UserProfileModel";
 import { UserInfo } from "../user";
 import { ContainerWrapper } from "../../container";
 import { Loading } from "../../loading";
+import { useTranslation } from "react-i18next";
 
 export interface LoginFormContainerProps {
   onLogin: (email: string, password: string) => Promise<void>;
@@ -15,6 +16,8 @@ export interface LoginFormContainerProps {
 export const LoginFormContainer: React.VFC<LoginFormContainerProps> = (
   props
 ) => {
+  const { t } = useTranslation("auth");
+
   const Component = () => {
     const state = getState(props.userProfile);
     switch (state) {
@@ -39,6 +42,7 @@ export const LoginFormContainer: React.VFC<LoginFormContainerProps> = (
 
   return (
     <ContainerWrapper>
+      <div className="mb-4 font-semibold text-lg">{t("login.title")}</div>
       <Component />
     </ContainerWrapper>
   );
