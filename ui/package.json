@@ -21,6 +21,7 @@
     "postcss": "7",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-hook-form": "^6.15.5",
     "react-i18next": "^11.8.10",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat"
   },
