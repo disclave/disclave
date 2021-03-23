@@ -15,15 +15,23 @@ export interface FormInputChildProps<T> {
 }
 
 export interface InputProps {
+  className?: string;
   children: React.ReactElement;
   errors?: FieldErrors;
   name: string;
 }
 
-export const Input: React.VFC<InputProps> = ({ children, errors, name }) => {
+export const Input: React.VFC<InputProps> = ({
+  className,
+  children,
+  errors,
+  name,
+}) => {
   const error = useFormError(name, errors);
 
-  const className = [
+  const wrapperClassName = ["flex flex-col", className || ""].join(" ");
+
+  const childClassName = [
     "border rounded focus:outline-none",
     error ? "border-red-700" : "border-gray-400 focus:border-gray-600",
     "transition-colors",
@@ -32,10 +40,10 @@ export const Input: React.VFC<InputProps> = ({ children, errors, name }) => {
   ].join(" ");
 
   return (
-    <div className="flex flex-col">
+    <div className={wrapperClassName}>
       {React.cloneElement(children, {
         ...children.props,
-        className: className,
+        className: childClassName,
       })}
       <span className="text-red-700">{error?.message}</span>
     </div>

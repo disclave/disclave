@@ -64,19 +64,16 @@ export const Textarea: React.VFC<TextareaProps> = ({
     setRowsNum(Math.min(currentRows, maxRows));
   };
 
-  const classes = [
-    !autoGrow && resizable ? "resize" : "resize-none",
-    className,
-  ].join(" ");
+  const textareaClasses = !autoGrow && resizable ? "resize" : "resize-none";
 
   return (
-    <Input errors={errors} name={name}>
+    <Input errors={errors} name={name} className={className}>
       <textarea
         ref={(e) => {
           register?.(e, options);
           textAreaRef.current = e ?? undefined;
         }}
-        className={classes}
+        className={textareaClasses}
         cols={cols}
         name={name}
         onChange={onInputValChange}

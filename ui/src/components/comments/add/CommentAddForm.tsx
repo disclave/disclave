@@ -26,11 +26,11 @@ export const CommentAddForm: React.VFC<CommentAddFormProps> = (props) => {
 
   return (
     <Form
-      className="flex flex-row content-center space-x-4"
+      className="flex flex-row content-center space-x-4 bg-white"
       onSubmit={onSubmit}
     >
       <Textarea
-        className="flex-1"
+        className="flex-grow"
         name={commentField}
         autoGrow
         placeholder={t("add.input.placeholder")}
