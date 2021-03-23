@@ -1,38 +1,38 @@
 import React from "react";
-
+import { FieldError } from "react-hook-form";
 import "./Input.css";
+import { FormInputProps } from "../FormInputProps";
 
 export type InputType = "text" | "email" | "password";
 
-export interface InputProps {
+export interface InputProps extends FormInputProps<HTMLInputElement> {
   type?: InputType;
-  name?: string;
-  value: string;
   placeholder?: string;
-  onChange?: (value: string) => void;
 }
 
 export const Input: React.VFC<InputProps> = ({
+  register,
+  errors,
+  options,
   type = "text",
   name,
-  value,
   placeholder,
-  onChange,
 }) => {
-  const onInputValChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    onChange?.(event.target.value);
-  };
-
   const classes = `form-input`;
 
+  const error: FieldError | undefined = errors ? errors[name] : undefined;
+  const errorMessage = error ? error.message || error.type : undefined; // TODO: use translations for type
+
   return (
-    <input
-      className={classes}
-      type={type}
-      name={name}
-      value={value}
-      placeholder={placeholder}
-      onChange={onInputValChange}
-    />
+    <div className="flex flex-col">
+      <input
+        ref={(e) => register?.(e, options)}
+        className={classes}
+        type={type}
+        name={name}
+        placeholder={placeholder}
+      />
+      {errorMessage}
+    </div>
   );
 };

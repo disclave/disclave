@@ -1,49 +1,50 @@
 import React, { useEffect, useRef, useState } from "react";
 
 import "./Textarea.css";
+import { FormInputProps } from "../FormInputProps";
+import { FieldError } from "react-hook-form";
 
-export interface TextareaProps {
+export interface TextareaProps extends FormInputProps<HTMLTextAreaElement> {
   autoGrow?: boolean;
   className?: string;
   cols?: number;
   maxRows?: number;
   minRows?: number;
-  name?: string;
-  onChange?: (value: string) => void;
   placeholder?: string;
   resizable?: boolean;
   rows?: number;
-  value: string;
 }
 
 export const Textarea: React.VFC<TextareaProps> = ({
+  register,
+  errors,
+  options,
   autoGrow = false,
   className = "",
   cols,
   maxRows = 5,
   minRows = 1,
   name,
-  onChange,
   placeholder,
   resizable = true,
   rows,
-  value,
 }) => {
   const [rowsNum, setRowsNum] = useState(rows);
-  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  const textAreaRef = useRef<HTMLTextAreaElement>();
+
+  const error: FieldError | undefined = errors ? errors[name] : undefined;
+  const errorMessage = error ? error.message || error.type : undefined; // TODO: use translations for type
 
   useEffect(() => {
     if (autoGrow) {
       autoGrowResize();
     }
-  }, [autoGrow, minRows, rows, value]);
+  }, [autoGrow, minRows, rows]);
 
-  const onInputValChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const onInputValChange = () => {
     if (autoGrow) {
       autoGrowResize();
     }
-
-    onChange?.(event.target.value);
   };
 
   const autoGrowResize = () => {
@@ -74,15 +75,20 @@ export const Textarea: React.VFC<TextareaProps> = ({
   ].join(" ");
 
   return (
-    <textarea
-      ref={textAreaRef}
-      className={classes}
-      cols={cols}
-      name={name}
-      onChange={onInputValChange}
-      placeholder={placeholder}
-      rows={rowsNum}
-      value={value}
-    />
+    <div className="flex flex-col">
+      <textarea
+        ref={(e) => {
+          register?.(e, options);
+          textAreaRef.current = e ?? undefined;
+        }}
+        className={classes}
+        cols={cols}
+        name={name}
+        onChange={onInputValChange}
+        placeholder={placeholder}
+        rows={rowsNum}
+      />
+      {errorMessage}
+    </div>
   );
 };
