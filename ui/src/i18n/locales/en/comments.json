@@ -4,9 +4,12 @@
     "input": {
       "placeholder": "Add comment"
     },
-    "login": {
-      "text": "Log in to add comments.",
-      "button": "Login"
+    "auth": {
+      "text": "Log in or register to add comments.",
+      "button": {
+        "login": "Login",
+        "register": "Register"
+      }
     }
   }
 }
