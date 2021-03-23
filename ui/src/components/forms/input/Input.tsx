@@ -1,5 +1,5 @@
 import React from "react";
-import { FieldError, FieldErrors, RegisterOptions } from "react-hook-form";
+import { FieldErrors, RegisterOptions } from "react-hook-form";
 import { useFormError } from "./useFormError";
 
 type RegisterWithRef<T> = (
