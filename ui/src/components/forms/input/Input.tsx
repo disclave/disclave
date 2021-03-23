@@ -24,7 +24,8 @@ export const Input: React.VFC<InputProps> = ({ children, errors, name }) => {
   const error = useFormError(name, errors);
 
   const className = [
-    "border rounded border-gray-400 focus:border-gray-600 focus:outline-none",
+    "border rounded focus:outline-none",
+    error ? "border-red-700" : "border-gray-400 focus:border-gray-600",
     "transition-colors",
     "px-3 py-1.5",
     children.props.className || "",
