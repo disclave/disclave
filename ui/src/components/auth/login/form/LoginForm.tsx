@@ -6,6 +6,7 @@ import { Input } from "../../../forms/input";
 
 export interface LoginFormProps {
   onSubmit: (email: string, password: string) => Promise<void>;
+  registerHref: string;
 }
 
 export const LoginForm: React.VFC<LoginFormProps> = (props) => {
@@ -13,7 +14,7 @@ export const LoginForm: React.VFC<LoginFormProps> = (props) => {
   const [password, setPassword] = useState("");
   const { t } = useTranslation("auth");
 
-  const onButtonClick = async () => {
+  const onLoginClick = async () => {
     // TODO: add error handling
     await props.onSubmit(email, password);
 
@@ -35,8 +36,11 @@ export const LoginForm: React.VFC<LoginFormProps> = (props) => {
         placeholder={t("login.password.placeholder")}
         type="password"
       />
-      <div className="flex justify-end">
-        <Button onClick={onButtonClick}>{t("login.button")}</Button>
+      <div className="flex justify-end space-x-2">
+        <Button href={props.registerHref} flat>
+          {t("login.button.register")}
+        </Button>
+        <Button onClick={onLoginClick}>{t("login.button.login")}</Button>
       </div>
     </div>
   );

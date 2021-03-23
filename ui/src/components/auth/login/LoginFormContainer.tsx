@@ -8,6 +8,7 @@ import { Loading } from "../../loading";
 export interface LoginFormContainerProps {
   onLogin: (email: string, password: string) => Promise<void>;
   onLogout: () => Promise<void>;
+  registerHref: string;
   userProfile?: UserProfileModel | null;
 }
 
@@ -20,7 +21,12 @@ export const LoginFormContainer: React.VFC<LoginFormContainerProps> = (
       case State.LOADING:
         return <Loading />;
       case State.LOGIN_FORM:
-        return <LoginForm onSubmit={props.onLogin} />;
+        return (
+          <LoginForm
+            onSubmit={props.onLogin}
+            registerHref={props.registerHref}
+          />
+        );
       case State.USER_INFO:
         return (
           <UserInfo
