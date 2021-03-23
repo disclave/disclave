@@ -25,10 +25,13 @@ const Login = () => {
   const redirectParams = routerQueryToRedirectParams(router.query);
   const redirectUrl = redirectParamsToUrl(redirectParams);
 
+  const registerHrefWithRedirect = registerHref(
+    redirectParams.redirectPath,
+    redirectParams.redirectPathParamToEncode
+  );
+
   const redirectToRegisterPage = async () => {
-    await router.push(
-      registerHref(redirectParams.redirectPath, redirectParams.redirectPathParamToEncode)
-    );
+    await router.push(registerHrefWithRedirect);
   };
 
   useEffect(() => {
@@ -61,6 +64,7 @@ const Login = () => {
         <LoginFormContainer
           onLogin={onLogin}
           onLogout={onLogout}
+          registerHref={registerHrefWithRedirect}
           userProfile={!isLoadingProfile ? userProfile : undefined}
         />
       </div>

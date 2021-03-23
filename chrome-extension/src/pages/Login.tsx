@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import { LoginFormContainer } from "@webchat/ui";
 import { login, logout, useSession } from "@webchat/client";
 import { homeHref } from "./Home";
+import { registerHref } from "./Register";
 
 export const loginHref = "/login";
 
@@ -25,6 +26,7 @@ export const Login = () => {
       <LoginFormContainer
         onLogin={onLogin}
         onLogout={onLogout}
+        registerHref={registerHref}
         userProfile={!isLoadingProfile ? userProfile : undefined}
       />
     </div>

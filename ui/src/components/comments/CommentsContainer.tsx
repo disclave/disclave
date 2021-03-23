@@ -9,6 +9,7 @@ export interface CommentsContainerProps {
   className?: string;
   comments: Array<CommentModel>;
   loginHref: string;
+  registerHref: string;
   onSubmit: (text: string) => Promise<void>;
 }
 
@@ -31,7 +32,10 @@ export const CommentsContainer: React.VFC<CommentsContainerProps> = (props) => {
         {props.authenticated ? (
           <CommentAddForm onSubmit={props.onSubmit} />
         ) : (
-          <CommentAddAuth loginHref={props.loginHref} />
+          <CommentAddAuth
+            loginHref={props.loginHref}
+            registerHref={props.registerHref}
+          />
         )}
       </div>
     </div>

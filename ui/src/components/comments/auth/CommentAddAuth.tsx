@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 
 export interface CommentAddAuthProps {
   loginHref: string;
+  registerHref: string;
 }
 
 export const CommentAddAuth: React.VFC<CommentAddAuthProps> = (props) => {
@@ -11,8 +12,13 @@ export const CommentAddAuth: React.VFC<CommentAddAuthProps> = (props) => {
 
   return (
     <div className="flex flex-row items-center justify-between bg-white py-1">
-      <div>{t("add.login.text")}</div>
-      <Button href={props.loginHref}>{t("add.login.button")}</Button>
+      <div>{t("add.auth.text")}</div>
+      <div className="space-x-2">
+        <Button href={props.registerHref}>
+          {t("add.auth.button.register")}
+        </Button>
+        <Button href={props.loginHref}>{t("add.auth.button.login")}</Button>
+      </div>
     </div>
   );
 };

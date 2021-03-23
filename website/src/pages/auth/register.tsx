@@ -1,7 +1,11 @@
 import { register, logout, useSession, createSelfProfile } from '@webchat/client';
 import { RegisterFormContainer } from '@webchat/ui';
 import { useRouter } from 'next/router';
-import { routerQueryToRedirectUrl, valuesToParamsArray } from '../../modules/redirect';
+import {
+  redirectParamsToUrl,
+  routerQueryToRedirectParams,
+  valuesToParamsArray
+} from '../../modules/redirect';
 import { useEffect, useState } from 'react';
 import { loginHref } from './login';
 
@@ -23,7 +27,13 @@ const Register = () => {
   }, [isLoadingProfile]);
 
   const router = useRouter();
-  const redirectUrl = routerQueryToRedirectUrl(router.query);
+  const redirectParams = routerQueryToRedirectParams(router.query);
+  const redirectUrl = redirectParamsToUrl(redirectParams);
+
+  const loginHrefWithRedirect = loginHref(
+    redirectParams.redirectPath,
+    redirectParams.redirectPathParamToEncode
+  );
 
   useEffect(() => {
     if (!isActiveAccount || !redirectUrl) return;
@@ -61,6 +71,7 @@ const Register = () => {
           onRegisterEmailPass={onRegisterEmailPass}
           onCreateUsername={onCreateUsername}
           onLogout={onLogout}
+          loginHref={loginHrefWithRedirect}
         />
       </div>
     </div>

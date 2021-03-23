@@ -3,6 +3,7 @@ import { CommentsContainer } from "@webchat/ui";
 import { useComments } from "../hooks";
 import { loginHref } from "./Login";
 import { useSession } from "@webchat/client";
+import { registerHref } from "./Register";
 
 export const homeHref = "/";
 
@@ -19,6 +20,7 @@ export const Home = () => {
       authenticated={isActiveAccount}
       comments={comments}
       loginHref={loginHref}
+      registerHref={registerHref}
       onSubmit={addComment}
     />
   );
