@@ -40,7 +40,13 @@ export const RegisterFormContainer: React.VFC<RegisterFormContainerProps> = (
           />
         );
       case State.USERNAME:
-        return <RegisterUsernameForm onSubmit={props.onCreateUsername} />;
+        return (
+          <RegisterUsernameForm
+            userEmail={props.userProfile!.email}
+            onSubmit={props.onCreateUsername}
+            onLogout={props.onLogout}
+          />
+        );
     }
   };
 

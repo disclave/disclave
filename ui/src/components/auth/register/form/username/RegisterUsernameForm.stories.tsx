@@ -16,3 +16,6 @@ const Template: Story<RegisterUsernameFormProps> = (args) => (
 );
 
 export const Default = Template.bind({});
+Default.args = {
+  userEmail: "example@domain.com",
+};
