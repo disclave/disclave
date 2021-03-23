@@ -6,6 +6,7 @@ import { Input } from "../../../../forms/input";
 
 export interface RegisterEmailPassFormProps {
   onSubmit: (email: string, password: string) => Promise<void>;
+  loginHref: string;
 }
 
 export const RegisterEmailPassForm: React.VFC<RegisterEmailPassFormProps> = (
@@ -37,9 +38,12 @@ export const RegisterEmailPassForm: React.VFC<RegisterEmailPassFormProps> = (
         placeholder={t("register.email-password.password.placeholder")}
         type="password"
       />
-      <div className="flex justify-end">
+      <div className="flex justify-end space-x-2">
+        <Button href={props.loginHref} flat>
+          {t("register.email-password.button.login")}
+        </Button>
         <Button onClick={onButtonClick}>
-          {t("register.email-password.button")}
+          {t("register.email-password.button.register")}
         </Button>
       </div>
     </div>

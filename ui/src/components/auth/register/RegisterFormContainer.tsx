@@ -11,6 +11,7 @@ export interface RegisterFormContainerProps {
   onRegisterEmailPass: (email: string, password: string) => Promise<void>;
   onCreateUsername: (name: string) => Promise<void>;
   onLogout: () => Promise<void>;
+  loginHref: string;
 }
 
 export const RegisterFormContainer: React.VFC<RegisterFormContainerProps> = (
@@ -29,7 +30,12 @@ export const RegisterFormContainer: React.VFC<RegisterFormContainerProps> = (
           />
         );
       case State.EMAIL_PASS:
-        return <RegisterEmailPassForm onSubmit={props.onRegisterEmailPass} />;
+        return (
+          <RegisterEmailPassForm
+            onSubmit={props.onRegisterEmailPass}
+            loginHref={props.loginHref}
+          />
+        );
       case State.USERNAME:
         return <RegisterUsernameForm onSubmit={props.onCreateUsername} />;
     }
