@@ -5,6 +5,7 @@ import { CommentsContainer } from '@webchat/ui';
 import { loginHref } from '../auth/login';
 import { createComment, CommentModel, useSession } from '@webchat/client';
 import { getCommentService, init } from '@webchat/server';
+import { registerHref } from '../auth/register';
 
 export const websiteCommentsHref = (url: string) => websiteCommentsHrefRaw + url;
 export const websiteCommentsHrefRaw = '/comments/';
@@ -30,14 +31,13 @@ const Website: React.FC<WebsiteProps> = (props) => {
   const [, , isActiveAccount] = useSession();
 
   const router = useRouter();
-  const { website } = router.query;
+  const website = router.query.website as string;
 
   const [comments, setComments] = useState(props.comments);
 
   const onCommentAdd = async (text: string) => {
     try {
-      const url = website as string;
-      const addedComment = await createComment(text, url);
+      const addedComment = await createComment(text, website);
       setComments([addedComment, ...comments]);
     } catch (e) {
       console.error(e);
@@ -46,7 +46,8 @@ const Website: React.FC<WebsiteProps> = (props) => {
 
   const headerHeight = '48px';
 
-  const loginHrefWithRedirect = loginHref(websiteCommentsHrefRaw, website as string);
+  const loginHrefWithRedirect = loginHref(websiteCommentsHrefRaw, website);
+  const registerHrefWithRedirect = registerHref(websiteCommentsHrefRaw, website);
 
   return (
     <div>
@@ -60,6 +61,7 @@ const Website: React.FC<WebsiteProps> = (props) => {
             comments={comments}
             className="max-h-full"
             loginHref={loginHrefWithRedirect}
+            registerHref={registerHrefWithRedirect}
             onSubmit={onCommentAdd}
           />
         </div>
