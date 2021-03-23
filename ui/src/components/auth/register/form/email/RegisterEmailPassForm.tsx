@@ -3,12 +3,14 @@ import { Button } from "../../../../button";
 import { useTranslation } from "react-i18next";
 import { FormFactory, TextField } from "../../../../forms";
 
-const emailField = "email";
-const passField = "pass";
+const FormField = {
+  email: "email" as const,
+  pass: "pass" as const,
+} as const;
 
 interface FormData {
-  [emailField]: string;
-  [passField]: string;
+  [FormField.email]: string;
+  [FormField.pass]: string;
 }
 
 export interface RegisterEmailPassFormProps {
@@ -23,7 +25,7 @@ export const RegisterEmailPassForm: React.VFC<RegisterEmailPassFormProps> = (
 
   const onSubmit = async (data: FormData) => {
     // TODO: add error handling
-    await props.onSubmit(data[emailField], data[passField]);
+    await props.onSubmit(data.email, data.pass);
   };
 
   const Form = FormFactory<FormData>();
@@ -31,13 +33,13 @@ export const RegisterEmailPassForm: React.VFC<RegisterEmailPassFormProps> = (
   return (
     <Form className="flex flex-col space-y-4" onSubmit={onSubmit}>
       <TextField
-        name={emailField}
+        name={FormField.email}
         placeholder={t("register.email-password.email.placeholder")}
         type="email"
         options={{ required: true }}
       />
       <TextField
-        name={passField}
+        name={FormField.pass}
         placeholder={t("register.email-password.password.placeholder")}
         type="password"
         options={{ required: true }}

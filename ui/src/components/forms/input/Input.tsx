@@ -1,5 +1,6 @@
 import React from "react";
 import { FieldError, FieldErrors, RegisterOptions } from "react-hook-form";
+import { useFormError } from "./useFormError";
 
 type RegisterWithRef<T> = (
   element: T | null,
@@ -20,6 +21,8 @@ export interface InputProps {
 }
 
 export const Input: React.VFC<InputProps> = ({ children, errors, name }) => {
+  const error = useFormError(name, errors);
+
   const className = [
     "border rounded border-gray-400 focus:border-gray-600 focus:outline-none",
     "transition-colors",
@@ -27,16 +30,13 @@ export const Input: React.VFC<InputProps> = ({ children, errors, name }) => {
     children.props.className || "",
   ].join(" ");
 
-  const error: FieldError | undefined = errors ? errors[name] : undefined;
-  const errorMessage = error ? error.message || error.type : undefined; // TODO: use translations for type
-
   return (
     <div className="flex flex-col">
       {React.cloneElement(children, {
         ...children.props,
         className: className,
       })}
-      {errorMessage}
+      <span className="text-red-700">{error?.message}</span>
     </div>
   );
 };

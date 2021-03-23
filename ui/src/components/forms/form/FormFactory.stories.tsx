@@ -12,16 +12,18 @@ export default {
 };
 
 const Template: Story = () => {
-  const requiredField = "requiredField";
-  const maxLenField = "maxLenField";
-  const defaultField = "defaultField";
-  const textArea = "textArea";
+  const FormField = {
+    requiredField: "requiredField",
+    maxLenField: "maxLenField",
+    defaultField: "defaultField",
+    textArea: "textArea",
+  } as const;
 
   interface FormData {
-    [requiredField]: string;
-    [maxLenField]: string;
-    [defaultField]: string;
-    [textArea]: string;
+    [FormField.requiredField]: string;
+    [FormField.maxLenField]: string;
+    [FormField.defaultField]: string;
+    [FormField.textArea]: string;
   }
 
   const onSubmit = (data: FormData) => console.log("Submit", data);
@@ -32,18 +34,18 @@ const Template: Story = () => {
     <Form className="flex flex-col space-y-4" onSubmit={onSubmit}>
       <TextField
         placeholder="Required example"
-        name={requiredField}
+        name={FormField.requiredField}
         options={{ required: true }}
       />
       <TextField
         placeholder="Max length example"
-        name={maxLenField}
+        name={FormField.maxLenField}
         options={{ maxLength: { value: 3, message: "Max len is 3" } }}
       />
-      <TextField placeholder="Default example" name={defaultField} />
+      <TextField placeholder="Default example" name={FormField.defaultField} />
       <Textarea
         placeholder="Required text area"
-        name={textArea}
+        name={FormField.textArea}
         options={{ required: true }}
       />
       <div className="space-x-4">

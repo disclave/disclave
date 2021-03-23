@@ -1,0 +1,12 @@
+{
+  "error": {
+    "unknown": "Invalid field value. Error: {{type}}.",
+    "required": "This field is required.",
+    "min": "This field value needs to be greater",
+    "max": "This field value needs to be lower",
+    "minLength": "This field needs to be longer",
+    "maxLength": "This field needs to be shorter",
+    "pattern": "This field needs to match pattern.",
+    "validate": "This field needs to pass validation."
+  }
+}

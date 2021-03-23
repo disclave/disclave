@@ -3,10 +3,12 @@ import { Button } from "../../../../button";
 import { useTranslation } from "react-i18next";
 import { FormFactory, TextField } from "../../../../forms";
 
-const nameField = "name";
+const FormField = {
+  name: "name" as const,
+} as const;
 
 interface FormData {
-  [nameField]: string;
+  [FormField.name]: string;
 }
 
 export interface RegisterUsernameFormProps {
@@ -23,7 +25,7 @@ export const RegisterUsernameForm: React.VFC<RegisterUsernameFormProps> = (
   const onSubmit = async (data: FormData) => {
     // TODO: add error handling
     // TODO: verify for valid name characters
-    await props.onSubmit(data[nameField]);
+    await props.onSubmit(data.name);
   };
 
   const onLogoutClick = async () => {
@@ -39,7 +41,7 @@ export const RegisterUsernameForm: React.VFC<RegisterUsernameFormProps> = (
         {t("register.username.logged in as", { email: props.userEmail })}
       </div>
       <TextField
-        name={nameField}
+        name={FormField.name}
         placeholder={t("register.username.name.placeholder")}
         type="text"
         options={{ required: true }}
