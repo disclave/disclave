@@ -41,8 +41,7 @@ export const LoginFormContainer: React.VFC<LoginFormContainerProps> = (
   };
 
   return (
-    <ContainerWrapper>
-      <div className="mb-4 font-semibold text-lg">{t("login.title")}</div>
+    <ContainerWrapper title={t("login.title")}>
       <Component />
     </ContainerWrapper>
   );

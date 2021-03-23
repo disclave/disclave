@@ -4,6 +4,7 @@ import { UserProfileModel } from "../UserProfileModel";
 import { UserInfo } from "../user";
 import { ContainerWrapper } from "../../container";
 import { Loading } from "../../loading";
+import { useTranslation } from "react-i18next";
 
 export interface RegisterFormContainerProps {
   loading: boolean;
@@ -17,6 +18,8 @@ export interface RegisterFormContainerProps {
 export const RegisterFormContainer: React.VFC<RegisterFormContainerProps> = (
   props
 ) => {
+  const { t } = useTranslation("auth");
+
   const Component = () => {
     const state = getState(props.loading, props.userProfile);
     switch (state) {
@@ -42,7 +45,7 @@ export const RegisterFormContainer: React.VFC<RegisterFormContainerProps> = (
   };
 
   return (
-    <ContainerWrapper>
+    <ContainerWrapper title={t("register.title")}>
       <Component />
     </ContainerWrapper>
   );
