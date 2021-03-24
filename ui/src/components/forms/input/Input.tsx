@@ -1,13 +1,9 @@
 import React from "react";
-import { FieldErrors, RegisterOptions, useFormContext } from "react-hook-form";
+import { RegisterOptions, useFormContext } from "react-hook-form";
 import { useFormError } from "./useFormError";
 
-type RegisterWithRef<T> = (
-  element: T | null,
-  options?: RegisterOptions
-) => void;
-
 export interface FormInputChildProps<T> {
+  className?: string;
   options?: RegisterOptions;
   name: string;
 }
@@ -16,10 +12,16 @@ export interface InputProps {
   className?: string;
   children: React.ReactElement;
   name: string;
+  options?: RegisterOptions;
 }
 
-export const Input: React.VFC<InputProps> = ({ className, children, name }) => {
-  const { errors } = useFormContext();
+export const Input: React.VFC<InputProps> = ({
+  className,
+  children,
+  name,
+  options,
+}) => {
+  const { errors, register } = useFormContext();
   const error = useFormError(name, errors);
 
   const wrapperClassName = ["flex flex-col", className || ""].join(" ");
@@ -32,12 +34,18 @@ export const Input: React.VFC<InputProps> = ({ className, children, name }) => {
     children.props.className || "",
   ].join(" ");
 
+  const element = React.cloneElement(children, {
+    ...children.props,
+    className: childClassName,
+    ref: (node: any) => {
+      register(node, options);
+      (children as any).ref?.(node);
+    },
+  });
+
   return (
     <div className={wrapperClassName}>
-      {React.cloneElement(children, {
-        ...children.props,
-        className: childClassName,
-      })}
+      {element}
       <span className="text-red-700">{error?.message}</span>
     </div>
   );

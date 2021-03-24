@@ -2,12 +2,10 @@ import React, { useRef } from "react";
 
 import { FormInputChildProps, Input } from "../input/Input";
 import { useAutoGrow } from "./useAutoGrow";
-import { useFormContext } from "react-hook-form";
 
 export interface TextareaProps
   extends FormInputChildProps<HTMLTextAreaElement> {
   autoGrow?: boolean;
-  className?: string;
   cols?: number;
   disabled?: boolean;
   maxRows?: number;
@@ -19,7 +17,7 @@ export interface TextareaProps
 
 export const TextArea: React.VFC<TextareaProps> = ({
   autoGrow = false,
-  className = "",
+  className,
   cols,
   disabled,
   maxRows = 5,
@@ -32,17 +30,12 @@ export const TextArea: React.VFC<TextareaProps> = ({
 }) => {
   const textAreaRef = useRef<HTMLTextAreaElement>();
   const rowsNum = useAutoGrow(rows, autoGrow, minRows, maxRows, textAreaRef);
-  const { register } = useFormContext();
 
   const textareaClasses = !autoGrow && resizable ? "resize" : "resize-none";
-
   return (
-    <Input name={name} className={className}>
+    <Input className={className} name={name} options={options}>
       <textarea
-        ref={(e) => {
-          register?.(e, options);
-          textAreaRef.current = e ?? undefined;
-        }}
+        ref={(e) => (textAreaRef.current = e ?? undefined)}
         className={textareaClasses}
         cols={cols}
         disabled={disabled}

@@ -5,10 +5,8 @@ export const useAutoGrow = (
   autoGrow: boolean,
   minRows: number,
   maxRows: number,
-  textareaRef: React.MutableRefObject<HTMLTextAreaElement | undefined>
+  textareaRef: React.RefObject<HTMLTextAreaElement | undefined>
 ): number | undefined => {
-  if (!autoGrow) return defaultRows;
-
   const [rowsNum, setRowsNum] = useState<number | undefined>(defaultRows);
   const lineHeight = 24; // TODO: get from styles
 
@@ -30,13 +28,14 @@ export const useAutoGrow = (
   };
 
   useEffect(() => {
-    if (!textareaRef.current) return;
+    if (!textareaRef.current || !autoGrow) return;
     calculateRowsNum(textareaRef.current);
   }, [minRows, defaultRows]);
 
   useEffect(() => {
     const target = textareaRef.current;
-    if (!target) return;
+    // console.log(textareaRef);
+    if (!target || !autoGrow) return;
 
     const onChangeEventName = "input";
     const onChange = () => {
@@ -48,7 +47,7 @@ export const useAutoGrow = (
     return () => {
       target.removeEventListener(onChangeEventName, onChange);
     };
-  }, [textareaRef.current]);
+  }, [textareaRef]);
 
   return rowsNum;
 };

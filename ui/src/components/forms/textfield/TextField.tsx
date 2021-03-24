@@ -2,7 +2,6 @@ import React from "react";
 import { Input } from "../input";
 import { FormInputChildProps } from "../input/Input";
 import { useTranslation } from "react-i18next";
-import { useFormContext } from "react-hook-form";
 
 export type InputType = "text" | "email" | "password";
 
@@ -13,6 +12,7 @@ export interface TextFieldProps extends FormInputChildProps<HTMLInputElement> {
 }
 
 export const TextField: React.VFC<TextFieldProps> = ({
+  className,
   disabled,
   name,
   options,
@@ -20,7 +20,6 @@ export const TextField: React.VFC<TextFieldProps> = ({
   type = "text",
 }) => {
   const { t } = useTranslation("form");
-  const { register } = useFormContext();
 
   if (type == "email") {
     options = {
@@ -33,9 +32,8 @@ export const TextField: React.VFC<TextFieldProps> = ({
   }
 
   return (
-    <Input name={name}>
+    <Input className={className} name={name} options={options}>
       <input
-        ref={(e) => register?.(e, options)}
         disabled={disabled}
         name={name}
         placeholder={placeholder}
