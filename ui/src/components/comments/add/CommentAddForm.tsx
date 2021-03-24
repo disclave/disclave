@@ -1,8 +1,7 @@
 import React from "react";
 import { Button } from "../../button";
-import { TextArea, TextField } from "../../forms";
 import { useTranslation } from "react-i18next";
-import { FormFactory } from "../../forms";
+import { FormFactory, TextArea } from "../../forms";
 import { useLoading } from "../../../hooks";
 
 const FormField = {
