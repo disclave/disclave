@@ -22,8 +22,12 @@ export const CommentAddForm: React.VFC<CommentAddFormProps> = (props) => {
   const { t } = useTranslation("comments");
   const [loading, runWithLoading, error] = useLoading(false);
 
-  const onSubmit = async (data: FormData) => {
-    await runWithLoading(() => props.onSubmit(data.comment));
+  const onSubmit = async (data: FormData, event?: React.BaseSyntheticEvent) => {
+    const [, error] = await runWithLoading(() => props.onSubmit(data.comment));
+    if (!error && event) {
+      const form = event.target as HTMLFormElement;
+      form.reset();
+    }
   };
 
   return (
