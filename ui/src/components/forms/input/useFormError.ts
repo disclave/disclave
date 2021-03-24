@@ -39,9 +39,11 @@ export const useFormError = (
   const { t } = useTranslation("form");
 
   const type = error.type as TranslationKey;
-  const translationKey = `error.${type}` as const;
+  const translationKey = `input validation error.${type}` as const;
 
-  const message = t([translationKey, "error.unknown"], { type: error.type });
+  const message = t([translationKey, "input validation error.unknown"], {
+    type: error.type,
+  });
 
   return {
     message: message,

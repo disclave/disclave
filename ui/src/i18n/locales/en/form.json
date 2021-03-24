@@ -1,5 +1,5 @@
 {
-  "error": {
+  "input validation error": {
     "unknown": "Invalid field value. Error: {{type}}.",
     "required": "This field is required.",
     "min": "This field value needs to be greater",
@@ -9,5 +9,6 @@
     "pattern": "This field needs to match pattern.",
     "validate": "This field needs to pass validation.",
     "email": "Invalid email address format."
-  }
+  },
+  "unknown error": "Unknown error. Code: {{code}}"
 }
