@@ -34,7 +34,6 @@ export const useAutoGrow = (
 
   useEffect(() => {
     const target = textareaRef.current;
-    // console.log(textareaRef);
     if (!target || !autoGrow) return;
 
     const onChangeEventName = "input";
