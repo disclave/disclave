@@ -1,6 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 
 import { FormInputChildProps, Input } from "../input/Input";
+import { useAutoGrow } from "./useAutoGrow";
 
 export interface TextareaProps
   extends FormInputChildProps<HTMLTextAreaElement> {
@@ -30,41 +31,8 @@ export const TextArea: React.VFC<TextareaProps> = ({
   resizable = true,
   rows,
 }) => {
-  const [rowsNum, setRowsNum] = useState(rows);
   const textAreaRef = useRef<HTMLTextAreaElement>();
-
-  useEffect(() => {
-    if (autoGrow) {
-      autoGrowResize();
-    }
-  }, [autoGrow, minRows, rows]);
-
-  const onInputValChange = () => {
-    if (autoGrow) {
-      autoGrowResize();
-    }
-  };
-
-  const autoGrowResize = () => {
-    const target = textAreaRef.current;
-    if (!target) return;
-
-    const lineHeight = 24; // TODO: get from styles
-    const prevRows = target.rows;
-    target.rows = minRows;
-
-    const currentRows = ~~(target.scrollHeight / lineHeight);
-    if (currentRows === prevRows) {
-      target.rows = currentRows;
-    }
-
-    if (currentRows >= maxRows) {
-      target.rows = maxRows;
-      target.scrollTop = target.scrollHeight;
-    }
-
-    setRowsNum(Math.min(currentRows, maxRows));
-  };
+  const rowsNum = useAutoGrow(rows, autoGrow, minRows, maxRows, textAreaRef);
 
   const textareaClasses = !autoGrow && resizable ? "resize" : "resize-none";
 
@@ -79,7 +47,6 @@ export const TextArea: React.VFC<TextareaProps> = ({
         cols={cols}
         disabled={disabled}
         name={name}
-        onChange={onInputValChange}
         placeholder={placeholder}
         rows={rowsNum}
       />
