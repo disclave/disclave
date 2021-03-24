@@ -1,35 +1,53 @@
 import React from "react";
-import { useState } from "react";
 import { Button } from "../../button";
-import { Textarea } from "../../forms/textarea";
 import { useTranslation } from "react-i18next";
+import { FormErrorContainer, FormFactory, TextArea } from "../../forms";
+import { useLoading } from "../../../hooks";
+
+const FormField = {
+  comment: "comment",
+} as const;
+
+interface FormData {
+  [FormField.comment]: string;
+}
 
 export interface CommentAddFormProps {
   onSubmit: (text: string) => Promise<void>;
 }
 
-export const CommentAddForm: React.VFC<CommentAddFormProps> = (props) => {
-  const [text, setText] = useState("");
-  const { t } = useTranslation("comments");
+const Form = FormFactory<FormData>();
 
-  const onButtonClick = async () => {
-    // TODO: add error handling
-    await props.onSubmit(text);
-    setText("");
+export const CommentAddForm: React.VFC<CommentAddFormProps> = (props) => {
+  const { t } = useTranslation("comments");
+  const [loading, runWithLoading, error] = useLoading(false);
+
+  const onSubmit = async (data: FormData, event?: React.BaseSyntheticEvent) => {
+    const [, error] = await runWithLoading(() => props.onSubmit(data.comment));
+    if (!error && event) {
+      const form = event.target as HTMLFormElement;
+      form.reset();
+    }
   };
 
   return (
-    <div className="flex flex-row content-center space-x-4">
-      <Textarea
-        className="flex-1"
-        value={text}
-        onChange={setText}
-        autoGrow
-        placeholder={t("add.input.placeholder")}
-      />
-      <div>
-        <Button onClick={onButtonClick}>{t("add.button")}</Button>
+    <Form onSubmit={onSubmit} className="flex flex-col space-y-2">
+      <div className="flex flex-row content-center space-x-4 bg-white">
+        <TextArea
+          autoGrow
+          className="flex-grow"
+          disabled={loading}
+          name={FormField.comment}
+          options={{ required: true }}
+          placeholder={t("add.input.placeholder")}
+        />
+        <div>
+          <Button type="submit" disabled={loading}>
+            {t("add.button")}
+          </Button>
+        </div>
       </div>
-    </div>
+      <FormErrorContainer error={error} />
+    </Form>
   );
 };

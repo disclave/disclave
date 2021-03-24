@@ -1,18 +1,30 @@
 import React from "react";
 
-import { Textarea, TextareaProps } from "./Textarea";
+import { TextArea, TextareaProps } from "./TextArea";
 import { Story } from "@storybook/react";
+import { FormFactory } from "../form";
 
 export default {
   title: "Forms/Textarea",
-  component: Textarea,
+  component: TextArea,
 };
 
-const Template: Story<TextareaProps> = (args) => <Textarea {...args} />;
+const Form = FormFactory();
+const Template: Story<TextareaProps> = (args) => (
+  <Form onSubmit={() => {}}>
+    <TextArea {...args} name="text-area" />
+  </Form>
+);
 
 export const Default = Template.bind({});
 Default.args = {
   placeholder: "Text",
+};
+
+export const Disabled = Template.bind({});
+Disabled.args = {
+  disabled: true,
+  placeholder: "Disabled",
 };
 
 export const NotResizable = Template.bind({});

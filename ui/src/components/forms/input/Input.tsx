@@ -1,38 +1,52 @@
 import React from "react";
+import { RegisterOptions, useFormContext } from "react-hook-form";
+import { useFormError } from "./useFormError";
 
-import "./Input.css";
-
-export type InputType = "text" | "email" | "password";
+export interface FormInputChildProps<T> {
+  className?: string;
+  options?: RegisterOptions;
+  name: string;
+}
 
 export interface InputProps {
-  type?: InputType;
-  name?: string;
-  value: string;
-  placeholder?: string;
-  onChange?: (value: string) => void;
+  className?: string;
+  children: React.ReactElement;
+  name: string;
+  options?: RegisterOptions;
 }
 
 export const Input: React.VFC<InputProps> = ({
-  type = "text",
+  className,
+  children,
   name,
-  value,
-  placeholder,
-  onChange,
+  options,
 }) => {
-  const onInputValChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    onChange?.(event.target.value);
-  };
+  const { errors, register } = useFormContext();
+  const error = useFormError(name, errors);
 
-  const classes = `form-input`;
+  const wrapperClassName = ["flex flex-col", className || ""].join(" ");
+
+  const childClassName = [
+    "border rounded focus:outline-none",
+    error ? "border-red-700" : "border-gray-400 focus:border-gray-600",
+    "transition-colors",
+    "px-3 py-1.5",
+    children.props.className || "",
+  ].join(" ");
+
+  const element = React.cloneElement(children, {
+    ...children.props,
+    className: childClassName,
+    ref: (node: any) => {
+      register(node, options);
+      (children as any).ref?.(node);
+    },
+  });
 
   return (
-    <input
-      className={classes}
-      type={type}
-      name={name}
-      value={value}
-      placeholder={placeholder}
-      onChange={onInputValChange}
-    />
+    <div className={wrapperClassName}>
+      {element}
+      <span className="text-red-700">{error?.message}</span>
+    </div>
   );
 };

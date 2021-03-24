@@ -1,8 +1,16 @@
 import React from "react";
-import { useState } from "react";
 import { Button } from "../../../../button";
 import { useTranslation } from "react-i18next";
-import { Input } from "../../../../forms/input";
+import { FormFactory, TextField, FormErrorContainer } from "../../../../forms";
+import { useLoading } from "../../../../../hooks";
+
+const FormField = {
+  name: "name",
+} as const;
+
+interface FormData {
+  [FormField.name]: string;
+}
 
 export interface RegisterUsernameFormProps {
   userEmail: string;
@@ -10,44 +18,44 @@ export interface RegisterUsernameFormProps {
   onLogout: () => Promise<void>;
 }
 
+const Form = FormFactory<FormData>();
+
 export const RegisterUsernameForm: React.VFC<RegisterUsernameFormProps> = (
   props
 ) => {
-  const [name, setName] = useState("");
   const { t } = useTranslation("auth");
+  const [loading, runWithLoading, error] = useLoading(false);
 
-  const onSaveClick = async () => {
-    // TODO: add error handling
+  const onSubmit = async (data: FormData) => {
     // TODO: verify for valid name characters
-    await props.onSubmit(name);
-
-    setName("");
+    await runWithLoading(() => props.onSubmit(data.name));
   };
 
   const onLogoutClick = async () => {
-    // TODO: add error handling
-    await props.onLogout();
+    await runWithLoading(() => props.onLogout());
   };
 
   return (
-    <div className="flex flex-col space-y-4">
+    <Form className="flex flex-col space-y-4" onSubmit={onSubmit}>
       <div>
         {t("register.username.logged in as", { email: props.userEmail })}
       </div>
-      <Input
-        value={name}
-        onChange={setName}
+      <TextField
+        disabled={loading}
+        name={FormField.name}
+        options={{ required: true }}
         placeholder={t("register.username.name.placeholder")}
         type="text"
       />
+      <FormErrorContainer error={error} />
       <div className="flex justify-end space-x-2">
-        <Button onClick={onLogoutClick} flat>
+        <Button onClick={onLogoutClick} flat disabled={loading}>
           {t("register.username.button.use different account")}
         </Button>
-        <Button onClick={onSaveClick}>
+        <Button type="submit" disabled={loading}>
           {t("register.username.button.save")}
         </Button>
       </div>
-    </div>
+    </Form>
   );
 };
