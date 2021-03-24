@@ -1,19 +1,26 @@
 import { useEffect, useState } from "react";
 
-export const useActiveTab = (): chrome.tabs.Tab | null => {
-  const [tab, setTab] = useState<chrome.tabs.Tab | null>(null);
+interface ActiveTab {
+  url: string;
+}
 
+export const useActiveTab = (): ActiveTab | null => {
+  const [tab, setTab] = useState<ActiveTab | null>(null);
+
+  // TODO: what if tab url is changed?
   useEffect(() => {
     const getActiveTab = async () => {
       const [activeTab] = await chrome.tabs.query({
         active: true,
         currentWindow: true,
       });
-      setTab(activeTab);
+      setTab({
+        url: activeTab.url,
+      });
     };
 
     getActiveTab();
-  });
+  }, []);
 
   return tab;
 };
