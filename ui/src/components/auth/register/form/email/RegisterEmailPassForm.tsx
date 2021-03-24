@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "../../../../button";
 import { useTranslation } from "react-i18next";
 import { FormFactory, TextField } from "../../../../forms";
+import { useLoading } from "../../../../../hooks";
 
 const FormField = {
   email: "email" as const,
@@ -22,10 +23,16 @@ export const RegisterEmailPassForm: React.VFC<RegisterEmailPassFormProps> = (
   props
 ) => {
   const { t } = useTranslation("auth");
+  const [loading, , runWithLoading] = useLoading(false);
 
   const onSubmit = async (data: FormData) => {
-    // TODO: add error handling
-    await props.onSubmit(data.email, data.pass);
+    const [, error] = await runWithLoading(() =>
+      props.onSubmit(data.email, data.pass)
+    );
+    if (error) {
+      // TODO: add error handling
+      console.error(error);
+    }
   };
 
   const Form = FormFactory<FormData>();
@@ -33,22 +40,24 @@ export const RegisterEmailPassForm: React.VFC<RegisterEmailPassFormProps> = (
   return (
     <Form className="flex flex-col space-y-4" onSubmit={onSubmit}>
       <TextField
+        disabled={loading}
         name={FormField.email}
+        options={{ required: true }}
         placeholder={t("register.email-password.email.placeholder")}
         type="email"
-        options={{ required: true }}
       />
       <TextField
+        disabled={loading}
         name={FormField.pass}
+        options={{ required: true }}
         placeholder={t("register.email-password.password.placeholder")}
         type="password"
-        options={{ required: true }}
       />
       <div className="flex justify-end space-x-2">
-        <Button href={props.loginHref} flat>
+        <Button href={props.loginHref} flat disabled={loading}>
           {t("register.email-password.button.login")}
         </Button>
-        <Button type="submit">
+        <Button type="submit" disabled={loading}>
           {t("register.email-password.button.register")}
         </Button>
       </div>
