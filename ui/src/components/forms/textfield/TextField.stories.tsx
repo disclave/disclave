@@ -15,6 +15,12 @@ Default.args = {
   placeholder: "Text",
 };
 
+export const Disabled = Template.bind({});
+Disabled.args = {
+  disabled: true,
+  placeholder: "Disabled",
+};
+
 export const Email = Template.bind({});
 Email.args = {
   type: "email",

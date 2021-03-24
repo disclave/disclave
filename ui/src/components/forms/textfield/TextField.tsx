@@ -6,17 +6,19 @@ import { useTranslation } from "react-i18next";
 export type InputType = "text" | "email" | "password";
 
 export interface TextFieldProps extends FormInputChildProps<HTMLInputElement> {
-  type?: InputType;
+  disabled?: boolean;
   placeholder?: string;
+  type?: InputType;
 }
 
 export const TextField: React.VFC<TextFieldProps> = ({
-  register,
+  disabled,
   errors,
-  options,
-  type = "text",
   name,
+  options,
   placeholder,
+  register,
+  type = "text",
 }) => {
   const { t } = useTranslation("form");
 
@@ -31,9 +33,10 @@ export const TextField: React.VFC<TextFieldProps> = ({
     <Input errors={errors} name={name}>
       <input
         ref={(e) => register?.(e, options)}
-        type={type}
+        disabled={disabled}
         name={name}
         placeholder={placeholder}
+        type={type}
       />
     </Input>
   );

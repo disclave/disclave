@@ -7,6 +7,7 @@ export interface TextareaProps
   autoGrow?: boolean;
   className?: string;
   cols?: number;
+  disabled?: boolean;
   maxRows?: number;
   minRows?: number;
   placeholder?: string;
@@ -15,16 +16,17 @@ export interface TextareaProps
 }
 
 export const Textarea: React.VFC<TextareaProps> = ({
-  register,
-  errors,
-  options,
   autoGrow = false,
   className = "",
   cols,
+  disabled,
+  errors,
   maxRows = 5,
   minRows = 1,
   name,
+  options,
   placeholder,
+  register,
   resizable = true,
   rows,
 }) => {
@@ -75,6 +77,7 @@ export const Textarea: React.VFC<TextareaProps> = ({
         }}
         className={textareaClasses}
         cols={cols}
+        disabled={disabled}
         name={name}
         onChange={onInputValChange}
         placeholder={placeholder}
