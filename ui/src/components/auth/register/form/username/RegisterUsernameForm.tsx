@@ -25,6 +25,7 @@ export const RegisterUsernameForm: React.VFC<RegisterUsernameFormProps> = (
   const [loading, runWithLoading, error] = useLoading(false);
 
   const onSubmit = async (data: FormData) => {
+    // TODO: verify for valid name characters
     await runWithLoading(() => props.onSubmit(data.name));
   };
 
