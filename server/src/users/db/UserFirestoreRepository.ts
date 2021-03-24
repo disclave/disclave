@@ -3,40 +3,53 @@ import {
   firestore,
   FirestoreDataConverter,
   QueryDocumentSnapshot,
+  Transaction,
 } from "../../firebase";
 import { UserProfileEntity } from "./UserProfileEntity";
 import { UserRepository } from "./index";
 import { injectable } from "inversify";
 
+const FirestoreFields = {
+  name: "name",
+} as const;
+
 interface FirestoreProfile {
-  name: string;
+  [FirestoreFields.name]: string;
 }
 
 @injectable()
-export class UserFirestoreRepository implements UserRepository {
+export class UserFirestoreRepository implements UserRepository<Transaction> {
+  public async runTransaction(
+    run: (t: Transaction) => Promise<unknown>
+  ): Promise<void> {
+    await firestore().runTransaction(run);
+  }
+
   public async getUser(uid: string) {
     return auth().getUser(uid);
   }
 
+  public async existProfileByName(
+    name: string,
+    t: Transaction
+  ): Promise<boolean> {
+    const ref = profilesCollectionRef();
+    const result = await t.get(ref.where(FirestoreFields.name, "==", name));
+    return !result.empty;
+  }
+
   public async createProfile(
     userId: string,
-    profile: FirestoreProfile
-  ): Promise<UserProfileEntity> {
+    profile: FirestoreProfile,
+    t: Transaction
+  ) {
     const ref = profilesCollectionRef().doc(userId);
-    await firestore().runTransaction(async (t) => {
-      // TODO: check for user with the same name
-
-      const checkProfile = await t.get(ref);
-      if (checkProfile.exists) throw "User profile already exists";
-
-      await t.set(ref, profile);
-    });
-    const doc = await ref.get();
-    return doc.data();
+    await t.create(ref, profile);
   }
 
   public async getUserProfile(uid: string): Promise<UserProfileEntity | null> {
-    const doc = await profilesCollectionRef().doc(uid).get();
+    const ref = profilesCollectionRef().doc(uid);
+    const doc = await ref.get();
     if (!doc.exists) return null;
     return doc.data();
   }
