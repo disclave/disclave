@@ -1,4 +1,5 @@
 import {
+  admin,
   auth,
   firestore,
   FirestoreDataConverter,
@@ -11,10 +12,14 @@ import { injectable } from "inversify";
 
 const FirestoreFields = {
   name: "name",
+  createdTs: "createdTs",
 } as const;
 
 interface FirestoreProfile {
   [FirestoreFields.name]: string;
+  [FirestoreFields.createdTs]:
+    | admin.firestore.Timestamp
+    | admin.firestore.FieldValue;
 }
 
 @injectable()
@@ -40,7 +45,7 @@ export class UserFirestoreRepository implements UserRepository<Transaction> {
 
   public async createProfile(
     userId: string,
-    profile: FirestoreProfile,
+    profile: { name: string },
     t: Transaction
   ) {
     const ref = profilesCollectionRef().doc(userId);
@@ -59,6 +64,7 @@ const profileConverter: FirestoreDataConverter<UserProfileEntity> = {
   toFirestore(entity: UserProfileEntity): FirestoreProfile {
     return {
       name: entity.name,
+      createdTs: admin.firestore.FieldValue.serverTimestamp(),
     };
   },
   fromFirestore(
