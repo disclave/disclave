@@ -5,8 +5,8 @@ import { FormFactory, TextField } from "../../../../forms";
 import { useLoading } from "../../../../../hooks";
 
 const FormField = {
-  email: "email" as const,
-  pass: "pass" as const,
+  email: "email",
+  pass: "pass",
 } as const;
 
 interface FormData {
