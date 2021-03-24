@@ -3,6 +3,12 @@ import { UserService } from "./index";
 import { UserRepository, UserProfileEntity } from "./db";
 import { inject, injectable } from "inversify";
 import { AuthProvider } from "../auth";
+import {
+  UsernameInvalidCharacters,
+  UsernameMaxLength,
+  UsernameMinLength,
+  UsernameTaken,
+} from "./exceptions";
 
 @injectable()
 export class UserServiceImpl implements UserService {
@@ -24,16 +30,29 @@ export class UserServiceImpl implements UserService {
     idToken: string,
     name: string
   ): Promise<UserProfile> {
-    const uid = await this.verifyIdToken(idToken);
+    validateUserName(name);
 
+    const uid = await this.verifyIdToken(idToken);
     const user = await this.repository.getUser(uid);
     // TODO: is this check required? can user with disabled account generate the idToken?
     if (user.disabled) throw "User account is disabled";
 
-    // TODO: verify if user name is unique and contains only allowed character
-    return await this.repository.createProfile(uid, {
-      name: name,
+    await this.repository.runTransaction(async (t) => {
+      if (await this.repository.existProfileByName(name, t))
+        throw UsernameTaken(
+          "Selected username is taken. Chose different name."
+        );
+
+      await this.repository.createProfile(
+        uid,
+        {
+          name: name,
+        },
+        t
+      );
     });
+
+    return await this.repository.getUserProfile(uid);
   }
 
   public async getProfile(idToken: string): Promise<UserProfile | null> {
@@ -49,4 +68,25 @@ const toDomain = (entity: UserProfileEntity): UserProfile => {
     id: entity.id,
     name: entity.name,
   };
+};
+
+const validateUserName = (name: string) => {
+  // TODO: add validation for reserved names, like admin, moderator or platform name
+
+  const minLen = 4;
+  const maxLen = 15;
+
+  if (name.length < minLen)
+    throw UsernameMinLength(
+      `The username must be at least ${minLen} characters long.`
+    );
+
+  if (name.length > maxLen)
+    throw UsernameMaxLength(`The username cannot exceed ${maxLen} characters.`);
+
+  const rgx = /^[a-zA-Z0-9_]+$/i;
+  if (!rgx.test(name))
+    throw UsernameInvalidCharacters(
+      "The username can only contain alphanumeric characters and underscore (A-Z, a-z, 0-9 and _)."
+    );
 };
