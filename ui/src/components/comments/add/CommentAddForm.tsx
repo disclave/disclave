@@ -1,13 +1,16 @@
 import React from "react";
 import { Button } from "../../button";
-import { TextArea } from "../../forms";
+import { TextArea, TextField } from "../../forms";
 import { useTranslation } from "react-i18next";
-import { FormFactory, TextField } from "../../forms";
+import { FormFactory } from "../../forms";
+import { useLoading } from "../../../hooks";
 
-const commentField = "comment";
+const FormField = {
+  comment: "comment",
+} as const;
 
 interface FormData {
-  [commentField]: string;
+  [FormField.comment]: string;
 }
 
 export interface CommentAddFormProps {
@@ -16,10 +19,15 @@ export interface CommentAddFormProps {
 
 export const CommentAddForm: React.VFC<CommentAddFormProps> = (props) => {
   const { t } = useTranslation("comments");
+  const [loading, , runWithLoading] = useLoading(false);
 
   const onSubmit = async (data: FormData) => {
-    // TODO: add error handling
-    await props.onSubmit(data[commentField]);
+    const [, error] = await runWithLoading(() => props.onSubmit(data.comment));
+
+    if (error) {
+      // TODO: add error handling
+      console.error(error);
+    }
   };
 
   const Form = FormFactory<FormData>();
@@ -30,14 +38,17 @@ export const CommentAddForm: React.VFC<CommentAddFormProps> = (props) => {
       onSubmit={onSubmit}
     >
       <TextArea
-        className="flex-grow"
-        name={commentField}
         autoGrow
-        placeholder={t("add.input.placeholder")}
+        className="flex-grow"
+        disabled={loading}
+        name={FormField.comment}
         options={{ required: true }}
+        placeholder={t("add.input.placeholder")}
       />
       <div>
-        <Button type="submit">{t("add.button")}</Button>
+        <Button type="submit" disabled={loading}>
+          {t("add.button")}
+        </Button>
       </div>
     </Form>
   );
