@@ -18,6 +18,8 @@ export interface RegisterUsernameFormProps {
   onLogout: () => Promise<void>;
 }
 
+const Form = FormFactory<FormData>();
+
 export const RegisterUsernameForm: React.VFC<RegisterUsernameFormProps> = (
   props
 ) => {
@@ -32,8 +34,6 @@ export const RegisterUsernameForm: React.VFC<RegisterUsernameFormProps> = (
   const onLogoutClick = async () => {
     await runWithLoading(() => props.onLogout());
   };
-
-  const Form = FormFactory<FormData>();
 
   return (
     <Form className="flex flex-col space-y-4" onSubmit={onSubmit}>

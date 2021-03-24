@@ -19,6 +19,8 @@ export interface RegisterEmailPassFormProps {
   loginHref: string;
 }
 
+const Form = FormFactory<FormData>();
+
 export const RegisterEmailPassForm: React.VFC<RegisterEmailPassFormProps> = (
   props
 ) => {
@@ -28,8 +30,6 @@ export const RegisterEmailPassForm: React.VFC<RegisterEmailPassFormProps> = (
   const onSubmit = async (data: FormData) => {
     await runWithLoading(() => props.onSubmit(data.email, data.pass));
   };
-
-  const Form = FormFactory<FormData>();
 
   return (
     <Form className="flex flex-col space-y-4" onSubmit={onSubmit}>

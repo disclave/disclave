@@ -16,6 +16,8 @@ export interface CommentAddFormProps {
   onSubmit: (text: string) => Promise<void>;
 }
 
+const Form = FormFactory<FormData>();
+
 export const CommentAddForm: React.VFC<CommentAddFormProps> = (props) => {
   const { t } = useTranslation("comments");
   const [loading, runWithLoading, error] = useLoading(false);
@@ -23,8 +25,6 @@ export const CommentAddForm: React.VFC<CommentAddFormProps> = (props) => {
   const onSubmit = async (data: FormData) => {
     await runWithLoading(() => props.onSubmit(data.comment));
   };
-
-  const Form = FormFactory<FormData>();
 
   return (
     <Form onSubmit={onSubmit} className="flex flex-col space-y-2">

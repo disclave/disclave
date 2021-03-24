@@ -19,6 +19,8 @@ export interface LoginFormProps {
   registerHref: string;
 }
 
+const Form = FormFactory<FormData>();
+
 export const LoginForm: React.VFC<LoginFormProps> = (props) => {
   const { t } = useTranslation("auth");
   const [loading, runWithLoading, error] = useLoading(false);
@@ -26,8 +28,6 @@ export const LoginForm: React.VFC<LoginFormProps> = (props) => {
   const onSubmit = async (data: FormData) => {
     await runWithLoading(() => props.onSubmit(data.email, data.pass));
   };
-
-  const Form = FormFactory<FormData>();
 
   return (
     <Form className="flex flex-col space-y-4" onSubmit={onSubmit}>
