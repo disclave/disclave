@@ -14,7 +14,7 @@ const onSubmitCorrect = async () => {
 };
 
 const onSubmitError = async () => {
-  await sleep(2000, "Login error message");
+  await sleep(2000, { code: "comment-error-code" });
 };
 
 const Template: Story<CommentAddFormProps> = (args) => (

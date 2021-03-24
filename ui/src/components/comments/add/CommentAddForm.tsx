@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "../../button";
 import { useTranslation } from "react-i18next";
-import { FormFactory, TextArea } from "../../forms";
+import { FormErrorContainer, FormFactory, TextArea } from "../../forms";
 import { useLoading } from "../../../hooks";
 
 const FormField = {
@@ -27,23 +27,23 @@ export const CommentAddForm: React.VFC<CommentAddFormProps> = (props) => {
   const Form = FormFactory<FormData>();
 
   return (
-    <Form
-      className="flex flex-row content-center space-x-4 bg-white"
-      onSubmit={onSubmit}
-    >
-      <TextArea
-        autoGrow
-        className="flex-grow"
-        disabled={loading}
-        name={FormField.comment}
-        options={{ required: true }}
-        placeholder={t("add.input.placeholder")}
-      />
-      <div>
-        <Button type="submit" disabled={loading}>
-          {t("add.button")}
-        </Button>
+    <Form onSubmit={onSubmit} className="flex flex-col space-y-2">
+      <div className="flex flex-row content-center space-x-4 bg-white">
+        <TextArea
+          autoGrow
+          className="flex-grow"
+          disabled={loading}
+          name={FormField.comment}
+          options={{ required: true }}
+          placeholder={t("add.input.placeholder")}
+        />
+        <div>
+          <Button type="submit" disabled={loading}>
+            {t("add.button")}
+          </Button>
+        </div>
       </div>
+      <FormErrorContainer error={error} />
     </Form>
   );
 };
