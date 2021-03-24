@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "../../../../button";
 import { useTranslation } from "react-i18next";
 import { FormFactory, TextField } from "../../../../forms";
+import { useLoading } from "../../../../../hooks";
 
 const FormField = {
   name: "name" as const,
@@ -21,16 +22,24 @@ export const RegisterUsernameForm: React.VFC<RegisterUsernameFormProps> = (
   props
 ) => {
   const { t } = useTranslation("auth");
+  const [loading, , runWithLoading] = useLoading(false);
 
   const onSubmit = async (data: FormData) => {
-    // TODO: add error handling
     // TODO: verify for valid name characters
-    await props.onSubmit(data.name);
+    const [, error] = await runWithLoading(() => props.onSubmit(data.name));
+
+    if (error) {
+      // TODO: add error handling
+      console.error(error);
+    }
   };
 
   const onLogoutClick = async () => {
-    // TODO: add error handling
-    await props.onLogout();
+    const [, error] = await runWithLoading(() => props.onLogout());
+    if (error) {
+      // TODO: add error handling
+      console.error(error);
+    }
   };
 
   const Form = FormFactory<FormData>();
@@ -41,16 +50,19 @@ export const RegisterUsernameForm: React.VFC<RegisterUsernameFormProps> = (
         {t("register.username.logged in as", { email: props.userEmail })}
       </div>
       <TextField
+        disabled={loading}
         name={FormField.name}
+        options={{ required: true }}
         placeholder={t("register.username.name.placeholder")}
         type="text"
-        options={{ required: true }}
       />
       <div className="flex justify-end space-x-2">
-        <Button onClick={onLogoutClick} flat>
+        <Button onClick={onLogoutClick} flat disabled={loading}>
           {t("register.username.button.use different account")}
         </Button>
-        <Button type="submit">{t("register.username.button.save")}</Button>
+        <Button type="submit" disabled={loading}>
+          {t("register.username.button.save")}
+        </Button>
       </div>
     </Form>
   );
