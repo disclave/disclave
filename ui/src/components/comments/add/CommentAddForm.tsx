@@ -18,15 +18,10 @@ export interface CommentAddFormProps {
 
 export const CommentAddForm: React.VFC<CommentAddFormProps> = (props) => {
   const { t } = useTranslation("comments");
-  const [loading, , runWithLoading] = useLoading(false);
+  const [loading, runWithLoading, error] = useLoading(false);
 
   const onSubmit = async (data: FormData) => {
-    const [, error] = await runWithLoading(() => props.onSubmit(data.comment));
-
-    if (error) {
-      // TODO: add error handling
-      console.error(error);
-    }
+    await runWithLoading(() => props.onSubmit(data.comment));
   };
 
   const Form = FormFactory<FormData>();

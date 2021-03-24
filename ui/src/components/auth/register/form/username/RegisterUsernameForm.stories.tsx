@@ -17,7 +17,7 @@ const onSubmitCorrect = async () => {
 };
 
 const onSubmitError = async () => {
-  await sleep(2000, "Username error message");
+  await sleep(2000, { code: "username-error" });
 };
 
 const Template: Story<RegisterUsernameFormProps> = (args) => (

@@ -17,7 +17,7 @@ const onSubmitCorrect = async () => {
 };
 
 const onSubmitError = async () => {
-  await sleep(2000, "Register error message");
+  await sleep(2000, { code: "register-error" });
 };
 
 const Template: Story<RegisterEmailPassFormProps> = (args) => (

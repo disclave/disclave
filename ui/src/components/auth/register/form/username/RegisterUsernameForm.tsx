@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "../../../../button";
 import { useTranslation } from "react-i18next";
-import { FormFactory, TextField } from "../../../../forms";
+import { FormFactory, TextField, FormErrorContainer } from "../../../../forms";
 import { useLoading } from "../../../../../hooks";
 
 const FormField = {
@@ -22,24 +22,14 @@ export const RegisterUsernameForm: React.VFC<RegisterUsernameFormProps> = (
   props
 ) => {
   const { t } = useTranslation("auth");
-  const [loading, , runWithLoading] = useLoading(false);
+  const [loading, runWithLoading, error] = useLoading(false);
 
   const onSubmit = async (data: FormData) => {
-    // TODO: verify for valid name characters
-    const [, error] = await runWithLoading(() => props.onSubmit(data.name));
-
-    if (error) {
-      // TODO: add error handling
-      console.error(error);
-    }
+    await runWithLoading(() => props.onSubmit(data.name));
   };
 
   const onLogoutClick = async () => {
-    const [, error] = await runWithLoading(() => props.onLogout());
-    if (error) {
-      // TODO: add error handling
-      console.error(error);
-    }
+    await runWithLoading(() => props.onLogout());
   };
 
   const Form = FormFactory<FormData>();
@@ -56,6 +46,7 @@ export const RegisterUsernameForm: React.VFC<RegisterUsernameFormProps> = (
         placeholder={t("register.username.name.placeholder")}
         type="text"
       />
+      <FormErrorContainer error={error} />
       <div className="flex justify-end space-x-2">
         <Button onClick={onLogoutClick} flat disabled={loading}>
           {t("register.username.button.use different account")}

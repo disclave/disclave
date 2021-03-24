@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "../../../button";
 import { useTranslation } from "react-i18next";
-import { FormFactory, TextField } from "../../../forms";
+import { FormFactory, TextField, FormErrorContainer } from "../../../forms";
 import { useLoading } from "../../../../hooks";
 
 const FormField = {
@@ -21,17 +21,10 @@ export interface LoginFormProps {
 
 export const LoginForm: React.VFC<LoginFormProps> = (props) => {
   const { t } = useTranslation("auth");
-  const [loading, , runWithLoading] = useLoading(false);
+  const [loading, runWithLoading, error] = useLoading(false);
 
   const onSubmit = async (data: FormData) => {
-    const [, error] = await runWithLoading(() =>
-      props.onSubmit(data.email, data.pass)
-    );
-
-    if (error) {
-      // TODO: add error handling
-      console.error(error);
-    }
+    await runWithLoading(() => props.onSubmit(data.email, data.pass));
   };
 
   const Form = FormFactory<FormData>();
@@ -52,6 +45,7 @@ export const LoginForm: React.VFC<LoginFormProps> = (props) => {
         placeholder={t("login.password.placeholder")}
         type="password"
       />
+      <FormErrorContainer error={error} />
       <div className="flex justify-end space-x-2">
         <Button href={props.registerHref} flat disabled={loading}>
           {t("login.button.register")}
