@@ -9,7 +9,12 @@ export default {
 };
 
 const Template: Story<ButtonProps> = (args) => (
-  <Button {...args}>Button</Button>
+  <div className="space-x-4">
+    <Button {...args}>Button</Button>
+    <Button {...args} disabled>
+      Disabled
+    </Button>
+  </div>
 );
 
 export const Default = Template.bind({});
@@ -21,5 +26,11 @@ Flat.args = {
 
 export const AsAnchorLink = Template.bind({});
 AsAnchorLink.args = {
+  href: "https://google.com",
+};
+
+export const FlatAsAnchorLink = Template.bind({});
+FlatAsAnchorLink.args = {
+  flat: true,
   href: "https://google.com",
 };
