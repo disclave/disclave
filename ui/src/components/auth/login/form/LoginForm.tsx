@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "../../../button";
 import { useTranslation } from "react-i18next";
 import { FormFactory, TextField } from "../../../forms";
+import { useLoading } from "../../../../hooks";
 
 const FormField = {
   email: "email" as const,
@@ -20,17 +21,17 @@ export interface LoginFormProps {
 
 export const LoginForm: React.VFC<LoginFormProps> = (props) => {
   const { t } = useTranslation("auth");
-  const [loading, setLoading] = useState(false);
+  const [loading, , runWithLoading] = useLoading(false);
 
   const onSubmit = async (data: FormData) => {
-    setLoading(true);
-    try {
-      await props.onSubmit(data.email, data.pass);
-    } catch (e) {
+    const [, error] = await runWithLoading(() =>
+      props.onSubmit(data.email, data.pass)
+    );
+
+    if (error) {
       // TODO: add error handling
-      console.error(e);
+      console.error(error);
     }
-    setLoading(false);
   };
 
   const Form = FormFactory<FormData>();
