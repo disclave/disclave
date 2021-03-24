@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "../../../button";
 import { useTranslation } from "react-i18next";
 import { FormFactory, TextField } from "../../../forms";
@@ -20,10 +20,17 @@ export interface LoginFormProps {
 
 export const LoginForm: React.VFC<LoginFormProps> = (props) => {
   const { t } = useTranslation("auth");
+  const [loading, setLoading] = useState(false);
 
   const onSubmit = async (data: FormData) => {
-    // TODO: add error handling
-    await props.onSubmit(data.email, data.pass);
+    setLoading(true);
+    try {
+      await props.onSubmit(data.email, data.pass);
+    } catch (e) {
+      // TODO: add error handling
+      console.error(e);
+    }
+    setLoading(false);
   };
 
   const Form = FormFactory<FormData>();
@@ -31,22 +38,26 @@ export const LoginForm: React.VFC<LoginFormProps> = (props) => {
   return (
     <Form className="flex flex-col space-y-4" onSubmit={onSubmit}>
       <TextField
+        disabled={loading}
         name={FormField.email}
+        options={{ required: true }}
         placeholder={t("login.email.placeholder")}
         type="email"
-        options={{ required: true }}
       />
       <TextField
+        disabled={loading}
         name={FormField.pass}
+        options={{ required: true }}
         placeholder={t("login.password.placeholder")}
         type="password"
-        options={{ required: true }}
       />
       <div className="flex justify-end space-x-2">
-        <Button href={props.registerHref} flat>
+        <Button href={props.registerHref} flat disabled={loading}>
           {t("login.button.register")}
         </Button>
-        <Button type="submit">{t("login.button.login")}</Button>
+        <Button type="submit" disabled={loading}>
+          {t("login.button.login")}
+        </Button>
       </div>
     </Form>
   );
