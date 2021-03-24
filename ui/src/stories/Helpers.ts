@@ -1,5 +1,8 @@
-export const sleep = (time: number = 1000) => {
-  return new Promise((resolve) => {
-    setTimeout(resolve, time);
+export const sleep = (time: number = 2000, error: any = undefined) => {
+  return new Promise<void>((resolve, reject) => {
+    setTimeout(() => {
+      if (!error) resolve();
+      else reject(error);
+    }, time);
   });
 };

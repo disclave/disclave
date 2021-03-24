@@ -9,13 +9,22 @@ export default {
   component: LoginForm,
 };
 
-const onSubmit = async () => {
+const onSubmitCorrect = async () => {
   await sleep();
+};
+
+const onSubmitError = async () => {
+  await sleep(2000, "Error message");
 };
 
 const Template: Story<LoginFormProps> = (args) => <LoginForm {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-  onSubmit: onSubmit,
+  onSubmit: onSubmitCorrect,
+};
+
+export const ErrorHandler = Template.bind({});
+ErrorHandler.args = {
+  onSubmit: onSubmitError,
 };
