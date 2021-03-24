@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "../../button";
-import { Textarea } from "../../forms";
+import { TextArea } from "../../forms";
 import { useTranslation } from "react-i18next";
 import { FormFactory, TextField } from "../../forms";
 
@@ -29,7 +29,7 @@ export const CommentAddForm: React.VFC<CommentAddFormProps> = (props) => {
       className="flex flex-row content-center space-x-4 bg-white"
       onSubmit={onSubmit}
     >
-      <Textarea
+      <TextArea
         className="flex-grow"
         name={commentField}
         autoGrow

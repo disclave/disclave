@@ -15,7 +15,7 @@ export interface TextareaProps
   rows?: number;
 }
 
-export const Textarea: React.VFC<TextareaProps> = ({
+export const TextArea: React.VFC<TextareaProps> = ({
   autoGrow = false,
   className = "",
   cols,

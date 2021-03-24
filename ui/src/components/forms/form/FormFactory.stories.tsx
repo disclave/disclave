@@ -3,7 +3,7 @@ import React from "react";
 import { FormFactory } from "./FormFactory";
 import { Story } from "@storybook/react";
 import { Button } from "../../button";
-import { Textarea } from "../textarea";
+import { TextArea } from "../textarea";
 import { TextField } from "../textfield";
 
 export default {
@@ -43,7 +43,7 @@ const Template: Story = () => {
         options={{ maxLength: { value: 3, message: "Max len is 3" } }}
       />
       <TextField placeholder="Default example" name={FormField.defaultField} />
-      <Textarea
+      <TextArea
         placeholder="Required text area"
         name={FormField.textArea}
         options={{ required: true }}

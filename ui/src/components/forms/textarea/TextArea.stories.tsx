@@ -1,14 +1,14 @@
 import React from "react";
 
-import { Textarea, TextareaProps } from "./Textarea";
+import { TextArea, TextareaProps } from "./TextArea";
 import { Story } from "@storybook/react";
 
 export default {
   title: "Forms/Textarea",
-  component: Textarea,
+  component: TextArea,
 };
 
-const Template: Story<TextareaProps> = (args) => <Textarea {...args} />;
+const Template: Story<TextareaProps> = (args) => <TextArea {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
