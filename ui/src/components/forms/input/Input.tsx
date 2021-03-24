@@ -1,5 +1,5 @@
 import React from "react";
-import { FieldErrors, RegisterOptions } from "react-hook-form";
+import { FieldErrors, RegisterOptions, useFormContext } from "react-hook-form";
 import { useFormError } from "./useFormError";
 
 type RegisterWithRef<T> = (
@@ -8,25 +8,18 @@ type RegisterWithRef<T> = (
 ) => void;
 
 export interface FormInputChildProps<T> {
-  register?: RegisterWithRef<T>;
   options?: RegisterOptions;
-  errors?: FieldErrors;
   name: string;
 }
 
 export interface InputProps {
   className?: string;
   children: React.ReactElement;
-  errors?: FieldErrors;
   name: string;
 }
 
-export const Input: React.VFC<InputProps> = ({
-  className,
-  children,
-  errors,
-  name,
-}) => {
+export const Input: React.VFC<InputProps> = ({ className, children, name }) => {
+  const { errors } = useFormContext();
   const error = useFormError(name, errors);
 
   const wrapperClassName = ["flex flex-col", className || ""].join(" ");

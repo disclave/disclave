@@ -1,6 +1,10 @@
 import React from "react";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import { FormInputChildProps } from "../input/Input";
+import {
+  FieldValues,
+  SubmitHandler,
+  useForm,
+  FormProvider,
+} from "react-hook-form";
 
 export interface FormProps<T extends FieldValues> {
   className?: string;
@@ -10,25 +14,13 @@ export interface FormProps<T extends FieldValues> {
 export const FormFactory = <T extends FieldValues>(): React.FC<
   FormProps<T>
 > => ({ className, onSubmit, children }) => {
-  const { handleSubmit, register, errors } = useForm<T>();
+  const methods = useForm<T>();
 
   return (
-    <form className={className} onSubmit={handleSubmit(onSubmit)}>
-      {React.Children.map(
-        children as any,
-        (child: React.ReactElement<FormInputChildProps<any>>) => {
-          return child.props.name
-            ? React.createElement(child.type, {
-                ...{
-                  ...child.props,
-                  register: register,
-                  errors: errors,
-                  key: child.props.name,
-                },
-              })
-            : child;
-        }
-      )}
-    </form>
+    <FormProvider {...methods}>
+      <form className={className} onSubmit={methods.handleSubmit(onSubmit)}>
+        {children}
+      </form>
+    </FormProvider>
   );
 };

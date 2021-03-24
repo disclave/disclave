@@ -2,6 +2,7 @@ import React from "react";
 import { Input } from "../input";
 import { FormInputChildProps } from "../input/Input";
 import { useTranslation } from "react-i18next";
+import { useFormContext } from "react-hook-form";
 
 export type InputType = "text" | "email" | "password";
 
@@ -13,24 +14,26 @@ export interface TextFieldProps extends FormInputChildProps<HTMLInputElement> {
 
 export const TextField: React.VFC<TextFieldProps> = ({
   disabled,
-  errors,
   name,
   options,
   placeholder,
-  register,
   type = "text",
 }) => {
   const { t } = useTranslation("form");
+  const { register } = useFormContext();
 
   if (type == "email") {
     options = {
-      pattern: { value: /^\S+@\S+$/i, message: t("error.email") },
+      pattern: {
+        value: /^\S+@\S+$/i,
+        message: t("input validation error.email"),
+      },
       ...options,
     };
   }
 
   return (
-    <Input errors={errors} name={name}>
+    <Input name={name}>
       <input
         ref={(e) => register?.(e, options)}
         disabled={disabled}

@@ -14,6 +14,7 @@ export default {
 const Template: Story = () => {
   const FormField = {
     requiredField: "requiredField",
+    nestedRequiredField: "nestedRequiredField",
     maxLenField: "maxLenField",
     defaultField: "defaultField",
     textArea: "textArea",
@@ -21,6 +22,7 @@ const Template: Story = () => {
 
   interface FormData {
     [FormField.requiredField]: string;
+    [FormField.nestedRequiredField]: string;
     [FormField.maxLenField]: string;
     [FormField.defaultField]: string;
     [FormField.textArea]: string;
@@ -37,6 +39,16 @@ const Template: Story = () => {
         name={FormField.requiredField}
         options={{ required: true }}
       />
+      <div className="flex flex-row space-x-4">
+        <div>Example component</div>
+        <div>
+          <TextField
+            placeholder="Nested required example"
+            name={FormField.nestedRequiredField}
+            options={{ required: true }}
+          />
+        </div>
+      </div>
       <TextField
         placeholder="Max length example"
         name={FormField.maxLenField}

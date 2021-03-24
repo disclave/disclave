@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 
 import { FormInputChildProps, Input } from "../input/Input";
 import { useAutoGrow } from "./useAutoGrow";
+import { useFormContext } from "react-hook-form";
 
 export interface TextareaProps
   extends FormInputChildProps<HTMLTextAreaElement> {
@@ -21,23 +22,22 @@ export const TextArea: React.VFC<TextareaProps> = ({
   className = "",
   cols,
   disabled,
-  errors,
   maxRows = 5,
   minRows = 1,
   name,
   options,
   placeholder,
-  register,
   resizable = true,
   rows,
 }) => {
   const textAreaRef = useRef<HTMLTextAreaElement>();
   const rowsNum = useAutoGrow(rows, autoGrow, minRows, maxRows, textAreaRef);
+  const { register } = useFormContext();
 
   const textareaClasses = !autoGrow && resizable ? "resize" : "resize-none";
 
   return (
-    <Input errors={errors} name={name} className={className}>
+    <Input name={name} className={className}>
       <textarea
         ref={(e) => {
           register?.(e, options);

@@ -24,6 +24,8 @@ export const useFormError = (
   name: string,
   errors?: FieldErrors
 ): FormError | undefined => {
+  const { t } = useTranslation("form");
+
   if (!errors) return;
 
   const error: FieldError | undefined = errors[name];
@@ -35,8 +37,6 @@ export const useFormError = (
       type: error.type,
     };
   }
-
-  const { t } = useTranslation("form");
 
   const type = error.type as TranslationKey;
   const translationKey = `input validation error.${type}` as const;
