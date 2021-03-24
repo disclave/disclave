@@ -1,6 +1,6 @@
 {
   "name": "@webchat/chrome-extension",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "private": true,
   "scripts": {
     "build": "webpack --mode=production",
@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@webchat/client": "^0.2.1",
-    "@webchat/ui": "^0.2.0",
+    "@webchat/ui": "^0.2.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-hot-loader": "^4.13.0",
