@@ -1,4 +1,3 @@
-import * as path from "path";
 import babel from "@rollup/plugin-babel";
 import external from "rollup-plugin-peer-deps-external";
 import del from "rollup-plugin-delete";
