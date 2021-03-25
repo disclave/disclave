@@ -45,6 +45,7 @@ const Index: React.FC<WebsiteProps> = (props) => {
         authenticated={isActiveAccount}
         comments={comments}
         className="max-h-full"
+        iframe={true}
         loginHref={loginHrefWithRedirect}
         registerHref={registerHrefWithRedirect}
         onSubmit={addComment}

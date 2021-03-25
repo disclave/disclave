@@ -43,8 +43,8 @@ const Login = () => {
         return;
       }
 
-      if (!redirectUrl) return;
-      await router.push(redirectUrl);
+      if (redirectUrl) await router.push(redirectUrl);
+      else if (window.opener) window.close();
     };
 
     checkRedirects();

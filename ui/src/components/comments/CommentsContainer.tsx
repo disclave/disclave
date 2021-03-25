@@ -8,6 +8,7 @@ export interface CommentsContainerProps {
   authenticated: boolean;
   className?: string;
   comments: Array<CommentModel>;
+  iframe?: boolean;
   loginHref: string;
   registerHref: string;
   onSubmit: (text: string) => Promise<void>;
@@ -33,6 +34,7 @@ export const CommentsContainer: React.VFC<CommentsContainerProps> = (props) => {
           <CommentAddForm onSubmit={props.onSubmit} />
         ) : (
           <CommentAddAuth
+            iframe={props.iframe}
             loginHref={props.loginHref}
             registerHref={props.registerHref}
           />
