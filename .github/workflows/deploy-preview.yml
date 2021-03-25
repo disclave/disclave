@@ -3,17 +3,21 @@ on: [pull_request]
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [10.x, 12.x, 14.x, 15.x]
+        
     steps:
       - uses: actions/checkout@v2
-      - uses: borales/actions-yarn@v2.0.0
+      
+      - uses: actions/setup-node@v1
         with:
-          cmd: install
-      - uses: borales/actions-yarn@v2.0.0
-        with:
-          cmd: bootstrap
-      - uses: borales/actions-yarn@v2.0.0
-        with:
-          cmd: build
+          node-version: ${{ matrix.node-version }}
+      - run: npm ci
+      - run: npm bootstrap
+      - run: npm build
+      
       - uses: amondnet/vercel-action@v20
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
