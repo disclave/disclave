@@ -1,5 +1,5 @@
 {
-  "name": "@webchat/server",
+  "name": "@disclave/server",
   "private": true,
   "version": "0.2.2",
   "main": "dist/index.cjs.js",

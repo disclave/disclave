@@ -1,5 +1,5 @@
 {
-  "name": "@webchat/monorepo",
+  "name": "@disclave/monorepo",
   "private": true,
   "scripts": {
     "bootstrap": "lerna bootstrap",

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getComments, createComment, CommentModel } from "@webchat/client";
+import { getComments, createComment, CommentModel } from "@disclave/client";
 import { useActiveTab } from "./";
 
 type CommentsState = Array<CommentModel> | undefined;

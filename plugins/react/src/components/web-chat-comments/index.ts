@@ -1,1 +1,0 @@
-export { WebChatComments } from "./WebChatComments";

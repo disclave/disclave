@@ -1,5 +1,5 @@
-import { login, logout, useSession } from '@webchat/client';
-import { LoginFormContainer } from '@webchat/ui';
+import { login, logout, useSession } from '@disclave/client';
+import { LoginFormContainer } from '@disclave/ui';
 import { useRouter } from 'next/router';
 import {
   redirectParamsToUrl,

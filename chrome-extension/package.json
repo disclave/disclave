@@ -1,5 +1,5 @@
 {
-  "name": "@webchat/chrome-extension",
+  "name": "@disclave/chrome-extension",
   "version": "0.2.2",
   "private": true,
   "scripts": {
@@ -10,8 +10,8 @@
     "test": "jest"
   },
   "dependencies": {
-    "@webchat/client": "^0.2.1",
-    "@webchat/ui": "^0.2.1",
+    "@disclave/client": "^0.2.1",
+    "@disclave/ui": "^0.2.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-hot-loader": "^4.13.0",

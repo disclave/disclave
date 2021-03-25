@@ -2,7 +2,7 @@ import {renderHook} from "@testing-library/react-hooks";
 import {ApiAdapterMock} from "../mocks/adapters/ApiAdapterMock";
 import {useChat} from "../../src/hooks/useChat";
 import {WebsiteAdapterMock} from "../mocks/adapters/WebsiteAdapterMock";
-import {setApiAdapter, setWebsiteAdapter} from "@webchat/core";
+import {setApiAdapter, setWebsiteAdapter} from "@disclave/core";
 
 const apiAdapterMock = new ApiAdapterMock();
 setApiAdapter(apiAdapterMock)

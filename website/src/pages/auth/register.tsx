@@ -1,5 +1,5 @@
-import { register, logout, useSession, createSelfProfile } from '@webchat/client';
-import { RegisterFormContainer } from '@webchat/ui';
+import { register, logout, useSession, createSelfProfile } from '@disclave/client';
+import { RegisterFormContainer } from '@disclave/ui';
 import { useRouter } from 'next/router';
 import {
   redirectParamsToUrl,

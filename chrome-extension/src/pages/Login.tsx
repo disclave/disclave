@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useHistory } from "react-router-dom";
-import { LoginFormContainer } from "@webchat/ui";
-import { login, logout, useSession } from "@webchat/client";
+import { LoginFormContainer } from "@disclave/ui";
+import { login, logout, useSession } from "@disclave/client";
 import { homeHref } from "./Home";
 import { registerHref } from "./Register";
 
