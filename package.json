@@ -6,7 +6,6 @@
     "build": "lerna run build",
     "version": "lerna version"
   },
-  "version": "0.1.0",
   "workspaces": [
     "client",
     "server",

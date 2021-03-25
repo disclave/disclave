@@ -2,3 +2,6 @@
   command   = "yarn bootstrap && yarn build"
   functions = "website/out_functions"
   publish   = "website/out_publish"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"

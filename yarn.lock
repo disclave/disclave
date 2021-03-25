@@ -3522,6 +3522,24 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
+"@netlify/plugin-nextjs@^3.0.3":
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/@netlify/plugin-nextjs/-/plugin-nextjs-3.0.3.tgz#fb0087f6eff2156bf1b64fdc3d02040923a22d56"
+  integrity sha512-7hWyX7Bb6m8yocYGZAdqr5vkC6SMIBBjHr0PzFMGcYjPKpFjMseq4D7PCpDCiI9Ekwi27yMFtVV9LdarrEKeSw==
+  dependencies:
+    "@sls-next/lambda-at-edge" "^1.5.2"
+    chalk "^4.1.0"
+    chokidar "^3.5.1"
+    commander "^7.1.0"
+    debounce-fn "^4.0.0"
+    find-cache-dir "^3.3.1"
+    find-up "^4.1.0"
+    fs-extra "^9.1.0"
+    jimp "^0.16.1"
+    make-dir "^3.1.0"
+    moize "^6.0.0"
+    semver "^7.3.2"
+
 "@next/env@10.0.7":
   version "10.0.7"
   resolved "https://registry.yarnpkg.com/@next/env/-/env-10.0.7.tgz#7b3e87a9029ca37491e2ec25c27593f0906725f9"
@@ -7689,6 +7707,11 @@ commander@^7.0.0:
   resolved "https://registry.yarnpkg.com/commander/-/commander-7.1.0.tgz#f2eaecf131f10e36e07d894698226e36ae0eb5ff"
   integrity sha512-pRxBna3MJe6HKnBGsDyMv8ETbptw3axEdYHoqNh7gu5oDcew8fs0xnivZGm06Ogk8zGAJ9VX+OPEr2GXEQK4dg==
 
+commander@^7.1.0:
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-7.2.0.tgz#a36cb57d0b501ce108e4d20559a150a391d97ab7"
+  integrity sha512-QrWXB+ZQSVPmIWIhtEO9H+gwHaMGYiF5ChvoJ+K9ZGHG/sVsa6yiesAD1GC/x46sET00Xlwo1u49RVVVzvcSkw==
+
 commondir@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/commondir/-/commondir-1.0.1.tgz#ddd800da0c66127393cca5950ea968a3aaf1253b"
@@ -9725,6 +9748,11 @@ fast-diff@^1.1.2:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/fast-diff/-/fast-diff-1.2.0.tgz#73ee11982d86caaf7959828d519cfe927fac5f03"
   integrity sha512-xJuoT5+L99XlZ8twedaRf6Ax2TgQVxvgZOYoPKqZufmJib0tL2tegPBOZb1pVNgIhlqDlA0eO0c3wBvQcmzx4w==
+
+fast-equals@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/fast-equals/-/fast-equals-2.0.0.tgz#bef2c423af3939f2c54310df54c57e64cd2adefc"
+  integrity sha512-u6RBd8cSiLLxAiC04wVsLV6GBFDOXcTCgWkd3wEoFXgidPSoAJENqC9m7Jb2vewSvjBIfXV6icKeh3GTKfIaXA==
 
 fast-glob@^2.2.6:
   version "2.2.7"
@@ -13445,6 +13473,11 @@ micro-cors@^0.1.1:
   resolved "https://registry.yarnpkg.com/micro-cors/-/micro-cors-0.1.1.tgz#af7a480182c114ffd1ada84ad9dffc52bb4f4054"
   integrity sha512-6WqIahA5sbQR1Gjexp1VuWGFDKbZZleJb/gy1khNGk18a6iN1FdTcr3Q8twaxkV5H94RjxIBjirYbWCehpMBFw==
 
+micro-memoize@4.0.9:
+  version "4.0.9"
+  resolved "https://registry.yarnpkg.com/micro-memoize/-/micro-memoize-4.0.9.tgz#b44a38c9dffbee1cefc2fd139bc8947952268b62"
+  integrity sha512-Z2uZi/IUMGQDCXASdujXRqrXXEwSY0XffUrAOllhqzQI3wpUyZbiZTiE2JuYC0HSG2G7DbCS5jZmsEKEGZuemg==
+
 micro@^9.3.2:
   version "9.3.4"
   resolved "https://registry.yarnpkg.com/micro/-/micro-9.3.4.tgz#745a494e53c8916f64fb6a729f8cbf2a506b35ad"
@@ -13725,6 +13758,14 @@ modify-values@^1.0.0:
   resolved "https://registry.yarnpkg.com/modify-values/-/modify-values-1.0.1.tgz#b3939fa605546474e3e3e3c63d64bd43b4ee6022"
   integrity sha512-xV2bxeN6F7oYjZWTe/YPAy6MN2M+sL4u/Rlm2AHCIVGfo2p1yGmBHQ6vHehl4bRTZBdHu3TSkWdYgkwpYzAGSw==
 
+moize@^6.0.0:
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/moize/-/moize-6.0.1.tgz#5e1cd820fb156e90b83e411e0e22b3bbbccea474"
+  integrity sha512-Bl91P98A6Xba35mn9XoAW9DuGoQb3HyoY888TxrvQbMr9+1v3dzBzi9n4Guh5Lne8ENdqbXjQ0a8mf7UUvZ9wg==
+  dependencies:
+    fast-equals "2.0.0"
+    micro-memoize "4.0.9"
+
 move-concurrently@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/move-concurrently/-/move-concurrently-1.0.1.tgz#be2c005fda32e0b29af1f05d7c4b33214c701f92"
@@ -13878,18 +13919,6 @@ next-i18next@^8.1.2:
     i18next "^19.8.4"
     i18next-fs-backend "^1.0.7"
     react-i18next "^11.8.8"
-
-next-on-netlify@^2.9.0:
-  version "2.9.0"
-  resolved "https://registry.yarnpkg.com/next-on-netlify/-/next-on-netlify-2.9.0.tgz#9d66fc65802e26d41bd7fcc5eb9a73326708a5e2"
-  integrity sha512-1M93P6VEvsDCzpx2bt6lRmnoLTd47YbVIrH6O2xb2Cptd6bJF+uACP3tdtD7Jv7HrCkfMqbGYalEeHAc/0RwKA==
-  dependencies:
-    "@sls-next/lambda-at-edge" "^1.5.2"
-    chokidar "^3.5.1"
-    commander "^6.0.0"
-    debounce-fn "^4.0.0"
-    fs-extra "^9.0.1"
-    jimp "^0.16.1"
 
 next@10.0.7:
   version "10.0.7"
