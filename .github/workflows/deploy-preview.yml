@@ -10,9 +10,9 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 14.x
-      - run: npm ci
-      - run: npm bootstrap
-      - run: npm build
+      - run: yarn install
+      - run: yarn bootstrap
+      - run: yarn build
       
       - uses: amondnet/vercel-action@v20
         with:
