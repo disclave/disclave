@@ -5,16 +5,16 @@ import { CommentsContainer } from '@webchat/ui';
 import { loginHref } from '../../auth/login';
 import { CommentModel, useSession } from '@webchat/client';
 import { registerHref } from '../../auth/register';
-import { initServer } from '../../../modules/server';
-import { getComments, useComments } from '../../../modules/comments';
+import { useComments } from '../../../modules/comments';
+import { getCommentService, init } from '@webchat/server';
 
-export const websiteCommentsHref = (url: string) => websiteCommentsHrefRaw + url;
-export const websiteCommentsHrefRaw = '/comments/';
+export const websiteIframeHref = (url: string) => `/website/${url}/iframe/`;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  initServer();
+  init(JSON.parse(process.env.FIREBASE_CERT));
   const { website } = context.query;
-  const comments = await getComments(website as string);
+  const service = getCommentService();
+  const comments = await service.getComments(website as string);
 
   return {
     props: {
@@ -36,8 +36,8 @@ const Index: React.FC<WebsiteProps> = (props) => {
   const [comments, addComment] = useComments(props.comments, website);
 
   // TODO: open links in popup/modal window
-  const loginHrefWithRedirect = loginHref(websiteCommentsHrefRaw, website);
-  const registerHrefWithRedirect = registerHref(websiteCommentsHrefRaw, website);
+  const loginHrefWithRedirect = loginHref();
+  const registerHrefWithRedirect = registerHref();
 
   return (
     <div className="w-full h-full p-3">

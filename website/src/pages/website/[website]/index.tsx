@@ -5,16 +5,17 @@ import { CommentsContainer } from '@webchat/ui';
 import { loginHref } from '../../auth/login';
 import { CommentModel, useSession } from '@webchat/client';
 import { registerHref } from '../../auth/register';
-import { getComments, useComments } from '../../../modules/comments';
-import { initServer } from '../../../modules/server';
+import { useComments } from '../../../modules/comments';
+import { getCommentService, init } from '@webchat/server';
 
-export const websiteCommentsHref = (url: string) => websiteCommentsHrefRaw + url;
-export const websiteCommentsHrefRaw = '/comments/';
+export const websiteHref = (url: string) => websiteHrefRaw + url;
+export const websiteHrefRaw = '/website/';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  initServer();
+  init(JSON.parse(process.env.FIREBASE_CERT));
   const { website } = context.query;
-  const comments = await getComments(website as string);
+  const service = getCommentService();
+  const comments = await service.getComments(website as string);
 
   return {
     props: {
@@ -37,8 +38,8 @@ const Index: React.FC<WebsiteProps> = (props) => {
 
   const headerHeight = '48px';
 
-  const loginHrefWithRedirect = loginHref(websiteCommentsHrefRaw, website);
-  const registerHrefWithRedirect = registerHref(websiteCommentsHrefRaw, website);
+  const loginHrefWithRedirect = loginHref(websiteHrefRaw, website);
+  const registerHrefWithRedirect = registerHref(websiteHrefRaw, website);
 
   return (
     <div>
