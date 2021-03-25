@@ -1,19 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 import { CommentsContainer } from '@webchat/ui';
-import { loginHref } from '../auth/login';
-import { createComment, CommentModel, useSession } from '@webchat/client';
+import { loginHref } from '../../auth/login';
+import { CommentModel, useSession } from '@webchat/client';
+import { registerHref } from '../../auth/register';
+import { useComments } from '../../../modules/comments';
 import { getCommentService, init } from '@webchat/server';
-import { registerHref } from '../auth/register';
 
-export const websiteCommentsHref = (url: string) => websiteCommentsHrefRaw + url;
-export const websiteCommentsHrefRaw = '/comments/';
+export const websiteHref = (url: string) => websiteHrefRaw + url;
+export const websiteHrefRaw = '/website/';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   init(JSON.parse(process.env.FIREBASE_CERT));
-  const service = getCommentService();
   const { website } = context.query;
+  const service = getCommentService();
   const comments = await service.getComments(website as string);
 
   return {
@@ -33,21 +34,12 @@ const Website: React.FC<WebsiteProps> = (props) => {
   const router = useRouter();
   const website = router.query.website as string;
 
-  const [comments, setComments] = useState(props.comments);
-
-  const onCommentAdd = async (text: string) => {
-    try {
-      const addedComment = await createComment(text, website);
-      setComments([addedComment, ...comments]);
-    } catch (e) {
-      console.error(e);
-    }
-  };
+  const [comments, addComment] = useComments(props.comments, website);
 
   const headerHeight = '48px';
 
-  const loginHrefWithRedirect = loginHref(websiteCommentsHrefRaw, website);
-  const registerHrefWithRedirect = registerHref(websiteCommentsHrefRaw, website);
+  const loginHrefWithRedirect = loginHref(websiteHrefRaw, website);
+  const registerHrefWithRedirect = registerHref(websiteHrefRaw, website);
 
   return (
     <div>
@@ -62,7 +54,7 @@ const Website: React.FC<WebsiteProps> = (props) => {
             className="max-h-full"
             loginHref={loginHrefWithRedirect}
             registerHref={registerHrefWithRedirect}
-            onSubmit={onCommentAdd}
+            onSubmit={addComment}
           />
         </div>
       </main>

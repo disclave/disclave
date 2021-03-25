@@ -31,13 +31,14 @@ const Register = () => {
   );
 
   useEffect(() => {
-    if (!isActiveAccount || !redirectUrl) return;
+    if (!isActiveAccount) return;
 
-    const runRedirects = async () => {
-      await router.push(redirectUrl);
+    const checkRedirects = async () => {
+      if (redirectUrl) await router.push(redirectUrl);
+      else if (window.opener) window.close();
     };
 
-    runRedirects();
+    checkRedirects();
   }, [isActiveAccount]);
 
   const onRegisterEmailPass = async (email: string, password: string) => {

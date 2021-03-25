@@ -12,7 +12,8 @@
     "server",
     "ui",
     "website",
-    "chrome-extension"
+    "chrome-extension",
+    "plugins/react"
   ],
   "devDependencies": {
     "lerna": "^4.0.0",

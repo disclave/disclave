@@ -1,8 +1,10 @@
 import React from "react";
 import { Button } from "../../button";
 import { useTranslation } from "react-i18next";
+import { openPopupWindow } from "../../../popups";
 
 export interface CommentAddAuthProps {
+  iframe?: boolean;
   loginHref: string;
   registerHref: string;
 }
@@ -10,14 +12,27 @@ export interface CommentAddAuthProps {
 export const CommentAddAuth: React.VFC<CommentAddAuthProps> = (props) => {
   const { t } = useTranslation("comments");
 
+  const registerButtonHref = !props.iframe ? props.registerHref : undefined;
+  const loginButtonHref = !props.iframe ? props.loginHref : undefined;
+
+  const registerButtonClick = props.iframe
+    ? () => openPopupWindow(props.registerHref, "WebChat_register")
+    : undefined;
+
+  const loginButtonClick = props.iframe
+    ? () => openPopupWindow(props.loginHref, "WebChat_login")
+    : undefined;
+
   return (
     <div className="flex flex-row items-center justify-between bg-white py-1">
       <div>{t("add.auth.text")}</div>
       <div className="space-x-2">
-        <Button href={props.registerHref}>
+        <Button href={registerButtonHref} onClick={registerButtonClick}>
           {t("add.auth.button.register")}
         </Button>
-        <Button href={props.loginHref}>{t("add.auth.button.login")}</Button>
+        <Button href={loginButtonHref} onClick={loginButtonClick}>
+          {t("add.auth.button.login")}
+        </Button>
       </div>
     </div>
   );
