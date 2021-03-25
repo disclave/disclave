@@ -35,7 +35,6 @@ const Index: React.FC<WebsiteProps> = (props) => {
 
   const [comments, addComment] = useComments(props.comments, website);
 
-  // TODO: open links in popup/modal window
   const loginHrefWithRedirect = loginHref();
   const registerHrefWithRedirect = registerHref();
 
