@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getIframeUrl } from "../../helpers/UrlHelper";
+import styles from "./WebChatComments.module.css";
 
 export const WebChatComments: React.VFC = () => {
   const [href, setHref] = useState<string>();
@@ -10,5 +11,9 @@ export const WebChatComments: React.VFC = () => {
 
   if (!href) return <div>Loading...</div>;
 
-  return <iframe src={getIframeUrl(href)} />;
+  return (
+    <div className={styles.wrapper}>
+      <iframe src={getIframeUrl(href)} className={styles.iframe} />
+    </div>
+  );
 };

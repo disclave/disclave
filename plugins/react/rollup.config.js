@@ -1,10 +1,11 @@
 import babel from "@rollup/plugin-babel";
-import external from "rollup-plugin-peer-deps-external";
 import del from "rollup-plugin-delete";
 import dotEnv from "rollup-plugin-dotenv";
-import pkg from "./package.json";
-import typescript from "@rollup/plugin-typescript";
+import external from "rollup-plugin-peer-deps-external";
 import json from "@rollup/plugin-json";
+import pkg from "./package.json";
+import postcss from "rollup-plugin-postcss-modules";
+import typescript from "@rollup/plugin-typescript";
 
 export default {
   input: pkg.source,
@@ -15,6 +16,10 @@ export default {
   plugins: [
     del({ targets: ["dist/*"] }),
     dotEnv(),
+    postcss({
+      extract: false,
+      modules: true,
+    }),
     external(),
     typescript({
       exclude: ["**/*.test.*", "**/*.stories.*"],
