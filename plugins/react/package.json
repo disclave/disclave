@@ -7,11 +7,11 @@
   "types": "dist/index.d.ts",
   "source": "src/index.ts",
   "scripts": {
-    "build": "rollup -c --environment NODE_ENV:production",
+    "build": "rollup -c --compact --environment NODE_ENV:production",
     "build-watch": "rollup -c -w"
   },
   "peerDependencies": {
-    "react": "^17.0.1"
+    "react": "17.0.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.13.10",
@@ -26,6 +26,7 @@
     "babel-loader": "^8.2.2",
     "rollup": "^2.41.2",
     "rollup-plugin-delete": "^2.0.0",
+    "rollup-plugin-dotenv": "^0.3.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "typescript": "^4.2.3"
   }
