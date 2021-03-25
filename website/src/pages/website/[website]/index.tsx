@@ -28,7 +28,7 @@ interface WebsiteProps {
   comments: Array<CommentModel>;
 }
 
-const Index: React.FC<WebsiteProps> = (props) => {
+const Website: React.FC<WebsiteProps> = (props) => {
   const [, , isActiveAccount] = useSession();
 
   const router = useRouter();
@@ -61,4 +61,4 @@ const Index: React.FC<WebsiteProps> = (props) => {
     </div>
   );
 };
-export default Index;
+export default Website;
