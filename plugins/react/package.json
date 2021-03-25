@@ -2,32 +2,31 @@
   "name": "@webchat/react-plugin",
   "version": "0.1.0",
   "private": true,
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "source": "src/index.ts",
   "scripts": {
-    "build": "webpack --mode=production",
-    "build:dev": "webpack --mode=development"
+    "build": "rollup -c --environment NODE_ENV:production",
+    "build-watch": "rollup -c -w"
+  },
+  "peerDependencies": {
+    "react": "^17.0.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.16",
-    "@babel/preset-env": "^7.12.16",
+    "@babel/cli": "^7.13.10",
+    "@babel/core": "^7.13.10",
+    "@babel/preset-env": "^7.13.10",
     "@babel/preset-react": "^7.12.13",
-    "@hot-loader/react-dom": "^17.0.1",
-    "@types/react": "^17.0.1",
-    "@types/react-dom": "^17.0.1",
-    "autoprefixer": "^10.2.5",
+    "@rollup/plugin-babel": "^5.3.0",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-typescript": "^8.2.0",
+    "@types/node": "^12.0.0",
+    "@types/react": "^17.0.2",
     "babel-loader": "^8.2.2",
-    "css-loader": "^5.0.2",
-    "dotenv-webpack": "^7.0.2",
-    "file-loader": "^6.1.1",
-    "postcss": "^8.2.8",
-    "postcss-loader": "^5.2.0",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
-    "style-loader": "^2.0.0",
-    "tailwindcss": "^2.0.4",
-    "ts-loader": "^8.0.5",
-    "typescript": "^4.0.7",
-    "url-loader": "^4.1.1",
-    "webpack": "^5.1.3",
-    "webpack-cli": "^4.5.0"
+    "rollup": "^2.41.2",
+    "rollup-plugin-delete": "^2.0.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "typescript": "^4.2.3"
   }
 }
