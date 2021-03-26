@@ -1,4 +1,3 @@
-import Head from 'next/head';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'next-i18next';
 import { Layout } from '../modules/layout';
@@ -9,20 +8,13 @@ const Home = () => {
   const test = new Array(50).fill(0);
 
   return (
-    <>
-      <Head>
-        <title>Disclave</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <Layout>
-        {t('App name')}
-        {test.map((v, i) => (
-          <div key={i}>Test</div>
-        ))}
-        Test!
-      </Layout>
-    </>
+    <Layout>
+      {t('App name')}
+      {test.map((v, i) => (
+        <div key={i}>Test</div>
+      ))}
+      Test!
+    </Layout>
   );
 };
 export default Home;
