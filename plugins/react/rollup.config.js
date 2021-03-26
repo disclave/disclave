@@ -8,7 +8,7 @@ import postcss from "rollup-plugin-postcss-modules";
 import typescript from "@rollup/plugin-typescript";
 
 export default {
-  input: pkg.source,
+  input: "src/index.ts",
   output: [
     { dir: ".", entryFileNames: pkg.main, format: "cjs" },
     { dir: ".", entryFileNames: pkg.module, format: "es" },
