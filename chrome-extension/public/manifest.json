@@ -1,12 +1,9 @@
 {
-  "name": "Web Chat Chrome extension",
-  "description": "Web Chat Chrome extension",
-  "version": "1.0.0",
+  "name": "Disclave",
+  "description": "Disclave Chrome extension",
+  "version": "0.2.3",
   "manifest_version": 3,
   "permissions": ["activeTab"],
-  "background": {
-    "service_worker": "background.js"
-  },
   "action": {
     "default_icon": {
       "16": "icon16.png",
