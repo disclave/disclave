@@ -1,4 +1,3 @@
-import Head from 'next/head';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'next-i18next';
 
@@ -7,11 +6,6 @@ const Home = () => {
 
   return (
     <div>
-      <Head>
-        <title>Disclave</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
       <main>{t('App name')}</main>
     </div>
   );
