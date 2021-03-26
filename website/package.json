@@ -23,7 +23,6 @@
     "tailwindcss": "^2.0.3"
   },
   "devDependencies": {
-    "@netlify/plugin-nextjs": "^3.0.3",
     "@types/jest": "^26.0.20",
     "@types/react": "^17.0.2",
     "@typescript-eslint/eslint-plugin": "^4.16.1",
