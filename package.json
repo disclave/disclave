@@ -1,12 +1,12 @@
 {
-  "name": "@webchat/monorepo",
+  "name": "@disclave/monorepo",
   "private": true,
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
-    "version": "lerna version"
+    "version": "lerna version",
+    "start": "cd website && yarn start"
   },
-  "version": "0.1.0",
   "workspaces": [
     "client",
     "server",
@@ -16,7 +16,6 @@
     "plugins/react"
   ],
   "devDependencies": {
-    "lerna": "^4.0.0",
-    "yarn": "^1.22.10"
+    "lerna": "^4.0.0"
   }
 }

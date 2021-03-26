@@ -1,4 +1,4 @@
-@import "~@webchat/ui/dist/index.css";
+@import "~@disclave/ui/dist/index.css";
 
 @tailwind base;
 @tailwind components;

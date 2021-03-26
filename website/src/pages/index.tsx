@@ -8,7 +8,7 @@ const Home = () => {
   return (
     <div>
       <Head>
-        <title>WebChat</title>
+        <title>Disclave</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 

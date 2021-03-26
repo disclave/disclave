@@ -1,4 +1,4 @@
-import { init, graphqlHandler } from '@webchat/server';
+import { init, graphqlHandler } from '@disclave/server';
 
 init(JSON.parse(process.env.FIREBASE_CERT));
 

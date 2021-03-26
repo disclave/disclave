@@ -1,8 +1,8 @@
 import '../styles/globals.css';
 import Link from 'next/link';
 import { appWithTranslation } from 'next-i18next';
-import { setAnchorWrapper } from '@webchat/ui';
-import { init } from '@webchat/client';
+import { setAnchorWrapper } from '@disclave/ui';
+import { init } from '@disclave/client';
 
 setAnchorWrapper((props) => (
   <Link href={props.href}>

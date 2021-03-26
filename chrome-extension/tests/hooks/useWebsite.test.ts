@@ -1,7 +1,7 @@
 import {renderHook} from "@testing-library/react-hooks";
 import {WebsiteAdapterMock} from "../mocks/adapters/WebsiteAdapterMock";
 import {useWebsite} from "../../src/hooks/useWebsite";
-import {setWebsiteAdapter} from "@webchat/core";
+import {setWebsiteAdapter} from "@disclave/core";
 
 const host = 'google.com';
 const path = '/test/path';

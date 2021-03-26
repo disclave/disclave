@@ -1,12 +1,12 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
-import { CommentsContainer } from '@webchat/ui';
+import { CommentsContainer } from '@disclave/ui';
 import { loginHref } from '../../auth/login';
-import { CommentModel, useSession } from '@webchat/client';
+import { CommentModel, useSession } from '@disclave/client';
 import { registerHref } from '../../auth/register';
 import { useComments } from '../../../modules/comments';
-import { getCommentService, init } from '@webchat/server';
+import { getCommentService, init } from '@disclave/server';
 
 export const websiteHref = (url: string) => websiteHrefRaw + url;
 export const websiteHrefRaw = '/website/';

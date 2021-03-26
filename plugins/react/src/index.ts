@@ -1,1 +1,1 @@
-export { WebChatComments } from "./components/web-chat-comments";
+export { DisclaveComments } from "./components/disclave-comments";

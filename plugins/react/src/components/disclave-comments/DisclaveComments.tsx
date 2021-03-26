@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { getIframeUrl } from "../../helpers/UrlHelper";
-import styles from "./WebChatComments.module.css";
+import styles from "./DisclaveComments.module.css";
 
-export const WebChatComments: React.VFC = () => {
+export const DisclaveComments: React.VFC = () => {
   const [href, setHref] = useState<string>();
 
   useEffect(() => {

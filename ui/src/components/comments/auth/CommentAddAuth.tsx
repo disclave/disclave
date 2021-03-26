@@ -16,11 +16,11 @@ export const CommentAddAuth: React.VFC<CommentAddAuthProps> = (props) => {
   const loginButtonHref = !props.iframe ? props.loginHref : undefined;
 
   const registerButtonClick = props.iframe
-    ? () => openPopupWindow(props.registerHref, "WebChat_register")
+    ? () => openPopupWindow(props.registerHref, "Disclave_register")
     : undefined;
 
   const loginButtonClick = props.iframe
-    ? () => openPopupWindow(props.loginHref, "WebChat_login")
+    ? () => openPopupWindow(props.loginHref, "Disclave_login")
     : undefined;
 
   return (

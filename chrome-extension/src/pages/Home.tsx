@@ -1,8 +1,8 @@
 import * as React from "react";
-import { CommentsContainer } from "@webchat/ui";
+import { CommentsContainer } from "@disclave/ui";
 import { useComments } from "../hooks";
 import { loginHref } from "./Login";
-import { useSession } from "@webchat/client";
+import { useSession } from "@disclave/client";
 import { registerHref } from "./Register";
 
 export const homeHref = "/";

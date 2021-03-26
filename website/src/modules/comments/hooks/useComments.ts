@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { CommentModel, createComment } from '@webchat/client';
+import { CommentModel, createComment } from '@disclave/client';
 
 type AddComment = (text: string) => Promise<void>;
 

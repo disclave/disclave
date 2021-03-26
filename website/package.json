@@ -1,19 +1,19 @@
 {
-  "name": "@webchat/website",
-  "version": "0.2.1",
+  "name": "@disclave/website",
+  "version": "0.2.2",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p $PORT",
     "test": "jest",
     "lint": "eslint --fix .",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
   },
   "dependencies": {
-    "@webchat/client": "^0.2.1",
-    "@webchat/server": "^0.2.2",
-    "@webchat/ui": "^0.2.1",
+    "@disclave/client": "^0.2.2",
+    "@disclave/server": "^0.2.3",
+    "@disclave/ui": "^0.2.2",
     "autoprefixer": "^10.2.5",
     "next": "10.0.7",
     "next-i18next": "^8.1.2",
