@@ -20,6 +20,11 @@ jobs:
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
+      env:
+        API_URL: ${{ secrets.API_URL }}
+        FIREBASE_CERT: ${{ secrets.FIREBASE_CERT }}
+        FIREBASE_CLIENT_CONFIG: ${{ secrets.FIREBASE_CLIENT_CONFIG }}
+        IFRAME_URL: ${{ secrets.IFRAME_URL }}
       with:
         node-version: ${{ matrix.node-version }}
     - run: yarn install
