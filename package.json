@@ -4,7 +4,8 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
-    "version": "lerna version"
+    "version": "lerna version",
+    "start": "cd website && yarn start"
   },
   "workspaces": [
     "client",
