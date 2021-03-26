@@ -5,7 +5,8 @@
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
     "version": "lerna version",
-    "start": "cd website && yarn start"
+    "start": "cd website && yarn start",
+    "prepublish": "yarn bootstrap && yarn build"
   },
   "workspaces": [
     "client",
