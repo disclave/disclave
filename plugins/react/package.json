@@ -1,11 +1,11 @@
 {
   "name": "@disclave/react-plugin",
+  "description": "Disclave React plugin",
   "version": "0.1.1",
   "private": false,
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
-  "source": "src/index.ts",
   "scripts": {
     "build": "rollup -c --compact --environment NODE_ENV:production",
     "build-watch": "rollup -c -w"
@@ -31,5 +31,12 @@
     "rollup-plugin-postcss-modules": "^2.0.2",
     "typescript": "^4.2.3",
     "typescript-plugin-css-modules": "^3.2.0"
+  },
+  "homepage": "https://disclave.com",
+  "files": [
+    "dist/"
+  ],
+  "publishConfig": {
+    "access": "public"
   }
 }
