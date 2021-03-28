@@ -6,7 +6,7 @@ import { db, Db } from "../../mongodb";
 @injectable()
 export class CommentFirestoreRepository implements CommentRepository {
   public async findComments(url: UrlMeta): Promise<Array<CommentEntity>> {
-    const cursor = commentsDbCollection(db()).find({
+    const cursor = commentsDbCollection().find({
       "url.websiteId": url.websiteId,
       "url.pageId": url.pageId,
     }).sort({ timestamp: -1 });
@@ -18,10 +18,10 @@ export class CommentFirestoreRepository implements CommentRepository {
     text: string,
     url: UrlMeta
   ): Promise<CommentEntity> {
-    const result = await commentsDbCollection(db())
+    const result = await commentsDbCollection()
       .insertOne(toCommentEntity(author, text, url));
   
-    const doc = await commentsDbCollection(db()).findOne({_id: result.insertedId});
+    const doc = await commentsDbCollection().findOne({_id: result.insertedId});
     return await cursorDocToEntity(doc);
   }
 }
@@ -64,6 +64,6 @@ const websitesCollection = "websites";
 const pagesCollection = "pages";
 const commentsCollection = "comments";
 
-const commentsDbCollection = (db: Db) => {
-  return db.collection(`${websitesCollection}.${pagesCollection}.${commentsCollection}`);
+const commentsDbCollection = () => {
+  return db().collection(`${websitesCollection}.${pagesCollection}.${commentsCollection}`);
 };
