@@ -1,12 +1,6 @@
 import { admin } from "./firebase";
 
 export { admin };
-export { firestore, auth } from "./firebase";
-
-export type Transaction = admin.firestore.Transaction;
-export type FirestoreDataConverter<
-  T
-> = admin.firestore.FirestoreDataConverter<T>;
-export type QueryDocumentSnapshot<T> = admin.firestore.QueryDocumentSnapshot<T>;
+export { auth } from "./firebase";
 
 export type UserRecord = admin.auth.UserRecord;
