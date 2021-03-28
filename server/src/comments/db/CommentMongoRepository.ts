@@ -36,7 +36,7 @@ interface DbComment {
 }
 
 @injectable()
-export class CommentFirestoreRepository implements CommentRepository {
+export class CommentMongoRepository implements CommentRepository {
   public async findComments(url: UrlMeta): Promise<Array<CommentEntity>> {
     const cursor = commentsDbCollection().find({
       [DbFields.url._]: { [DbFields.url.websiteId]: url.websiteId },

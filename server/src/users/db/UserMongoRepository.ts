@@ -19,7 +19,7 @@ interface DbProfile {
 }
 
 @injectable()
-export class UserFirestoreRepository implements UserRepository<ClientSession> {
+export class UserMongoRepository implements UserRepository<ClientSession> {
   public async runTransaction(
     run: (session: ClientSession) => Promise<unknown>
   ): Promise<void> {

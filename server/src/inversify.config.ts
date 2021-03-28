@@ -1,10 +1,10 @@
 import { Container } from 'inversify';
 import 'reflect-metadata';
 import { CommentRepository } from './comments/db';
-import { CommentFirestoreRepository } from './comments/db/CommentFirestoreRepository';
+import { CommentMongoRepository } from './comments/db/CommentMongoRepository';
 import { CommentService } from './comments';
 import { CommentServiceImpl } from './comments/CommentServiceImpl';
-import { UserFirestoreRepository } from './users/db/UserFirestoreRepository';
+import { UserMongoRepository } from './users/db/UserMongoRepository';
 import { UserRepository } from './users/db';
 import { UserService } from './users';
 import { UserServiceImpl } from './users/UserServiceImpl';
@@ -17,8 +17,8 @@ const container = new Container();
 
 container.bind(AuthProvider).to(FirebaseAuthProvider);
 
-container.bind(UserRepository).to(UserFirestoreRepository);
-container.bind(CommentRepository).to(CommentFirestoreRepository);
+container.bind(UserRepository).to(UserMongoRepository);
+container.bind(CommentRepository).to(CommentMongoRepository);
 
 container.bind(UrlService).to(UrlServiceImpl);
 container.bind(UserService).to(UserServiceImpl);
