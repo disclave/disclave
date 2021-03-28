@@ -1,15 +1,47 @@
 import { CommentEntity } from "./CommentEntity";
 import { AuthorInfo, CommentRepository, UrlMeta } from "./index";
 import { injectable } from "inversify";
-import { db, Db } from "../../mongodb";
+import { Db, db } from "../../mongodb";
+
+const DbFields = {
+  _id: "_id",
+  text: "text",
+  author: { 
+    _: "author",
+    id: "id",
+    name: "name",
+  },
+  timestamp: "timestamp",
+  url: {
+    _: "url",
+    raw: "raw",
+    websiteId: "websiteId",
+    pageId: "pageId",
+  }
+} as const;
+
+interface DbComment {
+  [DbFields._id]?: string;
+  [DbFields.text]: string;
+  [DbFields.author._]: {
+    [DbFields.author.id]: string;
+    [DbFields.author.name]: string;
+  };
+  [DbFields.timestamp]: string;
+  [DbFields.url._]: {
+    [DbFields.url.raw]: string;
+    [DbFields.url.websiteId]: string;
+    [DbFields.url.pageId]: string;
+  };
+}
 
 @injectable()
 export class CommentFirestoreRepository implements CommentRepository {
   public async findComments(url: UrlMeta): Promise<Array<CommentEntity>> {
     const cursor = commentsDbCollection().find({
-      "url.websiteId": url.websiteId,
-      "url.pageId": url.pageId,
-    }).sort({ timestamp: -1 });
+      [DbFields.url._]: { [DbFields.url.websiteId]: url.websiteId },
+      [DbFields.url._]: { [DbFields.url.pageId]: url.pageId },
+    }).sort({ [DbFields.timestamp]: -1 });
     return await cursor.map(cursorDocToEntity).toArray();
   }
 
@@ -19,19 +51,18 @@ export class CommentFirestoreRepository implements CommentRepository {
     url: UrlMeta
   ): Promise<CommentEntity> {
     const result = await commentsDbCollection()
-      .insertOne(toCommentEntity(author, text, url));
+      .insertOne(toDbComment(author, text, url));
   
-    const doc = await commentsDbCollection().findOne({_id: result.insertedId});
-    return await cursorDocToEntity(doc);
+    const doc = await commentsDbCollection().findOne({ [DbFields._id]: result.insertedId});
+    return cursorDocToEntity(doc);
   }
 }
 
-const toCommentEntity = (
+const toDbComment = (
   author: AuthorInfo,
   text: string,
   url: UrlMeta
-): CommentEntity => ({
-  id: "", // TODO: how to set id?
+): DbComment => ({
   text: text,
   author: {
     id: author.id,
@@ -45,7 +76,7 @@ const toCommentEntity = (
   },
 });
 
-const cursorDocToEntity = (doc: any): CommentEntity => ({
+const cursorDocToEntity = (doc: DbComment): CommentEntity => ({
   id: doc._id,
   text: doc.text,
   author: {
