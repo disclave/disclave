@@ -1,4 +1,4 @@
-import { Db, MongoClient, ClientSession, WithTransactionCallback } from "mongodb";
+import { Db, MongoClient, ClientSession, WithTransactionCallback, OptionalId } from "mongodb";
 
 let _client: MongoClient | null = null;
 let _db: Db | null = null;
@@ -44,5 +44,5 @@ export const withTransaction = async <T>(run: WithTransactionCallback<T>): Promi
   });
 }
 
-export type {Db, ClientSession, WithTransactionCallback};
+export type {Db, ClientSession, WithTransactionCallback, OptionalId};
 
