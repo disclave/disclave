@@ -1,17 +1,24 @@
 import { Db, MongoClient } from "mongodb";
 
-const uri = process.env.DB_CONNECTION_URI;
-const dbName = process.env.DB_NAMEl
+let _client: MongoClient | null = null;
+let _db: Db | null = null;
 
-const client = new MongoClient(uri);
+export const initDatabase = async (uri: string, dbName: string) => {
+  if (!_client)
+    _client = new MongoClient(uri);
 
-export const run = async <T>(r: (db: Db) => Promise<T> | T): Promise<T> => {
-  try {
-    await client.connect();
-    return await r(client.db(dbName));
-  } finally {
-    await client.close();
-  }
+  if (!_client.isConnected)
+    await _client.connect();
+
+  if (!_db)
+    _db = _client.db(dbName);
+}
+
+export const db = (): Db => {
+  if (!_db)
+    throw "Database connection is not initialized!";
+
+  return _db;
 }
 
 export type {Db};

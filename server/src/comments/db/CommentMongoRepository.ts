@@ -1,18 +1,16 @@
 import { CommentEntity } from "./CommentEntity";
 import { AuthorInfo, CommentRepository, UrlMeta } from "./index";
 import { injectable } from "inversify";
-import { run, Db } from "../../mongodb";
+import { db, Db } from "../../mongodb";
 
 @injectable()
 export class CommentFirestoreRepository implements CommentRepository {
   public async findComments(url: UrlMeta): Promise<Array<CommentEntity>> {
-    return await run(async (db: Db) => {
-      const cursor = commentsDbCollection(db).find({
-        "url.websiteId": url.websiteId,
-        "url.pageId": url.pageId,
-      }).sort({ timestamp: -1 });
-      return await cursor.map(cursorDocToEntity).toArray();
-    });
+    const cursor = commentsDbCollection(db()).find({
+      "url.websiteId": url.websiteId,
+      "url.pageId": url.pageId,
+    }).sort({ timestamp: -1 });
+    return await cursor.map(cursorDocToEntity).toArray();
   }
 
   public async addComment(
@@ -20,13 +18,11 @@ export class CommentFirestoreRepository implements CommentRepository {
     text: string,
     url: UrlMeta
   ): Promise<CommentEntity> {
-    return await run(async (db: Db) => {
-      const result = await commentsDbCollection(db)
-        .insertOne(toCommentEntity(author, text, url));
-    
-      const doc = await commentsDbCollection(db).findOne({_id: result.insertedId});
-      return await cursorDocToEntity(doc);
-    });
+    const result = await commentsDbCollection(db())
+      .insertOne(toCommentEntity(author, text, url));
+  
+    const doc = await commentsDbCollection(db()).findOne({_id: result.insertedId});
+    return await cursorDocToEntity(doc);
   }
 }
 
