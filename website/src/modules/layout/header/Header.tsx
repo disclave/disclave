@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Logo } from './logo';
 import { NavBar } from '../navigation';
-import { NotAuthenticated } from './user';
+import { Authenticated, NotAuthenticated } from './user';
+import { useSession } from '@disclave/client';
 
 export interface HeaderProps {
   loginHref?: string;
@@ -9,6 +10,7 @@ export interface HeaderProps {
 }
 
 export const Header: React.VFC<HeaderProps> = (props) => {
+  const [userProfile] = useSession();
   const [navExtended, setNavExtended] = useState(false);
   const toggleNav = () => setNavExtended(!navExtended);
 
@@ -25,7 +27,11 @@ export const Header: React.VFC<HeaderProps> = (props) => {
       <header className={headerClasses}>
         <Logo className="ml-3 md:ml-0" />
         <div className="md:order-2 flex-grow md:flex-grow-0 mx-2">
-          <NotAuthenticated loginHref={props.loginHref} registerHref={props.registerHref} />
+          {userProfile ? (
+            <Authenticated userProfile={userProfile} />
+          ) : (
+            <NotAuthenticated loginHref={props.loginHref} registerHref={props.registerHref} />
+          )}
         </div>
         <button onClick={toggleNav} className="md:hidden w-7 h-7 mr-3">
           TG
