@@ -5,8 +5,8 @@ import { Story } from "@storybook/react";
 import {
   commentsTimestampComparator,
   RandomCommentsList,
-} from "../../stories/data/Comments";
-import { ExampleUserProfile } from "../../stories/data/UserProfiles";
+} from "@/stories/data/Comments";
+import { ExampleUserProfile } from "@/stories/data/UserProfiles";
 
 const exampleCommentsShort = RandomCommentsList(10).sort(
   commentsTimestampComparator

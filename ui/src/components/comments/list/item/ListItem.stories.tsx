@@ -2,7 +2,7 @@ import React from "react";
 
 import { ListItem, ListItemProps } from "./ListItem";
 import { Story } from "@storybook/react";
-import { ExampleComment } from "../../../../stories/data/Comments";
+import { ExampleComment } from "@/stories/data/Comments";
 
 export default {
   title: "Comments/List/ListItem",

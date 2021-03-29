@@ -3,7 +3,7 @@ import { CommentModel } from "./CommentModel";
 import { CommentsList } from "./list";
 import { CommentAddForm } from "./add";
 import { CommentAddAuth } from "./auth";
-import { UserSelfAvatar } from "../auth";
+import { UserSelfAvatar } from "@/components/auth";
 import { UserProfileModel } from "../auth/UserProfileModel";
 
 export interface CommentsContainerProps {

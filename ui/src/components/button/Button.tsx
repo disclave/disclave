@@ -1,5 +1,5 @@
 import React from "react";
-import { getAnchorWrapper } from "../../config";
+import { getAnchorWrapper } from "@/config";
 
 type ButtonType = "button" | "submit" | "reset";
 

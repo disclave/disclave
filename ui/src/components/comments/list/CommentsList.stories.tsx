@@ -5,7 +5,7 @@ import { Story } from "@storybook/react";
 import {
   commentsTimestampComparator,
   ExampleCommentsList,
-} from "../../../stories/data/Comments";
+} from "@/stories/data/Comments";
 
 const exampleComments = ExampleCommentsList.sort(commentsTimestampComparator);
 

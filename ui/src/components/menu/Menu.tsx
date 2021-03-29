@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { useOutsideAlerter } from "../../hooks";
+import { useOutsideAlerter } from "@/hooks";
 
 export interface ActivatorProps {
   onClick: () => unknown;

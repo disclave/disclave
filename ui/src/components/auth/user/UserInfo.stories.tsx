@@ -2,7 +2,7 @@ import React from "react";
 
 import { UserInfo, UserInfoProps } from "./UserInfo";
 import { Story } from "@storybook/react";
-import { ExampleUserProfile } from "../../../stories/data/UserProfiles";
+import { ExampleUserProfile } from "@/stories/data/UserProfiles";
 
 export default {
   title: "Auth/User Info",

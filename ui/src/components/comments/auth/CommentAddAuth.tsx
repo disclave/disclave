@@ -1,7 +1,7 @@
 import React from "react";
-import { Button } from "../../button";
-import { openPopupWindow } from "../../../popups";
-import { useTranslation } from "../../../i18n";
+import { Button } from "@/components/button";
+import { openPopupWindow } from "@/popups";
+import { useTranslation } from "@/i18n";
 
 export interface CommentAddAuthProps {
   iframe?: boolean;

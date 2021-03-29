@@ -1,7 +1,7 @@
 import React from "react";
 import { Input } from "../input";
 import { FormInputChildProps } from "../input/Input";
-import { useTranslation } from "../../../i18n";
+import { useTranslation } from "@/i18n";
 
 export type InputType = "text" | "email" | "password";
 

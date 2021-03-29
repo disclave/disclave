@@ -5,7 +5,7 @@ import {
   RegisterEmailPassFormProps,
 } from "./RegisterEmailPassForm";
 import { Story } from "@storybook/react";
-import { sleep } from "../../../../../stories/Helpers";
+import { sleep } from "@/stories/Helpers";
 
 export default {
   title: "Auth/Register/Email-Password Form",

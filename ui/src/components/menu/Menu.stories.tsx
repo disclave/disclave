@@ -2,7 +2,7 @@ import React from "react";
 
 import { Menu, MenuProps } from "./Menu";
 import { Story } from "@storybook/react";
-import { Button } from "../button";
+import { Button } from "@/components/button";
 
 export default {
   title: "Menu",

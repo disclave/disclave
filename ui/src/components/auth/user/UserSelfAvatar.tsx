@@ -1,7 +1,7 @@
 import React from "react";
-import { Menu } from "../../menu";
-import { Button } from "../../button";
-import { useTranslation } from "../../../i18n";
+import { Menu } from "@/components/menu";
+import { Button } from "@/components/button";
+import { useTranslation } from "@/i18n";
 
 export interface UserSelfAvatarProps {
   userProfile: { name: string };

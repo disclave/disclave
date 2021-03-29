@@ -1,8 +1,8 @@
 import React from "react";
-import { Button } from "../../button";
-import { FormErrorContainer, FormFactory, TextArea } from "../../forms";
-import { useLoading } from "../../../hooks";
-import { useTranslation } from "../../../i18n";
+import { Button } from "@/components/button";
+import { FormErrorContainer, FormFactory, TextArea } from "@/components/forms";
+import { useLoading } from "@/hooks";
+import { useTranslation } from "@/i18n";
 
 const FormField = {
   comment: "comment",

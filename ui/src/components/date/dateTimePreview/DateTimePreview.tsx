@@ -1,5 +1,5 @@
 import React from "react";
-import { getLanguage } from "../../../i18n";
+import { getLanguage } from "@/i18n";
 
 export interface DateTimePreviewProps {
   iso: string;
