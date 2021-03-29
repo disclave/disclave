@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 import { CommentsContainer } from '@disclave/ui';
 import { loginHref } from '../../auth/login';
-import { CommentModel, useSession } from '@disclave/client';
+import { CommentModel, logout, useSession } from '@disclave/client';
 import { registerHref } from '../../auth/register';
 import { useComments } from '../../../modules/comments';
 import { getCommentService, init } from '@disclave/server';
@@ -28,7 +28,7 @@ interface WebsiteProps {
 }
 
 const Index: React.FC<WebsiteProps> = (props) => {
-  const [, , isActiveAccount] = useSession();
+  const [userProfile] = useSession();
 
   const router = useRouter();
   const website = router.query.website as string;
@@ -41,13 +41,14 @@ const Index: React.FC<WebsiteProps> = (props) => {
   return (
     <div className="w-full h-full p-3">
       <CommentsContainer
-        authenticated={isActiveAccount}
+        userProfile={userProfile}
         comments={comments}
         className="max-h-full"
         iframe={true}
         loginHref={loginHrefWithRedirect}
         registerHref={registerHrefWithRedirect}
         onSubmit={addComment}
+        onLogout={logout}
       />
     </div>
   );

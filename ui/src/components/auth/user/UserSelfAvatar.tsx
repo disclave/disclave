@@ -5,14 +5,16 @@ import { Button } from "../../button";
 import { useTranslation } from "react-i18next";
 
 export interface UserSelfAvatarProps {
-  userProfile: UserProfileModel;
+  userProfile: { name: string };
   top?: boolean;
+  left?: boolean;
   onLogout: () => Promise<void>;
 }
 
 export const UserSelfAvatar: React.VFC<UserSelfAvatarProps> = ({
   userProfile,
   top = false,
+  left = false,
   onLogout,
 }) => {
   const { t } = useTranslation("auth");
@@ -29,7 +31,7 @@ export const UserSelfAvatar: React.VFC<UserSelfAvatarProps> = ({
   );
 
   return (
-    <Menu activator={avatar} top={top}>
+    <Menu activator={avatar} top={top} left={left}>
       <div className="bg-white p-2 my-1 border rounded">
         <div>{userProfile.name}</div>
         <Button onClick={onLogout} flat>

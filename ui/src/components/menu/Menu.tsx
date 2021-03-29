@@ -8,6 +8,7 @@ export interface ActivatorProps {
 export interface MenuProps {
   activator: React.ReactElement<ActivatorProps>;
   top?: boolean;
+  left?: boolean;
 }
 
 export const Menu: React.FC<MenuProps> = (props) => {
@@ -20,13 +21,14 @@ export const Menu: React.FC<MenuProps> = (props) => {
   };
 
   const menuClassName = [
-    "absolute",
+    "absolute w-max",
     props.top ? "bottom-full" : "",
+    props.left ? "right-0" : "",
     !opened ? "hidden" : "",
   ].join(" ");
 
   return (
-    <div ref={wrapperRef} className="relative">
+    <div ref={wrapperRef} className="relative w-max">
       {React.cloneElement(props.activator, {
         ...props.activator.props,
         onClick: onClickActivator,

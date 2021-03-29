@@ -10,10 +10,10 @@ export default {
 };
 
 const Template: Story<MenuProps> = (args) => (
-  <div className="m-20 p-20">
+  <div className="p-40">
     Other content Other content Other content Other content
     <Menu {...args} activator={<Button>Show</Button>}>
-      <div className="bg-gray-200 shadow p-4">This is menu</div>
+      <div className="bg-gray-200 shadow p-4">This is menu content</div>
     </Menu>
     Other content Other content Other content Other content
   </div>
@@ -24,4 +24,9 @@ export const Default = Template.bind({});
 export const Top = Template.bind({});
 Top.args = {
   top: true,
+};
+
+export const Left = Template.bind({});
+Left.args = {
+  left: true,
 };
