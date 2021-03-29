@@ -8,7 +8,11 @@ export interface NavBarProps {
 export const NavBar: React.VFC<NavBarProps> = ({ toggleState }) => {
   const menuDisplayClass = toggleState ? 'flex' : 'hidden md:flex';
 
-  const navClasses = ['container mx-auto', 'flex flex-col', 'md:flex-row md:justify-end'].join(' ');
+  const navClasses = [
+    'flex flex-col',
+    'md:flex-row md:justify-end',
+    toggleState ? 'p-2 shadow' : ''
+  ].join(' ');
 
   return (
     <nav className={navClasses}>
