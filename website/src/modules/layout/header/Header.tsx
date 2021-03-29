@@ -7,7 +7,7 @@ export const Header: React.VFC = () => {
   const toggleNav = () => setNavExtended(!navExtended);
 
   const headerClasses = [
-    'h-12 md:h-20',
+    'h-12 md:h-20 box-content',
     'py-1',
     'lg:mx-12',
     'flex items-center',
