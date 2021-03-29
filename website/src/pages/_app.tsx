@@ -4,6 +4,9 @@ import Head from 'next/head';
 import { appWithTranslation } from 'next-i18next';
 import { setAnchorWrapper } from '@disclave/ui';
 import { init } from '@disclave/client';
+import { config } from '@fortawesome/fontawesome-svg-core';
+
+config.autoAddCss = false;
 
 setAnchorWrapper((props) => (
   <Link href={props.href}>
@@ -20,6 +23,8 @@ const App = ({ Component, pageProps }) => {
     <>
       <Head>
         <title>Disclave</title>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <link rel="icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16" />
