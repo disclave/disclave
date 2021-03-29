@@ -11,10 +11,16 @@ export const NavItem: React.VFC<NavItemProps> = ({ href, text }) => {
   const { asPath } = useRouter();
   const isActive = asPath === href;
 
+  const className = [
+    'transition-colors',
+    'hover:text-primary hover:underline',
+    isActive ? 'text-primary underline' : ''
+  ].join(' ');
+
   return (
     <li>
       <Link href={href}>
-        <a>{text}</a>
+        <a className={className}>{text}</a>
       </Link>
     </li>
   );

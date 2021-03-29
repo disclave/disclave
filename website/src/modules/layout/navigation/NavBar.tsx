@@ -6,17 +6,22 @@ export interface NavBarProps {
 }
 
 export const NavBar: React.VFC<NavBarProps> = ({ toggleState }) => {
-  const menuDisplayClass = toggleState ? 'flex' : 'hidden md:flex';
-
   const navClasses = [
     'flex flex-col',
     'md:flex-row md:justify-end',
     toggleState ? 'p-2 shadow' : ''
   ].join(' ');
 
+  const ulClasses = [
+    toggleState ? 'flex' : 'hidden md:flex',
+    'flex-col md:flex-row',
+    'space-y-3 md:space-y-0',
+    'md:space-x-4'
+  ].join(' ');
+
   return (
     <nav className={navClasses}>
-      <ul className={`${menuDisplayClass} flex-col md:flex-row md:space-x-4`}>
+      <ul className={ulClasses}>
         <NavItem href="/" text="Home" />
         <NavItem href="/test" text="Test" />
       </ul>
