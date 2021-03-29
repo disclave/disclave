@@ -3,15 +3,18 @@ import { CommentModel } from "./CommentModel";
 import { CommentsList } from "./list";
 import { CommentAddForm } from "./add";
 import { CommentAddAuth } from "./auth";
+import { UserSelfAvatar } from "../auth";
+import { UserProfileModel } from "../auth/UserProfileModel";
 
 export interface CommentsContainerProps {
-  authenticated: boolean;
   className?: string;
   comments: Array<CommentModel>;
   iframe?: boolean;
   loginHref: string;
   registerHref: string;
+  userProfile?: UserProfileModel;
   onSubmit: (text: string) => Promise<void>;
+  onLogout: () => Promise<void>;
 }
 
 export const CommentsContainer: React.VFC<CommentsContainerProps> = (props) => {
@@ -23,15 +26,22 @@ export const CommentsContainer: React.VFC<CommentsContainerProps> = (props) => {
 
   const stickyFooterClasses = [
     "sticky bottom-0",
-    props.authenticated ? "py-2" : "",
+    props.userProfile ? "py-2" : "",
   ].join(" ");
 
   return (
     <div className={containerClasses}>
       <CommentsList comments={props.comments} />
       <div className={stickyFooterClasses}>
-        {props.authenticated ? (
-          <CommentAddForm onSubmit={props.onSubmit} />
+        {props.userProfile ? (
+          <div className="flex flex-row items-center space-x-2">
+            <UserSelfAvatar
+              userProfile={props.userProfile}
+              top
+              onLogout={props.onLogout}
+            />
+            <CommentAddForm onSubmit={props.onSubmit} className="flex-grow" />
+          </div>
         ) : (
           <CommentAddAuth
             iframe={props.iframe}

@@ -6,6 +6,7 @@ import {
   commentsTimestampComparator,
   RandomCommentsList,
 } from "../../stories/data/Comments";
+import { ExampleUserProfile } from "../../stories/data/UserProfiles";
 
 const exampleCommentsShort = RandomCommentsList(10).sort(
   commentsTimestampComparator
@@ -28,20 +29,19 @@ const Template: Story<CommentsContainerProps> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  authenticated: true,
+  userProfile: ExampleUserProfile,
   comments: exampleCommentsShort,
 };
 
 export const CustomClasses = Template.bind({});
 CustomClasses.args = {
-  authenticated: true,
+  userProfile: ExampleUserProfile,
   comments: exampleComments,
   className: "max-h-56",
 };
 
 export const NotAuthenticated = Template.bind({});
 NotAuthenticated.args = {
-  authenticated: false,
   comments: exampleComments,
   className: "max-h-56",
   loginHref: "https://google.com",

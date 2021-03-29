@@ -6,11 +6,13 @@ import { useTranslation } from "react-i18next";
 
 export interface UserSelfAvatarProps {
   userProfile: UserProfileModel;
+  top?: boolean;
   onLogout: () => Promise<void>;
 }
 
 export const UserSelfAvatar: React.VFC<UserSelfAvatarProps> = ({
   userProfile,
+  top = false,
   onLogout,
 }) => {
   const { t } = useTranslation("auth");
@@ -27,8 +29,8 @@ export const UserSelfAvatar: React.VFC<UserSelfAvatarProps> = ({
   );
 
   return (
-    <Menu activator={avatar}>
-      <div className="bg-white p-2 mt-1 border rounded">
+    <Menu activator={avatar} top={top}>
+      <div className="bg-white p-2 my-1 border rounded">
         <div>{userProfile.name}</div>
         <Button onClick={onLogout} flat>
           {t("logout.button")}
