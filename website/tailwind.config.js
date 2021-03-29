@@ -2,18 +2,17 @@ module.exports = {
   purge: ['./**/*.{js,ts,jsx,tsx}'],
   darkMode: false, // or 'media' or 'class'
   theme: {
-    extend: {},
-    colors: {
-      primary: {
-        DEFAULT: '#00a3ad'
+    extend: {
+      colors: {
+        primary: {
+          light: '#59d5df',
+          DEFAULT: '#00a3ad',
+          dark: '#00747e'
+        }
+      },
+      flex: {
+        full: '100%'
       }
-    },
-    flex: {
-      '1': '1 1 0%',
-      auto: '1 1 auto',
-      initial: '0 1 auto',
-      none: 'none',
-      full: '100%'
     }
   },
   variants: {
