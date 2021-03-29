@@ -1,7 +1,7 @@
 import React from "react";
-import { useTranslation } from "react-i18next";
 import { UserProfileModel } from "../UserProfileModel";
 import { Button } from "../../button";
+import { useTranslation } from "../../../i18n";
 
 export interface UserInfoProps {
   userProfile: UserProfileModel;

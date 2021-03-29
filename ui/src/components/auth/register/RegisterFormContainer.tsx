@@ -4,7 +4,7 @@ import { UserProfileModel } from "../UserProfileModel";
 import { UserInfo } from "../user";
 import { ContainerWrapper } from "../../container";
 import { Loading } from "../../loading";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "../../../i18n";
 
 export interface RegisterFormContainerProps {
   loading: boolean;

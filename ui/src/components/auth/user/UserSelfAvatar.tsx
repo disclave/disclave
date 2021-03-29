@@ -1,8 +1,7 @@
 import React from "react";
-import { UserProfileModel } from "../UserProfileModel";
 import { Menu } from "../../menu";
 import { Button } from "../../button";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "../../../i18n";
 
 export interface UserSelfAvatarProps {
   userProfile: { name: string };

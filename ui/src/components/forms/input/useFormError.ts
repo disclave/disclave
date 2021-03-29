@@ -1,10 +1,10 @@
-import { useTranslation } from "react-i18next";
 import {
   FieldError,
   FieldErrors,
   LiteralUnion,
   RegisterOptions,
 } from "react-hook-form";
+import { useTranslation } from "../../../i18n";
 
 type FormError = {
   message: string;
