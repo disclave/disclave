@@ -1,8 +1,14 @@
 import React, { useState } from 'react';
 import { Logo } from './logo';
 import { NavBar } from '../navigation';
+import { NotAuthenticated } from './user';
 
-export const Header: React.VFC = () => {
+export interface HeaderProps {
+  loginHref?: string;
+  registerHref?: string;
+}
+
+export const Header: React.VFC<HeaderProps> = (props) => {
   const [navExtended, setNavExtended] = useState(false);
   const toggleNav = () => setNavExtended(!navExtended);
 
@@ -18,11 +24,13 @@ export const Header: React.VFC = () => {
     <div className="sticky top-0 bg-white shadow">
       <header className={headerClasses}>
         <Logo className="ml-3 md:ml-0" />
-        <div className="md:order-2 flex-grow md:flex-grow-0 text-right mx-2">user</div>
+        <div className="md:order-2 flex-grow md:flex-grow-0 mx-2">
+          <NotAuthenticated loginHref={props.loginHref} registerHref={props.registerHref} />
+        </div>
         <button onClick={toggleNav} className="md:hidden w-7 h-7 mr-3">
           TG
         </button>
-        <div className="flex-full md:mx-4 bg-white">
+        <div className="flex-full md:flex-1 md:mx-4 bg-white">
           <NavBar toggleState={navExtended} />
         </div>
       </header>

@@ -1,11 +1,16 @@
 import React from 'react';
 import { Header } from './header';
 
-export const Layout: React.FC = ({ children }) => {
+export interface LayoutProps {
+  loginHref?: string;
+  registerHref?: string;
+}
+
+export const Layout: React.FC<LayoutProps> = (props) => {
   return (
     <div>
-      <Header />
-      <main>{children}</main>
+      <Header loginHref={props.loginHref} registerHref={props.registerHref} />
+      <main>{props.children}</main>
       <footer>footer</footer>
     </div>
   );
