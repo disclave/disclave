@@ -1,11 +1,14 @@
 import React from 'react';
 import { NavItem } from './item';
+import { useTranslation } from 'next-i18next';
 
 export interface NavBarProps {
   toggleState: boolean;
 }
 
 export const NavBar: React.VFC<NavBarProps> = ({ toggleState }) => {
+  const { t } = useTranslation('nav');
+
   const navClasses = [
     'flex flex-col',
     'md:flex-row md:justify-end',
@@ -22,7 +25,7 @@ export const NavBar: React.VFC<NavBarProps> = ({ toggleState }) => {
   return (
     <nav className={navClasses}>
       <ul className={ulClasses}>
-        <NavItem href="/" text="Home" />
+        <NavItem href="/" text={t('main nav.home')} />
         <NavItem href="/test" text="Test" />
       </ul>
     </nav>
