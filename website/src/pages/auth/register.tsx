@@ -5,8 +5,8 @@ import {
   redirectParamsToUrl,
   routerQueryToRedirectParams,
   valuesToParamsArray
-} from '../../modules/redirect';
-import { useEffect, useState } from 'react';
+} from '@/modules/redirect';
+import { useEffect } from 'react';
 import { loginHref } from './login';
 
 export const registerHref = (redirectPath?: string, redirectPathParamToEncode?: string): string => {

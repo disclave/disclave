@@ -2,10 +2,10 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 import { CommentsContainer } from '@disclave/ui';
-import { loginHref } from '../../auth/login';
+import { loginHref } from '@/pages/auth/login';
 import { CommentModel, logout, useSession } from '@disclave/client';
-import { registerHref } from '../../auth/register';
-import { useComments } from '../../../modules/comments';
+import { registerHref } from '@/pages/auth/register';
+import { useComments } from '@/modules/comments';
 import { getCommentService, init } from '@disclave/server';
 
 export const websiteIframeHref = (url: string) => `/website/${url}/iframe/`;

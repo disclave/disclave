@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { loginHref } from '../../../../pages/auth/login';
-import { registerHref } from '../../../../pages/auth/register';
+import { loginHref } from '@/pages/auth/login';
+import { registerHref } from '@/pages/auth/register';
 import { Button } from '@disclave/ui';
 import { useTranslation } from 'next-i18next';
 

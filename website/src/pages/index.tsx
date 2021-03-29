@@ -1,6 +1,6 @@
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'next-i18next';
-import { Layout } from '../modules/layout';
+import { Layout } from '@/modules/layout';
 
 const Home = () => {
   const { t } = useTranslation('common');
