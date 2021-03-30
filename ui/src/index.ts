@@ -3,8 +3,16 @@ import "./index.css";
 export { changeLanguage } from "./i18n";
 export { setAnchorWrapper } from "./config";
 
+export { useLoading } from "./hooks";
+
 export { Button } from "./components/button";
 export { Menu } from "./components/menu";
+export {
+  FormFactory,
+  FormErrorContainer,
+  TextField,
+  TextArea,
+} from "./components/forms";
 
 export {
   LoginFormContainer,
