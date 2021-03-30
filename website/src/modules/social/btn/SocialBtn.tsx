@@ -35,7 +35,7 @@ export const SocialBtn: React.FC<SocialBtnProps> = (props) => {
   ].join(' ');
 
   return (
-    <a href={props.href} className={className} target="_blank">
+    <a href={props.href} className={className} target="_blank" title={props.title}>
       <FontAwesomeIcon icon={icon(props.type)} title={props.title} className="h-9 w-9" />
     </a>
   );
