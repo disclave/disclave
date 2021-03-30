@@ -58,12 +58,17 @@ const Login = () => {
     await logout();
   };
 
+  const onFacebookLogin = async () => {};
+  const onGoogleLogin = async () => {};
+
   return (
     <div className="w-screen h-screen">
       <div className="mx-auto mt-16 max-w-max">
         <LoginFormContainer
           onLogin={onLogin}
           onLogout={onLogout}
+          onLoginFacebook={onFacebookLogin}
+          onLoginGoogle={onGoogleLogin}
           registerHref={registerHrefWithRedirect}
           userProfile={!isLoadingProfile ? userProfile : undefined}
         />

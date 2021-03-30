@@ -55,6 +55,9 @@ const Register = () => {
     await router.push(loginHref());
   };
 
+  const onFacebookLogin = async () => {};
+  const onGoogleLogin = async () => {};
+
   return (
     <div className="w-screen h-screen">
       <div className="mx-auto mt-16 max-w-max">
@@ -62,6 +65,8 @@ const Register = () => {
           loading={isLoadingProfile}
           userProfile={userProfile}
           onRegisterEmailPass={onRegisterEmailPass}
+          onRegisterGoogle={onGoogleLogin}
+          onRegisterFacebook={onFacebookLogin}
           onCreateUsername={onCreateUsername}
           onLogout={onLogout}
           loginHref={loginHrefWithRedirect}
