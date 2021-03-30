@@ -1,21 +1,8 @@
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { useTranslation } from 'next-i18next';
-import { Layout } from '@/modules/layout';
+import { HomePage } from '@/modules/home';
 
 const Home = () => {
-  const { t } = useTranslation('common');
-
-  const test = new Array(25).fill(0);
-
-  return (
-    <Layout>
-      {t('App name')}
-      {test.map((v, i) => (
-        <div key={i}>Test</div>
-      ))}
-      Test!
-    </Layout>
-  );
+  return <HomePage />;
 };
 export default Home;
 
