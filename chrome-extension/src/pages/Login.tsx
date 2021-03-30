@@ -1,7 +1,13 @@
 import * as React from "react";
 import { useHistory } from "react-router-dom";
 import { LoginFormContainer } from "@disclave/ui";
-import { login, logout, useSession } from "@disclave/client";
+import {
+  login,
+  loginWithFacebook,
+  loginWithGoogle,
+  logout,
+  useSession,
+} from "@disclave/client";
 import { homeHref } from "./Home";
 import { registerHref } from "./Register";
 
@@ -21,11 +27,20 @@ export const Login = () => {
     await history.push(homeHref);
   };
 
+  const onFacebookLogin = async () => {
+    await loginWithFacebook();
+  };
+  const onGoogleLogin = async () => {
+    await loginWithGoogle();
+  };
+
   return (
     <div>
       <LoginFormContainer
         onLogin={onLogin}
         onLogout={onLogout}
+        onLoginFacebook={onFacebookLogin}
+        onLoginGoogle={onGoogleLogin}
         registerHref={registerHref}
         userProfile={!isLoadingProfile ? userProfile : undefined}
       />
