@@ -1,5 +1,12 @@
 import React, { useEffect } from 'react';
-import { createSelfProfile, logout, register, useSession } from '@disclave/client';
+import {
+  createSelfProfile,
+  loginWithFacebook,
+  loginWithGoogle,
+  logout,
+  register,
+  useSession
+} from '@disclave/client';
 import { useRouter } from 'next/router';
 import { redirectParamsToUrl, routerQueryToRedirectParams } from '@/modules/redirect';
 import { loginHref } from '@/pages/auth/login';
@@ -43,8 +50,12 @@ export const RegisterPage: React.VFC = () => {
     await router.push(loginHref());
   };
 
-  const onFacebookLogin = async () => {};
-  const onGoogleLogin = async () => {};
+  const onFacebookLogin = async () => {
+    await loginWithFacebook();
+  };
+  const onGoogleLogin = async () => {
+    await loginWithGoogle();
+  };
 
   return (
     <Layout>

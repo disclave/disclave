@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { login, logout, useSession } from '@disclave/client';
+import { login, loginWithFacebook, loginWithGoogle, logout, useSession } from '@disclave/client';
 import { useRouter } from 'next/router';
 import { redirectParamsToUrl, routerQueryToRedirectParams } from '@/modules/redirect';
 import { registerHref } from '@/pages/auth/register';
@@ -46,8 +46,12 @@ export const LoginPage: React.VFC = () => {
     await logout();
   };
 
-  const onFacebookLogin = async () => {};
-  const onGoogleLogin = async () => {};
+  const onFacebookLogin = async () => {
+    await loginWithFacebook();
+  };
+  const onGoogleLogin = async () => {
+    await loginWithGoogle();
+  };
 
   return (
     <Layout>
