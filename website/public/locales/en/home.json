@@ -1,6 +1,14 @@
 {
   "main": {
     "title": "Welcome to Disclave.",
-    "subtitle": "Start discussion anywhere on the internet."
+    "subtitle": "Start discussion anywhere on the internet.",
+    "form": {
+      "url": {
+        "placeholder": "Input URL to start the discussion..."
+      },
+      "submit": {
+        "label": "Start discussion!"
+      }
+    }
   }
 }
