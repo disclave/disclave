@@ -25,7 +25,7 @@ export const MainSection: React.VFC = () => {
   const onSubmit = async (data: FormData) => {
     await runWithLoading(async () => {
       const url = stringToUrl(data.url);
-      const href = websiteHref(data.url);
+      const href = websiteHref(url);
       await router.push(href);
     });
   };
