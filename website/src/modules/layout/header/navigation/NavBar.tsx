@@ -26,7 +26,6 @@ export const NavBar: React.VFC<NavBarProps> = ({ toggleState }) => {
     <nav className={navClasses}>
       <ul className={ulClasses}>
         <NavItem href="/" text={t('header.main nav.home')} />
-        <NavItem href="/test" text="Test" />
       </ul>
     </nav>
   );

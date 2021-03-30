@@ -11,7 +11,6 @@ export const Nav: React.VFC = () => {
         <div>
           <ul className="space-y-2 fa-ul ml-5">
             <NavItem href="/" text={t('footer.nav.home')} />
-            <NavItem href="/test" text="Test" />
           </ul>
         </div>
       </div>
