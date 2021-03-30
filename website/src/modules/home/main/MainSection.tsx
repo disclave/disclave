@@ -3,6 +3,9 @@ import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 import { Button, FormErrorContainer, FormFactory, TextField } from '@disclave/ui';
 import { useLoading } from '@disclave/ui';
+import { useRouter } from 'next/router';
+import { websiteHref } from '@/pages/website/[website]';
+import { stringToUrl } from '@disclave/client';
 
 const FormField = {
   url: 'url'
@@ -17,8 +20,15 @@ export const Form = FormFactory<FormData>();
 export const MainSection: React.VFC = () => {
   const { t } = useTranslation('home');
   const [loading, runWithLoading, error] = useLoading(false);
+  const router = useRouter();
 
-  const onSubmit = (data: FormData) => {};
+  const onSubmit = async (data: FormData) => {
+    await runWithLoading(async () => {
+      const url = stringToUrl(data.url);
+      const href = websiteHref(data.url);
+      await router.push(href);
+    });
+  };
 
   return (
     <section className="bg-secondary">

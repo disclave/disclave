@@ -3,12 +3,12 @@ import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 import { CommentsContainer } from '@disclave/ui';
 import { loginHref } from '@/pages/auth/login';
-import { CommentModel, logout, useSession } from '@disclave/client';
+import { CommentModel, encodeUrl, logout, useSession } from '@disclave/client';
 import { registerHref } from '@/pages/auth/register';
 import { useComments } from '@/modules/comments';
 import { getCommentService, init } from '@disclave/server';
 
-export const websiteHref = (url: string) => websiteHrefRaw + url;
+export const websiteHref = (url: string) => websiteHrefRaw + encodeUrl(url);
 export const websiteHrefRaw = '/website/';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
