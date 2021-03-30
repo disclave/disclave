@@ -7,7 +7,7 @@ export const ContactInfo: React.VFC = () => {
 
   return (
     <div className="flex flex-col space-y-2">
-      <div>{t('footer.contact.find us')}</div>
+      <div className="text-sm text-gray-300">{t('footer.contact.find us')}</div>
       <SocialBtns />
     </div>
   );

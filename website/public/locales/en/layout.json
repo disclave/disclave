@@ -11,6 +11,9 @@
     }
   },
   "footer": {
+    "nav": {
+      "home": "Home"
+    },
     "contact": {
       "find us": "Find us:",
       "social": {
