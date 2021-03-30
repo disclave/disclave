@@ -1,10 +1,11 @@
 import React from "react";
-import { RegisterEmailPassForm, RegisterUsernameForm } from "./form";
+import { RegisterUsernameForm } from "./form";
 import { UserProfileModel } from "../UserProfileModel";
 import { UserInfo } from "../user";
 import { ContainerWrapper } from "@/components/container";
 import { Loading } from "@/components/loading";
 import { useTranslation } from "@/i18n";
+import { RegisterMethodSelect } from "@/components/auth/register/RegisterMethodSelect";
 
 export interface RegisterFormContainerProps {
   loading: boolean;
@@ -32,10 +33,10 @@ export const RegisterFormContainer: React.VFC<RegisterFormContainerProps> = (
             onLogout={props.onLogout}
           />
         );
-      case State.EMAIL_PASS:
+      case State.SELECT_METHOD:
         return (
-          <RegisterEmailPassForm
-            onSubmit={props.onRegisterEmailPass}
+          <RegisterMethodSelect
+            onRegisterEmailPass={props.onRegisterEmailPass}
             loginHref={props.loginHref}
           />
         );
@@ -64,13 +65,13 @@ const getState = (
   if (loading) return State.LOADING;
   else if (userProfile !== null && !userProfile.profileFillPending)
     return State.USER_INFO;
-  else if (userProfile === null) return State.EMAIL_PASS;
+  else if (userProfile === null) return State.SELECT_METHOD;
   else return State.USERNAME;
 };
 
 enum State {
   LOADING,
   USER_INFO,
-  EMAIL_PASS,
+  SELECT_METHOD,
   USERNAME,
 }
