@@ -7,7 +7,7 @@ import { Register, registerHref } from "./pages/Register";
 export const App = () => {
   return (
     <Router>
-      <div className="m-4 w-80">
+      <div className="m-4 w-96">
         <Switch>
           <Route path={loginHref}>
             <Login />
