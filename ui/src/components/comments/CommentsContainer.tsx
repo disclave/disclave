@@ -10,9 +10,9 @@ export interface CommentsContainerProps {
   className?: string;
   comments: Array<CommentModel>;
   iframe?: boolean;
+  inputTop?: boolean;
   loginHref: string;
   registerHref: string;
-  inputTop?: boolean;
   userProfile?: UserProfileModel;
   onSubmit: (text: string) => Promise<void>;
   onLogout: () => Promise<void>;
