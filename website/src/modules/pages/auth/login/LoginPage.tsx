@@ -51,7 +51,7 @@ export const LoginPage: React.VFC = () => {
 
   return (
     <Layout>
-      <div className="mx-auto mt-24 max-w-max">
+      <section className="container mx-auto my-8 lg:mt-24 max-w-max">
         <LoginFormContainer
           onLogin={onLogin}
           onLogout={onLogout}
@@ -60,7 +60,7 @@ export const LoginPage: React.VFC = () => {
           registerHref={registerHrefWithRedirect}
           userProfile={!isLoadingProfile ? userProfile : undefined}
         />
-      </div>
+      </section>
     </Layout>
   );
 };
