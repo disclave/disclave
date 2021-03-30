@@ -9,10 +9,10 @@ export interface LayoutProps {
 
 export const Layout: React.FC<LayoutProps> = (props) => {
   return (
-    <>
+    <div className="min-h-screen flex flex-col">
       <Header loginHref={props.loginHref} registerHref={props.registerHref} />
-      <main>{props.children}</main>
+      <main className="flex-1">{props.children}</main>
       <Footer />
-    </>
+    </div>
   );
 };
