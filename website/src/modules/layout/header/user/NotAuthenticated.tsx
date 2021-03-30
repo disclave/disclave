@@ -11,7 +11,7 @@ export interface NotAuthenticatedProps {
 }
 
 export const NotAuthenticated: React.VFC<NotAuthenticatedProps> = (props) => {
-  const { t } = useTranslation('auth');
+  const { t } = useTranslation('layout');
   const router = useRouter();
 
   const loginBtnHref = props.loginHref ?? loginHref(router.route);
@@ -20,9 +20,9 @@ export const NotAuthenticated: React.VFC<NotAuthenticatedProps> = (props) => {
   return (
     <div className="flex flex-row space-x-2 justify-end">
       <Button href={loginBtnHref} outlined>
-        {t('buttons.log in')}
+        {t('header.auth.buttons.log in')}
       </Button>
-      <Button href={registerBtnHref}>{t('buttons.sign up')}</Button>
+      <Button href={registerBtnHref}>{t('header.auth.buttons.sign up')}</Button>
     </div>
   );
 };

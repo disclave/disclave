@@ -7,7 +7,7 @@ export interface NavBarProps {
 }
 
 export const NavBar: React.VFC<NavBarProps> = ({ toggleState }) => {
-  const { t } = useTranslation('nav');
+  const { t } = useTranslation('layout');
 
   const navClasses = [
     'flex flex-col',
@@ -25,7 +25,7 @@ export const NavBar: React.VFC<NavBarProps> = ({ toggleState }) => {
   return (
     <nav className={navClasses}>
       <ul className={ulClasses}>
-        <NavItem href="/" text={t('main nav.home')} />
+        <NavItem href="/" text={t('header.main nav.home')} />
         <NavItem href="/test" text="Test" />
       </ul>
     </nav>

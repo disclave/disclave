@@ -1,0 +1,13 @@
+{
+  "header": {
+    "main nav": {
+      "home": "Home"
+    },
+    "auth": {
+      "buttons": {
+        "log in": "Log In",
+        "sign up": "Sign Up"
+      }
+    }
+  }
+}

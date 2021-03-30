@@ -5,7 +5,7 @@ import { Layout } from '@/modules/layout';
 const Home = () => {
   const { t } = useTranslation('common');
 
-  const test = new Array(50).fill(0);
+  const test = new Array(25).fill(0);
 
   return (
     <Layout>
@@ -21,6 +21,6 @@ export default Home;
 
 export const getStaticProps = async ({ locale }) => ({
   props: {
-    ...(await serverSideTranslations(locale, ['common', 'auth', 'nav']))
+    ...(await serverSideTranslations(locale, ['common', 'layout']))
   }
 });
