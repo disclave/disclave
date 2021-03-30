@@ -11,6 +11,8 @@ export interface RegisterFormContainerProps {
   loading: boolean;
   userProfile: UserProfileModel | null;
   onRegisterEmailPass: (email: string, password: string) => Promise<void>;
+  onRegisterFacebook: () => Promise<void>;
+  onRegisterGoogle: () => Promise<void>;
   onCreateUsername: (name: string) => Promise<void>;
   onLogout: () => Promise<void>;
   loginHref: string;
@@ -37,6 +39,8 @@ export const RegisterFormContainer: React.VFC<RegisterFormContainerProps> = (
         return (
           <RegisterMethodSelect
             onRegisterEmailPass={props.onRegisterEmailPass}
+            onRegisterFacebook={props.onRegisterFacebook}
+            onRegisterGoogle={props.onRegisterGoogle}
             loginHref={props.loginHref}
           />
         );

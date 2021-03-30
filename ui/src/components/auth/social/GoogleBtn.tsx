@@ -3,12 +3,13 @@ import btnNormal from "../../../images/google_signin_buttons/web/vector/btn_goog
 import { Button } from "@/components/button";
 
 export interface GoogleBtnProps {
+  disabled?: boolean;
   onClick: () => void;
 }
 
 export const GoogleBtn: React.VFC<GoogleBtnProps> = (props) => {
   return (
-    <Button icon flat onClick={props.onClick}>
+    <Button icon flat disabled={props.disabled} onClick={props.onClick}>
       <img src={btnNormal} alt="" className="w-12 h-12" />
     </Button>
   );

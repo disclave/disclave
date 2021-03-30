@@ -6,6 +6,8 @@ import { FacebookBtn } from "@/components/auth/social/FacebookBtn";
 
 export interface RegisterMethodSelectProps {
   onRegisterEmailPass: (email: string, password: string) => Promise<void>;
+  onRegisterFacebook: () => Promise<void>;
+  onRegisterGoogle: () => Promise<void>;
   loginHref: string;
 }
 
@@ -14,14 +16,11 @@ export const RegisterMethodSelect: React.VFC<RegisterMethodSelectProps> = (
 ) => {
   const { t } = useTranslation("common");
 
-  const googleLogin = () => {};
-  const facebookLogin = () => {};
-
   return (
     <div>
       <div className="flex flex-row justify-center space-x-2">
-        <GoogleBtn onClick={googleLogin} />
-        <FacebookBtn onClick={facebookLogin} />
+        <GoogleBtn onClick={props.onRegisterGoogle} />
+        <FacebookBtn onClick={props.onRegisterFacebook} />
       </div>
       <div className="flex flex-row mt-2 mb-4 uppercase text-gray-400 font-semibold items-center">
         <hr className="flex-grow mx-3" />
