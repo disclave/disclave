@@ -1,8 +1,8 @@
 import React from "react";
-import { Button } from "../../button";
-import { useTranslation } from "react-i18next";
-import { FormErrorContainer, FormFactory, TextArea } from "../../forms";
-import { useLoading } from "../../../hooks";
+import { Button } from "@/components/button";
+import { FormErrorContainer, FormFactory, TextArea } from "@/components/forms";
+import { useLoading } from "@/hooks";
+import { useTranslation } from "@/i18n";
 
 const FormField = {
   comment: "comment",
@@ -13,6 +13,7 @@ interface FormData {
 }
 
 export interface CommentAddFormProps {
+  className?: string;
   onSubmit: (text: string) => Promise<void>;
 }
 
@@ -30,8 +31,12 @@ export const CommentAddForm: React.VFC<CommentAddFormProps> = (props) => {
     }
   };
 
+  const className = ["flex flex-col space-y-2", props.className ?? ""].join(
+    " "
+  );
+
   return (
-    <Form onSubmit={onSubmit} className="flex flex-col space-y-2">
+    <Form onSubmit={onSubmit} className={className}>
       <div className="flex flex-row content-center space-x-4 bg-white">
         <TextArea
           autoGrow

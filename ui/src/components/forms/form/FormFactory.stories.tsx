@@ -2,7 +2,7 @@ import React from "react";
 
 import { FormFactory } from "./FormFactory";
 import { Story } from "@storybook/react";
-import { Button } from "../../button";
+import { Button } from "@/components/button";
 import { TextArea } from "../textarea";
 import { TextField } from "../textfield";
 

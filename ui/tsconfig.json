@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "target": "es5",
     "lib": [
       "dom",
@@ -21,9 +22,12 @@
     "jsx": "react",
     "declaration": true,
     "declarationDir": "dist",
-    "rootDir": "src"
+    "rootDir": "src",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
   "include": [
     "src"
-  ]
+  ],
 }

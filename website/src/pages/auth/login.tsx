@@ -5,7 +5,7 @@ import {
   redirectParamsToUrl,
   routerQueryToRedirectParams,
   valuesToParamsArray
-} from '../../modules/redirect';
+} from '@/modules/redirect';
 import { registerHref } from './register';
 import { useEffect } from 'react';
 

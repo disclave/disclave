@@ -2,9 +2,9 @@ import React from "react";
 import { RegisterEmailPassForm, RegisterUsernameForm } from "./form";
 import { UserProfileModel } from "../UserProfileModel";
 import { UserInfo } from "../user";
-import { ContainerWrapper } from "../../container";
-import { Loading } from "../../loading";
-import { useTranslation } from "react-i18next";
+import { ContainerWrapper } from "@/components/container";
+import { Loading } from "@/components/loading";
+import { useTranslation } from "@/i18n";
 
 export interface RegisterFormContainerProps {
   loading: boolean;

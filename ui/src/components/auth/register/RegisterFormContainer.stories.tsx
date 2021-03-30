@@ -8,7 +8,7 @@ import { Story } from "@storybook/react";
 import {
   ExampleUserProfile,
   ExampleUserProfileWithFillPending,
-} from "../../../stories/data/UserProfiles";
+} from "@/stories/data/UserProfiles";
 
 export default {
   title: "Auth/Register/Container",

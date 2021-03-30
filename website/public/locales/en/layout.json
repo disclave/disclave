@@ -1,0 +1,29 @@
+{
+  "header": {
+    "main nav": {
+      "home": "Home"
+    },
+    "auth": {
+      "buttons": {
+        "log in": "Log In",
+        "sign up": "Sign Up"
+      }
+    }
+  },
+  "footer": {
+    "nav": {
+      "home": "Home"
+    },
+    "contact": {
+      "find us": "Find us:",
+      "social": {
+        "facebook": "Visit Disclave on Facebook",
+        "messenger": "Contact Disclave with Facebook Messenger",
+        "github": "View Disclave on Github",
+        "twitter": "Visit Disclave on Twitter",
+        "reddit": "Visit Disclave on Reddit"
+      }
+    },
+    "copyright": "© 2021 Disclave"
+  }
+}
