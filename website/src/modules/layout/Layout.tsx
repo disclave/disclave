@@ -9,10 +9,10 @@ export interface LayoutProps {
 
 export const Layout: React.FC<LayoutProps> = (props) => {
   return (
-    <div>
+    <>
       <Header loginHref={props.loginHref} registerHref={props.registerHref} />
       <main>{props.children}</main>
       <Footer />
-    </div>
+    </>
   );
 };
