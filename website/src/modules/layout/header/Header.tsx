@@ -21,7 +21,7 @@ export const Header: React.VFC<HeaderProps> = (props) => {
   ].join(' ');
 
   return (
-    <div className="sticky top-0 bg-white shadow">
+    <div className="sticky top-0 bg-white shadow z-50">
       <header className={headerClasses}>
         <Logo className="ml-3 md:ml-0" />
         <HeaderAuth className="md:order-2 flex-grow md:flex-grow-0 mx-2 justify-items-end" />

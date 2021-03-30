@@ -22,7 +22,7 @@ export const UserSelfAvatar: React.VFC<UserSelfAvatarProps> = ({
   let avatarText = userProfile.name[0];
 
   const avatar = (
-    <button className="rounded-full w-8 h-8 bg-primary flex focus:outline-none">
+    <button className="rounded-full w-8 h-8 bg-primary flex focus:outline-none z-0">
       <span className="m-auto uppercase text-white text-md font-semibold">
         {avatarText}
       </span>

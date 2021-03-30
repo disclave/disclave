@@ -33,6 +33,13 @@ Default.args = {
   comments: exampleCommentsShort,
 };
 
+export const InputTop = Template.bind({});
+InputTop.args = {
+  inputTop: true,
+  userProfile: ExampleUserProfile,
+  comments: exampleCommentsShort,
+};
+
 export const CustomClasses = Template.bind({});
 CustomClasses.args = {
   userProfile: ExampleUserProfile,
@@ -42,6 +49,14 @@ CustomClasses.args = {
 
 export const NotAuthenticated = Template.bind({});
 NotAuthenticated.args = {
+  comments: exampleComments,
+  className: "max-h-56",
+  loginHref: "https://google.com",
+};
+
+export const NotAuthenticatedInputTop = Template.bind({});
+NotAuthenticatedInputTop.args = {
+  inputTop: true,
   comments: exampleComments,
   className: "max-h-56",
   loginHref: "https://google.com",
