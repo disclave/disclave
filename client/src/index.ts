@@ -10,6 +10,8 @@ export {
   login,
   logout,
   register,
+  loginWithGoogle,
+  loginWithFacebook,
   currentUser,
   onAuthStateChanged,
   useSession,
