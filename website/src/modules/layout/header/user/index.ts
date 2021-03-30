@@ -1,2 +1,1 @@
-export { Authenticated } from './Authenticated';
-export { NotAuthenticated } from './NotAuthenticated';
+export { HeaderAuth } from './HeaderAuth';
