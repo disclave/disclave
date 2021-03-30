@@ -1,13 +1,6 @@
-import { login, logout, useSession } from '@disclave/client';
-import { LoginFormContainer } from '@disclave/ui';
-import { useRouter } from 'next/router';
-import {
-  redirectParamsToUrl,
-  routerQueryToRedirectParams,
-  valuesToParamsArray
-} from '@/modules/redirect';
-import { registerHref } from './register';
-import { useEffect } from 'react';
+import { valuesToParamsArray } from '@/modules/redirect';
+import { LoginPage } from '@/modules/pages/auth/login';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 export const loginHref = (redirectPath?: string, redirectPathParamToEncode?: string): string => {
   let path = '/auth/login';
@@ -19,61 +12,12 @@ export const loginHref = (redirectPath?: string, redirectPathParamToEncode?: str
 };
 
 const Login = () => {
-  const [userProfile, isLoadingProfile] = useSession();
-
-  const router = useRouter();
-  const redirectParams = routerQueryToRedirectParams(router.query);
-  const redirectUrl = redirectParamsToUrl(redirectParams);
-
-  const registerHrefWithRedirect = registerHref(
-    redirectParams.redirectPath,
-    redirectParams.redirectPathParamToEncode
-  );
-
-  const redirectToRegisterPage = async () => {
-    await router.push(registerHrefWithRedirect);
-  };
-
-  useEffect(() => {
-    if (userProfile == null) return;
-
-    const checkRedirects = async () => {
-      if (userProfile.profileFillPending) {
-        await redirectToRegisterPage();
-        return;
-      }
-
-      if (redirectUrl) await router.push(redirectUrl);
-      else if (window.opener) window.close();
-    };
-
-    checkRedirects();
-  }, [userProfile]);
-
-  const onLogin = async (email: string, password: string) => {
-    await login(email, password);
-  };
-
-  const onLogout = async () => {
-    await logout();
-  };
-
-  const onFacebookLogin = async () => {};
-  const onGoogleLogin = async () => {};
-
-  return (
-    <div className="w-screen h-screen">
-      <div className="mx-auto mt-16 max-w-max">
-        <LoginFormContainer
-          onLogin={onLogin}
-          onLogout={onLogout}
-          onLoginFacebook={onFacebookLogin}
-          onLoginGoogle={onGoogleLogin}
-          registerHref={registerHrefWithRedirect}
-          userProfile={!isLoadingProfile ? userProfile : undefined}
-        />
-      </div>
-    </div>
-  );
+  return <LoginPage />;
 };
 export default Login;
+
+export const getStaticProps = async ({ locale }) => ({
+  props: {
+    ...(await serverSideTranslations(locale, ['common', 'layout']))
+  }
+});
