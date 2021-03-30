@@ -1,12 +1,10 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
-import { CommentsContainer } from '@disclave/ui';
-import { loginHref } from '@/pages/auth/login';
-import { CommentModel, encodeUrl, logout, useSession } from '@disclave/client';
-import { registerHref } from '@/pages/auth/register';
-import { useComments } from '@/modules/comments';
+import { CommentModel, encodeUrl } from '@disclave/client';
 import { getCommentService, init } from '@disclave/server';
+import { WebsitePage } from '@/modules/website';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 export const websiteHref = (url: string) => websiteHrefRaw + encodeUrl(url);
 export const websiteHrefRaw = '/website/';
@@ -15,11 +13,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   init(JSON.parse(process.env.FIREBASE_CERT));
   const { website } = context.query;
   const service = getCommentService();
-  const comments = await service.getComments(website as string);
+
+  const commentsPromise = service.getComments(website as string);
+  const translationsPromise = serverSideTranslations(context.locale, ['common', 'layout']);
 
   return {
     props: {
-      comments
+      comments: await commentsPromise,
+      ...(await translationsPromise)
     }
   };
 };
@@ -29,37 +30,9 @@ interface WebsiteProps {
 }
 
 const Website: React.FC<WebsiteProps> = (props) => {
-  const [userProfile] = useSession();
-
   const router = useRouter();
   const website = router.query.website as string;
 
-  const [comments, addComment] = useComments(props.comments, website);
-
-  const headerHeight = '48px';
-
-  const loginHrefWithRedirect = loginHref(websiteHrefRaw, website);
-  const registerHrefWithRedirect = registerHref(websiteHrefRaw, website);
-
-  return (
-    <div>
-      <main>
-        <div style={{ height: headerHeight }} className="p-3">
-          {website}
-        </div>
-        <div style={{ height: `calc(100vh - ${headerHeight})` }} className="p-3">
-          <CommentsContainer
-            userProfile={userProfile}
-            comments={comments}
-            className="max-h-full"
-            loginHref={loginHrefWithRedirect}
-            registerHref={registerHrefWithRedirect}
-            onSubmit={addComment}
-            onLogout={logout}
-          />
-        </div>
-      </main>
-    </div>
-  );
+  return <WebsitePage website={website} comments={props.comments} />;
 };
 export default Website;
