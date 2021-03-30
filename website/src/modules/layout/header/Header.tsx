@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Logo } from './logo';
-import { NavBar, NavBtn } from '../navigation';
+import { NavBar, NavBtn } from './navigation';
 import { HeaderAuth } from './user';
 
 export interface HeaderProps {
