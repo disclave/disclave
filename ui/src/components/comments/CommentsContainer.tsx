@@ -40,7 +40,7 @@ export const CommentsContainer: React.VFC<CommentsContainerProps> = (props) => {
           <div className="flex flex-row items-center space-x-2">
             <UserSelfAvatar
               userProfile={props.userProfile}
-              top
+              top={!props.inputTop}
               onLogout={props.onLogout}
             />
             <CommentAddForm onSubmit={props.onSubmit} className="flex-grow" />
