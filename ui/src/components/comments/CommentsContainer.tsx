@@ -12,6 +12,7 @@ export interface CommentsContainerProps {
   iframe?: boolean;
   loginHref: string;
   registerHref: string;
+  inputTop?: boolean;
   userProfile?: UserProfileModel;
   onSubmit: (text: string) => Promise<void>;
   onLogout: () => Promise<void>;
@@ -25,13 +26,15 @@ export const CommentsContainer: React.VFC<CommentsContainerProps> = (props) => {
   ].join(" ");
 
   const stickyFooterClasses = [
-    "sticky bottom-0",
+    props.inputTop ? "order-1" : "sticky bottom-0",
     props.userProfile ? "py-2" : "",
   ].join(" ");
 
+  const commentsClasses = props.inputTop ? "order-2 pt-2" : "";
+
   return (
     <div className={containerClasses}>
-      <CommentsList comments={props.comments} />
+      <CommentsList comments={props.comments} className={commentsClasses} />
       <div className={stickyFooterClasses}>
         {props.userProfile ? (
           <div className="flex flex-row items-center space-x-2">
@@ -43,11 +46,13 @@ export const CommentsContainer: React.VFC<CommentsContainerProps> = (props) => {
             <CommentAddForm onSubmit={props.onSubmit} className="flex-grow" />
           </div>
         ) : (
-          <CommentAddAuth
-            iframe={props.iframe}
-            loginHref={props.loginHref}
-            registerHref={props.registerHref}
-          />
+          <div>
+            <CommentAddAuth
+              iframe={props.iframe}
+              loginHref={props.loginHref}
+              registerHref={props.registerHref}
+            />
+          </div>
         )}
       </div>
     </div>
