@@ -1,8 +1,8 @@
 import React from 'react';
 import { Layout } from '@/modules/layout';
 import { CommentModel } from '@disclave/client';
-import { WebsiteInfo } from '@/modules/website/info';
-import { WebsiteComments } from '@/modules/website/comments';
+import { WebsiteInfo } from './info';
+import { WebsiteComments } from './comments';
 
 export interface WebsitePageProps {
   website: string;
