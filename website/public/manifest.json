@@ -32,5 +32,13 @@
       "src": "/icons/icon-512x512.png",
       "type": "image/png", "sizes": "512x512"
     }
-  ]
+  ],
+  "share_target": {
+    "action": "pwa-share",
+    "params": {
+      "title": "name",
+      "text": "description",
+      "url": "link"
+    }
+  }
 }
