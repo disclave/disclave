@@ -7,14 +7,22 @@ import {
 import { injectable } from "inversify";
 
 @injectable()
-export class UserRepositoryMock implements UserRepository {
+export class UserRepositoryMock implements UserRepository<{}> {
   // TODO update repository with mock logic
+
+  existProfileByName(name: string, transaction?: {}): Promise<boolean> {
+    throw new Error("Method not implemented.");
+  }
+
+  runTransaction(run: (t: {}) => Promise<unknown>): Promise<void> {
+    throw new Error("Method not implemented.");
+  }
 
   async createProfile(
     userId: string,
     profile: CreateProfileData
-  ): Promise<string> {
-    return Promise.resolve("");
+  ): Promise<void> {
+    return;
   }
 
   async getUser(uid: string): Promise<UserRecord> {

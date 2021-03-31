@@ -1,6 +1,7 @@
-import { init, graphqlHandler } from '@disclave/server';
+import { graphqlHandler } from '@disclave/server';
+import { initServer } from '@/modules/server';
 
-init(JSON.parse(process.env.FIREBASE_CERT));
+initServer().catch((e) => console.error(e));
 
 export const config = {
   api: {

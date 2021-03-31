@@ -8,3 +8,6 @@ export const UsernameInvalidCharacters = (message: string) =>
   new ApolloError(message, "username/invalid-characters");
 export const UsernameTaken = (message: string) =>
   new ApolloError(message, "username/taken");
+
+export const ProfileAlreadyExists = (message: string) =>
+  new ApolloError(message, "profile/already-exists");

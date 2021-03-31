@@ -14,5 +14,4 @@ export const initFirebase = (serviceAccountObject: Object) => {
 };
 
 export { admin };
-export const firestore = () => admin.firestore();
 export const auth = () => admin.auth();
