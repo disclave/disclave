@@ -3,7 +3,7 @@
   "description": "Disclave Chrome extension",
   "version": "0.2.3",
   "manifest_version": 2,
-  "permissions": ["activeTab", "storage"],
+  "permissions": ["activeTab"],
   "content_security_policy": "script-src 'self' https://apis.google.com; object-src 'self'",
   "background": {
     "scripts": ["background.js"],
