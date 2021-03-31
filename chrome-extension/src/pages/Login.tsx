@@ -1,15 +1,10 @@
 import * as React from "react";
 import { useHistory } from "react-router-dom";
 import { LoginFormContainer } from "@disclave/ui";
-import {
-  login,
-  loginWithFacebook,
-  loginWithGoogle,
-  logout,
-  useSession,
-} from "@disclave/client";
+import { login, logout, useSession } from "@disclave/client";
 import { homeHref } from "./Home";
 import { registerHref } from "./Register";
+import { MessageType, sendMessage } from "../messages";
 
 export const loginHref = "/login";
 
@@ -28,10 +23,10 @@ export const Login = () => {
   };
 
   const onFacebookLogin = async () => {
-    await loginWithFacebook();
+    await sendMessage({ type: MessageType.LOGIN_FACEBOOK });
   };
   const onGoogleLogin = async () => {
-    await loginWithGoogle();
+    await sendMessage({ type: MessageType.LOGIN_GOOGLE });
   };
 
   return (

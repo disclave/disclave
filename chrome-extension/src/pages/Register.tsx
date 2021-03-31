@@ -6,12 +6,10 @@ import {
   logout,
   useSession,
   createSelfProfile,
-  loginWithFacebook,
-  loginWithGoogle,
 } from "@disclave/client";
 import { homeHref } from "./Home";
-import { useState } from "react";
 import { loginHref } from "./Login";
+import { MessageType, sendMessage } from "../messages";
 
 export const registerHref = "/register";
 
@@ -35,10 +33,10 @@ export const Register = () => {
   };
 
   const onFacebookLogin = async () => {
-    await loginWithFacebook();
+    await sendMessage({ type: MessageType.LOGIN_FACEBOOK });
   };
   const onGoogleLogin = async () => {
-    await loginWithGoogle();
+    await sendMessage({ type: MessageType.LOGIN_GOOGLE });
   };
 
   return (
