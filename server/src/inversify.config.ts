@@ -1,17 +1,17 @@
-import { Container } from 'inversify';
-import 'reflect-metadata';
-import { CommentRepository } from './comments/db';
-import { CommentMongoRepository } from './comments/db/CommentMongoRepository';
-import { CommentService } from './comments';
-import { CommentServiceImpl } from './comments/CommentServiceImpl';
-import { UserMongoRepository } from './users/db/UserMongoRepository';
-import { UserRepository } from './users/db';
-import { UserService } from './users';
-import { UserServiceImpl } from './users/UserServiceImpl';
-import { UrlServiceImpl } from './url/UrlServiceImpl';
-import { UrlService } from './url';
-import { AuthProvider } from './auth';
-import { FirebaseAuthProvider } from './auth/FirebaseAuthProvider';
+import { Container } from "inversify";
+import "reflect-metadata";
+import { CommentRepository } from "./comments/db";
+import { CommentMongoRepository } from "./comments/db/CommentMongoRepository";
+import { CommentService } from "./comments";
+import { CommentServiceImpl } from "./comments/CommentServiceImpl";
+import { UserMongoRepository } from "./users/db/UserMongoRepository";
+import { UserRepository } from "./users/db";
+import { UserService } from "./users";
+import { UserServiceImpl } from "./users/UserServiceImpl";
+import { UrlServiceImpl } from "./url/UrlServiceImpl";
+import { UrlService } from "./url";
+import { AuthProvider } from "./auth";
+import { FirebaseAuthProvider } from "./auth/FirebaseAuthProvider";
 
 const container = new Container();
 

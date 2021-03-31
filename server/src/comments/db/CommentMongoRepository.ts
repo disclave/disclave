@@ -1,12 +1,12 @@
 import { CommentEntity } from "./CommentEntity";
 import { AuthorInfo, CommentRepository, UrlMeta } from "./index";
 import { injectable } from "inversify";
-import { Db, db } from "../../mongodb";
+import { db } from "../../mongodb";
 
 const DbFields = {
   _id: "_id",
   text: "text",
-  author: { 
+  author: {
     _: "author",
     id: "id",
     name: "name",
@@ -17,7 +17,7 @@ const DbFields = {
     raw: "raw",
     websiteId: "websiteId",
     pageId: "pageId",
-  }
+  },
 } as const;
 
 interface DbComment {
@@ -38,10 +38,12 @@ interface DbComment {
 @injectable()
 export class CommentMongoRepository implements CommentRepository {
   public async findComments(url: UrlMeta): Promise<Array<CommentEntity>> {
-    const cursor = commentsDbCollection().find({
-      [DbFields.url._]: { [DbFields.url.websiteId]: url.websiteId },
-      [DbFields.url._]: { [DbFields.url.pageId]: url.pageId },
-    }).sort({ [DbFields.timestamp]: -1 });
+    const cursor = commentsDbCollection()
+      .find({
+        [DbFields.url._]: { [DbFields.url.websiteId]: url.websiteId },
+        [DbFields.url._]: { [DbFields.url.pageId]: url.pageId },
+      })
+      .sort({ [DbFields.timestamp]: -1 });
     return await cursor.map(cursorDocToEntity).toArray();
   }
 
@@ -50,10 +52,13 @@ export class CommentMongoRepository implements CommentRepository {
     text: string,
     url: UrlMeta
   ): Promise<CommentEntity> {
-    const result = await commentsDbCollection()
-      .insertOne(toDbComment(author, text, url));
-  
-    const doc = await commentsDbCollection().findOne({ [DbFields._id]: result.insertedId});
+    const result = await commentsDbCollection().insertOne(
+      toDbComment(author, text, url)
+    );
+
+    const doc = await commentsDbCollection().findOne({
+      [DbFields._id]: result.insertedId,
+    });
     return cursorDocToEntity(doc);
   }
 }
@@ -96,5 +101,7 @@ const pagesCollection = "pages";
 const commentsCollection = "comments";
 
 const commentsDbCollection = () => {
-  return db().collection(`${websitesCollection}.${pagesCollection}.${commentsCollection}`);
+  return db().collection(
+    `${websitesCollection}.${pagesCollection}.${commentsCollection}`
+  );
 };

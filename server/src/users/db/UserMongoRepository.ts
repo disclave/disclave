@@ -1,6 +1,4 @@
-import {
-  auth
-} from "../../firebase";
+import { auth } from "../../firebase";
 import { UserProfileEntity } from "./UserProfileEntity";
 import { UserRepository } from "./index";
 import { injectable } from "inversify";
@@ -31,20 +29,36 @@ export class UserMongoRepository implements UserRepository<ClientSession> {
     return auth().getUser(uid);
   }
 
-  public async existProfileByName(name: string, session?: ClientSession): Promise<boolean> {
-    const result = await profilesDbCollection()
-      .count({ [DbFields.name]: name }, { session });
-    
+  public async existProfileByName(
+    name: string,
+    session?: ClientSession
+  ): Promise<boolean> {
+    const result = await profilesDbCollection().count(
+      { [DbFields.name]: name },
+      { session }
+    );
+
     return result > 0;
   }
 
-  public async createProfile(userId: string, profile: { name: string }, session?: ClientSession) {
-    await profilesDbCollection().insertOne(toDbProfile(userId, profile.name), { session });
+  public async createProfile(
+    userId: string,
+    profile: { name: string },
+    session?: ClientSession
+  ) {
+    await profilesDbCollection().insertOne(toDbProfile(userId, profile.name), {
+      session,
+    });
   }
 
-  public async getUserProfile(uid: string, session?: ClientSession): Promise<UserProfileEntity | null> {
-    const doc = await profilesDbCollection()
-      .findOne({ [DbFields._id]: uid }, { session });
+  public async getUserProfile(
+    uid: string,
+    session?: ClientSession
+  ): Promise<UserProfileEntity | null> {
+    const doc = await profilesDbCollection().findOne(
+      { [DbFields._id]: uid },
+      { session }
+    );
 
     if (!doc) return null;
     return cursorDocToEntity(doc);
@@ -55,7 +69,7 @@ const toDbProfile = (uid: string, name: string): DbProfile => ({
   _id: uid,
   name: name,
   createdTs: new Date().toUTCString(), // TODO: test this and maybe change type
-})
+});
 
 const cursorDocToEntity = (doc: DbProfile): UserProfileEntity => ({
   id: doc._id,
