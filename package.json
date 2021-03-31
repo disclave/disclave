@@ -5,6 +5,9 @@
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
     "version": "lerna version",
+    "publish": "lerna publish",
+    "publish:from-git": "lerna publish from-git",
+    "publish:from-package": "lerna publish from-package",
     "start": "cd website && yarn start"
   },
   "workspaces": [
