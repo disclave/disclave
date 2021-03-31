@@ -32,6 +32,7 @@ const Index: React.FC<WebsiteProps> = (props) => {
 
   const router = useRouter();
   const website = router.query.website as string;
+  const height = (router.query.h as string) ?? '250';
 
   const [comments, addComment] = useComments(props.comments, website);
 
@@ -39,7 +40,7 @@ const Index: React.FC<WebsiteProps> = (props) => {
   const registerHrefWithRedirect = registerHref();
 
   return (
-    <div className="w-full h-full p-3">
+    <div className="w-full p-3" style={{ height: height + 'px' }}>
       <CommentsContainer
         userProfile={userProfile}
         comments={comments}
