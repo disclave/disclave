@@ -1,5 +1,6 @@
 {
   "loading": {
     "default": "Loading..."
-  }
+  },
+  "or": "or"
 }

@@ -8,26 +8,22 @@ import {
   createSelfProfile,
 } from "@disclave/client";
 import { homeHref } from "./Home";
-import { useState } from "react";
 import { loginHref } from "./Login";
+import { MessageType, sendMessage } from "../messages";
 
 export const registerHref = "/register";
 
 export const Register = () => {
   const history = useHistory();
-  const [loading, setLoading] = useState(true);
-  const [userProfile, , , updateUserProfile] = useSession();
+  const [userProfile, isLoadingProfile, , updateUserProfile] = useSession();
 
   const onRegisterEmailPass = async (email: string, password: string) => {
-    setLoading(true);
     await register(email, password);
   };
 
   const onCreateUsername = async (name: string) => {
-    setLoading(true);
     await createSelfProfile(name);
     await updateUserProfile();
-    setLoading(false);
     await history.push(homeHref);
   };
 
@@ -36,12 +32,21 @@ export const Register = () => {
     await history.push(homeHref);
   };
 
+  const onFacebookLogin = async () => {
+    await sendMessage({ type: MessageType.LOGIN_FACEBOOK });
+  };
+  const onGoogleLogin = async () => {
+    await sendMessage({ type: MessageType.LOGIN_GOOGLE });
+  };
+
   return (
     <div>
       <RegisterFormContainer
-        loading={loading}
+        loading={isLoadingProfile}
         userProfile={userProfile}
         onRegisterEmailPass={onRegisterEmailPass}
+        onRegisterFacebook={onFacebookLogin}
+        onRegisterGoogle={onGoogleLogin}
         onCreateUsername={onCreateUsername}
         onLogout={onLogout}
         loginHref={loginHref}

@@ -1,5 +1,5 @@
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { HomePage } from '@/modules/home';
+import { HomePage } from '@/modules/pages/home';
 
 const Home = () => {
   return <HomePage />;

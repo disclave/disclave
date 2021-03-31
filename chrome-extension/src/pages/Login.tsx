@@ -4,6 +4,7 @@ import { LoginFormContainer } from "@disclave/ui";
 import { login, logout, useSession } from "@disclave/client";
 import { homeHref } from "./Home";
 import { registerHref } from "./Register";
+import { MessageType, sendMessage } from "../messages";
 
 export const loginHref = "/login";
 
@@ -21,11 +22,20 @@ export const Login = () => {
     await history.push(homeHref);
   };
 
+  const onFacebookLogin = async () => {
+    await sendMessage({ type: MessageType.LOGIN_FACEBOOK });
+  };
+  const onGoogleLogin = async () => {
+    await sendMessage({ type: MessageType.LOGIN_GOOGLE });
+  };
+
   return (
     <div>
       <LoginFormContainer
         onLogin={onLogin}
         onLogout={onLogout}
+        onLoginFacebook={onFacebookLogin}
+        onLoginGoogle={onGoogleLogin}
         registerHref={registerHref}
         userProfile={!isLoadingProfile ? userProfile : undefined}
       />

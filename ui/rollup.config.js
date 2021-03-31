@@ -6,6 +6,7 @@ import pkg from "./package.json";
 import typescript from "@rollup/plugin-typescript";
 import postcss from "rollup-plugin-postcss";
 import postcssImport from "postcss-import";
+import image from "@rollup/plugin-image";
 import json from "@rollup/plugin-json";
 
 export default {
@@ -16,6 +17,7 @@ export default {
   ],
   plugins: [
     del({ targets: ["dist/*"] }),
+    image(),
     external(),
     typescript({
       exclude: ["**/*.test.*", "**/*.stories.*"],

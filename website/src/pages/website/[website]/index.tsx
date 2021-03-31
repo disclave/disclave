@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 import { CommentModel, encodeUrl } from '@disclave/client';
 import { getCommentService, init } from '@disclave/server';
-import { WebsitePage } from '@/modules/website';
+import { WebsitePage } from '@/modules/pages/website';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 export const websiteHref = (url: string) => websiteHrefRaw + encodeUrl(url);

@@ -11,5 +11,10 @@
         "register": "Register"
       }
     }
+  },
+  "list": {
+    "empty": {
+      "text": "There are no comments. Be first to say something!"
+    }
   }
 }

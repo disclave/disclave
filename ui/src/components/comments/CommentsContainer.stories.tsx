@@ -61,3 +61,10 @@ NotAuthenticatedInputTop.args = {
   className: "max-h-56",
   loginHref: "https://google.com",
 };
+
+export const Empty = Template.bind({});
+Empty.args = {
+  userProfile: ExampleUserProfile,
+  comments: [],
+  className: "max-h-56",
+};

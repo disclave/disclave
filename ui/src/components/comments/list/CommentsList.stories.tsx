@@ -20,3 +20,8 @@ export const Default = Template.bind({});
 Default.args = {
   comments: exampleComments,
 };
+
+export const Empty = Template.bind({});
+Empty.args = {
+  comments: [],
+};

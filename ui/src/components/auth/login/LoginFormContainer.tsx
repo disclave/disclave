@@ -1,14 +1,16 @@
 import React from "react";
-import { LoginForm } from "./form";
 import { UserProfileModel } from "../UserProfileModel";
 import { UserInfo } from "../user";
 import { ContainerWrapper } from "@/components/container";
 import { Loading } from "@/components/loading";
 import { useTranslation } from "@/i18n";
+import { LoginMethodSelect } from "@/components/auth/login/LoginMethodSelect";
 
 export interface LoginFormContainerProps {
   onLogin: (email: string, password: string) => Promise<void>;
   onLogout: () => Promise<void>;
+  onLoginFacebook: () => Promise<void>;
+  onLoginGoogle: () => Promise<void>;
   registerHref: string;
   userProfile?: UserProfileModel | null;
 }
@@ -25,8 +27,10 @@ export const LoginFormContainer: React.VFC<LoginFormContainerProps> = (
         return <Loading />;
       case State.LOGIN_FORM:
         return (
-          <LoginForm
-            onSubmit={props.onLogin}
+          <LoginMethodSelect
+            onLogin={props.onLogin}
+            onLoginFacebook={props.onLoginFacebook}
+            onLoginGoogle={props.onLoginGoogle}
             registerHref={props.registerHref}
           />
         );

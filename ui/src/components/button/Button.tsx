@@ -7,6 +7,7 @@ export interface ButtonProps {
   disabled?: boolean;
   flat?: boolean;
   href?: string;
+  icon?: boolean;
   outlined?: boolean;
   type?: ButtonType;
   onClick?: () => void;
@@ -17,11 +18,12 @@ export const Button: React.FC<ButtonProps> = ({
   disabled = false,
   flat = false,
   href,
+  icon = false,
   outlined = false,
   type = "button",
   onClick,
 }) => {
-  const className = getClassNames({ disabled, flat, outlined });
+  const className = getClassNames({ disabled, flat, icon, outlined });
 
   const AnchorTag = getAnchorWrapper() ?? "a";
 
@@ -48,10 +50,8 @@ const textColor = ({ disabled, flat, outlined }: ButtonProps): string => {
   return "text-primary";
 };
 
-const hoverTextColor = ({ outlined }: ButtonProps): string => {
-  if (outlined) return "hover:text-white";
-  return "";
-};
+const hoverTextColor = ({ outlined }: ButtonProps): string =>
+  outlined ? "hover:text-white" : "";
 
 const bgColor = ({ disabled, flat, outlined }: ButtonProps): string => {
   if (flat || outlined) return "";
@@ -65,10 +65,8 @@ const hoverBgColor = ({ disabled, flat }: ButtonProps): string => {
   return "hover:bg-primary-dark";
 };
 
-const border = ({ outlined }: ButtonProps): string => {
-  if (outlined) return "border";
-  return "";
-};
+const border = ({ outlined }: ButtonProps): string =>
+  outlined ? "border" : "";
 
 const borderColor = ({ outlined, disabled }: ButtonProps): string => {
   if (!outlined) return "";
@@ -76,12 +74,17 @@ const borderColor = ({ outlined, disabled }: ButtonProps): string => {
   return "border-gray-400";
 };
 
-const cursorAndPointerEvents = ({ disabled }: ButtonProps): string => {
-  if (!disabled) return "";
-  return "cursor-default pointer-events-none";
-};
+const cursorAndPointerEvents = ({ disabled }: ButtonProps): string =>
+  !disabled ? "" : "cursor-default pointer-events-none";
 
-const getClassNames = ({ disabled, flat, outlined }: ButtonProps): string => {
+const padding = ({ icon }: ButtonProps): string => (icon ? "" : "px-3.5 py-2");
+
+const getClassNames = ({
+  disabled,
+  flat,
+  icon,
+  outlined,
+}: ButtonProps): string => {
   return [
     textColor({ disabled, flat, outlined }),
     hoverTextColor({ outlined }),
@@ -90,9 +93,10 @@ const getClassNames = ({ disabled, flat, outlined }: ButtonProps): string => {
     border({ outlined }),
     borderColor({ outlined, disabled }),
     cursorAndPointerEvents({ disabled }),
+    padding({ icon }),
     "transition-colors",
     "text-sm font-medium uppercase",
-    "rounded px-3.5 py-2",
+    "rounded",
     "focus:outline-none",
   ].join(" ");
 };
