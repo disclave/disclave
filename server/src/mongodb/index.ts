@@ -5,20 +5,26 @@ import {
   WithTransactionCallback,
   OptionalId,
 } from "mongodb";
+import { retryUntilNullOrUndefined } from "../helpers";
 
 let _client: MongoClient | null = null;
 let _db: Db | null = null;
 
 export const initDatabase = async (uri: string, dbName: string) => {
-  if (!_client) _client = new MongoClient(uri);
+  if (_db && _client) return;
 
-  if (!_client.isConnected) await _client.connect();
+  if (!_client) _client = await MongoClient.connect(uri);
 
-  if (!_db) _db = _client.db(dbName);
+  _db = _client.db(dbName);
 };
 
-export const db = (): Db => {
-  if (!_db) throw "Database connection is not initialized!";
+export const db = async (): Promise<Db> => {
+  if (!_db) {
+    const retry = retryUntilNullOrUndefined(() => _db, 5, 100);
+    if (!retry) throw "Database connection is not initialized!";
+
+    return retry;
+  }
 
   return _db;
 };

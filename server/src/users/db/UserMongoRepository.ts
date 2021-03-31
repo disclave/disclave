@@ -33,11 +33,11 @@ export class UserMongoRepository implements UserRepository<ClientSession> {
     name: string,
     session?: ClientSession
   ): Promise<boolean> {
-    const result = await profilesDbCollection().count(
+    const collection = await profilesDbCollection();
+    const result = await collection.countDocuments(
       { [DbFields.name]: name },
       { session }
     );
-
     return result > 0;
   }
 
@@ -46,7 +46,8 @@ export class UserMongoRepository implements UserRepository<ClientSession> {
     profile: { name: string },
     session?: ClientSession
   ) {
-    await profilesDbCollection().insertOne(toDbProfile(userId, profile.name), {
+    const collection = await profilesDbCollection();
+    await collection.insertOne(toDbProfile(userId, profile.name), {
       session,
     });
   }
@@ -55,10 +56,8 @@ export class UserMongoRepository implements UserRepository<ClientSession> {
     uid: string,
     session?: ClientSession
   ): Promise<UserProfileEntity | null> {
-    const doc = await profilesDbCollection().findOne(
-      { [DbFields._id]: uid },
-      { session }
-    );
+    const collection = await profilesDbCollection();
+    const doc = await collection.findOne({ [DbFields._id]: uid }, { session });
 
     if (!doc) return null;
     return cursorDocToEntity(doc);
@@ -78,6 +77,6 @@ const cursorDocToEntity = (doc: DbProfile): UserProfileEntity => ({
 
 const profilesCollection = "profiles";
 
-const profilesDbCollection = () => {
-  return db().collection(profilesCollection);
+const profilesDbCollection = async () => {
+  return (await db()).collection(profilesCollection);
 };

@@ -38,7 +38,8 @@ interface DbComment {
 @injectable()
 export class CommentMongoRepository implements CommentRepository {
   public async findComments(url: UrlMeta): Promise<Array<CommentEntity>> {
-    const cursor = commentsDbCollection()
+    const collection = await commentsDbCollection();
+    const cursor = collection
       .find({
         [DbFields.url._]: { [DbFields.url.websiteId]: url.websiteId },
         [DbFields.url._]: { [DbFields.url.pageId]: url.pageId },
@@ -52,11 +53,10 @@ export class CommentMongoRepository implements CommentRepository {
     text: string,
     url: UrlMeta
   ): Promise<CommentEntity> {
-    const result = await commentsDbCollection().insertOne(
-      toDbComment(author, text, url)
-    );
+    const collection = await commentsDbCollection();
+    const result = await collection.insertOne(toDbComment(author, text, url));
 
-    const doc = await commentsDbCollection().findOne({
+    const doc = await collection.findOne({
       [DbFields._id]: result.insertedId,
     });
     return cursorDocToEntity(doc);
@@ -100,8 +100,8 @@ const websitesCollection = "websites";
 const pagesCollection = "pages";
 const commentsCollection = "comments";
 
-const commentsDbCollection = () => {
-  return db().collection(
+const commentsDbCollection = async () => {
+  return (await db()).collection(
     `${websitesCollection}.${pagesCollection}.${commentsCollection}`
   );
 };
