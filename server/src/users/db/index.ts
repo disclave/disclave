@@ -19,5 +19,8 @@ export abstract class UserRepository<T = unknown> extends BaseRepository<T> {
     transaction?: T
   ): Promise<void>;
 
-  abstract getUserProfile(uid: string, transation?: T): Promise<UserProfileEntity | null>;
+  abstract getUserProfile(
+    uid: string,
+    transation?: T
+  ): Promise<UserProfileEntity | null>;
 }

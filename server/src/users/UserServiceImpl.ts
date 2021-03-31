@@ -4,6 +4,7 @@ import { UserRepository, UserProfileEntity } from "./db";
 import { inject, injectable } from "inversify";
 import { AuthProvider } from "../auth";
 import {
+  ProfileAlreadyExists,
   UsernameInvalidCharacters,
   UsernameMaxLength,
   UsernameMinLength,
@@ -41,6 +42,11 @@ export class UserServiceImpl implements UserService {
       if (await this.repository.existProfileByName(name, t))
         throw UsernameTaken(
           "Selected username is taken. Chose different name."
+        );
+
+      if (await this.repository.getUserProfile(uid))
+        throw ProfileAlreadyExists(
+          "Your profile already exists. Can not create it again."
         );
 
       await this.repository.createProfile(
