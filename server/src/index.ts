@@ -3,7 +3,11 @@ import { container } from "./inversify.config";
 import { CommentService } from "./comments";
 import { initDatabase } from "./mongodb";
 
-export const init = async (firebaseServiceAccountObject: Object, dbUri: string, dbName: string) => {
+export const init = async (
+  firebaseServiceAccountObject: Object,
+  dbUri: string,
+  dbName: string
+) => {
   initFirebase(firebaseServiceAccountObject);
   await initDatabase(dbUri, dbName);
 };

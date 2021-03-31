@@ -6,12 +6,13 @@ import { loginHref } from '@/pages/auth/login';
 import { CommentModel, logout, useSession } from '@disclave/client';
 import { registerHref } from '@/pages/auth/register';
 import { useComments } from '@/modules/comments';
-import { getCommentService, init } from '@disclave/server';
+import { getCommentService } from '@disclave/server';
+import { initServer } from '@/modules/server';
 
 export const websiteIframeHref = (url: string) => `/website/${url}/iframe/`;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  init(JSON.parse(process.env.FIREBASE_CERT));
+  await initServer();
   const { website } = context.query;
   const service = getCommentService();
   const comments = await service.getComments(website as string);
