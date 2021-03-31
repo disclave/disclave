@@ -4,8 +4,6 @@ import { websiteHref } from '@/pages/website/[website]';
 
 const PwaShare = () => {
   const router = useRouter();
-  // const name = router.query.name;
-  // const description = router.query.description;
   const link = router.query.link;
 
   if (link && typeof link === 'string') {

@@ -36,8 +36,6 @@
   "share_target": {
     "action": "pwa-share",
     "params": {
-      "title": "name",
-      "text": "description",
       "url": "link"
     }
   }
