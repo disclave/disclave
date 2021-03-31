@@ -1,7 +1,7 @@
 import { CommentEntity } from "./CommentEntity";
 import { AuthorInfo, CommentRepository, UrlMeta } from "./index";
 import { injectable } from "inversify";
-import { db } from "../../mongodb";
+import { db, Timestamp, ObjectID } from "../../mongodb";
 
 const DbFields = {
   _id: "_id",
@@ -21,13 +21,13 @@ const DbFields = {
 } as const;
 
 interface DbComment {
-  [DbFields._id]?: string;
+  [DbFields._id]?: ObjectID;
   [DbFields.text]: string;
   [DbFields.author._]: {
     [DbFields.author.id]: string;
     [DbFields.author.name]: string;
   };
-  [DbFields.timestamp]: string;
+  [DbFields.timestamp]: Timestamp;
   [DbFields.url._]: {
     [DbFields.url.raw]: string;
     [DbFields.url.websiteId]: string;
@@ -40,10 +40,10 @@ export class CommentMongoRepository implements CommentRepository {
   public async findComments(url: UrlMeta): Promise<Array<CommentEntity>> {
     const collection = await commentsDbCollection();
     const cursor = collection
-      .find({
+      .find(/*{
         [DbFields.url._]: { [DbFields.url.websiteId]: url.websiteId },
         [DbFields.url._]: { [DbFields.url.pageId]: url.pageId },
-      })
+      }*/)
       .sort({ [DbFields.timestamp]: -1 });
     return await cursor.map(cursorDocToEntity).toArray();
   }
@@ -73,7 +73,7 @@ const toDbComment = (
     id: author.id,
     name: author.name,
   },
-  timestamp: new Date().toUTCString(), // TODO: test this
+  timestamp: new Timestamp(0, Math.floor(new Date().getTime() / 1000)),
   url: {
     raw: url.raw,
     websiteId: url.websiteId,
@@ -82,13 +82,13 @@ const toDbComment = (
 });
 
 const cursorDocToEntity = (doc: DbComment): CommentEntity => ({
-  id: doc._id,
+  id: doc._id.toHexString(),
   text: doc.text,
   author: {
     id: doc.author.id,
     name: doc.author.name,
   },
-  timestamp: doc.timestamp,
+  timestamp: new Date(doc.timestamp.getHighBits() * 1000).toUTCString(),
   url: {
     raw: doc.url.raw,
     websiteId: doc.url.websiteId,

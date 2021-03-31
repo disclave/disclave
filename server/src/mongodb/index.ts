@@ -4,11 +4,15 @@ import {
   ClientSession,
   WithTransactionCallback,
   OptionalId,
+  Timestamp,
+  ObjectID,
 } from "mongodb";
 import { retryUntilNullOrUndefined } from "../helpers";
 
 let _client: MongoClient | null = null;
 let _db: Db | null = null;
+
+export { Timestamp, ObjectID };
 
 export const initDatabase = async (uri: string, dbName: string) => {
   if (_db && _client) return;

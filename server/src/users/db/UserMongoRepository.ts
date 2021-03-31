@@ -2,7 +2,7 @@ import { auth } from "../../firebase";
 import { UserProfileEntity } from "./UserProfileEntity";
 import { UserRepository } from "./index";
 import { injectable } from "inversify";
-import { ClientSession, db, withTransaction } from "../../mongodb";
+import { ClientSession, db, withTransaction, Timestamp } from "../../mongodb";
 
 const DbFields = {
   _id: "_id",
@@ -13,7 +13,7 @@ const DbFields = {
 interface DbProfile {
   [DbFields._id]: string;
   [DbFields.name]: string;
-  [DbFields.createdTs]: string;
+  [DbFields.createdTs]: Timestamp;
 }
 
 @injectable()
@@ -67,7 +67,7 @@ export class UserMongoRepository implements UserRepository<ClientSession> {
 const toDbProfile = (uid: string, name: string): DbProfile => ({
   _id: uid,
   name: name,
-  createdTs: new Date().toUTCString(), // TODO: test this and maybe change type
+  createdTs: new Timestamp(0, Math.floor(new Date().getTime() / 1000)),
 });
 
 const cursorDocToEntity = (doc: DbProfile): UserProfileEntity => ({
