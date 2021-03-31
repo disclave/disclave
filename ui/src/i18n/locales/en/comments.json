@@ -7,8 +7,8 @@
     "auth": {
       "text": "Log in or register to add comments.",
       "button": {
-        "login": "Login",
-        "register": "Register"
+        "login": "Log In",
+        "register": "Sign Up"
       }
     }
   },
