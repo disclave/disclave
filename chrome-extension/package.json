@@ -1,6 +1,6 @@
 {
   "name": "@disclave/chrome-extension",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "private": true,
   "scripts": {
     "build": "webpack --mode=production",
@@ -10,8 +10,8 @@
     "test": "jest"
   },
   "dependencies": {
-    "@disclave/client": "^0.2.2",
-    "@disclave/ui": "^0.2.2",
+    "@disclave/client": "^0.2.3",
+    "@disclave/ui": "^0.2.3",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-hot-loader": "^4.13.0",
