@@ -1,8 +1,8 @@
 import React from "react";
-import { Button } from "../../../../button";
-import { useTranslation } from "react-i18next";
-import { FormFactory, TextField, FormErrorContainer } from "../../../../forms";
-import { useLoading } from "../../../../../hooks";
+import { Button } from "@/components/button";
+import { FormFactory, TextField, FormErrorContainer } from "@/components/forms";
+import { useLoading } from "@/hooks";
+import { useTranslation } from "@/i18n";
 
 const FormField = {
   name: "name",

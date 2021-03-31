@@ -5,7 +5,8 @@ import { Story } from "@storybook/react";
 import {
   commentsTimestampComparator,
   RandomCommentsList,
-} from "../../stories/data/Comments";
+} from "@/stories/data/Comments";
+import { ExampleUserProfile } from "@/stories/data/UserProfiles";
 
 const exampleCommentsShort = RandomCommentsList(10).sort(
   commentsTimestampComparator
@@ -28,21 +29,42 @@ const Template: Story<CommentsContainerProps> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  authenticated: true,
+  userProfile: ExampleUserProfile,
+  comments: exampleCommentsShort,
+};
+
+export const InputTop = Template.bind({});
+InputTop.args = {
+  inputTop: true,
+  userProfile: ExampleUserProfile,
   comments: exampleCommentsShort,
 };
 
 export const CustomClasses = Template.bind({});
 CustomClasses.args = {
-  authenticated: true,
+  userProfile: ExampleUserProfile,
   comments: exampleComments,
   className: "max-h-56",
 };
 
 export const NotAuthenticated = Template.bind({});
 NotAuthenticated.args = {
-  authenticated: false,
   comments: exampleComments,
   className: "max-h-56",
   loginHref: "https://google.com",
+};
+
+export const NotAuthenticatedInputTop = Template.bind({});
+NotAuthenticatedInputTop.args = {
+  inputTop: true,
+  comments: exampleComments,
+  className: "max-h-56",
+  loginHref: "https://google.com",
+};
+
+export const Empty = Template.bind({});
+Empty.args = {
+  userProfile: ExampleUserProfile,
+  comments: [],
+  className: "max-h-56",
 };

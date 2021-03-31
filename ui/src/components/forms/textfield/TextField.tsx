@@ -1,9 +1,9 @@
 import React from "react";
 import { Input } from "../input";
 import { FormInputChildProps } from "../input/Input";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/i18n";
 
-export type InputType = "text" | "email" | "password";
+export type InputType = "text" | "email" | "password" | "url";
 
 export interface TextFieldProps extends FormInputChildProps<HTMLInputElement> {
   disabled?: boolean;

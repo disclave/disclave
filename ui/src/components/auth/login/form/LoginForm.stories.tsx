@@ -2,7 +2,7 @@ import React from "react";
 
 import { LoginForm, LoginFormProps } from "./LoginForm";
 import { Story } from "@storybook/react";
-import { sleep } from "../../../../stories/Helpers";
+import { sleep } from "@/stories/Helpers";
 
 export default {
   title: "Auth/Login/Form",

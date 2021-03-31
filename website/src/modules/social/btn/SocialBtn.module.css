@@ -1,0 +1,19 @@
+.linkFacebook:hover {
+    background: #3b5998;
+}
+
+.linkMessenger:hover {
+    background: #0078FF;
+}
+
+.linkGithub:hover {
+    background: #333;
+}
+
+.linkTwitter:hover {
+    background: #1DA1F2;
+}
+
+.linkReddit:hover {
+    background: #FF5700;
+}

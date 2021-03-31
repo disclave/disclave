@@ -24,6 +24,11 @@ Flat.args = {
   flat: true,
 };
 
+export const Outlined = Template.bind({});
+Outlined.args = {
+  outlined: true,
+};
+
 export const AsAnchorLink = Template.bind({});
 AsAnchorLink.args = {
   href: "https://google.com",

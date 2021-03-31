@@ -2,7 +2,7 @@ import React from "react";
 
 import { CommentAddForm, CommentAddFormProps } from "./CommentAddForm";
 import { Story } from "@storybook/react";
-import { sleep } from "../../../stories/Helpers";
+import { sleep } from "@/stories/Helpers";
 
 export default {
   title: "Comments/Add",

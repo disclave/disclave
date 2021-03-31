@@ -4,7 +4,8 @@ const Dotenv = require("dotenv-webpack");
 
 const config = {
   entry: {
-    popup: path.join(__dirname, "src/popup.tsx")
+    popup: path.join(__dirname, "src/popup.tsx"),
+    background: path.join(__dirname, "src/background.tsx"),
   },
   output: { path: path.join(__dirname, "dist"), filename: "[name].js" },
   module: {

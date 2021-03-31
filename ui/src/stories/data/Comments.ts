@@ -1,4 +1,4 @@
-import { CommentModel } from "../../components/comments/CommentModel";
+import { CommentModel } from "@/components/comments/CommentModel";
 
 const randomDate = (start: Date, end: Date): Date => {
   return new Date(

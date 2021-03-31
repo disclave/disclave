@@ -5,7 +5,7 @@ import {
   RegisterUsernameFormProps,
 } from "./RegisterUsernameForm";
 import { Story } from "@storybook/react";
-import { sleep } from "../../../../../stories/Helpers";
+import { sleep } from "@/stories/Helpers";
 
 export default {
   title: "Auth/Register/User name Form",

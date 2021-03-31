@@ -5,7 +5,7 @@ import {
   LoginFormContainerProps,
 } from "./LoginFormContainer";
 import { Story } from "@storybook/react";
-import { ExampleUserProfile } from "../../../stories/data/UserProfiles";
+import { ExampleUserProfile } from "@/stories/data/UserProfiles";
 
 export default {
   title: "Auth/Login/Container",

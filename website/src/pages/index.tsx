@@ -1,19 +1,13 @@
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { useTranslation } from 'next-i18next';
+import { HomePage } from '@/modules/pages/home';
 
 const Home = () => {
-  const { t } = useTranslation('common');
-
-  return (
-    <div>
-      <main>{t('App name')}</main>
-    </div>
-  );
+  return <HomePage />;
 };
 export default Home;
 
 export const getStaticProps = async ({ locale }) => ({
   props: {
-    ...(await serverSideTranslations(locale, ['common']))
+    ...(await serverSideTranslations(locale, ['common', 'home', 'layout']))
   }
 });

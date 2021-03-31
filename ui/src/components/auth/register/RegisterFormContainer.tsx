@@ -1,15 +1,18 @@
 import React from "react";
-import { RegisterEmailPassForm, RegisterUsernameForm } from "./form";
+import { RegisterUsernameForm } from "./form";
 import { UserProfileModel } from "../UserProfileModel";
 import { UserInfo } from "../user";
-import { ContainerWrapper } from "../../container";
-import { Loading } from "../../loading";
-import { useTranslation } from "react-i18next";
+import { ContainerWrapper } from "@/components/container";
+import { Loading } from "@/components/loading";
+import { useTranslation } from "@/i18n";
+import { RegisterMethodSelect } from "@/components/auth/register/RegisterMethodSelect";
 
 export interface RegisterFormContainerProps {
   loading: boolean;
   userProfile: UserProfileModel | null;
   onRegisterEmailPass: (email: string, password: string) => Promise<void>;
+  onRegisterFacebook: () => Promise<void>;
+  onRegisterGoogle: () => Promise<void>;
   onCreateUsername: (name: string) => Promise<void>;
   onLogout: () => Promise<void>;
   loginHref: string;
@@ -32,10 +35,12 @@ export const RegisterFormContainer: React.VFC<RegisterFormContainerProps> = (
             onLogout={props.onLogout}
           />
         );
-      case State.EMAIL_PASS:
+      case State.SELECT_METHOD:
         return (
-          <RegisterEmailPassForm
-            onSubmit={props.onRegisterEmailPass}
+          <RegisterMethodSelect
+            onRegisterEmailPass={props.onRegisterEmailPass}
+            onRegisterFacebook={props.onRegisterFacebook}
+            onRegisterGoogle={props.onRegisterGoogle}
             loginHref={props.loginHref}
           />
         );
@@ -64,13 +69,13 @@ const getState = (
   if (loading) return State.LOADING;
   else if (userProfile !== null && !userProfile.profileFillPending)
     return State.USER_INFO;
-  else if (userProfile === null) return State.EMAIL_PASS;
+  else if (userProfile === null) return State.SELECT_METHOD;
   else return State.USERNAME;
 };
 
 enum State {
   LOADING,
   USER_INFO,
-  EMAIL_PASS,
+  SELECT_METHOD,
   USERNAME,
 }

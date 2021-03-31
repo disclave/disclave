@@ -2,7 +2,13 @@ import React, { useEffect, useState } from "react";
 import { getIframeUrl } from "../../helpers/UrlHelper";
 import styles from "./DisclaveComments.module.css";
 
-export const DisclaveComments: React.VFC = () => {
+export interface DisclaveCommentsProps {
+  height?: string;
+}
+
+export const DisclaveComments: React.VFC<DisclaveCommentsProps> = ({
+  height = "250",
+}) => {
   const [href, setHref] = useState<string>();
 
   useEffect(() => {
@@ -12,8 +18,8 @@ export const DisclaveComments: React.VFC = () => {
   if (!href) return <div>Loading...</div>;
 
   return (
-    <div className={styles.wrapper}>
-      <iframe src={getIframeUrl(href)} className={styles.iframe} />
+    <div className={styles.wrapper} style={{ height: height + "px" }}>
+      <iframe src={getIframeUrl(href, height)} className={styles.iframe} />
     </div>
   );
 };

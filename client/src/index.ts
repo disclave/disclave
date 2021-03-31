@@ -10,10 +10,14 @@ export {
   login,
   logout,
   register,
+  loginWithGoogle,
+  loginWithFacebook,
   currentUser,
   onAuthStateChanged,
   useSession,
 } from "./auth";
+
+export { stringToUrl, encodeUrl } from "./modules/url";
 
 export { getComments, createComment } from "./modules/comments";
 export type { CommentModel } from "./modules/comments";

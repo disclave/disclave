@@ -1,5 +1,5 @@
 import React from "react";
-import { getAnchorWrapper } from "../../config";
+import { getAnchorWrapper } from "@/config";
 
 type ButtonType = "button" | "submit" | "reset";
 
@@ -7,43 +7,23 @@ export interface ButtonProps {
   disabled?: boolean;
   flat?: boolean;
   href?: string;
+  icon?: boolean;
+  outlined?: boolean;
   type?: ButtonType;
   onClick?: () => void;
 }
 
 export const Button: React.FC<ButtonProps> = ({
   children,
-  disabled,
+  disabled = false,
   flat = false,
   href,
+  icon = false,
+  outlined = false,
   type = "button",
   onClick,
 }) => {
-  const textColor =
-    disabled && flat ? "text-gray-400" : !flat ? "text-white" : "";
-
-  const bgColor = !flat ? (disabled ? "bg-gray-400" : "bg-gray-700") : "";
-
-  const hoverBgColor = !disabled
-    ? flat
-      ? "hover:bg-gray-100"
-      : "hover:bg-gray-900"
-    : "";
-
-  const cursorAndPointerEvents = disabled
-    ? "cursor-default pointer-events-none"
-    : "";
-
-  const classes = [
-    textColor,
-    cursorAndPointerEvents,
-    bgColor,
-    hoverBgColor,
-    "transition-colors",
-    "text-sm font-medium uppercase",
-    "rounded px-3.5 py-2",
-    "focus:outline-none",
-  ].join(" ");
+  const className = getClassNames({ disabled, flat, icon, outlined });
 
   const AnchorTag = getAnchorWrapper() ?? "a";
 
@@ -53,7 +33,7 @@ export const Button: React.FC<ButtonProps> = ({
   return (
     <Tag
       role={Role}
-      className={classes}
+      className={className}
       disabled={disabled}
       href={href}
       type={type}
@@ -62,4 +42,61 @@ export const Button: React.FC<ButtonProps> = ({
       {children}
     </Tag>
   );
+};
+
+const textColor = ({ disabled, flat, outlined }: ButtonProps): string => {
+  if (disabled && (flat || outlined)) return "text-gray-400";
+  if (!flat && !outlined) return "text-white";
+  return "text-primary";
+};
+
+const hoverTextColor = ({ outlined }: ButtonProps): string =>
+  outlined ? "hover:text-white" : "";
+
+const bgColor = ({ disabled, flat, outlined }: ButtonProps): string => {
+  if (flat || outlined) return "";
+  if (disabled) return "bg-gray-400";
+  return "bg-primary";
+};
+
+const hoverBgColor = ({ disabled, flat }: ButtonProps): string => {
+  if (disabled) return "";
+  if (flat) return "hover:bg-gray-100";
+  return "hover:bg-primary-dark";
+};
+
+const border = ({ outlined }: ButtonProps): string =>
+  outlined ? "border" : "";
+
+const borderColor = ({ outlined, disabled }: ButtonProps): string => {
+  if (!outlined) return "";
+  if (!disabled) return "border-primary hover:border-primary-dark";
+  return "border-gray-400";
+};
+
+const cursorAndPointerEvents = ({ disabled }: ButtonProps): string =>
+  !disabled ? "" : "cursor-default pointer-events-none";
+
+const padding = ({ icon }: ButtonProps): string => (icon ? "" : "px-3.5 py-2");
+
+const getClassNames = ({
+  disabled,
+  flat,
+  icon,
+  outlined,
+}: ButtonProps): string => {
+  return [
+    textColor({ disabled, flat, outlined }),
+    hoverTextColor({ outlined }),
+    bgColor({ disabled, flat, outlined }),
+    hoverBgColor({ disabled, flat }),
+    border({ outlined }),
+    borderColor({ outlined, disabled }),
+    cursorAndPointerEvents({ disabled }),
+    padding({ icon }),
+    "transition-colors",
+    "text-sm font-medium uppercase",
+    "rounded",
+    "focus:outline-none",
+  ].join(" ");
 };
