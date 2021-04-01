@@ -25,6 +25,8 @@ const App = ({ Component, pageProps }) => {
   return (
     <>
       <Head>
+        <title>Disclave</title>
+
         <AppHead />
       </Head>
 
