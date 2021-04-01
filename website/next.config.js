@@ -1,7 +1,6 @@
 const { i18n } = require('./next-i18next.config');
-const withPWA = require('next-pwa');
 
-module.exports = withPWA({
+module.exports = {
   i18n,
   target: 'server',
   env: {
@@ -9,8 +8,5 @@ module.exports = withPWA({
   },
   future: {
     webpack5: true
-  },
-  pwa: {
-    dest: 'public'
   }
-});
+};
