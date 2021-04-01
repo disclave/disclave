@@ -8,6 +8,8 @@ import { config } from '@fortawesome/fontawesome-svg-core';
 import { DefaultSeo } from 'next-seo';
 import { SEO } from '@/consts';
 import { AppHead } from '@/modules/head';
+import { useEffect } from 'react';
+import { swOnLoadEventListener } from '@/modules/sw';
 
 config.autoAddCss = false;
 
@@ -22,6 +24,11 @@ const firebaseConfig = JSON.parse(process.env.FIREBASE_CLIENT_CONFIG);
 init(firebaseConfig, '/api/graphql');
 
 const App = ({ Component, pageProps }) => {
+  useEffect(() => {
+    if ('serviceWorker' in navigator)
+      window.addEventListener('load', () => swOnLoadEventListener());
+  }, []);
+
   return (
     <>
       <Head>
