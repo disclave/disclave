@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-export const useMessageListener = (callback: (ev: any) => void) => {
+export const useMessageListener = (callback: (ev: MessageEvent) => void) => {
   useEffect(() => {
     const eventListener = (ev: MessageEvent) => {
       callback(ev);
