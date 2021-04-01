@@ -6,10 +6,9 @@ export const disclaveReddit = 'https://reddit.com/u/disclave';
 
 // TODO: modify to use translations
 // TODO: verify openGraph and twitter
-export const seo = {
+export const SEO = {
   title: 'Disclave',
   description: 'Use Disclave to comment on any website on the internet!',
-  canonical: 'https://disclave.com/',
   openGraph: {
     url: 'https://disclave.com/',
     title: 'Disclave',

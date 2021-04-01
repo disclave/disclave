@@ -5,6 +5,8 @@ import { appWithTranslation } from 'next-i18next';
 import { setAnchorWrapper } from '@disclave/ui';
 import { init } from '@disclave/client';
 import { config } from '@fortawesome/fontawesome-svg-core';
+import { DefaultSeo } from 'next-seo';
+import { SEO } from '@/consts';
 import { AppHead } from '@/modules/head';
 
 config.autoAddCss = false;
@@ -23,13 +25,14 @@ const App = ({ Component, pageProps }) => {
   return (
     <>
       <Head>
-        <title>Disclave</title>
-
         <AppHead />
       </Head>
+
+      <DefaultSeo {...SEO} />
 
       <Component {...pageProps} />
     </>
   );
 };
+
 export default appWithTranslation(App);

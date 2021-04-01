@@ -1,6 +1,7 @@
 import React from 'react';
 
 export const AppHead: React.VFC = () => {
+  // TODO: move to consts?
   const name = 'Disclave';
   const description = 'Use Disclave to comment on any website on the internet!';
   const themeColor = '#00a3ad';
@@ -35,26 +36,6 @@ export const AppHead: React.VFC = () => {
       {/* TODO: change color? */}
       <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#5bbad5" />
       <link rel="shortcut icon" href="/favicon.ico" />
-      {/*<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" />*/}
-
-      {/*<meta name="twitter:card" content="summary" />*/}
-      {/*<meta name="twitter:url" content="https://yourdomain.com" />*/}
-      {/*<meta name="twitter:title" content="PWA App" />*/}
-      {/*<meta name="twitter:description" content="Best PWA App in the world" />*/}
-      {/*<meta*/}
-      {/*  name="twitter:image"*/}
-      {/*  content="https://yourdomain.com/static/icons/android-chrome-192x192.png"*/}
-      {/*/>*/}
-      {/*<meta name="twitter:creator" content="@DavidWShadow" />*/}
-      {/*<meta property="og:type" content="website" />*/}
-      {/*<meta property="og:title" content="PWA App" />*/}
-      {/*<meta property="og:description" content="Best PWA App in the world" />*/}
-      {/*<meta property="og:site_name" content="PWA App" />*/}
-      {/*<meta property="og:url" content="https://yourdomain.com" />*/}
-      {/*<meta*/}
-      {/*  property="og:image"*/}
-      {/*  content="https://yourdomain.com/static/icons/apple-touch-icon.png"*/}
-      {/*/>*/}
     </>
   );
 };
