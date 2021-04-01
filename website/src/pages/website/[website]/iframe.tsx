@@ -45,7 +45,7 @@ const Index: React.FC<WebsiteProps> = (props) => {
       <CommentsContainer
         userProfile={userProfile}
         comments={comments}
-        className="max-h-full"
+        className="h-full"
         iframe={true}
         loginHref={loginHrefWithRedirect}
         registerHref={registerHrefWithRedirect}
