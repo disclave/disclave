@@ -17,7 +17,7 @@ export {
   useSession,
 } from "./auth";
 
-export { stringToUrl, encodeUrl } from "./modules/url";
+export { isUrl, stringToUrl, encodeUrl } from "./modules/url";
 
 export { getComments, createComment } from "./modules/comments";
 export type { CommentModel } from "./modules/comments";
