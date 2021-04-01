@@ -8,7 +8,6 @@ const PwaShare = () => {
   const title = router.query.title as string | undefined;
   const text = router.query.text as string | undefined;
   const url = router.query.url as string | undefined;
-  console.log(title, text, url);
 
   let link: string | undefined;
   if (isUrl(url)) link = url;
