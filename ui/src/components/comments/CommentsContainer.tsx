@@ -30,7 +30,7 @@ export const CommentsContainer: React.VFC<CommentsContainerProps> = (props) => {
     props.userProfile ? "py-2" : "",
   ].join(" ");
 
-  const commentsClasses = props.inputTop ? "order-2 pt-2" : "";
+  const commentsClasses = props.inputTop ? "order-2 pt-2" : "flex-1";
 
   return (
     <div className={containerClasses}>
