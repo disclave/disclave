@@ -40,6 +40,11 @@ const Index: React.FC<WebsiteProps> = (props) => {
   const loginHrefWithRedirect = loginHref();
   const registerHrefWithRedirect = registerHref();
 
+  const onAddComment = async (text: string) => {
+    await addComment(text);
+    if (parent) parent.postMessage('disclave-new-message', '*');
+  };
+
   return (
     <div className="w-full p-3" style={{ height: height + 'px' }}>
       <CommentsContainer
@@ -49,7 +54,7 @@ const Index: React.FC<WebsiteProps> = (props) => {
         iframe={true}
         loginHref={loginHrefWithRedirect}
         registerHref={registerHrefWithRedirect}
-        onSubmit={addComment}
+        onSubmit={onAddComment}
         onLogout={logout}
       />
     </div>
