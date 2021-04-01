@@ -40,10 +40,10 @@ export class CommentMongoRepository implements CommentRepository {
   public async findComments(url: UrlMeta): Promise<Array<CommentEntity>> {
     const collection = await commentsDbCollection();
     const cursor = collection
-      .find(/*{
-        [DbFields.url._]: { [DbFields.url.websiteId]: url.websiteId },
-        [DbFields.url._]: { [DbFields.url.pageId]: url.pageId },
-      }*/)
+      .find({
+        [`${DbFields.url._}.${DbFields.url.websiteId}`]: url.websiteId,
+        [`${DbFields.url._}.${DbFields.url.pageId}`]: url.pageId,
+      })
       .sort({ [DbFields.timestamp]: -1 });
     return await cursor.map(cursorDocToEntity).toArray();
   }
