@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 import { CommentsContainer } from '@disclave/ui';
@@ -29,32 +29,39 @@ interface WebsiteProps {
 }
 
 const Index: React.FC<WebsiteProps> = (props) => {
+  const containerRef = useRef<HTMLDivElement>();
+
   const [userProfile] = useSession();
 
   const router = useRouter();
   const website = router.query.website as string;
-  const height = (router.query.h as string) ?? '250';
 
   const [comments, addComment] = useComments(props.comments, website);
 
   const loginHrefWithRedirect = loginHref();
   const registerHrefWithRedirect = registerHref();
 
-  const onAddComment = async (text: string) => {
-    await addComment(text);
-    if (parent) parent.postMessage('disclave-new-message', '*');
-  };
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    const message = {
+      type: 'disclave-window-height',
+      height: containerRef.current.clientHeight
+    };
+    parent.postMessage(JSON.stringify(message), '*');
+  });
 
   return (
-    <div className="w-full p-3" style={{ height: height + 'px' }}>
+    <div ref={containerRef} className="w-full p-3">
       <CommentsContainer
         userProfile={userProfile}
         comments={comments}
-        className="h-full"
+        className="h-max"
+        inputTop={true}
         iframe={true}
         loginHref={loginHrefWithRedirect}
         registerHref={registerHrefWithRedirect}
-        onSubmit={onAddComment}
+        onSubmit={addComment}
         onLogout={logout}
       />
     </div>
