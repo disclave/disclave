@@ -1,1 +1,1 @@
-export { stringToUrl, encodeUrl } from "./url";
+export { isUrl, stringToUrl, encodeUrl } from "./url";

@@ -1,9 +1,15 @@
-export const stringToUrl = (str: string): string => {
+export const isUrl = (str: string | undefined): boolean => {
+  if (!str || !str.length) return false;
   try {
     new URL(str);
-  } catch (e) {
-    console.error(e);
+  } catch {
+    return false;
   }
+  return true;
+};
+
+export const stringToUrl = (str: string): string => {
+  if (!isUrl(str)) throw "Invalid url";
 
   return str;
 };
