@@ -40,12 +40,14 @@ export class CommentMongoRepository implements CommentRepository {
   public async findComments(url: UrlMeta): Promise<Array<CommentEntity>> {
     const collection = await commentsDbCollection();
     const cursor = collection
-      .find({
-        [`${DbFields.url._}.${DbFields.url.websiteId}`]: url.websiteId,
-        [`${DbFields.url._}.${DbFields.url.pageId}`]: url.pageId,
-      })
+      .find(urlMetaToQuery(url))
       .sort({ [DbFields.timestamp]: -1 });
     return await cursor.map(cursorDocToEntity).toArray();
+  }
+
+  public async countComments(url: UrlMeta): Promise<number> {
+    const collection = await commentsDbCollection();
+    return await collection.countDocuments(urlMetaToQuery(url));
   }
 
   public async addComment(
@@ -62,6 +64,13 @@ export class CommentMongoRepository implements CommentRepository {
     return cursorDocToEntity(doc);
   }
 }
+
+const urlMetaToQuery = (url: UrlMeta) => {
+  return {
+    [`${DbFields.url._}.${DbFields.url.websiteId}`]: url.websiteId,
+    [`${DbFields.url._}.${DbFields.url.pageId}`]: url.pageId,
+  };
+};
 
 const toDbComment = (
   author: AuthorInfo,
