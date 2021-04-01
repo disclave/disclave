@@ -41,6 +41,8 @@
   ],
   "share_target": {
     "action": "pwa-share",
+    "method": "GET",
+    "enctype": "application/x-www-form-urlencoded",
     "params": {
       "url": "link"
     }
