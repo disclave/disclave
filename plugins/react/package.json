@@ -8,6 +8,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "rollup -c --compact --environment NODE_ENV:production",
+    "build-local": "rollup -c --compact",
     "build-watch": "rollup -c -w"
   },
   "peerDependencies": {
