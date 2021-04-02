@@ -26,10 +26,10 @@ jobs:
     - run: yarn bootstrap
     - run: yarn build
       env:
-        API_URL: ${{ secrets.API_URL }}
-        FIREBASE_CERT: ${{ secrets.FIREBASE_CERT }}
-        FIREBASE_CLIENT_CONFIG: ${{ secrets.FIREBASE_CLIENT_CONFIG }}
-        IFRAME_URL: ${{ secrets.IFRAME_URL }}
-        DB_URI: ${{ secrets.DB_URI }}
-        DB_NAME: ${{ secrets.DB_NAME }}
+        API_URL: http://example.com/mock
+        FIREBASE_CERT: '{"type":"service_account","project_id":"mock-id","private_key_id":"randomprivatekey123","private_key":"herehoestheprivatekey","client_email":"user@example.com","client_id":"23423423423","auth_uri":"http://example.com","token_uri":"http://example.com","auth_provider_x509_cert_url":"http://example.com","client_x509_cert_url":"http://example.com"}'
+        FIREBASE_CLIENT_CONFIG: '{"apiKey":"sfasddfasdf","authDomain":"example.com","projectId":"sdfsd324","storageBucket":"example.com","messagingSenderId":"564","appId":"453453","measurementId":"1233"}'
+        IFRAME_URL: http://example.com/mock/{url}
+        DB_URI: mongodb+srv://user:pass@cluster.random.mongodb.net/db
+        DB_NAME: db-name
         
