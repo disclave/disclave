@@ -1,4 +1,4 @@
-# Web Chat Chrome extension
+# Disclave Chrome extension
 
 Chrome Extension
 
