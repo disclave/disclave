@@ -12,12 +12,22 @@ test("should parse basic url", () => {
   expect(result.pageId).toEqual("%2Fexample%2Fpath");
 });
 
-test("should throw if no protocol in url", () => {
-  const url = "google.com/example/path";
+test("should throw if not url", () => {
+  const url = "this is not an url";
 
   expect(() => {
     service.parseUrl(url);
   }).toThrow();
+});
+
+test("should not throw if no protocol in url", () => {
+  const url = "google.com/example/path";
+
+  const result = service.parseUrl(url);
+
+  expect(result.raw).toEqual(url);
+  expect(result.websiteId).toEqual("google.com");
+  expect(result.pageId).toEqual("%2Fexample%2Fpath");
 });
 
 test("should return same ids for http and https", () => {
@@ -75,18 +85,28 @@ test("should generate not empty pathId for main domain page", () => {
   expect(result.pageId).toEqual("%2F");
 });
 
-test("should not ignore trailing slash for not empty pageId", () => {
+test("should ignore trailing slash for not empty pageId", () => {
   const urlWithSlash = "https://google.com/path/";
   const urlWithoutSlash = "https://google.com/path";
 
   const resultWithSlash = service.parseUrl(urlWithSlash);
   const resultWithoutSlash = service.parseUrl(urlWithoutSlash);
 
-  expect(resultWithSlash.pageId).not.toEqual(resultWithoutSlash.pageId);
+  expect(resultWithSlash.pageId).toEqual(resultWithoutSlash.pageId);
 });
 
 test("should ignore user info, port, query and fragment in websiteId and pageId", () => {
   const url = "https://username:pass@google.com:8860/example/path?q=val#elId";
+
+  const result = service.parseUrl(url);
+
+  expect(result.raw).toEqual(url);
+  expect(result.websiteId).toEqual("google.com");
+  expect(result.pageId).toEqual("%2Fexample%2Fpath");
+});
+
+test("should ignore www", () => {
+  const url = "https://www.google.com/example/path?q=val#elId";
 
   const result = service.parseUrl(url);
 
