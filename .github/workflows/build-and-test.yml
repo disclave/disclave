@@ -32,4 +32,5 @@ jobs:
         IFRAME_URL: http://example.com/mock/{url}
         DB_URI: mongodb+srv://user:pass@cluster.random.mongodb.net/db
         DB_NAME: db-name
-        
+    - run: yarn test
+

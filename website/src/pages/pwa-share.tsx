@@ -1,7 +1,7 @@
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useRouter } from 'next/router';
 import { websiteHref } from '@/pages/website/[website]';
-import { isUrl } from '@disclave/client';
+import { isUrl, stringToUrl } from '@disclave/client';
 
 const PwaShare = () => {
   const router = useRouter();
@@ -10,9 +10,9 @@ const PwaShare = () => {
   const url = router.query.url as string | undefined;
 
   let link: string | undefined;
-  if (isUrl(url)) link = url;
-  else if (isUrl(text)) link = text;
-  else if (isUrl(title)) link = title;
+  if (isUrl(url)) link = stringToUrl(url);
+  else if (isUrl(text)) link = stringToUrl(text);
+  else if (isUrl(title)) link = stringToUrl(title);
 
   if (!!link) {
     const href = websiteHref(link);

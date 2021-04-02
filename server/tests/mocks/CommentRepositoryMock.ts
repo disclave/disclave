@@ -53,6 +53,16 @@ export class CommentRepositoryMock implements CommentRepository {
     return entity;
   }
 
+  async countComments(url: UrlMeta): Promise<number> {
+    const db = CommentRepositoryMock.db;
+    if (!db.has(url.websiteId)) return 0;
+
+    const website = db.get(url.websiteId)!;
+    if (!website.has(url.pageId)) return 0;
+
+    return website.get(url.pageId)!.length;
+  }
+
   async findComments(url: UrlMeta): Promise<Array<CommentEntity>> {
     const db = CommentRepositoryMock.db;
     if (!db.has(url.websiteId)) return [];

@@ -8,7 +8,8 @@
     "maxLength": "This field needs to be shorter",
     "pattern": "This field needs to match pattern.",
     "validate": "This field needs to pass validation.",
-    "email": "Invalid email address format."
+    "email": "Invalid email address format.",
+    "url": "Invalid URL."
   },
   "unknown error": "Unknown error. Code: {{code}}"
 }

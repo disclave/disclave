@@ -7,7 +7,7 @@
     "build:dev": "webpack --mode=development",
     "start": "webpack --watch --mode=production",
     "start:dev": "webpack --watch --mode=development",
-    "test": "jest"
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
     "@disclave/client": "^0.2.4",

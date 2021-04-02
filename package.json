@@ -4,6 +4,7 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
+    "test": "lerna run test",
     "version": "lerna version",
     "publish": "lerna publish",
     "publish:from-git": "lerna publish from-git",
