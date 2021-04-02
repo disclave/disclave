@@ -1,6 +1,6 @@
-export const getIframeUrl = (href: string, height: string): string => {
+export const getIframeUrl = (href: string): string => {
   const url = process.env.IFRAME_URL as string;
-  return url.replace("{{url}}", encodeURI(href)) + `?h=${height}`;
+  return url.replace("{{url}}", encodeURI(href));
 };
 
 const encodeURI = (str: string): string => {
