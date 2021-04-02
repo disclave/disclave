@@ -5,7 +5,7 @@ import { Button, FormErrorContainer, FormFactory, TextField } from '@disclave/ui
 import { useLoading } from '@disclave/ui';
 import { useRouter } from 'next/router';
 import { websiteHref } from '@/pages/website/[website]';
-import { stringToUrl } from '@disclave/client';
+import { isUrl, stringToUrl } from '@disclave/client';
 
 const FormField = {
   url: 'url'
@@ -42,9 +42,13 @@ export const MainSection: React.VFC = () => {
                 <TextField
                   disabled={loading}
                   name={FormField.url}
-                  options={{ required: true }}
+                  options={{
+                    validate: {
+                      url: (v) => isUrl(v)
+                    }
+                  }}
                   placeholder={t('main.form.url.placeholder')}
-                  type="url"
+                  type="text"
                 />
                 <FormErrorContainer error={error} />
                 <Button type="submit" disabled={loading}>
