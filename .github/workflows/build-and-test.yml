@@ -30,3 +30,6 @@ jobs:
         FIREBASE_CERT: ${{ secrets.FIREBASE_CERT }}
         FIREBASE_CLIENT_CONFIG: ${{ secrets.FIREBASE_CLIENT_CONFIG }}
         IFRAME_URL: ${{ secrets.IFRAME_URL }}
+        DB_URI: ${{ secrets.DB_URI }}
+        DB_NAME: ${{ secrets.DB_NAME }}
+        
