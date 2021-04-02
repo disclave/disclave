@@ -8,6 +8,7 @@ import {
   faReddit
 } from '@fortawesome/free-brands-svg-icons';
 import styles from './SocialBtn.module.css';
+import classNames from 'classnames';
 
 export enum Type {
   FACEBOOK = 'FACEBOOK',
@@ -25,14 +26,14 @@ export interface SocialBtnProps {
 }
 
 export const SocialBtn: React.FC<SocialBtnProps> = (props) => {
-  const className = [
+  const className = classNames(
     'inline-block rounded',
     'text-center text-white',
     'bg-gray-600 transition-colors',
     'h-9 w-9',
     typeClass(props.type),
-    props.className ?? ''
-  ].join(' ');
+    props.className
+  );
 
   return (
     <a
