@@ -13,7 +13,8 @@
   },
   "dependencies": {
     "@apollo/client": "^3.3.11",
-    "firebase": "^8.2.10"
+    "firebase": "^8.2.10",
+    "normalize-url": "^5.3.0"
   },
   "peerDependencies": {
     "react": "^17.0.1"
