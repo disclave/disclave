@@ -1,8 +1,8 @@
-import { CommentEntity, CommentRepository } from './db';
-import { UrlService } from '../url';
-import { UserService } from '../users';
-import { CommentService, Comment } from './index';
-import { inject, injectable } from 'inversify';
+import { CommentEntity, CommentRepository } from "./db";
+import { UrlService } from "../url";
+import { UserService } from "../users";
+import { CommentService, Comment } from "./index";
+import { inject, injectable } from "inversify";
 
 @injectable()
 export class CommentServiceImpl implements CommentService {
@@ -21,7 +21,16 @@ export class CommentServiceImpl implements CommentService {
     return comments.map(toDomain);
   }
 
-  public async addComment(idToken: string, text: string, url: string): Promise<Comment> {
+  public async countComments(url: string): Promise<number> {
+    const parsedUrl = this.urlService.parseUrl(url);
+    return await this.repository.countComments(parsedUrl);
+  }
+
+  public async addComment(
+    idToken: string,
+    text: string,
+    url: string
+  ): Promise<Comment> {
     const author = await this.userService.getProfile(idToken);
     const parsedUrl = this.urlService.parseUrl(url);
     const result = await this.repository.addComment(author, text, parsedUrl);
@@ -35,12 +44,12 @@ const toDomain = (entity: CommentEntity): Comment => {
     text: entity.text,
     author: {
       id: entity.author.id,
-      name: entity.author.name
+      name: entity.author.name,
     },
     timestamp: entity.timestamp,
     urlMeta: {
       websiteId: entity.url.websiteId,
-      pageId: entity.url.pageId
-    }
+      pageId: entity.url.pageId,
+    },
   };
 };

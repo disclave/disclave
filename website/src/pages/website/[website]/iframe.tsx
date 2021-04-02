@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 import { CommentsContainer } from '@disclave/ui';
@@ -8,6 +8,7 @@ import { registerHref } from '@/pages/auth/register';
 import { useComments } from '@/modules/comments';
 import { getCommentService } from '@disclave/server';
 import { initServer } from '@/modules/server';
+import { useContainerHeightMessage } from '@/modules/iframe';
 
 export const websiteIframeHref = (url: string) => `/website/${url}/iframe/`;
 
@@ -29,11 +30,13 @@ interface WebsiteProps {
 }
 
 const Index: React.FC<WebsiteProps> = (props) => {
+  const containerRef = useRef<HTMLDivElement>();
+  useContainerHeightMessage(containerRef);
+
   const [userProfile] = useSession();
 
   const router = useRouter();
   const website = router.query.website as string;
-  const height = (router.query.h as string) ?? '250';
 
   const [comments, addComment] = useComments(props.comments, website);
 
@@ -41,11 +44,12 @@ const Index: React.FC<WebsiteProps> = (props) => {
   const registerHrefWithRedirect = registerHref();
 
   return (
-    <div className="w-full p-3" style={{ height: height + 'px' }}>
+    <div ref={containerRef} className="w-full p-3">
       <CommentsContainer
         userProfile={userProfile}
         comments={comments}
-        className="max-h-full"
+        className="h-max"
+        inputTop={true}
         iframe={true}
         loginHref={loginHrefWithRedirect}
         registerHref={registerHrefWithRedirect}
