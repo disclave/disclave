@@ -3,6 +3,7 @@ import { Button } from "@/components/button";
 import { FormErrorContainer, FormFactory, TextArea } from "@/components/forms";
 import { useLoading } from "@/hooks";
 import { useTranslation } from "@/i18n";
+import classNames from "classnames";
 
 const FormField = {
   comment: "comment",
@@ -31,12 +32,10 @@ export const CommentAddForm: React.VFC<CommentAddFormProps> = (props) => {
     }
   };
 
-  const className = ["flex flex-col space-y-2", props.className ?? ""].join(
-    " "
-  );
+  const classes = classNames("flex flex-col space-y-2", props.className)
 
   return (
-    <Form onSubmit={onSubmit} className={className}>
+    <Form onSubmit={onSubmit} className={classes}>
       <div className="flex flex-row content-center space-x-4 bg-white">
         <TextArea
           autoGrow

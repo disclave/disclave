@@ -2,6 +2,7 @@ import React from "react";
 import { CommentModel } from "../CommentModel";
 import { ListItem } from "./item";
 import { useTranslation } from "@/i18n";
+import classNames from "classnames";
 
 export interface CommentsListProps {
   className?: string;
@@ -10,7 +11,7 @@ export interface CommentsListProps {
 
 export const CommentsList: React.VFC<CommentsListProps> = ({
   comments,
-  className = "",
+  className,
 }) => {
   const { t } = useTranslation("comments");
 
@@ -18,7 +19,7 @@ export const CommentsList: React.VFC<CommentsListProps> = ({
     return <div className="p-8 text-gray-500">{t("list.empty.text")}</div>;
   }
 
-  const containerClasses = ["space-y-4", className].join(" ");
+  const containerClasses = classNames("space-y-4", className);
 
   return (
     <div className={containerClasses}>

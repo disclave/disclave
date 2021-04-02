@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import React from "react";
 import { RegisterOptions, useFormContext } from "react-hook-form";
 import { useFormError } from "./useFormError";
@@ -26,13 +27,13 @@ export const Input: React.VFC<InputProps> = ({
 
   const wrapperClassName = ["flex flex-col", className || ""].join(" ");
 
-  const childClassName = [
+  const childClassName = classNames(
     "border rounded focus:outline-none",
     error ? "border-red-700" : "border-gray-400 focus:border-gray-600",
     "transition-colors",
     "px-3 py-1.5",
-    children.props.className || "",
-  ].join(" ");
+    children.props.className
+  );
 
   const element = React.cloneElement(children, {
     ...children.props,
