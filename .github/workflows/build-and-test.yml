@@ -32,4 +32,5 @@ jobs:
         IFRAME_URL: ${{ secrets.IFRAME_URL }}
         DB_URI: ${{ secrets.DB_URI }}
         DB_NAME: ${{ secrets.DB_NAME }}
+    - run: yarn test
         
