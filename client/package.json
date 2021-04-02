@@ -9,7 +9,7 @@
   "scripts": {
     "build": "rollup -c --environment NODE_ENV:production",
     "build-watch": "rollup -c -w",
-    "test": "jest"
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
     "@apollo/client": "^3.3.11",
