@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 import { CommentsContainer } from '@disclave/ui';
@@ -8,6 +8,7 @@ import { registerHref } from '@/pages/auth/register';
 import { useComments } from '@/modules/comments';
 import { getCommentService } from '@disclave/server';
 import { initServer } from '@/modules/server';
+import { useContainerHeightMessage } from '@/modules/iframe';
 
 export const websiteIframeHref = (url: string) => `/website/${url}/iframe/`;
 
@@ -30,6 +31,7 @@ interface WebsiteProps {
 
 const Index: React.FC<WebsiteProps> = (props) => {
   const containerRef = useRef<HTMLDivElement>();
+  useContainerHeightMessage(containerRef);
 
   const [userProfile] = useSession();
 
@@ -40,16 +42,6 @@ const Index: React.FC<WebsiteProps> = (props) => {
 
   const loginHrefWithRedirect = loginHref();
   const registerHrefWithRedirect = registerHref();
-
-  useEffect(() => {
-    if (!containerRef.current) return;
-
-    const message = {
-      type: 'disclave-window-height',
-      height: containerRef.current.clientHeight
-    };
-    parent.postMessage(JSON.stringify(message), '*');
-  });
 
   return (
     <div ref={containerRef} className="w-full p-3">
