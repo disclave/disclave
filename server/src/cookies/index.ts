@@ -28,7 +28,6 @@ export const setUserCookie = (content: UserCookieContent | null, res: any) => {
     );
   }
 
-  console.log(userCookie);
   res.setHeader("Set-Cookie", userCookie);
 };
 
