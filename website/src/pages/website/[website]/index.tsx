@@ -13,6 +13,10 @@ export const websiteHrefRaw = '/website/';
 export const getServerSideProps: GetServerSideProps = async (context) => {
   await initServer();
   const { website } = context.query;
+
+  // const userCookie = getUserCookie(context.req);
+  // console.log(userCookie);
+
   const service = getCommentService();
 
   const commentsPromise = service.getComments(website as string);
