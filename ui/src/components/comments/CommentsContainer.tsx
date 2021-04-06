@@ -5,6 +5,7 @@ import { CommentAddForm } from "./add";
 import { CommentAddAuth } from "./auth";
 import { UserSelfAvatar } from "@/components/auth";
 import { UserProfileModel } from "../auth/UserProfileModel";
+import classNames from "classnames";
 
 export interface CommentsContainerProps {
   className?: string;
@@ -19,16 +20,15 @@ export interface CommentsContainerProps {
 }
 
 export const CommentsContainer: React.VFC<CommentsContainerProps> = (props) => {
-  const containerClasses = [
-    "flex flex-col",
-    "overflow-auto",
-    props.className ?? "",
-  ].join(" ");
+  const containerClasses = classNames(
+    "flex flex-col overflow-auto",
+    props.className
+  );
 
-  const stickyFooterClasses = [
+  const stickyFooterClasses = classNames(
     props.inputTop ? "order-1" : "sticky bottom-0",
-    props.userProfile ? "py-2" : "",
-  ].join(" ");
+    { "py-2": !!props.userProfile }
+  );
 
   const commentsClasses = props.inputTop ? "order-2 pt-2" : "flex-1";
 

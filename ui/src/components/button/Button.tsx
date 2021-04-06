@@ -1,5 +1,6 @@
 import React from "react";
 import { getAnchorWrapper } from "@/config";
+import classNames from "classnames";
 
 type ButtonType = "button" | "submit" | "reset";
 
@@ -50,34 +51,23 @@ const textColor = ({ disabled, flat, outlined }: ButtonProps): string => {
   return "text-primary";
 };
 
-const hoverTextColor = ({ outlined }: ButtonProps): string =>
-  outlined ? "hover:text-white" : "";
-
-const bgColor = ({ disabled, flat, outlined }: ButtonProps): string => {
-  if (flat || outlined) return "";
+const bgColor = ({ disabled, flat, outlined }: ButtonProps): string | null => {
+  if (flat || outlined) return null;
   if (disabled) return "bg-gray-400";
   return "bg-primary";
 };
 
-const hoverBgColor = ({ disabled, flat }: ButtonProps): string => {
-  if (disabled) return "";
+const hoverBgColor = ({ disabled, flat }: ButtonProps): string | null => {
+  if (disabled) return null;
   if (flat) return "hover:bg-gray-100";
   return "hover:bg-primary-dark";
 };
 
-const border = ({ outlined }: ButtonProps): string =>
-  outlined ? "border" : "";
-
-const borderColor = ({ outlined, disabled }: ButtonProps): string => {
-  if (!outlined) return "";
+const borderColor = ({ outlined, disabled }: ButtonProps): string | null => {
+  if (!outlined) return null;
   if (!disabled) return "border-primary hover:border-primary-dark";
   return "border-gray-400";
 };
-
-const cursorAndPointerEvents = ({ disabled }: ButtonProps): string =>
-  !disabled ? "" : "cursor-default pointer-events-none";
-
-const padding = ({ icon }: ButtonProps): string => (icon ? "" : "px-3.5 py-2");
 
 const getClassNames = ({
   disabled,
@@ -85,18 +75,18 @@ const getClassNames = ({
   icon,
   outlined,
 }: ButtonProps): string => {
-  return [
+  return classNames(
     textColor({ disabled, flat, outlined }),
-    hoverTextColor({ outlined }),
+    { "hover:text-white": outlined },
     bgColor({ disabled, flat, outlined }),
     hoverBgColor({ disabled, flat }),
-    border({ outlined }),
+    { border: outlined },
     borderColor({ outlined, disabled }),
-    cursorAndPointerEvents({ disabled }),
-    padding({ icon }),
+    { "cursor-default pointer-events-none": disabled },
+    { "px-3.5 py-2": !icon },
     "transition-colors",
     "text-sm font-medium uppercase",
     "rounded",
-    "focus:outline-none",
-  ].join(" ");
+    "focus:outline-none"
+  );
 };

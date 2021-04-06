@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import { useOutsideAlerter } from "@/hooks";
+import classNames from "classnames";
 
 export interface ActivatorProps {
   onClick: () => unknown;
@@ -20,12 +21,12 @@ export const Menu: React.FC<MenuProps> = (props) => {
     setOpened(!opened);
   };
 
-  const menuClassName = [
+  const menuClassName = classNames(
     "absolute w-max",
-    props.top ? "bottom-full" : "",
-    props.left ? "right-0" : "",
-    !opened ? "hidden" : "",
-  ].join(" ");
+    { "bottom-full": props.top },
+    { "right-0": props.left },
+    { hidden: !opened }
+  );
 
   return (
     <div ref={wrapperRef} className="relative w-max">
