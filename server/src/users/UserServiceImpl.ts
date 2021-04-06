@@ -40,14 +40,14 @@ export class UserServiceImpl implements UserService {
     if (user.disabled) throw "User account is disabled";
 
     await this.repository.runTransaction(async (t) => {
-      if (await this.repository.existProfileByName(name, t))
-        throw UsernameTaken(
-          "Selected username is taken. Chose different name."
-        );
-
       if (await this.repository.getUserProfile(uid))
         throw ProfileAlreadyExists(
           "Your profile already exists. Can not create it again."
+        );
+
+      if (await this.repository.existProfileByName(name, t))
+        throw UsernameTaken(
+          "Selected username is taken. Chose different name."
         );
 
       await this.repository.createProfile(
