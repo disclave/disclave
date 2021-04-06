@@ -20,8 +20,9 @@ setAnchorWrapper((props) => (
 ));
 
 const firebaseConfig = JSON.parse(process.env.FIREBASE_CLIENT_CONFIG);
+const domain = process.env.DOMAIN;
 
-init(firebaseConfig, '/api/graphql', true);
+init(firebaseConfig, domain + '/api/graphql', true);
 
 const App = ({ Component, pageProps }) => {
   useEffect(() => {

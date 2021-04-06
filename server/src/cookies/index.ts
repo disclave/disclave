@@ -6,8 +6,15 @@ const userCookieName = "DISCLAVE_USER";
 export const setUserCookie = (content: UserCookieContent | null, res: any) => {
   let userCookie;
 
+  const options = {
+    httpOnly: true,
+    secure: true,
+    path: "/",
+  };
+
   if (!content) {
     userCookie = cookie.serialize(userCookieName, "", {
+      ...options,
       expires: new Date("Thu, 01 Jan 1970 00:00:00 GMT"),
     });
   } else {
@@ -15,14 +22,13 @@ export const setUserCookie = (content: UserCookieContent | null, res: any) => {
       userCookieName,
       JSON.stringify(content, null, 0),
       {
-        httpOnly: true,
-        secure: true,
-        path: "/",
+        ...options,
         maxAge: 60 * 60 * 24 * 7, // 1 week
       }
     );
   }
 
+  console.log(userCookie);
   res.setHeader("Set-Cookie", userCookie);
 };
 
