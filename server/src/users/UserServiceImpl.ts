@@ -8,6 +8,7 @@ import {
   UsernameInvalidCharacters,
   UsernameMaxLength,
   UsernameMinLength,
+  UsernameNotAllowed,
   UsernameTaken,
 } from "./exceptions";
 
@@ -90,9 +91,16 @@ const validateUserName = (name: string) => {
   if (name.length > maxLen)
     throw UsernameMaxLength(`The username cannot exceed ${maxLen} characters.`);
 
-  const rgx = /^[a-zA-Z0-9_]+$/i;
-  if (!rgx.test(name))
+  const charsRgx = /^[a-zA-Z0-9_]+$/i;
+  if (!charsRgx.test(name))
     throw UsernameInvalidCharacters(
       "The username can only contain alphanumeric characters and underscore (A-Z, a-z, 0-9 and _)."
+    );
+
+  const notAllowedStrings = ["disclave", "admin", "moderator"];
+  const notAllowedRgx = new RegExp(notAllowedStrings.join("|"), "i");
+  if (notAllowedRgx.test(name))
+    throw UsernameNotAllowed(
+      "The username can not include words like 'Disclave', 'Admin' or 'Moderator'."
     );
 };
