@@ -13,4 +13,7 @@ export const init = async (
 };
 
 export { graphqlHandler } from "./graphql";
+
+export { getUserCookie } from "./cookies";
+
 export const getCommentService = () => container.get(CommentService);

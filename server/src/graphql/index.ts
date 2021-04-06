@@ -1,5 +1,7 @@
 import Cors from "micro-cors";
 import { ApolloServer, gql } from "apollo-server-micro";
+import { authTypeDefs } from "../auth/Schemas";
+import { authResolvers } from "../auth/Resolvers";
 import { commentsTypeDefs } from "../comments/Schemas";
 import { commentsResolvers } from "../comments/Resolvers";
 import { usersTypeDefs } from "../users/Schemas";
@@ -29,15 +31,17 @@ const baseTypes = gql`
 `;
 
 const apolloServer = new ApolloServer({
-  typeDefs: [baseTypes, commentsTypeDefs, usersTypeDefs],
-  resolvers: [commentsResolvers, usersResolvers],
-  context: ({ req }) => {
+  typeDefs: [baseTypes, authTypeDefs, commentsTypeDefs, usersTypeDefs],
+  resolvers: [authResolvers, commentsResolvers, usersResolvers],
+  context: ({ req, res }) => {
     let idToken: string | null = null;
     const authorization = req.headers.authorization || null;
     if (authorization && authorization.startsWith("Bearer "))
       idToken = authorization.replace("Bearer ", "");
 
     return {
+      req,
+      res,
       idToken,
     };
   },

@@ -1,9 +1,16 @@
 import { initFirebaseApp } from "./firebase";
 import { initApolloClient } from "./graphql";
+import { enableUserCookieUpdates } from "./modules/auth";
 
-export const init = (firebaseOptions: Object, graphqlUri: string) => {
+export const init = (
+  firebaseOptions: Object,
+  graphqlUri: string,
+  autoUpdateUserCookie: boolean
+) => {
   initFirebaseApp(firebaseOptions);
   initApolloClient(graphqlUri);
+
+  if (autoUpdateUserCookie) enableUserCookieUpdates();
 };
 
 export {

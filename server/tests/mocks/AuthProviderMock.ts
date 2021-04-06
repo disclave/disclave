@@ -1,5 +1,9 @@
 import { injectable } from "inversify";
-import { AuthProvider, DecodedIdToken } from "../../src/auth";
+import {
+  AuthProvider,
+  DecodedIdToken,
+  UserCookieContent,
+} from "../../src/auth";
 
 @injectable()
 export class AuthProviderMock implements AuthProvider {
@@ -7,6 +11,14 @@ export class AuthProviderMock implements AuthProvider {
     idToken: string,
     checkIfRevoked: boolean
   ): Promise<DecodedIdToken> {
+    return {
+      uid: idToken,
+    };
+  }
+
+  async getUserCookieContent(
+    idToken: string | null
+  ): Promise<UserCookieContent | null> {
     return {
       uid: idToken,
     };
