@@ -78,8 +78,6 @@ const toDomain = (entity: UserProfileEntity): UserProfile => {
 };
 
 const validateUserName = (name: string) => {
-  // TODO: add validation for reserved names, like admin, moderator or platform name
-
   const minLen = 4;
   const maxLen = 15;
 
