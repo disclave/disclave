@@ -20,9 +20,12 @@ export const Input: React.VFC<InputProps> = ({
   className,
   children,
   name,
-  options,
+  options = {},
 }) => {
-  const { errors, register } = useFormContext();
+  const {
+    formState: { errors },
+    register,
+  } = useFormContext();
   const error = useFormError(name, errors);
 
   const wrapperClassName = ["flex flex-col", className || ""].join(" ");
@@ -35,11 +38,17 @@ export const Input: React.VFC<InputProps> = ({
     children.props.className
   );
 
+  const { ref, ...rest } = register(name, options);
+
   const element = React.cloneElement(children, {
     ...children.props,
     className: childClassName,
+    ...rest,
     ref: (node: any) => {
-      register(node, options);
+      if (ref) {
+        if (typeof ref === "function") ref(node);
+      }
+
       (children as any).ref?.(node);
     },
   });
