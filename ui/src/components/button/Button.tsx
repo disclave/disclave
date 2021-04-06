@@ -51,9 +51,6 @@ const textColor = ({ disabled, flat, outlined }: ButtonProps): string => {
   return "text-primary";
 };
 
-const hoverTextColor = ({ outlined }: ButtonProps): string | null =>
-  outlined ? "hover:text-white" : null;
-
 const bgColor = ({ disabled, flat, outlined }: ButtonProps): string | null => {
   if (flat || outlined) return null;
   if (disabled) return "bg-gray-400";
@@ -66,19 +63,11 @@ const hoverBgColor = ({ disabled, flat }: ButtonProps): string | null => {
   return "hover:bg-primary-dark";
 };
 
-const border = ({ outlined }: ButtonProps): string | null =>
-  outlined ? "border" : null;
-
 const borderColor = ({ outlined, disabled }: ButtonProps): string | null => {
   if (!outlined) return null;
   if (!disabled) return "border-primary hover:border-primary-dark";
   return "border-gray-400";
 };
-
-const cursorAndPointerEvents = ({ disabled }: ButtonProps): string | null =>
-  disabled ? "cursor-default pointer-events-none" : null;
-
-const padding = ({ icon }: ButtonProps): string | null => (icon ? null : "px-3.5 py-2");
 
 const getClassNames = ({
   disabled,
@@ -88,16 +77,16 @@ const getClassNames = ({
 }: ButtonProps): string => {
   return classNames(
     textColor({ disabled, flat, outlined }),
-    hoverTextColor({ outlined }),
+    { "hover:text-white": outlined },
     bgColor({ disabled, flat, outlined }),
     hoverBgColor({ disabled, flat }),
-    border({ outlined }),
+    { border: outlined },
     borderColor({ outlined, disabled }),
-    cursorAndPointerEvents({ disabled }),
-    padding({ icon }),
+    { "cursor-default pointer-events-none": disabled },
+    { "px-3.5 py-2": !icon },
     "transition-colors",
     "text-sm font-medium uppercase",
     "rounded",
-    "focus:outline-none",
+    "focus:outline-none"
   );
 };
