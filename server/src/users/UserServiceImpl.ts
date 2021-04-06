@@ -8,6 +8,7 @@ import {
   UsernameInvalidCharacters,
   UsernameMaxLength,
   UsernameMinLength,
+  UsernameNotAllowed,
   UsernameTaken,
 } from "./exceptions";
 
@@ -39,14 +40,14 @@ export class UserServiceImpl implements UserService {
     if (user.disabled) throw "User account is disabled";
 
     await this.repository.runTransaction(async (t) => {
-      if (await this.repository.existProfileByName(name, t))
-        throw UsernameTaken(
-          "Selected username is taken. Chose different name."
-        );
-
       if (await this.repository.getUserProfile(uid))
         throw ProfileAlreadyExists(
           "Your profile already exists. Can not create it again."
+        );
+
+      if (await this.repository.existProfileByName(name, t))
+        throw UsernameTaken(
+          "Selected username is taken. Chose different name."
         );
 
       await this.repository.createProfile(
@@ -77,8 +78,6 @@ const toDomain = (entity: UserProfileEntity): UserProfile => {
 };
 
 const validateUserName = (name: string) => {
-  // TODO: add validation for reserved names, like admin, moderator or platform name
-
   const minLen = 4;
   const maxLen = 15;
 
@@ -90,9 +89,16 @@ const validateUserName = (name: string) => {
   if (name.length > maxLen)
     throw UsernameMaxLength(`The username cannot exceed ${maxLen} characters.`);
 
-  const rgx = /^[a-zA-Z0-9_]+$/i;
-  if (!rgx.test(name))
+  const charsRgx = /^[a-zA-Z0-9_]+$/i;
+  if (!charsRgx.test(name))
     throw UsernameInvalidCharacters(
       "The username can only contain alphanumeric characters and underscore (A-Z, a-z, 0-9 and _)."
+    );
+
+  const notAllowedStrings = ["disclave", "admin", "moderator"];
+  const notAllowedRgx = new RegExp(notAllowedStrings.join("|"), "i");
+  if (notAllowedRgx.test(name))
+    throw UsernameNotAllowed(
+      "The username can not include words like 'Disclave', 'Admin' or 'Moderator'."
     );
 };
