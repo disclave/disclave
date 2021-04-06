@@ -4,16 +4,11 @@ import { UserRepository } from "./index";
 import { injectable } from "inversify";
 import { ClientSession, db, withTransaction, Timestamp } from "../../mongodb";
 
-const DbFields = {
-  _id: "_id",
-  name: "name",
-  createdTs: "createdTs",
-} as const;
-
 interface DbProfile {
-  [DbFields._id]: string;
-  [DbFields.name]: string;
-  [DbFields.createdTs]: Timestamp;
+  _id: string;
+  name: string;
+  normalizedName: string;
+  createdTs: Timestamp;
 }
 
 @injectable()
@@ -34,8 +29,9 @@ export class UserMongoRepository implements UserRepository<ClientSession> {
     session?: ClientSession
   ): Promise<boolean> {
     const collection = await profilesDbCollection();
+    const normalized = name.toLowerCase();
     const result = await collection.countDocuments(
-      { [DbFields.name]: name },
+      { normalizedName: normalized },
       { session }
     );
     return result > 0;
@@ -57,7 +53,7 @@ export class UserMongoRepository implements UserRepository<ClientSession> {
     session?: ClientSession
   ): Promise<UserProfileEntity | null> {
     const collection = await profilesDbCollection();
-    const doc = await collection.findOne({ [DbFields._id]: uid }, { session });
+    const doc = await collection.findOne({ _id: uid }, { session });
 
     if (!doc) return null;
     return cursorDocToEntity(doc);
@@ -67,6 +63,7 @@ export class UserMongoRepository implements UserRepository<ClientSession> {
 const toDbProfile = (uid: string, name: string): DbProfile => ({
   _id: uid,
   name: name,
+  normalizedName: name.toLowerCase(),
   createdTs: new Timestamp(0, Math.floor(new Date().getTime() / 1000)),
 });
 
@@ -78,5 +75,5 @@ const cursorDocToEntity = (doc: DbProfile): UserProfileEntity => ({
 const profilesCollection = "profiles";
 
 const profilesDbCollection = async () => {
-  return (await db()).collection(profilesCollection);
+  return (await db()).collection<DbProfile>(profilesCollection);
 };
