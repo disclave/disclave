@@ -8,28 +8,42 @@ import { injectable } from "inversify";
 
 @injectable()
 export class UserRepositoryMock implements UserRepository<{}> {
-  // TODO update repository with mock logic
+  public static db = new Map<string, UserProfileEntity>();
 
-  existProfileByName(name: string, transaction?: {}): Promise<boolean> {
-    throw new Error("Method not implemented.");
+  public static deleteAll() {
+    this.db.clear();
   }
 
-  runTransaction(run: (t: {}) => Promise<unknown>): Promise<void> {
-    throw new Error("Method not implemented.");
+  async existProfileByName(name: string, transaction?: {}): Promise<boolean> {
+    for (let value of UserRepositoryMock.db.values()) {
+      if (value.name.toLowerCase() == name.toLowerCase()) return true;
+    }
+
+    return false;
+  }
+
+  async runTransaction(run: (t: {}) => Promise<unknown>): Promise<void> {
+    await run({});
   }
 
   async createProfile(
     userId: string,
     profile: CreateProfileData
   ): Promise<void> {
-    return;
+    UserRepositoryMock.db.set(userId, {
+      id: userId,
+      name: profile.name,
+    });
   }
 
   async getUser(uid: string): Promise<UserRecord> {
-    return Promise.resolve(undefined);
+    return {
+      uid: uid,
+      disabled: false,
+    } as UserRecord;
   }
 
-  async getUserProfile(uid: string): Promise<UserProfileEntity> {
-    return Promise.resolve(undefined);
+  async getUserProfile(uid: string): Promise<UserProfileEntity | null> {
+    return UserRepositoryMock.db.get(uid);
   }
 }
