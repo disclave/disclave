@@ -15,6 +15,7 @@ export const useUser = (): UserModel | undefined | null => {
         setUser({
           uid: user.uid,
           email: user.email,
+          emailVerified: user.emailVerified,
         });
       }),
     []

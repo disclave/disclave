@@ -2,15 +2,14 @@ import { useMemo } from "react";
 import { UserProfileModel } from "../";
 import { useUser, useUserProfile } from "./";
 
-type IsLoading = boolean;
-type IsActiveAccount = boolean;
 type UpdateUserProfile = () => Promise<void>;
-type UseUserProfile = [
-  UserProfileModel | null,
-  IsLoading,
-  IsActiveAccount,
-  UpdateUserProfile
-];
+type UseUserProfile = {
+  profile: UserProfileModel | null,
+  isLoading: boolean,
+  isEmailVerified: boolean,
+  isCompleted: boolean,
+  updateProfile: UpdateUserProfile
+};
 
 export const useSession = (): UseUserProfile => {
   const user = useUser();
@@ -18,9 +17,15 @@ export const useSession = (): UseUserProfile => {
 
   const loading = user === undefined || user?.uid != profile?.uid;
 
-  const active = useMemo(() => profile != null && !profile.profileFillPending, [
+  const completed = useMemo(() => profile != null && !profile.profileFillPending, [
     profile?.profileFillPending,
   ]);
 
-  return [profile, loading, active, updateProfile];
+  return {
+    profile: profile,
+    isLoading: loading,
+    isEmailVerified: user.emailVerified,
+    isCompleted: completed,
+    updateProfile: updateProfile
+  };
 };
