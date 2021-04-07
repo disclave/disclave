@@ -43,18 +43,23 @@ export const commentsResolvers = {
   },
 };
 
-const commentToResponse = (message: Comment) => {
+const commentToResponse = (comment: Comment) => {
   return {
-    id: message.id,
-    text: message.text,
+    id: comment.id,
+    text: comment.text,
     author: {
-      id: message.author.id,
-      name: message.author.name,
+      id: comment.author.id,
+      name: comment.author.name,
     },
-    timestamp: message.timestamp,
+    votes: {
+      sum: comment.votes.sum,
+      votedUp: comment.votes.votedUp,
+      votedDown: comment.votes.votedDown,
+    },
+    timestamp: comment.timestamp,
     urlMeta: {
-      websiteId: message.urlMeta.websiteId,
-      pageId: message.urlMeta.pageId,
+      websiteId: comment.urlMeta.websiteId,
+      pageId: comment.urlMeta.pageId,
     },
   };
 };

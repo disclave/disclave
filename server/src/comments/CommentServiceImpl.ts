@@ -75,6 +75,11 @@ const toDomain = (entity: CommentEntity): Comment => {
       id: entity.author.id,
       name: entity.author.name,
     },
+    votes: {
+      sum: entity.votes.sum,
+      votedUp: entity.votes.votedUp,
+      votedDown: entity.votes.votedDown,
+    },
     timestamp: entity.timestamp,
     urlMeta: {
       websiteId: entity.url.websiteId,
