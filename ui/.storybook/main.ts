@@ -16,20 +16,6 @@ module.exports = {
     },
   ],
   webpackFinal: async (config) => {
-    config.module.rules.push({
-      test: /\,css&/,
-      use: [
-        {
-          loader: "postcss-loader",
-          options: {
-            ident: "postcss",
-            plugins: [require("tailwindcss"), require("autoprefixer")],
-          },
-        },
-      ],
-      include: path.resolve(__dirname, "../"),
-    });
-
     config.resolve.plugins = [
       new TsconfigPathsPlugin({
         configFile: path.resolve(__dirname, "../tsconfig.json"),
