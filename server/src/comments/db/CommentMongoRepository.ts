@@ -54,16 +54,56 @@ export class CommentMongoRepository
     return cursorDocToEntity(doc);
   }
 
-  removeVote(commentId: string, uid: UserId): Promise<void> {
-    return Promise.resolve(undefined);
+  public async removeVote(commentId: string, uid: UserId): Promise<void> {
+    const collection = await commentsDbCollection();
+    await collection.updateOne(
+      {
+        _id: new ObjectID(commentId),
+      },
+      {
+        $pull: {
+          "votes.up": uid,
+          "votes.down": uid,
+        },
+        ...updateVotesSumAggregation,
+      }
+    );
   }
 
-  setVoteDown(commentId: string, uid: UserId): Promise<void> {
-    return Promise.resolve(undefined);
+  public async setVoteDown(commentId: string, uid: UserId): Promise<void> {
+    const collection = await commentsDbCollection();
+    await collection.updateOne(
+      {
+        _id: new ObjectID(commentId),
+      },
+      {
+        $pull: {
+          "votes.up": uid,
+        },
+        $addToSet: {
+          "votes.down": uid,
+        },
+        ...updateVotesSumAggregation,
+      }
+    );
   }
 
-  setVoteUp(commentId: string, uid: UserId): Promise<void> {
-    return Promise.resolve(undefined);
+  public async setVoteUp(commentId: string, uid: UserId): Promise<void> {
+    const collection = await commentsDbCollection();
+    await collection.updateOne(
+      {
+        _id: new ObjectID(commentId),
+      },
+      {
+        $pull: {
+          "votes.down": uid,
+        },
+        $addToSet: {
+          "votes.up": uid,
+        },
+        ...updateVotesSumAggregation,
+      }
+    );
   }
 }
 
@@ -72,6 +112,14 @@ const urlMetaToQuery = (url: UrlMeta) => {
     "url.websiteId": url.websiteId,
     "url.pageId": url.pageId,
   };
+};
+
+const updateVotesSumAggregation = {
+  $set: {
+    "votes.sum": {
+      $subtract: [{ $size: "$votes.up" }, { $size: "$votes.up" }],
+    },
+  },
 };
 
 const toDbComment = (
