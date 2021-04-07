@@ -26,7 +26,7 @@ export abstract class CommentRepository<T = unknown> extends BaseRepository<T> {
     url: UrlMeta
   ): Promise<CommentEntity>;
 
-  abstract setVoteUp(commentId: string, uid: UserId): Promise<void>;
-  abstract setVoteDown(commentId: string, uid: UserId): Promise<void>;
-  abstract removeVote(commentId: string, uid: UserId): Promise<void>;
+  abstract setVoteUp(commentId: string, uid: UserId): Promise<boolean>;
+  abstract setVoteDown(commentId: string, uid: UserId): Promise<boolean>;
+  abstract removeVote(commentId: string, uid: UserId): Promise<boolean>;
 }

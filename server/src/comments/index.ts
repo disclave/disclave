@@ -14,7 +14,7 @@ export abstract class CommentService {
     url: string
   ): Promise<Comment>;
 
-  abstract setVoteUp(commentId: string, idToken: IdToken): Promise<void>;
-  abstract setVoteDown(commentId: string, idToken: IdToken): Promise<void>;
-  abstract removeVote(commentId: string, idToken: IdToken): Promise<void>;
+  abstract setVoteUp(commentId: string, idToken: IdToken): Promise<boolean>;
+  abstract setVoteDown(commentId: string, idToken: IdToken): Promise<boolean>;
+  abstract removeVote(commentId: string, idToken: IdToken): Promise<boolean>;
 }

@@ -54,9 +54,9 @@ export class CommentMongoRepository
     return cursorDocToEntity(doc);
   }
 
-  public async removeVote(commentId: string, uid: UserId): Promise<void> {
+  public async removeVote(commentId: string, uid: UserId): Promise<boolean> {
     const collection = await commentsDbCollection();
-    await collection.updateOne(
+    const result = await collection.updateOne(
       {
         _id: new ObjectID(commentId),
       },
@@ -68,11 +68,12 @@ export class CommentMongoRepository
         ...updateVotesSumAggregation,
       }
     );
+    return result.modifiedCount > 0;
   }
 
-  public async setVoteDown(commentId: string, uid: UserId): Promise<void> {
+  public async setVoteDown(commentId: string, uid: UserId): Promise<boolean> {
     const collection = await commentsDbCollection();
-    await collection.updateOne(
+    const result = await collection.updateOne(
       {
         _id: new ObjectID(commentId),
       },
@@ -86,11 +87,12 @@ export class CommentMongoRepository
         ...updateVotesSumAggregation,
       }
     );
+    return result.modifiedCount > 0;
   }
 
-  public async setVoteUp(commentId: string, uid: UserId): Promise<void> {
+  public async setVoteUp(commentId: string, uid: UserId): Promise<boolean> {
     const collection = await commentsDbCollection();
-    await collection.updateOne(
+    const result = await collection.updateOne(
       {
         _id: new ObjectID(commentId),
       },
@@ -104,6 +106,7 @@ export class CommentMongoRepository
         ...updateVotesSumAggregation,
       }
     );
+    return result.modifiedCount > 0;
   }
 }
 

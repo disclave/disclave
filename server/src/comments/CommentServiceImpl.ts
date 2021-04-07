@@ -38,19 +38,28 @@ export class CommentServiceImpl implements CommentService {
     return toDomain(result);
   }
 
-  public async removeVote(commentId: string, idToken: IdToken): Promise<void> {
+  public async removeVote(
+    commentId: string,
+    idToken: IdToken
+  ): Promise<boolean> {
     const uid = await this.userService.verifyIdToken(idToken);
-    await this.repository.removeVote(commentId, uid);
+    return await this.repository.removeVote(commentId, uid);
   }
 
-  public async setVoteDown(commentId: string, idToken: IdToken): Promise<void> {
+  public async setVoteDown(
+    commentId: string,
+    idToken: IdToken
+  ): Promise<boolean> {
     const uid = await this.userService.verifyIdToken(idToken);
-    await this.repository.setVoteDown(commentId, uid);
+    return await this.repository.setVoteDown(commentId, uid);
   }
 
-  public async setVoteUp(commentId: string, idToken: IdToken): Promise<void> {
+  public async setVoteUp(
+    commentId: string,
+    idToken: IdToken
+  ): Promise<boolean> {
     const uid = await this.userService.verifyIdToken(idToken);
-    await this.repository.setVoteUp(commentId, uid);
+    return await this.repository.setVoteUp(commentId, uid);
   }
 }
 
