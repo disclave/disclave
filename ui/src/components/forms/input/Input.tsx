@@ -20,7 +20,7 @@ export const Input: React.VFC<InputProps> = ({
   className,
   children,
   name,
-  options = {},
+  options,
 }) => {
   const {
     formState: { errors },
