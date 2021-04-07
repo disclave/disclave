@@ -25,6 +25,21 @@ export const commentsResolvers = {
       );
       return commentToResponse(comment);
     },
+    removeCommentVote: async (_, args, context) => {
+      if (!context.idToken) throw "Unauthorized";
+
+      return await service.removeVote(args.commentId, context.idToken);
+    },
+    addCommentVoteUp: async (_, args, context) => {
+      if (!context.idToken) throw "Unauthorized";
+
+      return await service.setVoteUp(args.commentId, context.idToken);
+    },
+    addCommentVoteDown: async (_, args, context) => {
+      if (!context.idToken) throw "Unauthorized";
+
+      return await service.setVoteDown(args.commentId, context.idToken);
+    },
   },
 };
 

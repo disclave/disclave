@@ -31,5 +31,8 @@ export const commentsTypeDefs = gql`
 
   extend type Mutation {
     createComment(comment: CommentInput!): Comment
+    removeCommentVote(commentId: ID): Boolean
+    addCommentVoteUp(commentId: ID): Boolean
+    addCommentVoteDown(commentId: ID): Boolean
   }
 `;
