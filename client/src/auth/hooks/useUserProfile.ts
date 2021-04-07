@@ -19,6 +19,7 @@ export const useUserProfile = (): UseUserProfile => {
       uid: user.uid,
       email: user.email,
       name: partial != null ? partial.name : "",
+      emailVerified: user.emailVerified,
       profileFillPending: partial == null,
     });
   };

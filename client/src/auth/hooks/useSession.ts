@@ -7,7 +7,6 @@ type SendEmailVerification = () => Promise<void>;
 type UseUserProfile = {
   profile: UserProfileModel | null,
   isLoading: boolean,
-  isEmailVerified: boolean,
   isCompleted: boolean,
   updateProfile: UpdateUserProfile,
   sendEmailVerification: SendEmailVerification,
@@ -26,7 +25,6 @@ export const useSession = (): UseUserProfile => {
   return {
     profile: profile,
     isLoading: loading,
-    isEmailVerified: user.emailVerified,
     isCompleted: completed,
     updateProfile: updateProfile,
     sendEmailVerification: sendEmailVerification
