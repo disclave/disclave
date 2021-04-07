@@ -3,16 +3,18 @@ import { UserProfileModel } from "../";
 import { useUser, useUserProfile } from "./";
 
 type UpdateUserProfile = () => Promise<void>;
+type SendEmailVerification = () => Promise<void>;
 type UseUserProfile = {
   profile: UserProfileModel | null,
   isLoading: boolean,
   isEmailVerified: boolean,
   isCompleted: boolean,
-  updateProfile: UpdateUserProfile
+  updateProfile: UpdateUserProfile,
+  sendEmailVerification: SendEmailVerification,
 };
 
 export const useSession = (): UseUserProfile => {
-  const user = useUser();
+  const {user, sendEmailVerification} = useUser();
   const [profile, updateProfile] = useUserProfile();
 
   const loading = user === undefined || user?.uid != profile?.uid;
@@ -26,6 +28,7 @@ export const useSession = (): UseUserProfile => {
     isLoading: loading,
     isEmailVerified: user.emailVerified,
     isCompleted: completed,
-    updateProfile: updateProfile
+    updateProfile: updateProfile,
+    sendEmailVerification: sendEmailVerification
   };
 };

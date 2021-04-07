@@ -12,6 +12,9 @@ export const logout = async () => auth().signOut();
 export const register = async (email: string, password: string) =>
   auth().createUserWithEmailAndPassword(email, password);
 
+// TODO: set URL parameter for email
+export const sendEmailVerification = () => currentUser().sendEmailVerification()
+
 export const loginWithGoogle = async () => {
   const provider = new GoogleAuthProvider();
   return await auth().signInWithPopup(provider);
