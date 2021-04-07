@@ -2,7 +2,7 @@ import { UserProfile } from "./UserProfile";
 import { UserService } from "./index";
 import { UserRepository, UserProfileEntity } from "./db";
 import { inject, injectable } from "inversify";
-import { AuthProvider } from "../auth";
+import { AuthProvider, IdToken, UserId } from "../auth";
 import {
   ProfileAlreadyExists,
   UsernameInvalidCharacters,
@@ -21,15 +21,15 @@ export class UserServiceImpl implements UserService {
   private repository: UserRepository;
 
   public async verifyIdToken(
-    idToken: string,
+    idToken: IdToken,
     checkIfRevoked: boolean = false
-  ): Promise<string> {
+  ): Promise<UserId> {
     const token = await this.auth.verifyIdToken(idToken, checkIfRevoked);
     return token.uid;
   }
 
   public async createProfile(
-    idToken: string,
+    idToken: IdToken,
     name: string
   ): Promise<UserProfile> {
     validateUserName(name);
@@ -62,7 +62,7 @@ export class UserServiceImpl implements UserService {
     return await this.repository.getUserProfile(uid);
   }
 
-  public async getProfile(idToken: string): Promise<UserProfile | null> {
+  public async getProfile(idToken: IdToken): Promise<UserProfile | null> {
     const uid = await this.verifyIdToken(idToken);
     const profile = await this.repository.getUserProfile(uid);
     if (profile == null) return null;

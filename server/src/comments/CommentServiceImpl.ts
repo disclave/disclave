@@ -3,6 +3,7 @@ import { UrlService } from "../url";
 import { UserService } from "../users";
 import { CommentService, Comment } from "./index";
 import { inject, injectable } from "inversify";
+import { IdToken } from "../auth";
 
 @injectable()
 export class CommentServiceImpl implements CommentService {
@@ -27,7 +28,7 @@ export class CommentServiceImpl implements CommentService {
   }
 
   public async addComment(
-    idToken: string,
+    idToken: IdToken,
     text: string,
     url: string
   ): Promise<Comment> {
@@ -35,6 +36,21 @@ export class CommentServiceImpl implements CommentService {
     const parsedUrl = this.urlService.parseUrl(url);
     const result = await this.repository.addComment(author, text, parsedUrl);
     return toDomain(result);
+  }
+
+  public async removeVote(commentId: string, idToken: IdToken): Promise<void> {
+    const uid = await this.userService.verifyIdToken(idToken);
+    await this.repository.removeVote(commentId, uid);
+  }
+
+  public async setVoteDown(commentId: string, idToken: IdToken): Promise<void> {
+    const uid = await this.userService.verifyIdToken(idToken);
+    await this.repository.setVoteDown(commentId, uid);
+  }
+
+  public async setVoteUp(commentId: string, idToken: IdToken): Promise<void> {
+    const uid = await this.userService.verifyIdToken(idToken);
+    await this.repository.setVoteUp(commentId, uid);
   }
 }
 
