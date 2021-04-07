@@ -1,9 +1,11 @@
+export type UserId = string;
+
 export interface DecodedIdToken {
-  uid: string;
+  uid: UserId;
 }
 
 export interface UserCookieContent {
-  uid: string;
+  uid: UserId;
 }
 
 export abstract class AuthProvider {

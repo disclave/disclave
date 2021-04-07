@@ -1,7 +1,9 @@
 import { CommentEntity } from "./CommentEntity";
 import { AuthorInfo, CommentRepository, UrlMeta } from "./index";
 import { injectable } from "inversify";
-import { db, Timestamp, ObjectID } from "../../mongodb";
+import { db, Timestamp, ObjectID, MongoRepository } from "../../mongodb";
+import { UserId } from "../../auth";
+import { ClientSession } from "mongodb";
 
 interface DbComment {
   _id?: ObjectID;
@@ -9,6 +11,11 @@ interface DbComment {
   author: {
     id: string;
     name: string;
+  };
+  votes: {
+    up: UserId[];
+    down: UserId[];
+    sum: number;
   };
   timestamp: Timestamp;
   url: {
@@ -19,7 +26,9 @@ interface DbComment {
 }
 
 @injectable()
-export class CommentMongoRepository implements CommentRepository {
+export class CommentMongoRepository
+  extends MongoRepository
+  implements CommentRepository<ClientSession> {
   public async findComments(url: UrlMeta): Promise<Array<CommentEntity>> {
     const collection = await commentsDbCollection();
     const cursor = collection.find(urlMetaToQuery(url)).sort({ timestamp: -1 });
@@ -44,6 +53,30 @@ export class CommentMongoRepository implements CommentRepository {
     });
     return cursorDocToEntity(doc);
   }
+
+  removeVote(
+    commentId: string,
+    uid: UserId,
+    transaction?: ClientSession
+  ): Promise<void> {
+    return Promise.resolve(undefined);
+  }
+
+  setVoteDown(
+    commentId: string,
+    uid: UserId,
+    transaction?: ClientSession
+  ): Promise<void> {
+    return Promise.resolve(undefined);
+  }
+
+  setVoteUp(
+    commentId: string,
+    uid: UserId,
+    transaction?: ClientSession
+  ): Promise<void> {
+    return Promise.resolve(undefined);
+  }
 }
 
 const urlMetaToQuery = (url: UrlMeta) => {
@@ -62,6 +95,11 @@ const toDbComment = (
   author: {
     id: author.id,
     name: author.name,
+  },
+  votes: {
+    up: [author.id],
+    down: [],
+    sum: 1,
   },
   timestamp: new Timestamp(0, Math.floor(new Date().getTime() / 1000)),
   url: {
