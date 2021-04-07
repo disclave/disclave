@@ -4,7 +4,10 @@ import { IdToken } from "../auth";
 export type { Comment };
 
 export abstract class CommentService {
-  abstract getComments(url: string): Promise<Array<Comment>>;
+  abstract getComments(
+    url: string,
+    idToken: IdToken | null
+  ): Promise<Array<Comment>>;
 
   abstract countComments(url: string): Promise<number>;
 

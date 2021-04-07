@@ -6,8 +6,8 @@ const service = container.get(CommentService);
 
 export const commentsResolvers = {
   Query: {
-    getComments: async (_, args) => {
-      const comments = await service.getComments(args.url);
+    getComments: async (_, args, context) => {
+      const comments = await service.getComments(args.url, context.idToken);
       return comments.map(commentToResponse);
     },
     countComments: async (_, args) => {

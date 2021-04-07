@@ -16,9 +16,13 @@ export class CommentServiceImpl implements CommentService {
   @inject(CommentRepository)
   private repository: CommentRepository;
 
-  public async getComments(url: string): Promise<Array<Comment>> {
+  public async getComments(
+    url: string,
+    idToken: IdToken | null
+  ): Promise<Array<Comment>> {
+    const uid = idToken ? await this.userService.verifyIdToken(idToken) : null;
     const parsedUrl = this.urlService.parseUrl(url);
-    const comments = await this.repository.findComments(parsedUrl);
+    const comments = await this.repository.findComments(parsedUrl, uid);
     return comments.map(toDomain);
   }
 

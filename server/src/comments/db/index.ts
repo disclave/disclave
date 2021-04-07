@@ -16,7 +16,10 @@ export interface AuthorInfo {
 }
 
 export abstract class CommentRepository<T = unknown> extends BaseRepository<T> {
-  abstract findComments(url: UrlMeta): Promise<Array<CommentEntity>>;
+  abstract findComments(
+    url: UrlMeta,
+    uid: UserId | null
+  ): Promise<Array<CommentEntity>>;
 
   abstract countComments(url: UrlMeta): Promise<number>;
 
