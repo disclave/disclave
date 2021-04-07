@@ -3,35 +3,18 @@ import { AuthorInfo, CommentRepository, UrlMeta } from "./index";
 import { injectable } from "inversify";
 import { db, Timestamp, ObjectID } from "../../mongodb";
 
-const DbFields = {
-  _id: "_id",
-  text: "text",
-  author: {
-    _: "author",
-    id: "id",
-    name: "name",
-  },
-  timestamp: "timestamp",
-  url: {
-    _: "url",
-    raw: "raw",
-    websiteId: "websiteId",
-    pageId: "pageId",
-  },
-} as const;
-
 interface DbComment {
-  [DbFields._id]?: ObjectID;
-  [DbFields.text]: string;
-  [DbFields.author._]: {
-    [DbFields.author.id]: string;
-    [DbFields.author.name]: string;
+  _id?: ObjectID;
+  text: string;
+  author: {
+    id: string;
+    name: string;
   };
-  [DbFields.timestamp]: Timestamp;
-  [DbFields.url._]: {
-    [DbFields.url.raw]: string;
-    [DbFields.url.websiteId]: string;
-    [DbFields.url.pageId]: string;
+  timestamp: Timestamp;
+  url: {
+    raw: string;
+    websiteId: string;
+    pageId: string;
   };
 }
 
@@ -39,9 +22,7 @@ interface DbComment {
 export class CommentMongoRepository implements CommentRepository {
   public async findComments(url: UrlMeta): Promise<Array<CommentEntity>> {
     const collection = await commentsDbCollection();
-    const cursor = collection
-      .find(urlMetaToQuery(url))
-      .sort({ [DbFields.timestamp]: -1 });
+    const cursor = collection.find(urlMetaToQuery(url)).sort({ timestamp: -1 });
     return await cursor.map(cursorDocToEntity).toArray();
   }
 
@@ -59,7 +40,7 @@ export class CommentMongoRepository implements CommentRepository {
     const result = await collection.insertOne(toDbComment(author, text, url));
 
     const doc = await collection.findOne({
-      [DbFields._id]: result.insertedId,
+      _id: result.insertedId,
     });
     return cursorDocToEntity(doc);
   }
@@ -67,8 +48,8 @@ export class CommentMongoRepository implements CommentRepository {
 
 const urlMetaToQuery = (url: UrlMeta) => {
   return {
-    [`${DbFields.url._}.${DbFields.url.websiteId}`]: url.websiteId,
-    [`${DbFields.url._}.${DbFields.url.pageId}`]: url.pageId,
+    "url.websiteId": url.websiteId,
+    "url.pageId": url.pageId,
   };
 };
 
@@ -110,7 +91,7 @@ const pagesCollection = "pages";
 const commentsCollection = "comments";
 
 const commentsDbCollection = async () => {
-  return (await db()).collection(
+  return (await db()).collection<DbComment>(
     `${websitesCollection}.${pagesCollection}.${commentsCollection}`
   );
 };
