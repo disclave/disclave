@@ -54,27 +54,15 @@ export class CommentMongoRepository
     return cursorDocToEntity(doc);
   }
 
-  removeVote(
-    commentId: string,
-    uid: UserId,
-    transaction?: ClientSession
-  ): Promise<void> {
+  removeVote(commentId: string, uid: UserId): Promise<void> {
     return Promise.resolve(undefined);
   }
 
-  setVoteDown(
-    commentId: string,
-    uid: UserId,
-    transaction?: ClientSession
-  ): Promise<void> {
+  setVoteDown(commentId: string, uid: UserId): Promise<void> {
     return Promise.resolve(undefined);
   }
 
-  setVoteUp(
-    commentId: string,
-    uid: UserId,
-    transaction?: ClientSession
-  ): Promise<void> {
+  setVoteUp(commentId: string, uid: UserId): Promise<void> {
     return Promise.resolve(undefined);
   }
 }
