@@ -42,7 +42,7 @@ describe("Testing CommentService", () => {
 
     for (const t of texts) await service.addComment(idToken, t, url);
 
-    const result = await service.getComments(url);
+    const result = await service.getComments(url, null);
 
     expect(result).toHaveLength(texts.length);
     for (const r of result) {
@@ -69,7 +69,7 @@ describe("Testing CommentService", () => {
 
     for (const c of comments) {
       const parsedUrl = urlService.parseUrl(c.url);
-      const result = await service.getComments(c.url);
+      const result = await service.getComments(c.url, null);
 
       expect(result).toHaveLength(1);
       expectCommentToEqualInput(result[0], c.text, parsedUrl);
