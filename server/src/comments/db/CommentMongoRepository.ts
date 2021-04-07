@@ -56,59 +56,60 @@ export class CommentMongoRepository
 
   public async removeVote(commentId: string, uid: UserId): Promise<boolean> {
     const collection = await commentsDbCollection();
-    const result = await collection.updateOne(
-      {
-        _id: new ObjectID(commentId),
+
+    const bulk = collection.initializeOrderedBulkOp();
+    bulk.find(idSelector(commentId)).updateOne({
+      $pull: {
+        "votes.up": uid,
+        "votes.down": uid,
       },
-      {
-        $pull: {
-          "votes.up": uid,
-          "votes.down": uid,
-        },
-        ...updateVotesSumAggregation,
-      }
-    );
-    return result.modifiedCount > 0;
+    });
+    bulk.find(idSelector(commentId)).updateOne([updateVotesSumAggregation]);
+
+    const result = await bulk.execute();
+    return result.nModified > 0;
   }
 
   public async setVoteDown(commentId: string, uid: UserId): Promise<boolean> {
     const collection = await commentsDbCollection();
-    const result = await collection.updateOne(
-      {
-        _id: new ObjectID(commentId),
+
+    const bulk = collection.initializeOrderedBulkOp();
+    bulk.find(idSelector(commentId)).updateOne({
+      $pull: {
+        "votes.up": uid,
       },
-      {
-        $pull: {
-          "votes.up": uid,
-        },
-        $addToSet: {
-          "votes.down": uid,
-        },
-        ...updateVotesSumAggregation,
-      }
-    );
-    return result.modifiedCount > 0;
+      $addToSet: {
+        "votes.down": uid,
+      },
+    });
+    bulk.find(idSelector(commentId)).updateOne([updateVotesSumAggregation]);
+
+    const result = await bulk.execute();
+    return result.nModified > 0;
   }
 
   public async setVoteUp(commentId: string, uid: UserId): Promise<boolean> {
     const collection = await commentsDbCollection();
-    const result = await collection.updateOne(
-      {
-        _id: new ObjectID(commentId),
+
+    const bulk = collection.initializeOrderedBulkOp();
+    bulk.find(idSelector(commentId)).updateOne({
+      $pull: {
+        "votes.down": uid,
       },
-      {
-        $pull: {
-          "votes.down": uid,
-        },
-        $addToSet: {
-          "votes.up": uid,
-        },
-        ...updateVotesSumAggregation,
-      }
-    );
-    return result.modifiedCount > 0;
+      $addToSet: {
+        "votes.up": uid,
+      },
+    });
+    bulk.find(idSelector(commentId)).updateOne([updateVotesSumAggregation]);
+
+    const result = await bulk.execute();
+    return result.nModified > 0;
   }
 }
+
+const idSelector = (commentId: string) => ({
+  _id: new ObjectID(commentId),
+});
 
 const urlMetaToQuery = (url: UrlMeta) => {
   return {
@@ -120,7 +121,7 @@ const urlMetaToQuery = (url: UrlMeta) => {
 const updateVotesSumAggregation = {
   $set: {
     "votes.sum": {
-      $subtract: [{ $size: "$votes.up" }, { $size: "$votes.up" }],
+      $subtract: [{ $size: "$votes.up" }, { $size: "$votes.down" }],
     },
   },
 };
