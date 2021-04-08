@@ -2,6 +2,7 @@ import React from "react";
 import { useLoading } from "@/hooks";
 import { useTranslation } from "@/i18n";
 import { Button } from "@/components/button";
+import { FormErrorContainer, TextField } from "@/components/forms";
 
 export interface EmailVerificationFormProps {
   userEmail: string;
@@ -30,10 +31,10 @@ export const EmailVerificationForm: React.VFC<EmailVerificationFormProps> = (
           email: props.userEmail,
         })}
       </p>
-      <p className="pt-4 pb-2">
+      <p className="pt-4 pb-1">
         {t("register.email verification.missing email")}
       </p>
-      <div className="flex flex-row space-x-2">
+      <div className="flex flex-row space-x-2 py-2">
         <Button onClick={onSendEmail} outlined disabled={loading}>
           {t("register.email verification.button.send email")}
         </Button>
@@ -41,6 +42,7 @@ export const EmailVerificationForm: React.VFC<EmailVerificationFormProps> = (
           {t("register.email verification.button.use different account")}
         </Button>
       </div>
+      <FormErrorContainer error={error} />
     </div>
   );
 };
