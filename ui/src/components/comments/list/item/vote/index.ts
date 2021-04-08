@@ -1,0 +1,1 @@
+export { CommentVote } from "./CommentVote";
