@@ -39,7 +39,10 @@ const Index: React.FC<WebsiteProps> = (props) => {
   const router = useRouter();
   const website = router.query.website as string;
 
-  const [comments, addComment] = useComments(props.comments, website);
+  const { comments, addComment, addVoteUp, addVoteDown, removeVote } = useComments(
+    props.comments,
+    website
+  );
 
   const loginHrefWithRedirect = loginHref();
   const registerHrefWithRedirect = registerHref();
@@ -56,6 +59,9 @@ const Index: React.FC<WebsiteProps> = (props) => {
         registerHref={registerHrefWithRedirect}
         onSubmit={addComment}
         onLogout={logout}
+        onVoteDown={addVoteDown}
+        onVoteRemove={removeVote}
+        onVoteUp={addVoteUp}
       />
     </div>
   );
