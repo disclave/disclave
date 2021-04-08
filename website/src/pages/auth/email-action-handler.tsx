@@ -33,8 +33,9 @@ const EmailActionHandler = () => {
   }
 
   useEffect(() => {
+    if (!mode) return;
     processAction();
-  }, [])
+  }, [mode])
 
   // TODO: update layout
   return <div>Loading...</div>
