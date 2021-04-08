@@ -17,9 +17,14 @@ export interface CommentsContainerProps {
   userProfile?: UserProfileModel;
   onSubmit: (text: string) => Promise<void>;
   onLogout: () => Promise<void>;
+  onVoteUp: (commentId: string) => Promise<void>;
+  onVoteDown: (commentId: string) => Promise<void>;
+  onVoteRemove: (commentId: string) => Promise<void>;
 }
 
 export const CommentsContainer: React.VFC<CommentsContainerProps> = (props) => {
+  const authenticated = !!props.userProfile;
+
   const containerClasses = classNames(
     "flex flex-col overflow-auto",
     props.className
@@ -27,14 +32,21 @@ export const CommentsContainer: React.VFC<CommentsContainerProps> = (props) => {
 
   const stickyFooterClasses = classNames(
     props.inputTop ? "order-1" : "sticky bottom-0",
-    { "py-2": !!props.userProfile }
+    { "py-2": authenticated }
   );
 
   const commentsClasses = props.inputTop ? "order-2 pt-2" : "flex-1";
 
   return (
     <div className={containerClasses}>
-      <CommentsList comments={props.comments} className={commentsClasses} />
+      <CommentsList
+        authenticated={authenticated}
+        comments={props.comments}
+        className={commentsClasses}
+        onVoteRemove={props.onVoteRemove}
+        onVoteDown={props.onVoteDown}
+        onVoteUp={props.onVoteUp}
+      />
       <div className={stickyFooterClasses}>
         {props.userProfile ? (
           <div className="flex flex-row items-center space-x-2">
