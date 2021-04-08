@@ -4,6 +4,7 @@ import { UserService } from "../users";
 import { CommentService, Comment } from "./index";
 import { inject, injectable } from "inversify";
 import { IdToken, UserId } from "../auth";
+import escapeHtml from "escape-html";
 
 @injectable()
 export class CommentServiceImpl implements CommentService {
@@ -37,7 +38,8 @@ export class CommentServiceImpl implements CommentService {
   ): Promise<Comment> {
     const author = await this.userService.getProfile(idToken);
     const parsedUrl = this.urlService.parseUrl(url);
-    const result = await this.repository.addComment(author, text, parsedUrl);
+    const escapedText = escapeHtml(text);
+    const result = await this.repository.addComment(author, escapedText, parsedUrl);
     return toDomain(result);
   }
 
