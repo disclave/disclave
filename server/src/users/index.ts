@@ -1,14 +1,15 @@
 import { UserProfile } from "./UserProfile";
+import { IdToken, UserId } from "../auth";
 
 export type { UserProfile };
 
 export abstract class UserService {
   abstract verifyIdToken(
-    idToken: string,
+    idToken: IdToken,
     checkIfRevoked?: boolean
-  ): Promise<string>;
+  ): Promise<UserId>;
 
-  abstract createProfile(idToken: string, name: string): Promise<UserProfile>;
+  abstract createProfile(idToken: IdToken, name: string): Promise<UserProfile>;
 
-  abstract getProfile(idToken: string): Promise<UserProfile | null>;
+  abstract getProfile(idToken: IdToken): Promise<UserProfile | null>;
 }

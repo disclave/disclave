@@ -6,7 +6,7 @@ import { loginHref } from '@/pages/auth/login';
 import { CommentModel, logout, useSession } from '@disclave/client';
 import { registerHref } from '@/pages/auth/register';
 import { useComments } from '@/modules/comments';
-import { getCommentService } from '@disclave/server';
+import { getCommentService, getUserCookie } from '@disclave/server';
 import { initServer } from '@/modules/server';
 import { useContainerHeightMessage } from '@/modules/iframe';
 
@@ -15,8 +15,11 @@ export const websiteIframeHref = (url: string) => `/website/${url}/iframe/`;
 export const getServerSideProps: GetServerSideProps = async (context) => {
   await initServer();
   const { website } = context.query;
+
+  const userCookie = getUserCookie(context.req);
   const service = getCommentService();
-  const comments = await service.getComments(website as string);
+
+  const comments = await service.getComments(website as string, userCookie?.uid);
 
   return {
     props: {
@@ -38,7 +41,10 @@ const Index: React.FC<WebsiteProps> = (props) => {
   const router = useRouter();
   const website = router.query.website as string;
 
-  const [comments, addComment] = useComments(props.comments, website);
+  const { comments, addComment, addVoteUp, addVoteDown, removeVote } = useComments(
+    props.comments,
+    website
+  );
 
   const loginHrefWithRedirect = loginHref();
   const registerHrefWithRedirect = registerHref();
@@ -55,6 +61,9 @@ const Index: React.FC<WebsiteProps> = (props) => {
         registerHref={registerHrefWithRedirect}
         onSubmit={addComment}
         onLogout={logout}
+        onVoteDown={addVoteDown}
+        onVoteRemove={removeVote}
+        onVoteUp={addVoteUp}
       />
     </div>
   );

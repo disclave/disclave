@@ -16,10 +16,17 @@ export const commentsTypeDefs = gql`
     name: String
   }
 
+  type CommentVotes {
+    sum: Int
+    votedUp: Boolean
+    votedDown: Boolean
+  }
+
   type Comment {
     id: ID
     text: String
     author: CommentAuthor
+    votes: CommentVotes
     timestamp: String
     urlMeta: CommentUrlMeta
   }
@@ -31,5 +38,8 @@ export const commentsTypeDefs = gql`
 
   extend type Mutation {
     createComment(comment: CommentInput!): Comment
+    removeCommentVote(commentId: ID): Boolean
+    addCommentVoteUp(commentId: ID): Boolean
+    addCommentVoteDown(commentId: ID): Boolean
   }
 `;

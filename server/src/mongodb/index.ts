@@ -62,3 +62,5 @@ export const withTransaction = async <T>(
 };
 
 export type { Db, ClientSession, WithTransactionCallback, OptionalId };
+
+export { MongoRepository } from "./MongoRepository";

@@ -8,10 +8,17 @@ export interface CommentAuthor {
   name: string;
 }
 
+interface Votes {
+  sum: number;
+  votedUp: boolean;
+  votedDown: boolean;
+}
+
 export interface Comment {
   id: string;
   text: string;
   author: CommentAuthor;
+  votes: Votes;
   timestamp: string;
   urlMeta: CommentUrlMeta;
 }

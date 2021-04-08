@@ -2,7 +2,7 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 import { CommentModel, encodeUrl } from '@disclave/client';
-import { getCommentService } from '@disclave/server';
+import { getCommentService, getUserCookie } from '@disclave/server';
 import { WebsitePage } from '@/modules/pages/website';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { initServer } from '@/modules/server';
@@ -14,12 +14,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   await initServer();
   const { website } = context.query;
 
-  // const userCookie = getUserCookie(context.req);
-  // console.log(userCookie);
-
+  const userCookie = getUserCookie(context.req);
   const service = getCommentService();
 
-  const commentsPromise = service.getComments(website as string);
+  const commentsPromise = service.getComments(website as string, userCookie?.uid);
   const translationsPromise = serverSideTranslations(context.locale, ['common', 'layout']);
 
   return {

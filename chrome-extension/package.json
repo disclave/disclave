@@ -3,10 +3,8 @@
   "version": "0.2.5",
   "private": true,
   "scripts": {
-    "build": "webpack --mode=production",
-    "build:dev": "webpack --mode=development",
-    "start": "webpack --watch --mode=production",
-    "start:dev": "webpack --watch --mode=development",
+    "build": "cross-env ENV=production webpack --mode=production",
+    "build:dev": "cross-env ENV=local webpack --mode=production",
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
@@ -32,6 +30,7 @@
     "autoprefixer": "^10.2.5",
     "babel-loader": "^8.2.2",
     "copy-webpack-plugin": "^8.1.1",
+    "cross-env": "^7.0.3",
     "css-loader": "^5.2.0",
     "dotenv-webpack": "^7.0.2",
     "file-loader": "^6.2.0",

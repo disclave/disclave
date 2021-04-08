@@ -15,7 +15,10 @@ export const WebsiteComments: React.VFC<WebsiteCommentsProps> = (props) => {
   const [userProfile] = useSession();
 
   const website = props.website;
-  const [comments, addComment] = useComments(props.comments, website);
+  const { comments, addComment, addVoteUp, addVoteDown, removeVote } = useComments(
+    props.comments,
+    website
+  );
 
   const loginHrefWithRedirect = loginHref(websiteHrefRaw, website);
   const registerHrefWithRedirect = registerHref(websiteHrefRaw, website);
@@ -31,6 +34,9 @@ export const WebsiteComments: React.VFC<WebsiteCommentsProps> = (props) => {
         registerHref={registerHrefWithRedirect}
         onSubmit={addComment}
         onLogout={logout}
+        onVoteUp={addVoteUp}
+        onVoteRemove={removeVote}
+        onVoteDown={addVoteDown}
       />
     </section>
   );

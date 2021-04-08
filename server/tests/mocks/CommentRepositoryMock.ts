@@ -5,6 +5,7 @@ import {
   UrlMeta,
 } from "../../src/comments/db";
 import { injectable } from "inversify";
+import { UserId } from "../../src/auth";
 
 type DBPage = Array<CommentEntity>;
 type DBWebsite = Map<string, DBPage>;
@@ -19,6 +20,10 @@ export class CommentRepositoryMock implements CommentRepository {
     this.db.clear();
   }
 
+  async runTransaction(run: (t: unknown) => Promise<unknown>): Promise<void> {
+    await run({});
+  }
+
   async addComment(
     author: AuthorInfo,
     text: string,
@@ -30,6 +35,11 @@ export class CommentRepositoryMock implements CommentRepository {
       author: {
         id: author.id,
         name: author.name,
+      },
+      votes: {
+        votedUp: true,
+        votedDown: false,
+        sum: 1,
       },
       timestamp: CommentRepositoryMock.mockDate.toISOString(),
       url: {
@@ -71,5 +81,17 @@ export class CommentRepositoryMock implements CommentRepository {
     if (!website.has(url.pageId)) return [];
 
     return website.get(url.pageId)!;
+  }
+
+  async removeVote(commentId: string, uid: UserId): Promise<boolean> {
+    return true;
+  }
+
+  async setVoteDown(commentId: string, uid: UserId): Promise<boolean> {
+    return true;
+  }
+
+  async setVoteUp(commentId: string, uid: UserId): Promise<boolean> {
+    return true;
   }
 }
