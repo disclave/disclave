@@ -26,7 +26,13 @@ export {
 
 export { isUrl, stringToUrl, encodeUrl } from "./modules/url";
 
-export { getComments, createComment } from "./modules/comments";
+export {
+  getComments,
+  createComment,
+  removeCommentVote,
+  addCommentVoteUp,
+  addCommentVoteDown,
+} from "./modules/comments";
 export type { CommentModel } from "./modules/comments";
 
 export { getSelfProfile, createSelfProfile } from "./modules/users";

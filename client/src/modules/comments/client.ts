@@ -1,6 +1,12 @@
 import { client } from "../../graphql";
 import { CommentModel } from "./";
-import { CREATE_COMMENT, GET_COMMENTS } from "./schemas";
+import {
+  ADD_COMMENT_VOTE_DOWN,
+  ADD_COMMENT_VOTE_UP,
+  CREATE_COMMENT,
+  GET_COMMENTS,
+  REMOVE_COMMENT_VOTE,
+} from "./schemas";
 
 export const getComments = async (
   url: string
@@ -28,6 +34,40 @@ export const createComment = async (
     },
   });
   return responseToModel(result.data.createComment);
+};
+
+export const removeCommentVote = async (
+  commentId: string
+): Promise<boolean> => {
+  const result = await client().mutate({
+    mutation: REMOVE_COMMENT_VOTE,
+    variables: {
+      commentId: commentId,
+    },
+  });
+  return result.data.removeCommentVote;
+};
+
+export const addCommentVoteUp = async (commentId: string): Promise<boolean> => {
+  const result = await client().mutate({
+    mutation: ADD_COMMENT_VOTE_UP,
+    variables: {
+      commentId: commentId,
+    },
+  });
+  return result.data.addCommentVoteUp;
+};
+
+export const addCommentVoteDown = async (
+  commentId: string
+): Promise<boolean> => {
+  const result = await client().mutate({
+    mutation: ADD_COMMENT_VOTE_DOWN,
+    variables: {
+      commentId: commentId,
+    },
+  });
+  return result.data.addCommentVoteDown;
 };
 
 const responseToModel = (data: any): CommentModel => {
