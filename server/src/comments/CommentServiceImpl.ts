@@ -3,7 +3,7 @@ import { UrlService } from "../url";
 import { UserService } from "../users";
 import { CommentService, Comment } from "./index";
 import { inject, injectable } from "inversify";
-import { IdToken } from "../auth";
+import { IdToken, UserId } from "../auth";
 
 @injectable()
 export class CommentServiceImpl implements CommentService {
@@ -18,11 +18,10 @@ export class CommentServiceImpl implements CommentService {
 
   public async getComments(
     url: string,
-    idToken: IdToken | null
+    userId: UserId | null
   ): Promise<Array<Comment>> {
-    const uid = idToken ? await this.userService.verifyIdToken(idToken) : null;
     const parsedUrl = this.urlService.parseUrl(url);
-    const comments = await this.repository.findComments(parsedUrl, uid);
+    const comments = await this.repository.findComments(parsedUrl, userId);
     return comments.map(toDomain);
   }
 
@@ -42,28 +41,19 @@ export class CommentServiceImpl implements CommentService {
     return toDomain(result);
   }
 
-  public async removeVote(
-    commentId: string,
-    idToken: IdToken
-  ): Promise<boolean> {
-    const uid = await this.userService.verifyIdToken(idToken);
-    return await this.repository.removeVote(commentId, uid);
+  public async removeVote(commentId: string, userId: UserId): Promise<boolean> {
+    return await this.repository.removeVote(commentId, userId);
   }
 
   public async setVoteDown(
     commentId: string,
-    idToken: IdToken
+    userId: UserId
   ): Promise<boolean> {
-    const uid = await this.userService.verifyIdToken(idToken);
-    return await this.repository.setVoteDown(commentId, uid);
+    return await this.repository.setVoteDown(commentId, userId);
   }
 
-  public async setVoteUp(
-    commentId: string,
-    idToken: IdToken
-  ): Promise<boolean> {
-    const uid = await this.userService.verifyIdToken(idToken);
-    return await this.repository.setVoteUp(commentId, uid);
+  public async setVoteUp(commentId: string, userId: UserId): Promise<boolean> {
+    return await this.repository.setVoteUp(commentId, userId);
   }
 }
 

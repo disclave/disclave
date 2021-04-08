@@ -1,13 +1,30 @@
 import { Comment } from "./Comment";
 import { container } from "../inversify.config";
 import { CommentService } from "./index";
+import { AuthProvider } from "../auth";
 
+const authProvider = container.get(AuthProvider);
 const service = container.get(CommentService);
+
+const parseIdToken = async (
+  idToken: string | null,
+  throwOnInvalid: boolean = true
+) => {
+  if (!idToken) return null;
+
+  try {
+    return authProvider.verifyIdToken(idToken, false);
+  } catch (e) {
+    if (throwOnInvalid) throw e;
+  }
+  return null;
+};
 
 export const commentsResolvers = {
   Query: {
-    getComments: async (_, args, context) => {
-      const comments = await service.getComments(args.url, context.idToken);
+    getComments: async (_, args, { idToken }) => {
+      const userData = await parseIdToken(idToken, false);
+      const comments = await service.getComments(args.url, userData?.uid);
       return comments.map(commentToResponse);
     },
     countComments: async (_, args) => {
@@ -15,30 +32,33 @@ export const commentsResolvers = {
     },
   },
   Mutation: {
-    createComment: async (_, args, context) => {
-      if (!context.idToken) throw "Unauthorized";
+    createComment: async (_, args, { idToken }) => {
+      if (!idToken) throw "Unauthorized";
 
       const comment = await service.addComment(
-        context.idToken,
+        idToken,
         args.comment.text,
         args.comment.url
       );
       return commentToResponse(comment);
     },
-    removeCommentVote: async (_, args, context) => {
-      if (!context.idToken) throw "Unauthorized";
+    removeCommentVote: async (_, args, { idToken }) => {
+      if (!idToken) throw "Unauthorized";
+      const userData = await parseIdToken(idToken);
 
-      return await service.removeVote(args.commentId, context.idToken);
+      return await service.removeVote(args.commentId, userData.uid);
     },
-    addCommentVoteUp: async (_, args, context) => {
-      if (!context.idToken) throw "Unauthorized";
+    addCommentVoteUp: async (_, args, { idToken }) => {
+      if (!idToken) throw "Unauthorized";
+      const userData = await parseIdToken(idToken);
 
-      return await service.setVoteUp(args.commentId, context.idToken);
+      return await service.setVoteUp(args.commentId, userData.uid);
     },
-    addCommentVoteDown: async (_, args, context) => {
-      if (!context.idToken) throw "Unauthorized";
+    addCommentVoteDown: async (_, args, { idToken }) => {
+      if (!idToken) throw "Unauthorized";
+      const userData = await parseIdToken(idToken);
 
-      return await service.setVoteDown(args.commentId, context.idToken);
+      return await service.setVoteDown(args.commentId, userData.uid);
     },
   },
 };

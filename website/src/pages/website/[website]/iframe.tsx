@@ -6,7 +6,7 @@ import { loginHref } from '@/pages/auth/login';
 import { CommentModel, logout, useSession } from '@disclave/client';
 import { registerHref } from '@/pages/auth/register';
 import { useComments } from '@/modules/comments';
-import { getCommentService } from '@disclave/server';
+import { getCommentService, getUserCookie } from '@disclave/server';
 import { initServer } from '@/modules/server';
 import { useContainerHeightMessage } from '@/modules/iframe';
 
@@ -15,9 +15,11 @@ export const websiteIframeHref = (url: string) => `/website/${url}/iframe/`;
 export const getServerSideProps: GetServerSideProps = async (context) => {
   await initServer();
   const { website } = context.query;
+
+  const userCookie = getUserCookie(context.req);
   const service = getCommentService();
-  // TODO: get user id from cookie
-  const comments = await service.getComments(website as string, null);
+
+  const comments = await service.getComments(website as string, userCookie?.uid);
 
   return {
     props: {
