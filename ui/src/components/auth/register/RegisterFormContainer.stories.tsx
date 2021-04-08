@@ -7,6 +7,7 @@ import {
 import { Story } from "@storybook/react";
 import {
   ExampleUserProfile,
+  ExampleUserProfileEmailNotVerified,
   ExampleUserProfileWithFillPending,
 } from "@/stories/data/UserProfiles";
 
@@ -23,6 +24,12 @@ export const Default = Template.bind({});
 Default.args = {
   loading: false,
   userProfile: null,
+};
+
+export const EmailVerification = Template.bind({});
+EmailVerification.args = {
+  loading: false,
+  userProfile: ExampleUserProfileEmailNotVerified,
 };
 
 export const UserName = Template.bind({});

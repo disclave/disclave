@@ -47,12 +47,13 @@ export const RegisterFormContainer: React.VFC<RegisterFormContainerProps> = (
           />
         );
       case State.EMAIL_VERIFICATION:
-          return (
-            <EmailVerificationForm
+        return (
+          <EmailVerificationForm
+            userEmail={props.userProfile!.email}
             onSendEmailVerification={props.onSendEmailVerification}
-              onLogout={props.onLogout}
-            />
-          )
+            onLogout={props.onLogout}
+          />
+        );
       case State.USERNAME:
         return (
           <RegisterUsernameForm
@@ -71,7 +72,6 @@ export const RegisterFormContainer: React.VFC<RegisterFormContainerProps> = (
   );
 };
 
-// TODO: update stories with new flow
 const getState = (
   loading: boolean,
   userProfile: UserProfileModel | null
