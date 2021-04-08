@@ -17,6 +17,7 @@ export {
   login,
   logout,
   register,
+  applyActionCode,
   loginWithGoogle,
   loginWithFacebook,
   currentUser,

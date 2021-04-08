@@ -29,6 +29,8 @@ export const sendEmailVerification = (emailRedirectUrl?: string) =>
     url: emailRedirectUrl,
   });
 
+export const applyActionCode = (code: string) => auth().applyActionCode(code);
+
 export const loginWithGoogle = async () => {
   const provider = new GoogleAuthProvider();
   return await auth().signInWithPopup(provider);
