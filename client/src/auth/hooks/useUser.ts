@@ -3,9 +3,9 @@ import { onAuthStateChanged, sendEmailVerification, UserModel } from "../";
 
 type SendEmailVerification = () => Promise<void>;
 type UseUser = {
-  user: UserModel | undefined | null,
-  sendEmailVerification: SendEmailVerification,
-}
+  user: UserModel | undefined | null;
+  sendEmailVerification: SendEmailVerification;
+};
 
 export const useUser = (): UseUser => {
   const [user, setUser] = useState<UserModel | undefined | null>(undefined);
@@ -15,8 +15,8 @@ export const useUser = (): UseUser => {
       // TODO: throw?
       return;
     }
-    await sendEmailVerification()
-  }
+    await sendEmailVerification();
+  };
 
   useEffect(
     () =>
