@@ -9,18 +9,25 @@ export const login = async (email: string, password: string) =>
   auth().signInWithEmailAndPassword(email, password);
 export const logout = async () => auth().signOut();
 
-export const register = async (email: string, password: string) => {
+export const register = async (
+  email: string,
+  password: string,
+  emailRedirectUrl?: string
+) => {
   const userCredential = await auth().createUserWithEmailAndPassword(
     email,
     password
   );
-  await userCredential.user.sendEmailVerification();
+  await userCredential.user.sendEmailVerification({
+    url: emailRedirectUrl,
+  });
   return userCredential;
 };
 
-// TODO: set URL parameter for email
-export const sendEmailVerification = () =>
-  currentUser().sendEmailVerification();
+export const sendEmailVerification = (emailRedirectUrl?: string) =>
+  currentUser().sendEmailVerification({
+    url: emailRedirectUrl,
+  });
 
 export const loginWithGoogle = async () => {
   const provider = new GoogleAuthProvider();

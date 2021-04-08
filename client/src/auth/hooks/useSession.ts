@@ -3,7 +3,7 @@ import { UserProfileModel } from "../";
 import { useUser, useUserProfile } from "./";
 
 type UpdateUserProfile = () => Promise<void>;
-type SendEmailVerification = () => Promise<void>;
+type SendEmailVerification = (emailRedirectUrl?: string) => Promise<void>;
 type UseUserProfile = {
   profile: UserProfileModel | null;
   partialProfile: UserProfileModel | null;

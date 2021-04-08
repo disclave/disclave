@@ -43,7 +43,7 @@ export const RegisterPage: React.VFC = () => {
   }, [isCompleted]);
 
   const onRegisterEmailPass = async (email: string, password: string) => {
-    await register(email, password);
+    await register(email, password, window.location.href);
   };
 
   const onCreateUsername = async (name: string) => {
@@ -64,7 +64,7 @@ export const RegisterPage: React.VFC = () => {
   };
 
   const onSendEmailVerification = async () => {
-    await sendEmailVerification();
+    await sendEmailVerification(window.location.href);
   };
 
   return (
