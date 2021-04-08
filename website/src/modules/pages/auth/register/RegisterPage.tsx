@@ -12,9 +12,10 @@ import { redirectParamsToUrl, routerQueryToRedirectParams } from '@/modules/redi
 import { loginHref } from '@/pages/auth/login';
 import { RegisterFormContainer } from '@disclave/ui';
 import { Layout } from '@/modules/layout';
+import {} from '@disclave/client';
 
 export const RegisterPage: React.VFC = () => {
-  const [userProfile, isLoadingProfile, isActiveAccount, updateUserProfile] = useSession();
+  const { profile, isLoading, isCompleted, updateProfile, sendEmailVerification } = useSession();
 
   const router = useRouter();
   const redirectParams = routerQueryToRedirectParams(router.query);
@@ -26,7 +27,7 @@ export const RegisterPage: React.VFC = () => {
   );
 
   useEffect(() => {
-    if (!isActiveAccount) return;
+    if (!isCompleted) return;
 
     const checkRedirects = async () => {
       if (redirectUrl) await router.push(redirectUrl);
@@ -34,7 +35,7 @@ export const RegisterPage: React.VFC = () => {
     };
 
     checkRedirects();
-  }, [isActiveAccount]);
+  }, [isCompleted]);
 
   const onRegisterEmailPass = async (email: string, password: string) => {
     await register(email, password);
@@ -42,7 +43,7 @@ export const RegisterPage: React.VFC = () => {
 
   const onCreateUsername = async (name: string) => {
     await createSelfProfile(name);
-    await updateUserProfile();
+    await updateProfile();
   };
 
   const onLogout = async () => {
@@ -57,18 +58,23 @@ export const RegisterPage: React.VFC = () => {
     await loginWithGoogle();
   };
 
+  const onSendEmailVerification = async () => {
+    await sendEmailVerification();
+  };
+
   return (
     <Layout>
       <section className="container mx-auto my-8 lg:mt-24 max-w-max">
         <RegisterFormContainer
-          loading={isLoadingProfile}
-          userProfile={userProfile}
+          loading={isLoading}
+          userProfile={profile}
           onRegisterEmailPass={onRegisterEmailPass}
           onRegisterGoogle={onGoogleLogin}
           onRegisterFacebook={onFacebookLogin}
           onCreateUsername={onCreateUsername}
           onLogout={onLogout}
           loginHref={loginHrefWithRedirect}
+          onSendEmailVerification={onSendEmailVerification}
         />
       </section>
     </Layout>

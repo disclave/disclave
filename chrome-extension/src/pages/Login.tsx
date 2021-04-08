@@ -10,7 +10,7 @@ export const loginHref = "/login";
 
 export const Login = () => {
   const history = useHistory();
-  const [userProfile, isLoadingProfile] = useSession();
+  const { profile, isLoading } = useSession();
 
   const onLogin = async (email: string, password: string) => {
     await login(email, password);
@@ -37,7 +37,7 @@ export const Login = () => {
         onLoginFacebook={onFacebookLogin}
         onLoginGoogle={onGoogleLogin}
         registerHref={registerHref}
-        userProfile={!isLoadingProfile ? userProfile : undefined}
+        userProfile={!isLoading ? profile : undefined}
       />
     </div>
   );
