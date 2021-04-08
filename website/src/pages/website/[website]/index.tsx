@@ -19,7 +19,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   const service = getCommentService();
 
-  const commentsPromise = service.getComments(website as string);
+  // TODO: get user id from cookie
+  const commentsPromise = service.getComments(website as string, null);
   const translationsPromise = serverSideTranslations(context.locale, ['common', 'layout']);
 
   return {

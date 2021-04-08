@@ -16,7 +16,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   await initServer();
   const { website } = context.query;
   const service = getCommentService();
-  const comments = await service.getComments(website as string);
+  // TODO: get user id from cookie
+  const comments = await service.getComments(website as string, null);
 
   return {
     props: {
