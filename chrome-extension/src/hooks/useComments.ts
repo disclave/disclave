@@ -1,10 +1,26 @@
 import { useEffect, useState } from "react";
-import { getComments, createComment, CommentModel } from "@disclave/client";
+import {
+  getComments,
+  createComment,
+  CommentModel,
+  addCommentVoteUp,
+  addCommentVoteDown,
+  removeCommentVote,
+} from "@disclave/client";
 import { useActiveTab } from "./";
 
 type CommentsState = Array<CommentModel> | undefined;
 type AddComment = (text: string) => Promise<void>;
-type UseComments = [CommentsState, AddComment];
+type AddVoteUp = (commentId: string) => Promise<void>;
+type AddVoteDown = (commentId: string) => Promise<void>;
+type RemoveVote = (commentId: string) => Promise<void>;
+type UseComments = {
+  comments: CommentsState;
+  addComment: AddComment;
+  addVoteUp: AddVoteUp;
+  addVoteDown: AddVoteDown;
+  removeVote: RemoveVote;
+};
 
 export const useComments = (): UseComments => {
   const [comments, setComments] = useState<CommentsState>(undefined);
@@ -28,11 +44,29 @@ export const useComments = (): UseComments => {
     else setComments([addedComment, ...comments]);
   };
 
+  const addVoteUp = async (commentId: string) => {
+    await addCommentVoteUp(commentId);
+  };
+
+  const addVoteDown = async (commentId: string) => {
+    await addCommentVoteDown(commentId);
+  };
+
+  const removeVote = async (commentId: string) => {
+    await removeCommentVote(commentId);
+  };
+
   useEffect(() => {
     if (!activeTab?.url) return;
 
     fetchComments();
   }, [activeTab?.url]);
 
-  return [comments, addComment];
+  return {
+    comments: comments,
+    addComment: addComment,
+    addVoteUp: addVoteUp,
+    addVoteDown: addVoteDown,
+    removeVote: removeVote,
+  };
 };

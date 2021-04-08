@@ -10,7 +10,13 @@ export const homeHref = "/";
 export const Home = () => {
   const [userProfile] = useSession();
 
-  const [comments, addComment] = useComments();
+  const {
+    comments,
+    addComment,
+    addVoteDown,
+    removeVote,
+    addVoteUp,
+  } = useComments();
 
   if (comments == null) return <div>loading</div>;
 
@@ -23,6 +29,9 @@ export const Home = () => {
       registerHref={registerHref}
       onSubmit={addComment}
       onLogout={logout}
+      onVoteDown={addVoteDown}
+      onVoteRemove={removeVote}
+      onVoteUp={addVoteUp}
     />
   );
 };
