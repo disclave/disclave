@@ -6,6 +6,12 @@ const randomDate = (start: Date, end: Date): Date => {
   );
 };
 
+function randomInt(min: number, max: number) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min) + min);
+}
+
 export const commentsTimestampComparator = (a: CommentModel, b: CommentModel) =>
   Date.parse(b.timestamp) - Date.parse(a.timestamp);
 
@@ -24,7 +30,7 @@ export const buildExampleComment = ({
   timestamp = randomDate(new Date(2012, 0, 1), new Date()),
   authorId = "mock-author-id" + Math.random(),
   authorName = "author_name",
-  voteSum = 0,
+  voteSum = randomInt(-50, 100),
   votedUp = false,
   votedDown = false,
 }: BuildExampleCommentProps): CommentModel => ({

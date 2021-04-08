@@ -3,11 +3,12 @@ import { CommentVotes } from "../../../CommentModel";
 import classNames from "classnames";
 
 export interface CommentVoteProps {
+  commentId: string;
   enabled: boolean;
   votes: CommentVotes;
-  onVoteUp: () => Promise<void>;
-  onVoteDown: () => Promise<void>;
-  onVoteRemove: () => Promise<void>;
+  onVoteUp: (commentId: string) => Promise<void>;
+  onVoteDown: (commentId: string) => Promise<void>;
+  onVoteRemove: (commentId: string) => Promise<void>;
 }
 
 export const CommentVote: React.VFC<CommentVoteProps> = (props) => {
@@ -16,7 +17,7 @@ export const CommentVote: React.VFC<CommentVoteProps> = (props) => {
   const [votedDown, setVotedDown] = useState(props.votes.votedDown);
 
   const defaultBtnClasses = classNames(
-    "rounded w-6 h-6",
+    "rounded w-5 h-5",
     "leading-6 text-xl font-bold",
     "bg-gray-200",
     "focus:outline-none",
@@ -33,14 +34,14 @@ export const CommentVote: React.VFC<CommentVoteProps> = (props) => {
     "text-white bg-red-600": votedDown,
   });
 
-  const sumClasses = classNames("font-semibold", {
+  const sumClasses = classNames("font-semibold text-sm", {
     "font-bold": votedDown || votedUp,
     "text-green-600": sum > 0,
     "text-red-600": sum < 0,
   });
 
   const clearVotes = async () => {
-    await props.onVoteRemove();
+    await props.onVoteRemove(props.commentId);
 
     if (votedUp) setSum(sum - 1);
     if (votedDown) setSum(sum + 1);
@@ -49,7 +50,7 @@ export const CommentVote: React.VFC<CommentVoteProps> = (props) => {
   };
 
   const voteUp = async () => {
-    await props.onVoteUp();
+    await props.onVoteUp(props.commentId);
 
     if (votedDown) setSum(sum + 2);
     else setSum(sum + 1);
@@ -59,7 +60,7 @@ export const CommentVote: React.VFC<CommentVoteProps> = (props) => {
   };
 
   const voteDown = async () => {
-    await props.onVoteDown();
+    await props.onVoteDown(props.commentId);
 
     if (votedUp) setSum(sum - 2);
     else setSum(sum - 1);
