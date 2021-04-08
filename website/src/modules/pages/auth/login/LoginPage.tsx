@@ -7,7 +7,7 @@ import { LoginFormContainer } from '@disclave/ui';
 import { Layout } from '@/modules/layout';
 
 export const LoginPage: React.VFC = () => {
-  const { profile, isLoading } = useSession();
+  const { partialProfile, profile, isCompleted } = useSession();
 
   const router = useRouter();
   const redirectParams = routerQueryToRedirectParams(router.query);
@@ -23,10 +23,11 @@ export const LoginPage: React.VFC = () => {
   };
 
   useEffect(() => {
-    if (profile == null) return;
+    // TODO: test this
+    if (partialProfile == null) return;
 
     const checkRedirects = async () => {
-      if (profile.profileFillPending) {
+      if (!isCompleted) {
         await redirectToRegisterPage();
         return;
       }
@@ -36,7 +37,7 @@ export const LoginPage: React.VFC = () => {
     };
 
     checkRedirects();
-  }, [profile]);
+  }, [partialProfile?.uid, isCompleted]);
 
   const onLogin = async (email: string, password: string) => {
     await login(email, password);
@@ -62,7 +63,7 @@ export const LoginPage: React.VFC = () => {
           onLoginFacebook={onFacebookLogin}
           onLoginGoogle={onGoogleLogin}
           registerHref={registerHrefWithRedirect}
-          userProfile={!isLoading ? profile : undefined}
+          userProfile={profile}
         />
       </section>
     </Layout>

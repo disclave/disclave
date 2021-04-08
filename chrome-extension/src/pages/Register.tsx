@@ -15,7 +15,7 @@ export const registerHref = "/register";
 
 export const Register = () => {
   const history = useHistory();
-  const { profile, isLoading, updateProfile } = useSession();
+  const { partialProfile, isLoading, updateProfile } = useSession();
 
   const onRegisterEmailPass = async (email: string, password: string) => {
     await register(email, password);
@@ -43,7 +43,7 @@ export const Register = () => {
     <div>
       <RegisterFormContainer
         loading={isLoading}
-        userProfile={profile}
+        userProfile={partialProfile}
         onRegisterEmailPass={onRegisterEmailPass}
         onRegisterFacebook={onFacebookLogin}
         onRegisterGoogle={onGoogleLogin}

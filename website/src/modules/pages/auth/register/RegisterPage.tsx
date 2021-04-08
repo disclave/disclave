@@ -12,10 +12,15 @@ import { redirectParamsToUrl, routerQueryToRedirectParams } from '@/modules/redi
 import { loginHref } from '@/pages/auth/login';
 import { RegisterFormContainer } from '@disclave/ui';
 import { Layout } from '@/modules/layout';
-import {} from '@disclave/client';
 
 export const RegisterPage: React.VFC = () => {
-  const { profile, isLoading, isCompleted, updateProfile, sendEmailVerification } = useSession();
+  const {
+    partialProfile,
+    isLoading,
+    isCompleted,
+    updateProfile,
+    sendEmailVerification
+  } = useSession();
 
   const router = useRouter();
   const redirectParams = routerQueryToRedirectParams(router.query);
@@ -67,7 +72,7 @@ export const RegisterPage: React.VFC = () => {
       <section className="container mx-auto my-8 lg:mt-24 max-w-max">
         <RegisterFormContainer
           loading={isLoading}
-          userProfile={profile}
+          userProfile={partialProfile}
           onRegisterEmailPass={onRegisterEmailPass}
           onRegisterGoogle={onGoogleLogin}
           onRegisterFacebook={onFacebookLogin}

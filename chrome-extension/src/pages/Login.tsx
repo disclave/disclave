@@ -5,12 +5,18 @@ import { login, logout, useSession } from "@disclave/client";
 import { homeHref } from "./Home";
 import { registerHref } from "./Register";
 import { MessageType, sendMessage } from "../messages";
+import { useEffect } from "react";
 
 export const loginHref = "/login";
 
 export const Login = () => {
   const history = useHistory();
-  const { profile, isLoading } = useSession();
+  const { partialProfile, profile, isCompleted } = useSession();
+
+  useEffect(() => {
+    // TODO: test this
+    if (partialProfile != null && !isCompleted) history.push(registerHref);
+  }, [partialProfile?.uid, isCompleted]);
 
   const onLogin = async (email: string, password: string) => {
     await login(email, password);
@@ -37,7 +43,7 @@ export const Login = () => {
         onLoginFacebook={onFacebookLogin}
         onLoginGoogle={onGoogleLogin}
         registerHref={registerHref}
-        userProfile={!isLoading ? profile : undefined}
+        userProfile={profile}
       />
     </div>
   );
