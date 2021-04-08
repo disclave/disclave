@@ -9,11 +9,18 @@ export const login = async (email: string, password: string) =>
   auth().signInWithEmailAndPassword(email, password);
 export const logout = async () => auth().signOut();
 
-export const register = async (email: string, password: string) =>
-  auth().createUserWithEmailAndPassword(email, password);
+export const register = async (email: string, password: string) => {
+  const userCredential = await auth().createUserWithEmailAndPassword(
+    email,
+    password
+  );
+  await userCredential.user.sendEmailVerification();
+  return userCredential;
+};
 
 // TODO: set URL parameter for email
-export const sendEmailVerification = () => currentUser().sendEmailVerification()
+export const sendEmailVerification = () =>
+  currentUser().sendEmailVerification();
 
 export const loginWithGoogle = async () => {
   const provider = new GoogleAuthProvider();
