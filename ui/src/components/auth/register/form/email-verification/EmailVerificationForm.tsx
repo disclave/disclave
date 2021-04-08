@@ -2,7 +2,7 @@ import React from "react";
 import { useLoading } from "@/hooks";
 import { useTranslation } from "@/i18n";
 import { Button } from "@/components/button";
-import { FormErrorContainer, TextField } from "@/components/forms";
+import { FormErrorContainer } from "@/components/forms";
 
 export interface EmailVerificationFormProps {
   userEmail: string;
