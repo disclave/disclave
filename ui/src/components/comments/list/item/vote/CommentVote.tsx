@@ -23,14 +23,11 @@ export const CommentVote: React.VFC<CommentVoteProps> = (props) => {
   });
 
   const defaultBtnClasses = classNames(
-    "rounded w-5 h-5",
-    "leading-5 text-xl font-bold",
-    "bg-gray-200",
-    "focus:outline-none",
+    "rounded bg-gray-200 focus:outline-none w-5 h-5 text-xs",
     { hidden: !props.enabled }
   );
 
-  const btnIconClasses = "w-5 h-5 text-sm";
+  const btnIconClasses = "w-5 h-5";
 
   const upBtnClasses = classNames(defaultBtnClasses, {
     "text-green-600 hover:text-white hover:bg-green-600": !votedUp,
