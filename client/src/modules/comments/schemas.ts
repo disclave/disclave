@@ -1,38 +1,33 @@
 import { gql } from "@apollo/client";
 
+const defaultCommentResponseFields = `
+  id
+  text
+  author {
+    id
+    name
+  }
+  votes {
+    sum
+    votedUp
+    votedDown
+  }
+  timestamp
+  urlMeta {
+    websiteId
+    pageId
+  }
+`;
+
 export const GET_COMMENTS = gql`
   query($url: String!) {
-    getComments(url: $url) {
-      id
-      text
-      author {
-        id
-        name
-      }
-      timestamp
-      urlMeta {
-        websiteId
-        pageId
-      }
-    }
+    getComments(url: $url) { ${defaultCommentResponseFields} }
   }
 `;
 
 export const CREATE_COMMENT = gql`
   mutation($comment: CommentInput!) {
-    createComment(comment: $comment) {
-      id
-      text
-      author {
-        id
-        name
-      }
-      timestamp
-      urlMeta {
-        websiteId
-        pageId
-      }
-    }
+    createComment(comment: $comment) { ${defaultCommentResponseFields} }
   }
 `;
 

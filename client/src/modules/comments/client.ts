@@ -78,6 +78,11 @@ const responseToModel = (data: any): CommentModel => {
       id: data.author.id,
       name: data.author.name,
     },
+    votes: {
+      sum: data.votes.sum,
+      votedUp: data.votes.votedUp,
+      votedDown: data.votes.votedDown,
+    },
     timestamp: data.timestamp,
     urlMeta: {
       websiteId: data.urlMeta.websiteId,
