@@ -83,7 +83,10 @@ export const CommentVote: React.VFC<CommentVoteProps> = (props) => {
       <button className={upBtnClasses} onClick={onClickPlus}>
         +
       </button>
-      <div className={sumClasses}>{sum}</div>
+      <div className={sumClasses}>
+        {sum > 0 ? "+" : ""}
+        {sum}
+      </div>
       <button className={downBtnClasses} onClick={onClickMinus}>
         -
       </button>

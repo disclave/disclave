@@ -15,3 +15,9 @@ export const Default = Template.bind({});
 Default.args = {
   comment: ExampleComment,
 };
+
+export const Authenticated = Template.bind({});
+Authenticated.args = {
+  authenticated: true,
+  comment: ExampleComment,
+};
