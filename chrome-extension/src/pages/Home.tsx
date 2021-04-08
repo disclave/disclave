@@ -8,7 +8,7 @@ import { registerHref } from "./Register";
 export const homeHref = "/";
 
 export const Home = () => {
-  const [userProfile] = useSession();
+  const [userProfile, loading] = useSession();
 
   const {
     comments,
@@ -16,9 +16,9 @@ export const Home = () => {
     addVoteDown,
     removeVote,
     addVoteUp,
-  } = useComments();
+  } = useComments(userProfile, loading);
 
-  if (comments == null) return <div>loading</div>;
+  if (!comments) return <div>loading</div>;
 
   return (
     <CommentsContainer

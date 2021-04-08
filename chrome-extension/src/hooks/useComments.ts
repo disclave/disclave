@@ -6,6 +6,7 @@ import {
   addCommentVoteUp,
   addCommentVoteDown,
   removeCommentVote,
+  UserProfileModel,
 } from "@disclave/client";
 import { useActiveTab } from "./";
 
@@ -22,7 +23,10 @@ type UseComments = {
   removeVote: RemoveVote;
 };
 
-export const useComments = (): UseComments => {
+export const useComments = (
+  userProfile: UserProfileModel | null,
+  authPending: boolean
+): UseComments => {
   const [comments, setComments] = useState<CommentsState>(undefined);
   const activeTab = useActiveTab();
 
@@ -31,9 +35,11 @@ export const useComments = (): UseComments => {
     return activeTab.url;
   };
 
-  const fetchComments = async () => {
+  const fetchComments = async (noCache: boolean = false) => {
+    if (!activeTab?.url || authPending) return;
+
     // TODO: add errors handling
-    const result = await getComments(url());
+    const result = await getComments(url(), noCache);
     setComments(result);
   };
 
@@ -57,10 +63,12 @@ export const useComments = (): UseComments => {
   };
 
   useEffect(() => {
-    if (!activeTab?.url) return;
-
     fetchComments();
   }, [activeTab?.url]);
+
+  useEffect(() => {
+    fetchComments(true);
+  }, [userProfile?.uid, authPending]);
 
   return {
     comments: comments,

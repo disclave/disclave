@@ -9,13 +9,15 @@ import {
 } from "./schemas";
 
 export const getComments = async (
-  url: string
+  url: string,
+  noCache: boolean = false
 ): Promise<Array<CommentModel>> => {
   const result = await client().query({
     query: GET_COMMENTS,
     variables: {
       url,
     },
+    fetchPolicy: noCache ? "network-only" : undefined,
   });
   return result.data.getComments.map(responseToModel);
 };
