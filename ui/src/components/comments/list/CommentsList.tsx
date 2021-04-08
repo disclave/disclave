@@ -27,7 +27,7 @@ export const CommentsList: React.VFC<CommentsListProps> = ({
     return <div className="p-8 text-gray-500">{t("list.empty.text")}</div>;
   }
 
-  const containerClasses = classNames("space-y-4", className);
+  const containerClasses = classNames("space-y-3", className);
 
   return (
     <div className={containerClasses}>

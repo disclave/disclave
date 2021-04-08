@@ -23,7 +23,7 @@ export const ListItem: React.VFC<ListItemProps> = (props) => {
         </span>
       </div>
 
-      <div className="mt-1 mb-1">
+      <div className="mt-1 mb-2">
         <p className="text-sm">{props.comment.text}</p>
       </div>
 

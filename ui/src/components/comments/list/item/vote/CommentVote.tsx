@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { CommentVotes } from "../../../CommentModel";
 import classNames from "classnames";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 
 export interface CommentVoteProps {
   commentId: string;
@@ -16,13 +18,19 @@ export const CommentVote: React.VFC<CommentVoteProps> = (props) => {
   const [votedUp, setVotedUp] = useState(props.votes.votedUp);
   const [votedDown, setVotedDown] = useState(props.votes.votedDown);
 
+  const wrapperClasses = classNames("flex flex-row items-center", {
+    "space-x-2": props.enabled,
+  });
+
   const defaultBtnClasses = classNames(
     "rounded w-5 h-5",
-    "leading-6 text-xl font-bold",
+    "leading-5 text-xl font-bold",
     "bg-gray-200",
     "focus:outline-none",
     { hidden: !props.enabled }
   );
+
+  const btnIconClasses = "w-5 h-5 text-sm";
 
   const upBtnClasses = classNames(defaultBtnClasses, {
     "text-green-600 hover:text-white hover:bg-green-600": !votedUp,
@@ -80,16 +88,16 @@ export const CommentVote: React.VFC<CommentVoteProps> = (props) => {
   };
 
   return (
-    <div className="flex flex-row items-center space-x-2">
+    <div className={wrapperClasses}>
       <button className={upBtnClasses} onClick={onClickPlus}>
-        +
+        <FontAwesomeIcon icon={faPlus} className={btnIconClasses} />
       </button>
       <div className={sumClasses}>
         {sum > 0 ? "+" : ""}
         {sum}
       </div>
       <button className={downBtnClasses} onClick={onClickMinus}>
-        -
+        <FontAwesomeIcon icon={faMinus} className={btnIconClasses} />
       </button>
     </div>
   );
