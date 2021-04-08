@@ -2,25 +2,22 @@ import { auth } from "../../firebase";
 import { UserProfileEntity } from "./UserProfileEntity";
 import { UserRepository } from "./index";
 import { injectable } from "inversify";
-import { ClientSession, db, withTransaction, Timestamp } from "../../mongodb";
+import { ClientSession, db, Timestamp, MongoRepository } from "../../mongodb";
+import { UserId } from "../../auth";
 
 interface DbProfile {
-  _id: string;
+  _id: UserId;
   name: string;
   normalizedName: string;
   createdTs: Timestamp;
 }
 
 @injectable()
-export class UserMongoRepository implements UserRepository<ClientSession> {
-  public async runTransaction(
-    run: (session: ClientSession) => Promise<unknown>
-  ): Promise<void> {
-    await withTransaction(run);
-  }
-
+export class UserMongoRepository
+  extends MongoRepository
+  implements UserRepository<ClientSession> {
   // TODO: move to auth module?
-  public async getUser(uid: string) {
+  public async getUser(uid: UserId) {
     return auth().getUser(uid);
   }
 
@@ -38,7 +35,7 @@ export class UserMongoRepository implements UserRepository<ClientSession> {
   }
 
   public async createProfile(
-    userId: string,
+    userId: UserId,
     profile: { name: string },
     session?: ClientSession
   ) {
@@ -49,7 +46,7 @@ export class UserMongoRepository implements UserRepository<ClientSession> {
   }
 
   public async getUserProfile(
-    uid: string,
+    uid: UserId,
     session?: ClientSession
   ): Promise<UserProfileEntity | null> {
     const collection = await profilesDbCollection();
@@ -60,7 +57,7 @@ export class UserMongoRepository implements UserRepository<ClientSession> {
   }
 }
 
-const toDbProfile = (uid: string, name: string): DbProfile => ({
+const toDbProfile = (uid: UserId, name: string): DbProfile => ({
   _id: uid,
   name: name,
   normalizedName: name.toLowerCase(),

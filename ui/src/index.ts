@@ -1,5 +1,8 @@
 import "./index.css";
 
+import { config } from "@fortawesome/fontawesome-svg-core";
+config.autoAddCss = false;
+
 export { changeLanguage } from "./i18n";
 export { setAnchorWrapper } from "./config";
 

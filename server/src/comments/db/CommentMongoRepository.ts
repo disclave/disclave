@@ -1,47 +1,26 @@
 import { CommentEntity } from "./CommentEntity";
 import { AuthorInfo, CommentRepository, UrlMeta } from "./index";
 import { injectable } from "inversify";
-import { db, Timestamp, ObjectID } from "../../mongodb";
-
-const DbFields = {
-  _id: "_id",
-  text: "text",
-  author: {
-    _: "author",
-    id: "id",
-    name: "name",
-  },
-  timestamp: "timestamp",
-  url: {
-    _: "url",
-    raw: "raw",
-    websiteId: "websiteId",
-    pageId: "pageId",
-  },
-} as const;
-
-interface DbComment {
-  [DbFields._id]?: ObjectID;
-  [DbFields.text]: string;
-  [DbFields.author._]: {
-    [DbFields.author.id]: string;
-    [DbFields.author.name]: string;
-  };
-  [DbFields.timestamp]: Timestamp;
-  [DbFields.url._]: {
-    [DbFields.url.raw]: string;
-    [DbFields.url.websiteId]: string;
-    [DbFields.url.pageId]: string;
-  };
-}
+import { db, Timestamp, ObjectID, MongoRepository } from "../../mongodb";
+import { UserId } from "../../auth";
+import { ClientSession } from "mongodb";
+import { commentsDbCollection, DbComment, getProjection } from "./mongo";
 
 @injectable()
-export class CommentMongoRepository implements CommentRepository {
-  public async findComments(url: UrlMeta): Promise<Array<CommentEntity>> {
+export class CommentMongoRepository
+  extends MongoRepository
+  implements CommentRepository<ClientSession> {
+  public async findComments(
+    url: UrlMeta,
+    uid: UserId | null
+  ): Promise<Array<CommentEntity>> {
     const collection = await commentsDbCollection();
     const cursor = collection
-      .find(urlMetaToQuery(url))
-      .sort({ [DbFields.timestamp]: -1 });
+      .find(urlMetaToQuery(url), {
+        projection: getProjection(uid),
+      })
+      .sort({ timestamp: -1 });
+
     return await cursor.map(cursorDocToEntity).toArray();
   }
 
@@ -58,18 +37,87 @@ export class CommentMongoRepository implements CommentRepository {
     const collection = await commentsDbCollection();
     const result = await collection.insertOne(toDbComment(author, text, url));
 
-    const doc = await collection.findOne({
-      [DbFields._id]: result.insertedId,
-    });
+    const doc = await collection.findOne(
+      {
+        _id: result.insertedId,
+      },
+      {
+        projection: getProjection(author.id),
+      }
+    );
     return cursorDocToEntity(doc);
+  }
+
+  public async removeVote(commentId: string, uid: UserId): Promise<boolean> {
+    const collection = await commentsDbCollection();
+
+    const bulk = collection.initializeOrderedBulkOp();
+    bulk.find(idSelector(commentId)).updateOne({
+      $pull: {
+        votesUp: uid,
+        votesDown: uid,
+      },
+    });
+    bulk.find(idSelector(commentId)).updateOne([updateVotesSumAggregation]);
+
+    const result = await bulk.execute();
+    return result.nModified > 0;
+  }
+
+  public async setVoteDown(commentId: string, uid: UserId): Promise<boolean> {
+    const collection = await commentsDbCollection();
+
+    const bulk = collection.initializeOrderedBulkOp();
+    bulk.find(idSelector(commentId)).updateOne({
+      $pull: {
+        votesUp: uid,
+      },
+      $addToSet: {
+        votesDown: uid,
+      },
+    });
+    bulk.find(idSelector(commentId)).updateOne([updateVotesSumAggregation]);
+
+    const result = await bulk.execute();
+    return result.nModified > 0;
+  }
+
+  public async setVoteUp(commentId: string, uid: UserId): Promise<boolean> {
+    const collection = await commentsDbCollection();
+
+    const bulk = collection.initializeOrderedBulkOp();
+    bulk.find(idSelector(commentId)).updateOne({
+      $pull: {
+        votesDown: uid,
+      },
+      $addToSet: {
+        votesUp: uid,
+      },
+    });
+    bulk.find(idSelector(commentId)).updateOne([updateVotesSumAggregation]);
+
+    const result = await bulk.execute();
+    return result.nModified > 0;
   }
 }
 
+const idSelector = (commentId: string) => ({
+  _id: new ObjectID(commentId),
+});
+
 const urlMetaToQuery = (url: UrlMeta) => {
   return {
-    [`${DbFields.url._}.${DbFields.url.websiteId}`]: url.websiteId,
-    [`${DbFields.url._}.${DbFields.url.pageId}`]: url.pageId,
+    "url.websiteId": url.websiteId,
+    "url.pageId": url.pageId,
   };
+};
+
+const updateVotesSumAggregation = {
+  $set: {
+    votesSum: {
+      $subtract: [{ $size: "$votesUp" }, { $size: "$votesDown" }],
+    },
+  },
 };
 
 const toDbComment = (
@@ -82,6 +130,9 @@ const toDbComment = (
     id: author.id,
     name: author.name,
   },
+  votesUp: [author.id],
+  votesDown: [],
+  votesSum: 1,
   timestamp: new Timestamp(0, Math.floor(new Date().getTime() / 1000)),
   url: {
     raw: url.raw,
@@ -90,27 +141,24 @@ const toDbComment = (
   },
 });
 
-const cursorDocToEntity = (doc: DbComment): CommentEntity => ({
-  id: doc._id.toHexString(),
-  text: doc.text,
-  author: {
-    id: doc.author.id,
-    name: doc.author.name,
-  },
-  timestamp: new Date(doc.timestamp.getHighBits() * 1000).toUTCString(),
-  url: {
-    raw: doc.url.raw,
-    websiteId: doc.url.websiteId,
-    pageId: doc.url.pageId,
-  },
-});
-
-const websitesCollection = "websites";
-const pagesCollection = "pages";
-const commentsCollection = "comments";
-
-const commentsDbCollection = async () => {
-  return (await db()).collection(
-    `${websitesCollection}.${pagesCollection}.${commentsCollection}`
-  );
+const cursorDocToEntity = (doc: DbComment): CommentEntity => {
+  return {
+    id: doc._id.toHexString(),
+    text: doc.text,
+    author: {
+      id: doc.author.id,
+      name: doc.author.name,
+    },
+    votes: {
+      sum: doc.votesSum,
+      votedUp: doc.votesUp?.length > 0,
+      votedDown: doc.votesDown?.length > 0,
+    },
+    timestamp: new Date(doc.timestamp.getHighBits() * 1000).toUTCString(),
+    url: {
+      raw: doc.url.raw,
+      websiteId: doc.url.websiteId,
+      pageId: doc.url.pageId,
+    },
+  };
 };

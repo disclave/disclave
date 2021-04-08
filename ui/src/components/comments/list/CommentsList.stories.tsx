@@ -4,10 +4,12 @@ import { CommentsList, CommentsListProps } from "./CommentsList";
 import { Story } from "@storybook/react";
 import {
   commentsTimestampComparator,
-  ExampleCommentsList,
+  RandomCommentsList,
 } from "@/stories/data/Comments";
 
-const exampleComments = ExampleCommentsList.sort(commentsTimestampComparator);
+const exampleComments = RandomCommentsList(10).sort(
+  commentsTimestampComparator
+);
 
 export default {
   title: "Comments/List/CommentsList",
@@ -18,6 +20,12 @@ const Template: Story<CommentsListProps> = (args) => <CommentsList {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
+  comments: exampleComments,
+};
+
+export const Authenticated = Template.bind({});
+Authenticated.args = {
+  authenticated: true,
   comments: exampleComments,
 };
 

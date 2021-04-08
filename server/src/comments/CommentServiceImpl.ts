@@ -3,6 +3,7 @@ import { UrlService } from "../url";
 import { UserService } from "../users";
 import { CommentService, Comment } from "./index";
 import { inject, injectable } from "inversify";
+import { IdToken, UserId } from "../auth";
 
 @injectable()
 export class CommentServiceImpl implements CommentService {
@@ -15,9 +16,12 @@ export class CommentServiceImpl implements CommentService {
   @inject(CommentRepository)
   private repository: CommentRepository;
 
-  public async getComments(url: string): Promise<Array<Comment>> {
+  public async getComments(
+    url: string,
+    userId: UserId | null
+  ): Promise<Array<Comment>> {
     const parsedUrl = this.urlService.parseUrl(url);
-    const comments = await this.repository.findComments(parsedUrl);
+    const comments = await this.repository.findComments(parsedUrl, userId);
     return comments.map(toDomain);
   }
 
@@ -27,7 +31,7 @@ export class CommentServiceImpl implements CommentService {
   }
 
   public async addComment(
-    idToken: string,
+    idToken: IdToken,
     text: string,
     url: string
   ): Promise<Comment> {
@@ -35,6 +39,21 @@ export class CommentServiceImpl implements CommentService {
     const parsedUrl = this.urlService.parseUrl(url);
     const result = await this.repository.addComment(author, text, parsedUrl);
     return toDomain(result);
+  }
+
+  public async removeVote(commentId: string, userId: UserId): Promise<boolean> {
+    return await this.repository.removeVote(commentId, userId);
+  }
+
+  public async setVoteDown(
+    commentId: string,
+    userId: UserId
+  ): Promise<boolean> {
+    return await this.repository.setVoteDown(commentId, userId);
+  }
+
+  public async setVoteUp(commentId: string, userId: UserId): Promise<boolean> {
+    return await this.repository.setVoteUp(commentId, userId);
   }
 }
 
@@ -45,6 +64,11 @@ const toDomain = (entity: CommentEntity): Comment => {
     author: {
       id: entity.author.id,
       name: entity.author.name,
+    },
+    votes: {
+      sum: entity.votes.sum,
+      votedUp: entity.votes.votedUp,
+      votedDown: entity.votes.votedDown,
     },
     timestamp: entity.timestamp,
     urlMeta: {

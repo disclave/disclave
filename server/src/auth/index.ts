@@ -1,18 +1,21 @@
+export type UserId = string;
+export type IdToken = string;
+
 export interface DecodedIdToken {
-  uid: string;
+  uid: UserId;
 }
 
 export interface UserCookieContent {
-  uid: string;
+  uid: UserId;
 }
 
 export abstract class AuthProvider {
   abstract verifyIdToken(
-    idToken: string,
+    idToken: IdToken,
     checkIfRevoked: boolean
   ): Promise<DecodedIdToken>;
 
   abstract getUserCookieContent(
-    idToken: string | null
+    idToken: IdToken | null
   ): Promise<UserCookieContent | null>;
 }

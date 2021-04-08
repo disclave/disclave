@@ -1,4 +1,6 @@
 import { CommentEntity } from "./CommentEntity";
+import { UserId } from "../../auth";
+import { BaseRepository } from "../../repository";
 
 export type { CommentEntity };
 
@@ -9,12 +11,15 @@ export interface UrlMeta {
 }
 
 export interface AuthorInfo {
-  id: string;
+  id: UserId;
   name: string;
 }
 
-export abstract class CommentRepository {
-  abstract findComments(url: UrlMeta): Promise<Array<CommentEntity>>;
+export abstract class CommentRepository<T = unknown> extends BaseRepository<T> {
+  abstract findComments(
+    url: UrlMeta,
+    uid: UserId | null
+  ): Promise<Array<CommentEntity>>;
 
   abstract countComments(url: UrlMeta): Promise<number>;
 
@@ -23,4 +28,8 @@ export abstract class CommentRepository {
     text: string,
     url: UrlMeta
   ): Promise<CommentEntity>;
+
+  abstract setVoteUp(commentId: string, uid: UserId): Promise<boolean>;
+  abstract setVoteDown(commentId: string, uid: UserId): Promise<boolean>;
+  abstract removeVote(commentId: string, uid: UserId): Promise<boolean>;
 }

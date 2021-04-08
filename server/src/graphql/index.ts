@@ -30,14 +30,18 @@ const baseTypes = gql`
   }
 `;
 
+const getIdToken = (req: any): string | null => {
+  const authorization = req?.headers?.authorization || null;
+  if (authorization && authorization.startsWith("Bearer "))
+    return authorization.replace("Bearer ", "");
+  return null;
+};
+
 const apolloServer = new ApolloServer({
   typeDefs: [baseTypes, authTypeDefs, commentsTypeDefs, usersTypeDefs],
   resolvers: [authResolvers, commentsResolvers, usersResolvers],
   context: ({ req, res }) => {
-    let idToken: string | null = null;
-    const authorization = req.headers.authorization || null;
-    if (authorization && authorization.startsWith("Bearer "))
-      idToken = authorization.replace("Bearer ", "");
+    const idToken = getIdToken(req);
 
     return {
       req,
