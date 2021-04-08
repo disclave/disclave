@@ -27,7 +27,7 @@ const EmailActionHandler = () => {
   }
 
   const redirect = async () => {
-    // TODO: verify without redirect
+    // TODO: verify without redirect - porbably display some text to user
     if (!continueUrl) return;
     await router.push(continueUrl);
   }
@@ -37,7 +37,13 @@ const EmailActionHandler = () => {
     processAction();
   }, [mode])
 
-  // TODO: update layout
-  return <div>Loading...</div>
+  // TODO: add translation
+  return (
+    <div className="w-full">
+      <div className="mx-auto w-max border rounded mt-6 p-4">
+        Loading, please wait...
+      </div>
+    </div>
+  )
 }
 export default EmailActionHandler;
