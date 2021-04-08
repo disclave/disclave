@@ -2,7 +2,7 @@ const path = require("path");
 const CopyPlugin = require("copy-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
 
-const config = {
+const config = (mode) => ({
   entry: {
     popup: path.join(__dirname, "src/popup.tsx"),
     background: path.join(__dirname, "src/background.tsx"),
@@ -66,14 +66,16 @@ const config = {
     contentBase: "./dist",
   },
   plugins: [
-    new Dotenv(),
+    new Dotenv({
+      path: `./.env.${mode}`,
+    }),
     new CopyPlugin({
       patterns: [{ from: "public", to: "." }],
     }),
   ],
-};
+});
 
 module.exports = (env, options) => {
   process.env.NODE_ENV = options.mode;
-  return config;
+  return config(process.env.ENV);
 };
