@@ -2,7 +2,10 @@
   "add": {
     "button": "Add",
     "input": {
-      "placeholder": "Add comment"
+      "placeholder": "Add comment",
+      "validation": {
+        "max length": "Comment can not be longer than {{maxLen}} characters."
+      }
     },
     "auth": {
       "text": "Log in or register to add comments.",
