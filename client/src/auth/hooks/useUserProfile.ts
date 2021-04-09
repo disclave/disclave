@@ -41,7 +41,7 @@ export const useUserProfile = (): UseUserProfile => {
     }
 
     fetchUserProfile(user, false);
-  }, [user?.uid]);
+  }, [user]);
 
   return [profile, updateProfile];
 };
