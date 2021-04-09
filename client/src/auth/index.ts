@@ -56,7 +56,11 @@ const signInWithPopup = async (
 const sendVerificationEmail = async (user: User, emailRedirectUrl?: string) => {
   if (user.emailVerified) return;
 
-  await user.sendEmailVerification({
-    url: emailRedirectUrl,
-  });
+  const settings = emailRedirectUrl
+    ? {
+        url: emailRedirectUrl,
+      }
+    : undefined;
+
+  await user.sendEmailVerification(settings);
 };
