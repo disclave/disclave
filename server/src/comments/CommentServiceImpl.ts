@@ -4,6 +4,8 @@ import { UserService } from "../users";
 import { CommentService, Comment } from "./index";
 import { inject, injectable } from "inversify";
 import { IdToken, UserId } from "../auth";
+import escapeHtml from "escape-html";
+import { CommentTextMaxLength, CommentTextMinLength } from "./exceptions";
 
 @injectable()
 export class CommentServiceImpl implements CommentService {
@@ -37,7 +39,12 @@ export class CommentServiceImpl implements CommentService {
   ): Promise<Comment> {
     const author = await this.userService.getProfile(idToken);
     const parsedUrl = this.urlService.parseUrl(url);
-    const result = await this.repository.addComment(author, text, parsedUrl);
+    const escapedText = validateAndParseCommentText(text);
+    const result = await this.repository.addComment(
+      author,
+      escapedText,
+      parsedUrl
+    );
     return toDomain(result);
   }
 
@@ -56,6 +63,21 @@ export class CommentServiceImpl implements CommentService {
     return await this.repository.setVoteUp(commentId, userId);
   }
 }
+
+const validateAndParseCommentText = (text: string): string => {
+  if (text.length < 1)
+    throw CommentTextMinLength(
+      "Comment text must contain at least one character."
+    );
+
+  const maxLen = 10000;
+  if (text.length > maxLen)
+    throw CommentTextMaxLength(
+      `Comment text can not be longer than ${maxLen} characters`
+    );
+
+  return escapeHtml(text);
+};
 
 const toDomain = (entity: CommentEntity): Comment => {
   return {
