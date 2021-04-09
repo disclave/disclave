@@ -32,7 +32,9 @@ export const CommentAddForm: React.VFC<CommentAddFormProps> = (props) => {
     }
   };
 
-  const classes = classNames("flex flex-col space-y-2", props.className)
+  const classes = classNames("flex flex-col space-y-2", props.className);
+
+  const commentMaxLength = 10000;
 
   return (
     <Form onSubmit={onSubmit} className={classes}>
@@ -42,7 +44,15 @@ export const CommentAddForm: React.VFC<CommentAddFormProps> = (props) => {
           className="flex-grow"
           disabled={loading}
           name={FormField.comment}
-          options={{ required: true }}
+          options={{
+            required: true,
+            maxLength: {
+              value: commentMaxLength,
+              message: t("add.input.validation.max length", {
+                maxLen: commentMaxLength,
+              }),
+            },
+          }}
           placeholder={t("add.input.placeholder")}
         />
         <div>

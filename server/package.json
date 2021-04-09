@@ -14,6 +14,7 @@
   "dependencies": {
     "apollo-server-micro": "^2.22.2",
     "cookie": "^0.4.1",
+    "escape-html": "^1.0.3",
     "firebase-admin": "^9.6.0",
     "graphql": "^15.5.0",
     "inversify": "^5.0.5",
@@ -25,6 +26,7 @@
   "devDependencies": {
     "@babel/plugin-proposal-decorators": "^7.13.5",
     "@types/cookie": "^0.4.0",
+    "@types/escape-html": "^1.0.0",
     "@types/graphql": "^14.5.0",
     "@types/jest": "^26.0.22",
     "@types/micro-cors": "^0.1.1",

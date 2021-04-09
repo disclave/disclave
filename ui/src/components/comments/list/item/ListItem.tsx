@@ -24,7 +24,10 @@ export const ListItem: React.VFC<ListItemProps> = (props) => {
       </div>
 
       <div className="mt-1 mb-2">
-        <p className="text-sm">{props.comment.text}</p>
+        <p
+          className="text-sm whitespace-pre-wrap break-words"
+          dangerouslySetInnerHTML={{ __html: props.comment.text }}
+        />
       </div>
 
       <div>
