@@ -8,6 +8,7 @@ export { setAnchorWrapper } from "./config";
 
 export { useLoading } from "./hooks";
 
+export { Loading } from "./components/loading";
 export { Button } from "./components/button";
 export { Menu } from "./components/menu";
 export {

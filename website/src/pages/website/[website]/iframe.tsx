@@ -36,7 +36,7 @@ const Index: React.FC<WebsiteProps> = (props) => {
   const containerRef = useRef<HTMLDivElement>();
   useContainerHeightMessage(containerRef);
 
-  const [userProfile] = useSession();
+  const { profile } = useSession();
 
   const router = useRouter();
   const website = router.query.website as string;
@@ -52,7 +52,7 @@ const Index: React.FC<WebsiteProps> = (props) => {
   return (
     <div ref={containerRef} className="w-full p-3">
       <CommentsContainer
-        userProfile={userProfile}
+        userProfile={profile}
         comments={comments}
         className="h-max"
         inputTop={true}

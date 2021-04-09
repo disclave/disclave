@@ -12,7 +12,7 @@ export interface WebsiteCommentsProps {
 }
 
 export const WebsiteComments: React.VFC<WebsiteCommentsProps> = (props) => {
-  const [userProfile] = useSession();
+  const { profile } = useSession();
 
   const website = props.website;
   const { comments, addComment, addVoteUp, addVoteDown, removeVote } = useComments(
@@ -26,7 +26,7 @@ export const WebsiteComments: React.VFC<WebsiteCommentsProps> = (props) => {
   return (
     <section className="container mx-auto my-4">
       <CommentsContainer
-        userProfile={userProfile}
+        userProfile={profile}
         comments={comments}
         className="max-h-full"
         inputTop={true}

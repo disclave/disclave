@@ -1,8 +1,22 @@
 import { useEffect, useState } from "react";
-import { onAuthStateChanged, UserModel } from "../";
+import { onAuthStateChanged, sendEmailVerification, UserModel } from "../";
 
-export const useUser = (): UserModel | undefined | null => {
+type SendEmailVerification = (emailRedirectUrl?: string) => Promise<void>;
+type UseUser = {
+  user: UserModel | undefined | null;
+  sendEmailVerification: SendEmailVerification;
+};
+
+export const useUser = (): UseUser => {
   const [user, setUser] = useState<UserModel | undefined | null>(undefined);
+
+  const emailVerification = async (emailRedirectUrl?: string) => {
+    if (!user) {
+      // TODO: throw?
+      return;
+    }
+    await sendEmailVerification(emailRedirectUrl);
+  };
 
   useEffect(
     () =>
@@ -15,10 +29,14 @@ export const useUser = (): UserModel | undefined | null => {
         setUser({
           uid: user.uid,
           email: user.email,
+          emailVerified: user.emailVerified,
         });
       }),
     []
   );
 
-  return user;
+  return {
+    user: user,
+    sendEmailVerification: emailVerification,
+  };
 };

@@ -2,25 +2,35 @@ import { useMemo } from "react";
 import { UserProfileModel } from "../";
 import { useUser, useUserProfile } from "./";
 
-type IsLoading = boolean;
-type IsActiveAccount = boolean;
 type UpdateUserProfile = () => Promise<void>;
-type UseUserProfile = [
-  UserProfileModel | null,
-  IsLoading,
-  IsActiveAccount,
-  UpdateUserProfile
-];
+type SendEmailVerification = (emailRedirectUrl?: string) => Promise<void>;
+type UseUserProfile = {
+  profile: UserProfileModel | null;
+  partialProfile: UserProfileModel | null;
+  isLoading: boolean;
+  isCompleted: boolean;
+  updateProfile: UpdateUserProfile;
+  sendEmailVerification: SendEmailVerification;
+};
 
 export const useSession = (): UseUserProfile => {
-  const user = useUser();
+  const { user, sendEmailVerification } = useUser();
   const [profile, updateProfile] = useUserProfile();
 
   const loading = user === undefined || user?.uid != profile?.uid;
 
-  const active = useMemo(() => profile != null && !profile.profileFillPending, [
-    profile?.profileFillPending,
-  ]);
+  const completed = useMemo(
+    () =>
+      profile != null && profile.emailVerified && !profile.profileFillPending,
+    [profile?.profileFillPending, profile?.emailVerified]
+  );
 
-  return [profile, loading, active, updateProfile];
+  return {
+    profile: !loading && completed ? profile : null,
+    partialProfile: profile,
+    isLoading: loading,
+    isCompleted: completed,
+    updateProfile: updateProfile,
+    sendEmailVerification: sendEmailVerification,
+  };
 };

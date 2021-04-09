@@ -6,11 +6,13 @@ import { ContainerWrapper } from "@/components/container";
 import { Loading } from "@/components/loading";
 import { useTranslation } from "@/i18n";
 import { RegisterMethodSelect } from "@/components/auth/register/RegisterMethodSelect";
+import { EmailVerificationForm } from "./form/email-verification";
 
 export interface RegisterFormContainerProps {
   loading: boolean;
   userProfile: UserProfileModel | null;
   onRegisterEmailPass: (email: string, password: string) => Promise<void>;
+  onSendEmailVerification: () => Promise<void>;
   onRegisterFacebook: () => Promise<void>;
   onRegisterGoogle: () => Promise<void>;
   onCreateUsername: (name: string) => Promise<void>;
@@ -44,6 +46,14 @@ export const RegisterFormContainer: React.VFC<RegisterFormContainerProps> = (
             loginHref={props.loginHref}
           />
         );
+      case State.EMAIL_VERIFICATION:
+        return (
+          <EmailVerificationForm
+            userEmail={props.userProfile!.email}
+            onSendEmailVerification={props.onSendEmailVerification}
+            onLogout={props.onLogout}
+          />
+        );
       case State.USERNAME:
         return (
           <RegisterUsernameForm
@@ -67,15 +77,16 @@ const getState = (
   userProfile: UserProfileModel | null
 ): State => {
   if (loading) return State.LOADING;
-  else if (userProfile !== null && !userProfile.profileFillPending)
-    return State.USER_INFO;
   else if (userProfile === null) return State.SELECT_METHOD;
-  else return State.USERNAME;
+  else if (!userProfile.emailVerified) return State.EMAIL_VERIFICATION;
+  else if (userProfile.profileFillPending) return State.USERNAME;
+  else return State.USER_INFO;
 };
 
 enum State {
   LOADING,
   USER_INFO,
   SELECT_METHOD,
+  EMAIL_VERIFICATION,
   USERNAME,
 }

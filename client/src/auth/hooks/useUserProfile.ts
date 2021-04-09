@@ -11,7 +11,7 @@ interface PartialProfile {
 }
 
 export const useUserProfile = (): UseUserProfile => {
-  const user = useUser();
+  const {user} = useUser();
   const [profile, setProfile] = useState<UserProfileModel | null>(null);
 
   const mapToProfile = (user: UserModel, partial: PartialProfile) => {
@@ -19,6 +19,7 @@ export const useUserProfile = (): UseUserProfile => {
       uid: user.uid,
       email: user.email,
       name: partial != null ? partial.name : "",
+      emailVerified: user.emailVerified,
       profileFillPending: partial == null,
     });
   };

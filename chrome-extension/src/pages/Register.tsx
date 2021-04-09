@@ -15,7 +15,12 @@ export const registerHref = "/register";
 
 export const Register = () => {
   const history = useHistory();
-  const [userProfile, isLoadingProfile, , updateUserProfile] = useSession();
+  const {
+    partialProfile,
+    isLoading,
+    updateProfile,
+    sendEmailVerification,
+  } = useSession();
 
   const onRegisterEmailPass = async (email: string, password: string) => {
     await register(email, password);
@@ -23,7 +28,7 @@ export const Register = () => {
 
   const onCreateUsername = async (name: string) => {
     await createSelfProfile(name);
-    await updateUserProfile();
+    await updateProfile();
     await history.push(homeHref);
   };
 
@@ -39,17 +44,22 @@ export const Register = () => {
     await sendMessage({ type: MessageType.LOGIN_GOOGLE });
   };
 
+  const onSendEmailVerification = async () => {
+    await sendEmailVerification();
+  };
+
   return (
     <div>
       <RegisterFormContainer
-        loading={isLoadingProfile}
-        userProfile={userProfile}
+        loading={isLoading}
+        userProfile={partialProfile}
         onRegisterEmailPass={onRegisterEmailPass}
         onRegisterFacebook={onFacebookLogin}
         onRegisterGoogle={onGoogleLogin}
         onCreateUsername={onCreateUsername}
         onLogout={onLogout}
         loginHref={loginHref}
+        onSendEmailVerification={onSendEmailVerification}
       />
     </div>
   );
