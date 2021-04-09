@@ -46,7 +46,7 @@ export const EmailActionHandlerPage: React.VFC = () => {
 
   const redirect = async () => {
     if (!continueUrl) return;
-    await router.push(continueUrl);
+    window.location.assign(continueUrl);
   };
 
   useEffect(() => {
