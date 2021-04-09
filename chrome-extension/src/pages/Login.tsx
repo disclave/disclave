@@ -14,7 +14,6 @@ export const Login = () => {
   const { partialProfile, profile, isCompleted } = useSession();
 
   useEffect(() => {
-    // TODO: test this
     if (partialProfile != null && !isCompleted) history.push(registerHref);
   }, [partialProfile?.uid, isCompleted]);
 

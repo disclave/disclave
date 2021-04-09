@@ -23,7 +23,6 @@ export const LoginPage: React.VFC = () => {
   };
 
   useEffect(() => {
-    // TODO: test this
     if (partialProfile == null) return;
 
     const checkRedirects = async () => {
