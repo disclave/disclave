@@ -1,49 +1,64 @@
-import { useRouter } from "next/router";
-import { applyActionCode } from "@disclave/client"
-import { useEffect } from "react";
+import { useRouter } from 'next/router';
+import { applyActionCode } from '@disclave/client';
+import { useEffect } from 'react';
+import { Loading, useLoading } from '@disclave/ui';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useTranslation } from 'next-i18next';
 
 const EmailActionHandler = () => {
+  const { t } = useTranslation('auth');
+  const [loading, runWithLoading, error] = useLoading(true);
+
   const router = useRouter();
-  var mode = router.query.mode as string;
-  var actionCode = router.query.oobCode as string;
-  var continueUrl = router.query.continueUrl as string | undefined;
+  const mode = router.query.mode as string;
+  const actionCode = router.query.oobCode as string;
+  const continueUrl = router.query.continueUrl as string | undefined;
+
+  let successText = '';
 
   const processAction = async () => {
     switch (mode) {
-      case 'resetPassword': throw 'Reset password not supported yet.';
-      case 'recoverEmail': throw 'Recover email not supported yet.';
+      case 'resetPassword':
+        throw 'Reset password not supported yet.';
+      case 'recoverEmail':
+        throw 'Recover email not supported yet.';
       case 'verifyEmail':
         await verifyEmail();
-        break;  
+        break;
       default:
-        throw "Invalid mode."
+        throw 'Invalid mode.';
     }
-  }
+  };
 
   const verifyEmail = async () => {
-    // TODO: handle errors
-    await applyActionCode(actionCode)
+    await applyActionCode(actionCode);
     await redirect();
-  }
+    successText = t('email verification.success message');
+  };
 
   const redirect = async () => {
-    // TODO: verify without redirect - porbably display some text to user
     if (!continueUrl) return;
     await router.push(continueUrl);
-  }
+  };
 
   useEffect(() => {
     if (!mode) return;
-    processAction();
-  }, [mode])
 
-  // TODO: add translation
+    runWithLoading(() => processAction());
+  }, [mode]);
+
   return (
     <div className="w-full">
       <div className="mx-auto w-max border rounded mt-6 p-4">
-        Loading, please wait...
+        {loading ? <Loading /> : error ? error : successText}
       </div>
     </div>
-  )
-}
+  );
+};
 export default EmailActionHandler;
+
+export const getStaticProps = async ({ locale }) => ({
+  props: {
+    ...(await serverSideTranslations(locale, ['common', 'auth']))
+  }
+});
