@@ -46,6 +46,26 @@ describe("Testing CommentService", () => {
     );
   });
 
+  test("should throw if comment too short", async () => {
+    const idToken = "id-token";
+    const text = "";
+    const url = "https://google.com/example/path?q=123#bb";
+
+    await expect(async () => {
+      await service.addComment(idToken, text, url);
+    }).rejects.toThrow();
+  });
+
+  test("should throw if comment too long", async () => {
+    const idToken = "id-token";
+    const text = "w".repeat(10001);
+    const url = "https://google.com/example/path?q=123#bb";
+
+    await expect(async () => {
+      await service.addComment(idToken, text, url);
+    }).rejects.toThrow();
+  });
+
   test("should return added comments", async () => {
     const idToken = "id-token";
     const url = "https://google.com/example/path?q=123#bb";
