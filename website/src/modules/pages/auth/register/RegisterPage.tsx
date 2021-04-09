@@ -57,10 +57,10 @@ export const RegisterPage: React.VFC = () => {
   };
 
   const onFacebookLogin = async () => {
-    await loginWithFacebook();
+    await loginWithFacebook(window.location.href);
   };
   const onGoogleLogin = async () => {
-    await loginWithGoogle();
+    await loginWithGoogle(window.location.href);
   };
 
   const onSendEmailVerification = async () => {

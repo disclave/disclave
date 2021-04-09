@@ -4,6 +4,9 @@ import {
   GoogleAuthProvider,
   FacebookAuthProvider,
 } from "../firebase";
+import firebase from "firebase";
+import AuthProvider = firebase.auth.AuthProvider;
+import UserCredential = firebase.auth.UserCredential;
 
 export const login = async (email: string, password: string) =>
   auth().signInWithEmailAndPassword(email, password);
@@ -18,27 +21,19 @@ export const register = async (
     email,
     password
   );
-  await userCredential.user.sendEmailVerification({
-    url: emailRedirectUrl,
-  });
+  await sendVerificationEmail(userCredential.user, emailRedirectUrl);
   return userCredential;
 };
 
+export const loginWithGoogle = async (emailRedirectUrl?: string) =>
+  signInWithPopup(new GoogleAuthProvider(), emailRedirectUrl);
+export const loginWithFacebook = async (emailRedirectUrl?: string) =>
+  signInWithPopup(new FacebookAuthProvider(), emailRedirectUrl);
+
 export const sendEmailVerification = (emailRedirectUrl?: string) =>
-  currentUser().sendEmailVerification({
-    url: emailRedirectUrl,
-  });
+  sendVerificationEmail(currentUser(), emailRedirectUrl);
 
 export const applyActionCode = (code: string) => auth().applyActionCode(code);
-
-export const loginWithGoogle = async () => {
-  const provider = new GoogleAuthProvider();
-  return await auth().signInWithPopup(provider);
-};
-export const loginWithFacebook = async () => {
-  const provider = new FacebookAuthProvider();
-  return await auth().signInWithPopup(provider);
-};
 
 export const onAuthStateChanged = (callback: (user: User | null) => void) =>
   auth().onAuthStateChanged(callback);
@@ -48,3 +43,20 @@ export type { UserModel } from "./UserModel";
 export type { UserProfileModel } from "./UserProfileModel";
 
 export { useSession } from "./hooks";
+
+const signInWithPopup = async (
+  provider: AuthProvider,
+  emailRedirectUrl?: string
+): Promise<UserCredential> => {
+  const userCredential = await auth().signInWithPopup(provider);
+  await sendVerificationEmail(userCredential.user, emailRedirectUrl);
+  return userCredential;
+};
+
+const sendVerificationEmail = async (user: User, emailRedirectUrl?: string) => {
+  if (user.emailVerified) return;
+
+  await user.sendEmailVerification({
+    url: emailRedirectUrl,
+  });
+};

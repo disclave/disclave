@@ -48,10 +48,10 @@ export const LoginPage: React.VFC = () => {
   };
 
   const onFacebookLogin = async () => {
-    await loginWithFacebook();
+    await loginWithFacebook(window.location.href);
   };
   const onGoogleLogin = async () => {
-    await loginWithGoogle();
+    await loginWithGoogle(window.location.href);
   };
 
   return (
