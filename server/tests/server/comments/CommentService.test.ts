@@ -34,6 +34,18 @@ describe("Testing CommentService", () => {
     expectCommentToEqualInput(result, text, parsedUrl);
   });
 
+  test("should escape html in comment text", async () => {
+    const idToken = "id-token";
+    const text = 'Comment to <b>be</b> "escaped" <script>alert(1)</script>';
+    const url = "https://google.com/example/path?q=123#bb";
+
+    const result = await service.addComment(idToken, text, url);
+
+    expect(result.text).toEqual(
+      "Comment to &lt;b&gt;be&lt;/b&gt; &quot;escaped&quot; &lt;script&gt;alert(1)&lt;/script&gt;"
+    );
+  });
+
   test("should return added comments", async () => {
     const idToken = "id-token";
     const url = "https://google.com/example/path?q=123#bb";

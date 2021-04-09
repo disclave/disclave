@@ -39,7 +39,11 @@ export class CommentServiceImpl implements CommentService {
     const author = await this.userService.getProfile(idToken);
     const parsedUrl = this.urlService.parseUrl(url);
     const escapedText = escapeHtml(text);
-    const result = await this.repository.addComment(author, escapedText, parsedUrl);
+    const result = await this.repository.addComment(
+      author,
+      escapedText,
+      parsedUrl
+    );
     return toDomain(result);
   }
 
