@@ -13,6 +13,8 @@ export const init = (
   if (autoUpdateUserCookie) enableUserCookieUpdates();
 };
 
+export {analytics} from "./firebase";
+
 export {
   login,
   logout,
