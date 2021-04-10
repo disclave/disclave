@@ -9,7 +9,7 @@ export const setUserCookie = (content: UserCookieContent | null, res: any) => {
   const options = {
     httpOnly: true,
     secure: true,
-    samesite: 'none',
+    sameSite: "none",
     path: "/",
   };
 
