@@ -2,13 +2,12 @@ import { CommentModel, logout, useSession } from '@disclave/client';
 import React from 'react';
 import { CommentsContainer } from '@disclave/ui';
 import { useComments } from '@/modules/comments';
-import { loginHref } from '@/pages/auth/login';
-import { websiteHrefRaw } from '@/pages/website/[website]';
-import { registerHref } from '@/pages/auth/register';
 
 export interface WebsiteCommentsProps {
   website: string;
   comments: Array<CommentModel>;
+  loginHref: string;
+  registerHref: string;
 }
 
 export const WebsiteComments: React.VFC<WebsiteCommentsProps> = (props) => {
@@ -20,9 +19,6 @@ export const WebsiteComments: React.VFC<WebsiteCommentsProps> = (props) => {
     website
   );
 
-  const loginHrefWithRedirect = loginHref(websiteHrefRaw, website);
-  const registerHrefWithRedirect = registerHref(websiteHrefRaw, website);
-
   return (
     <section className="container mx-auto my-4">
       <CommentsContainer
@@ -30,8 +26,8 @@ export const WebsiteComments: React.VFC<WebsiteCommentsProps> = (props) => {
         comments={comments}
         className="max-h-full"
         inputTop={true}
-        loginHref={loginHrefWithRedirect}
-        registerHref={registerHrefWithRedirect}
+        loginHref={props.loginHref}
+        registerHref={props.registerHref}
         onSubmit={addComment}
         onLogout={logout}
         onVoteUp={addVoteUp}
