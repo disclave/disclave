@@ -27,7 +27,7 @@ export const useComments = (
   serverSideUid: string | null
 ): UseComments => {
   const [comments, setComments] = useState(initialState);
-  const { profile } = useSession();
+  const { profile, isLoading } = useSession();
   const prevUid = useRef(serverSideUid);
 
   const fetchComments = async (noCache: boolean) => {
@@ -53,12 +53,12 @@ export const useComments = (
   };
 
   useEffect(() => {
-    if (!profile) return;
+    if (isLoading) return;
 
-    if (profile.uid != prevUid.current) fetchComments(true);
+    if (profile?.uid != prevUid.current) fetchComments(true);
 
     prevUid.current = profile?.uid;
-  }, [profile?.uid]);
+  }, [profile?.uid, isLoading]);
 
   return {
     comments: comments,
