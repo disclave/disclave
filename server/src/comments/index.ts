@@ -9,6 +9,11 @@ export abstract class CommentService {
     userId: UserId | null
   ): Promise<Array<Comment>>;
 
+  abstract getTopComments(
+    limit: number,
+    userId: UserId | null
+  ): Promise<Array<Comment>>;
+
   abstract countComments(url: string): Promise<number>;
 
   abstract addComment(

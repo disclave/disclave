@@ -21,6 +21,12 @@ export abstract class CommentRepository<T = unknown> extends BaseRepository<T> {
     uid: UserId | null
   ): Promise<Array<CommentEntity>>;
 
+  abstract findTopComments(
+    minVoteSum: number,
+    limit: number,
+    uid: UserId | null
+  ): Promise<Array<CommentEntity>>;
+
   abstract countComments(url: UrlMeta): Promise<number>;
 
   abstract addComment(
