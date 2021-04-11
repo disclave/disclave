@@ -24,14 +24,14 @@ export const getServerSideProps: GetServerSideProps<IFrameProps> = async (contex
   return {
     props: {
       comments,
-      serverSideAuthenticated: !!userCookie
+      serverSideUid: userCookie?.uid
     }
   };
 };
 
 interface IFrameProps {
   comments: Array<CommentModel>;
-  serverSideAuthenticated: boolean;
+  serverSideUid: string | null;
 }
 
 const Index: React.FC<IFrameProps> = (props) => {
@@ -46,7 +46,7 @@ const Index: React.FC<IFrameProps> = (props) => {
   const { comments, addComment, addVoteUp, addVoteDown, removeVote } = useComments(
     props.comments,
     website,
-    props.serverSideAuthenticated
+    props.serverSideUid
   );
 
   const loginHrefWithRedirect = loginHref();

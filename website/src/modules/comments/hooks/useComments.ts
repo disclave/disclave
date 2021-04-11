@@ -24,11 +24,11 @@ type UseComments = {
 export const useComments = (
   initialState: Array<CommentModel>,
   website: string,
-  serverSideAuthenticated: boolean
+  serverSideUid: string | null
 ): UseComments => {
   const [comments, setComments] = useState(initialState);
   const { profile } = useSession();
-  const prevProfileUid = useRef(profile?.uid);
+  const prevUid = useRef(serverSideUid);
 
   const fetchComments = async (noCache: boolean) => {
     const result = await getComments(website, noCache);
@@ -53,13 +53,9 @@ export const useComments = (
   };
 
   useEffect(() => {
-    if (!!profile && !prevProfileUid.current && serverSideAuthenticated) {
-      prevProfileUid.current = profile.uid;
-      return;
-    }
+    if (profile?.uid != prevUid.current) fetchComments(true);
 
-    fetchComments(true);
-    prevProfileUid.current = profile?.uid;
+    prevUid.current = profile?.uid;
   }, [profile?.uid]);
 
   return {

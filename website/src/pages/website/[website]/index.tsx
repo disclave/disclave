@@ -23,7 +23,7 @@ export const getServerSideProps: GetServerSideProps<WebsiteProps> = async (conte
   return {
     props: {
       comments: await commentsPromise,
-      serverSideAuthenticated: !!userCookie,
+      serverSideUid: userCookie?.uid,
       ...(await translationsPromise)
     }
   };
@@ -31,7 +31,7 @@ export const getServerSideProps: GetServerSideProps<WebsiteProps> = async (conte
 
 interface WebsiteProps {
   comments: Array<CommentModel>;
-  serverSideAuthenticated: boolean;
+  serverSideUid: string | null;
 }
 
 const Website: React.FC<WebsiteProps> = (props) => {
@@ -39,11 +39,7 @@ const Website: React.FC<WebsiteProps> = (props) => {
   const website = router.query.website as string;
 
   return (
-    <WebsitePage
-      website={website}
-      comments={props.comments}
-      serverSideAuthenticated={props.serverSideAuthenticated}
-    />
+    <WebsitePage website={website} comments={props.comments} serverSideUid={props.serverSideUid} />
   );
 };
 export default Website;
