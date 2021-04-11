@@ -24,6 +24,27 @@ export class CommentMongoRepository
     return await cursor.map(cursorDocToEntity).toArray();
   }
 
+  public async findLatestComments(
+    minVoteSum: number,
+    limit: number,
+    uid: UserId | null
+  ): Promise<Array<CommentEntity>> {
+    const collection = await commentsDbCollection();
+    const cursor = collection
+      .find(
+        {
+          votesSum: { $gte: minVoteSum },
+        },
+        {
+          projection: getProjection(uid),
+        }
+      )
+      .sort({ timestamp: -1 })
+      .limit(limit);
+
+    return await cursor.map(cursorDocToEntity).toArray();
+  }
+
   public async findTopComments(
     minVoteSum: number,
     limit: number,
