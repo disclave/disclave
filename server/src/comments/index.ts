@@ -10,6 +10,7 @@ export abstract class CommentService {
   ): Promise<Array<Comment>>;
 
   abstract getTopComments(
+    minVoteSum: number,
     limit: number,
     userId: UserId | null
   ): Promise<Array<Comment>>;

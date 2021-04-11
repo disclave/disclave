@@ -28,10 +28,10 @@ export class CommentServiceImpl implements CommentService {
   }
 
   public async getTopComments(
+    minVoteSum: number,
     limit: number,
     userId: UserId | null
   ): Promise<Array<Comment>> {
-    const minVoteSum = 1;
     const comments = await this.repository.findTopComments(
       minVoteSum,
       limit,
