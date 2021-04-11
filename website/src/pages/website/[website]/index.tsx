@@ -23,7 +23,7 @@ export const getServerSideProps: GetServerSideProps<WebsiteProps> = async (conte
   return {
     props: {
       comments: await commentsPromise,
-      serverSideUid: userCookie?.uid,
+      serverSideUid: userCookie?.uid || null,
       ...(await translationsPromise)
     }
   };

@@ -53,7 +53,9 @@ export const useComments = (
   };
 
   useEffect(() => {
-    if (profile?.uid != prevUid.current) fetchComments(true);
+    if (!profile) return;
+
+    if (profile.uid != prevUid.current) fetchComments(true);
 
     prevUid.current = profile?.uid;
   }, [profile?.uid]);

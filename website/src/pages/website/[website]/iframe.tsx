@@ -24,7 +24,7 @@ export const getServerSideProps: GetServerSideProps<IFrameProps> = async (contex
   return {
     props: {
       comments,
-      serverSideUid: userCookie?.uid
+      serverSideUid: userCookie?.uid || null,
     }
   };
 };
