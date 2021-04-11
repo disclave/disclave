@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import {
   CommentModel,
+  getComments,
   createComment,
   addCommentVoteDown,
   removeCommentVote,
-  addCommentVoteUp
+  addCommentVoteUp,
+  useSession
 } from '@disclave/client';
 
 type AddComment = (text: string) => Promise<void>;
@@ -19,8 +21,19 @@ type UseComments = {
   removeVote: RemoveVote;
 };
 
-export const useComments = (initialState: Array<CommentModel>, website: string): UseComments => {
+export const useComments = (
+  initialState: Array<CommentModel>,
+  website: string,
+  serverSideAuthenticated: boolean
+): UseComments => {
   const [comments, setComments] = useState(initialState);
+  const { profile } = useSession();
+  const prevProfileUid = useRef(profile?.uid);
+
+  const fetchComments = async (noCache: boolean) => {
+    const result = await getComments(website, noCache);
+    setComments(result);
+  };
 
   const addComment: AddComment = async (text: string) => {
     const addedComment = await createComment(text, website);
@@ -38,6 +51,16 @@ export const useComments = (initialState: Array<CommentModel>, website: string):
   const removeVote = async (commentId: string) => {
     await removeCommentVote(commentId);
   };
+
+  useEffect(() => {
+    if (!!profile && !prevProfileUid.current && serverSideAuthenticated) {
+      prevProfileUid.current = profile.uid;
+      return;
+    }
+
+    fetchComments(true);
+    prevProfileUid.current = profile?.uid;
+  }, [profile?.uid]);
 
   return {
     comments: comments,
