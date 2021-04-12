@@ -1,11 +1,12 @@
 import React from 'react';
+import { stringToUrl } from '@disclave/client';
 
 export interface WebsiteInfoProps {
   website: string;
 }
 
 export const WebsiteInfo: React.VFC<WebsiteInfoProps> = (props) => {
-  const url = new URL(props.website);
+  const url = new URL(stringToUrl(props.website));
 
   return (
     <section className="container mx-auto">

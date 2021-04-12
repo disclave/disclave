@@ -1,10 +1,12 @@
-import { client } from "../../graphql";
+import { client, runQuery } from "../../graphql";
 import { CommentModel } from "./";
 import {
   ADD_COMMENT_VOTE_DOWN,
   ADD_COMMENT_VOTE_UP,
   CREATE_COMMENT,
   GET_COMMENTS,
+  GET_LATEST_COMMENTS,
+  GET_TOP_COMMENTS,
   REMOVE_COMMENT_VOTE,
 } from "./schemas";
 
@@ -12,14 +14,50 @@ export const getComments = async (
   url: string,
   noCache: boolean = false
 ): Promise<Array<CommentModel>> => {
-  const result = await client().query({
-    query: GET_COMMENTS,
-    variables: {
+  const result = await runQuery<Array<CommentModel>>(
+    GET_COMMENTS,
+    {
       url,
     },
-    fetchPolicy: noCache ? "network-only" : undefined,
-  });
-  return result.data.getComments.map(responseToModel);
+    "getComments",
+    noCache
+  );
+
+  return result.map(responseToModel);
+};
+
+export const getLatestComments = async (
+  minVoteSum: number,
+  limit: number,
+  noCache: boolean = false
+): Promise<Array<CommentModel>> => {
+  const result = await runQuery<Array<CommentModel>>(
+    GET_LATEST_COMMENTS,
+    {
+      minVoteSum,
+      limit,
+    },
+    "latestComments",
+    noCache
+  );
+  return result.map(responseToModel);
+};
+
+export const getTopComments = async (
+  minVoteSum: number,
+  limit: number,
+  noCache: boolean = false
+): Promise<Array<CommentModel>> => {
+  const result = await runQuery<Array<CommentModel>>(
+    GET_TOP_COMMENTS,
+    {
+      minVoteSum,
+      limit,
+    },
+    "topComments",
+    noCache
+  );
+  return result.map(responseToModel);
 };
 
 export const createComment = async (

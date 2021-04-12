@@ -25,6 +25,18 @@ export const GET_COMMENTS = gql`
   }
 `;
 
+export const GET_LATEST_COMMENTS = gql`
+  query($minVoteSum: Int!, $limit: Int!) {
+    latestComments(minVoteSum: $minVoteSum, limit: $limit) { ${defaultCommentResponseFields} }
+  }
+`;
+
+export const GET_TOP_COMMENTS = gql`
+  query($minVoteSum: Int!, $limit: Int!) {
+    topComments(minVoteSum: $minVoteSum, limit: $limit) { ${defaultCommentResponseFields} }
+  }
+`;
+
 export const CREATE_COMMENT = gql`
   mutation($comment: CommentInput!) {
     createComment(comment: $comment) { ${defaultCommentResponseFields} }

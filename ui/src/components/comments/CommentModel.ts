@@ -9,10 +9,16 @@ export interface CommentVotes {
   votedDown: boolean;
 }
 
+export interface CommentUrlMeta {
+  websiteId: string;
+  pageId: string;
+}
+
 export interface CommentModel {
   id: string;
   text: string;
   timestamp: string;
   author: CommentAuthor;
   votes: CommentVotes;
+  urlMeta: CommentUrlMeta;
 }

@@ -13,7 +13,7 @@ export const init = (
   if (autoUpdateUserCookie) enableUserCookieUpdates();
 };
 
-export {analytics} from "./firebase";
+export { analytics } from "./firebase";
 
 export {
   login,
@@ -31,12 +31,19 @@ export { isUrl, stringToUrl, encodeUrl } from "./modules/url";
 
 export {
   getComments,
+  getLatestComments,
+  getTopComments,
   createComment,
   removeCommentVote,
   addCommentVoteUp,
   addCommentVoteDown,
 } from "./modules/comments";
-export type { CommentModel } from "./modules/comments";
+export type {
+  CommentModel,
+  CommentUrlMeta,
+  CommentAuthor,
+  CommentVotes,
+} from "./modules/comments";
 
 export { getSelfProfile, createSelfProfile } from "./modules/users";
 export type { UserProfileModel } from "./modules/users";

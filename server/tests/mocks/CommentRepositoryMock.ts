@@ -94,4 +94,20 @@ export class CommentRepositoryMock implements CommentRepository {
   async setVoteUp(commentId: string, uid: UserId): Promise<boolean> {
     return true;
   }
+
+  findLatestComments(
+    minVoteSum: number,
+    limit: number,
+    uid: UserId | null
+  ): Promise<Array<CommentEntity>> {
+    return Promise.resolve(undefined);
+  }
+
+  findTopComments(
+    minVoteSum: number,
+    limit: number,
+    uid: UserId | null
+  ): Promise<Array<CommentEntity>> {
+    return Promise.resolve(undefined);
+  }
 }

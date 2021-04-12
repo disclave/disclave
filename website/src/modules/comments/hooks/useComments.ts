@@ -1,70 +1,36 @@
 import { useEffect, useState, useRef } from 'react';
-import {
-  CommentModel,
-  getComments,
-  createComment,
-  addCommentVoteDown,
-  removeCommentVote,
-  addCommentVoteUp,
-  useSession
-} from '@disclave/client';
+import { CommentModel, useSession } from '@disclave/client';
 
-type AddComment = (text: string) => Promise<void>;
-type AddVoteUp = (commentId: string) => Promise<void>;
-type AddVoteDown = (commentId: string) => Promise<void>;
-type RemoveVote = (commentId: string) => Promise<void>;
+type SetComments = (data: Array<CommentModel>) => void;
 type UseComments = {
   comments: CommentModel[];
-  addComment: AddComment;
-  addVoteUp: AddVoteUp;
-  addVoteDown: AddVoteDown;
-  removeVote: RemoveVote;
+  setComments: SetComments;
 };
 
 export const useComments = (
   initialState: Array<CommentModel>,
-  website: string,
+  getComments: () => Promise<Array<CommentModel>>,
   serverSideUid: string | null
 ): UseComments => {
   const [comments, setComments] = useState(initialState);
   const { profile, isLoading } = useSession();
   const prevUid = useRef(serverSideUid);
 
-  const fetchComments = async (noCache: boolean) => {
-    const result = await getComments(website, noCache);
+  const fetchComments = async () => {
+    const result = await getComments();
     setComments(result);
-  };
-
-  const addComment: AddComment = async (text: string) => {
-    const addedComment = await createComment(text, website);
-    setComments([addedComment, ...comments]);
-  };
-
-  const addVoteUp = async (commentId: string) => {
-    await addCommentVoteUp(commentId);
-  };
-
-  const addVoteDown = async (commentId: string) => {
-    await addCommentVoteDown(commentId);
-  };
-
-  const removeVote = async (commentId: string) => {
-    await removeCommentVote(commentId);
   };
 
   useEffect(() => {
     if (isLoading) return;
 
-    if (profile?.uid != prevUid.current) fetchComments(true);
+    if (profile?.uid != prevUid.current) fetchComments();
 
     prevUid.current = profile?.uid;
   }, [profile?.uid, isLoading]);
 
   return {
     comments: comments,
-    addComment: addComment,
-    addVoteUp: addVoteUp,
-    addVoteDown: addVoteDown,
-    removeVote: removeVote
+    setComments: setComments
   };
 };

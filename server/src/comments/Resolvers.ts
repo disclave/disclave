@@ -27,6 +27,24 @@ export const commentsResolvers = {
       const comments = await service.getComments(args.url, userData?.uid);
       return comments.map(commentToResponse);
     },
+    latestComments: async (_, args, { idToken }) => {
+      const userData = await parseIdToken(idToken, false);
+      const comments = await service.getLatestComments(
+        args.minVoteSum,
+        args.limit,
+        userData?.uid
+      );
+      return comments.map(commentToResponse);
+    },
+    topComments: async (_, args, { idToken }) => {
+      const userData = await parseIdToken(idToken, false);
+      const comments = await service.getTopComments(
+        args.minVoteSum,
+        args.limit,
+        userData?.uid
+      );
+      return comments.map(commentToResponse);
+    },
     countComments: async (_, args) => {
       return await service.countComments(args.url);
     },

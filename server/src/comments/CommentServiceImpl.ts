@@ -27,6 +27,32 @@ export class CommentServiceImpl implements CommentService {
     return comments.map(toDomain);
   }
 
+  public async getLatestComments(
+    minVoteSum: number,
+    limit: number,
+    userId: UserId | null
+  ): Promise<Array<Comment>> {
+    const comments = await this.repository.findLatestComments(
+      minVoteSum,
+      limit,
+      userId
+    );
+    return comments.map(toDomain);
+  }
+
+  public async getTopComments(
+    minVoteSum: number,
+    limit: number,
+    userId: UserId | null
+  ): Promise<Array<Comment>> {
+    const comments = await this.repository.findTopComments(
+      minVoteSum,
+      limit,
+      userId
+    );
+    return comments.map(toDomain);
+  }
+
   public async countComments(url: string): Promise<number> {
     const parsedUrl = this.urlService.parseUrl(url);
     return await this.repository.countComments(parsedUrl);

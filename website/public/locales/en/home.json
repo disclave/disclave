@@ -10,5 +10,13 @@
         "label": "Start discussion!"
       }
     }
+  },
+  "comment rankings": {
+    "latest": {
+      "title": "Latest comments"
+    },
+    "top": {
+      "title": "Top comments"
+    }
   }
 }

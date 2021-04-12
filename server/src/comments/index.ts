@@ -9,6 +9,18 @@ export abstract class CommentService {
     userId: UserId | null
   ): Promise<Array<Comment>>;
 
+  abstract getLatestComments(
+    minVoteSum: number,
+    limit: number,
+    userId: UserId | null
+  ): Promise<Array<Comment>>;
+
+  abstract getTopComments(
+    minVoteSum: number,
+    limit: number,
+    userId: UserId | null
+  ): Promise<Array<Comment>>;
+
   abstract countComments(url: string): Promise<number>;
 
   abstract addComment(

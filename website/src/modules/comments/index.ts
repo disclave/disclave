@@ -1,1 +1,1 @@
-export { useComments } from './hooks';
+export { useWebsiteComments, useLatestComments, useTopComments } from './hooks';

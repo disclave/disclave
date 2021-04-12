@@ -23,6 +23,8 @@ export interface BuildExampleCommentProps {
   voteSum?: number;
   votedUp?: boolean;
   votedDown?: boolean;
+  websiteId?: string;
+  pageId?: string;
 }
 
 export const buildExampleComment = ({
@@ -33,6 +35,8 @@ export const buildExampleComment = ({
   voteSum = randomInt(-50, 100),
   votedUp = false,
   votedDown = false,
+  websiteId = "example.com",
+  pageId = "%2Fpage%2Fwith%2Fexample%2Furl",
 }: BuildExampleCommentProps): CommentModel => ({
   id: "mock-comment-id-" + Math.random(),
   text: text,
@@ -46,12 +50,23 @@ export const buildExampleComment = ({
     votedDown: votedDown,
   },
   timestamp: timestamp.toISOString(),
+  urlMeta: {
+    websiteId: websiteId,
+    pageId: pageId,
+  },
 });
 
-export const RandomCommentsList = (size: number): CommentModel[] => {
+export const RandomCommentsList = (
+  size: number,
+  text?: string
+): CommentModel[] => {
   const result: CommentModel[] = [];
   while (size--) {
-    result.push(buildExampleComment({ text: "Comment text " + Math.random() }));
+    result.push(
+      buildExampleComment({
+        text: text ? text : "Comment text " + Math.random(),
+      })
+    );
   }
   return result;
 };
@@ -69,4 +84,8 @@ export const ExampleComment: CommentModel = {
     votedDown: false,
   },
   timestamp: new Date().toISOString(),
+  urlMeta: {
+    websiteId: "example.com",
+    pageId: "%2Fpage%2Fwith%2Fexample%2Furl",
+  },
 };
