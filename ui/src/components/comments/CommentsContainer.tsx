@@ -43,6 +43,7 @@ export const CommentsContainer: React.VFC<CommentsContainerProps> = (props) => {
         authenticated={authenticated}
         comments={props.comments}
         className={commentsClasses}
+        preview={false}
         showWebsite={false}
         onVoteRemove={props.onVoteRemove}
         onVoteDown={props.onVoteDown}

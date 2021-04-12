@@ -8,6 +8,7 @@ export interface CommentsListProps {
   authenticated: boolean;
   className?: string;
   comments: Array<CommentModel>;
+  preview: boolean;
   showWebsite: boolean;
   onVoteUp: (commentId: string) => Promise<void>;
   onVoteDown: (commentId: string) => Promise<void>;
@@ -18,6 +19,7 @@ export const CommentsList: React.VFC<CommentsListProps> = ({
   authenticated,
   comments,
   className,
+  preview,
   showWebsite,
   onVoteUp,
   onVoteDown,
@@ -38,6 +40,7 @@ export const CommentsList: React.VFC<CommentsListProps> = ({
           key={c.id}
           comment={c}
           authenticated={authenticated}
+          preview={preview}
           showWebsite={showWebsite}
           onVoteDown={onVoteDown}
           onVoteRemove={onVoteRemove}

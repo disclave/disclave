@@ -56,10 +56,17 @@ export const buildExampleComment = ({
   },
 });
 
-export const RandomCommentsList = (size: number): CommentModel[] => {
+export const RandomCommentsList = (
+  size: number,
+  text?: string
+): CommentModel[] => {
   const result: CommentModel[] = [];
   while (size--) {
-    result.push(buildExampleComment({ text: "Comment text " + Math.random() }));
+    result.push(
+      buildExampleComment({
+        text: text ? text : "Comment text " + Math.random(),
+      })
+    );
   }
   return result;
 };
