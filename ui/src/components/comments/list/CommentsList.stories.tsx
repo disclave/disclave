@@ -29,6 +29,19 @@ Authenticated.args = {
   comments: exampleComments,
 };
 
+export const ShowWebsite = Template.bind({});
+ShowWebsite.args = {
+  showWebsite: true,
+  comments: exampleComments,
+};
+
+export const AuthenticatedShowWebsite = Template.bind({});
+AuthenticatedShowWebsite.args = {
+  authenticated: true,
+  showWebsite: true,
+  comments: exampleComments,
+};
+
 export const Empty = Template.bind({});
 Empty.args = {
   comments: [],
