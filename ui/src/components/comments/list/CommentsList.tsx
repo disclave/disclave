@@ -1,5 +1,5 @@
 import React from "react";
-import { CommentModel } from "../CommentModel";
+import { CommentModel, CommentUrlMeta } from "../CommentModel";
 import { ListItem } from "./item";
 import { useTranslation } from "@/i18n";
 import classNames from "classnames";
@@ -8,6 +8,7 @@ export interface CommentsListProps {
   authenticated: boolean;
   className?: string;
   comments: Array<CommentModel>;
+  hrefBuilder?: (urlMeta: CommentUrlMeta) => string;
   preview: boolean;
   showWebsite: boolean;
   onVoteUp: (commentId: string) => Promise<void>;
@@ -19,6 +20,7 @@ export const CommentsList: React.VFC<CommentsListProps> = ({
   authenticated,
   comments,
   className,
+  hrefBuilder,
   preview,
   showWebsite,
   onVoteUp,
@@ -39,6 +41,7 @@ export const CommentsList: React.VFC<CommentsListProps> = ({
         <ListItem
           key={c.id}
           comment={c}
+          hrefBuilder={hrefBuilder}
           authenticated={authenticated}
           preview={preview}
           showWebsite={showWebsite}

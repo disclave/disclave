@@ -3,6 +3,10 @@ import React from "react";
 import { ListItem, ListItemProps } from "./ListItem";
 import { Story } from "@storybook/react";
 import { ExampleComment, buildExampleComment } from "@/stories/data/Comments";
+import { CommentUrlMeta } from "@/components/comments/CommentModel";
+
+const hrefBuilder = (urlMeta: CommentUrlMeta) =>
+  urlMeta.websiteId + decodeURIComponent(urlMeta.pageId);
 
 export default {
   title: "Comments/List/ListItem",
@@ -18,6 +22,7 @@ Default.args = {
 
 export const WithWebsiteInfo = Template.bind({});
 WithWebsiteInfo.args = {
+  hrefBuilder: hrefBuilder,
   showWebsite: true,
   comment: ExampleComment,
 };

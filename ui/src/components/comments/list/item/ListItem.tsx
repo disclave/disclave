@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { CommentModel } from "../../CommentModel";
+import { CommentModel, CommentUrlMeta } from "../../CommentModel";
 import { DateTimePreview } from "@/components/date/dateTimePreview";
 import { CommentVote } from "@/components/comments/list/item/vote";
 import { CommentWebsiteInfo } from "@/components/comments/list/item/website";
@@ -8,6 +8,7 @@ import classNames from "classnames";
 export interface ListItemProps {
   comment: CommentModel;
   authenticated: boolean;
+  hrefBuilder?: (urlMeta: CommentUrlMeta) => string;
   preview: boolean;
   showWebsite: boolean;
   onVoteUp: (commentId: string) => Promise<void>;
@@ -34,8 +35,12 @@ export const ListItem: React.VFC<ListItemProps> = (props) => {
 
   return (
     <div>
-      {props.showWebsite ? (
-        <CommentWebsiteInfo className="mb-1" urlMeta={props.comment.urlMeta} />
+      {props.showWebsite && props.hrefBuilder ? (
+        <CommentWebsiteInfo
+          className="mb-1"
+          urlMeta={props.comment.urlMeta}
+          hrefBuilder={props.hrefBuilder}
+        />
       ) : null}
 
       <div>
