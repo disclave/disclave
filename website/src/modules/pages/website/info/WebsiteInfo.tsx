@@ -6,7 +6,8 @@ export interface WebsiteInfoProps {
 }
 
 export const WebsiteInfo: React.VFC<WebsiteInfoProps> = (props) => {
-  const url = new URL(stringToUrl(props.website));
+  const websiteURL = stringToUrl(props.website);
+  const url = new URL(websiteURL);
 
   return (
     <section className="container mx-auto">
@@ -21,7 +22,7 @@ export const WebsiteInfo: React.VFC<WebsiteInfoProps> = (props) => {
         </div>
         <div className="mt-4">
           <a
-            href={props.website}
+            href={websiteURL}
             className="text-primary hover:text-primary-dark hover:underline"
             target="_blank"
             rel="nofollow noopener">
