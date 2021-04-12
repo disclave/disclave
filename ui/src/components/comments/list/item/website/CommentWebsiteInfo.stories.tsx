@@ -19,7 +19,7 @@ export const Default = Template.bind({});
 Default.args = {
   urlMeta: {
     websiteId: "example.com",
-    pageId: "/example/page/path",
+    pageId: "%2Fexample%2Fpage%2Fpath",
   },
 };
 
@@ -28,7 +28,7 @@ LongDomain.args = {
   urlMeta: {
     websiteId:
       "this-is-a-veeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeery-long-domain.com",
-    pageId: "/example/page/path",
+    pageId: "%2Fexample%2Fpage%2Fpath",
   },
 };
 
@@ -37,6 +37,6 @@ LongPath.args = {
   urlMeta: {
     websiteId: "example.com",
     pageId:
-      "/example/looooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong/page/path",
+      "%2Fexample%2Flooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong%2Fpage%2Fpath",
   },
 };

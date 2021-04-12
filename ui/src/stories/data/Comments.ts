@@ -36,7 +36,7 @@ export const buildExampleComment = ({
   votedUp = false,
   votedDown = false,
   websiteId = "example.com",
-  pageId = "/page/with/example/url",
+  pageId = "%2Fpage%2Fwith%2Fexample%2Furl",
 }: BuildExampleCommentProps): CommentModel => ({
   id: "mock-comment-id-" + Math.random(),
   text: text,
@@ -86,6 +86,6 @@ export const ExampleComment: CommentModel = {
   timestamp: new Date().toISOString(),
   urlMeta: {
     websiteId: "example.com",
-    pageId: "/page/with/example/url",
+    pageId: "%2Fpage%2Fwith%2Fexample%2Furl",
   },
 };

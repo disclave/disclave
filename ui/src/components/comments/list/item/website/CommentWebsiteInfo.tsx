@@ -12,11 +12,12 @@ export const CommentWebsiteInfo: React.VFC<CommentWebsiteInfoProps> = ({
   urlMeta,
 }) => {
   const wrapperClassName = classNames("text-xs truncate", className);
+  const decodedPageId = decodeURIComponent(urlMeta.pageId);
 
   return (
     <div className={wrapperClassName}>
       <span className="font-bold">{urlMeta.websiteId}</span>
-      <span className="font-semibold">{urlMeta.pageId}</span>
+      <span className="font-semibold">{decodedPageId}</span>
     </div>
   );
 };
