@@ -16,6 +16,12 @@ Default.args = {
   comment: ExampleComment,
 };
 
+export const WithWebsiteInfo = Template.bind({});
+WithWebsiteInfo.args = {
+  showWebsite: true,
+  comment: ExampleComment,
+};
+
 export const Authenticated = Template.bind({});
 Authenticated.args = {
   authenticated: true,
