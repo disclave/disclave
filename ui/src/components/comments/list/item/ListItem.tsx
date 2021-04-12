@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { CommentModel } from "../../CommentModel";
 import { DateTimePreview } from "@/components/date/dateTimePreview";
 import { CommentVote } from "@/components/comments/list/item/vote";
 import { CommentWebsiteInfo } from "@/components/comments/list/item/website";
+import classNames from "classnames";
 
 export interface ListItemProps {
   comment: CommentModel;
   authenticated: boolean;
+  preview: boolean;
   showWebsite: boolean;
   onVoteUp: (commentId: string) => Promise<void>;
   onVoteDown: (commentId: string) => Promise<void>;
@@ -14,6 +16,22 @@ export interface ListItemProps {
 }
 
 export const ListItem: React.VFC<ListItemProps> = (props) => {
+  const [showMoreVisible, setShowMoreVisible] = useState(false);
+  const textWrapperRef = useRef<HTMLDivElement>(null);
+  const textRef = useRef<HTMLParagraphElement>(null);
+
+  const textWrapperClassNames = classNames({
+    "max-h-10 overflow-hidden": props.preview,
+  });
+
+  useEffect(() => {
+    if (!textWrapperRef.current || !textRef.current) return;
+
+    setShowMoreVisible(
+      textRef.current.scrollHeight > textWrapperRef.current.offsetHeight
+    );
+  });
+
   return (
     <div>
       {props.showWebsite ? (
@@ -30,10 +48,16 @@ export const ListItem: React.VFC<ListItemProps> = (props) => {
       </div>
 
       <div className="mt-1 mb-2">
-        <p
-          className="text-sm whitespace-pre-wrap break-words"
-          dangerouslySetInnerHTML={{ __html: props.comment.text }}
-        />
+        <div ref={textWrapperRef} className={textWrapperClassNames}>
+          <p
+            ref={textRef}
+            className="text-sm whitespace-pre-wrap break-words"
+            dangerouslySetInnerHTML={{ __html: props.comment.text }}
+          />
+        </div>
+
+        {/* TODO: add "show more" button */}
+        {showMoreVisible ? "..." : null}
       </div>
 
       <div>
