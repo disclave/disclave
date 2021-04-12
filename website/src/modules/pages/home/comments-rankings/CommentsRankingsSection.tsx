@@ -49,29 +49,27 @@ export const CommentsRankingsSection: React.VFC<CommentsRankingsSectionProps> = 
     await removeCommentVote(commentId);
   };
 
+  const CommentsPreviewList = ({ comments }) => (
+    <CommentsList
+      authenticated={!!profile}
+      comments={comments}
+      preview={true}
+      showWebsite={true}
+      onVoteUp={onVoteUp}
+      onVoteDown={onVoteDown}
+      onVoteRemove={onVoteRemove}
+    />
+  );
+
   return (
     <section>
       <div className="container mx-auto py-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 mx-4">
           <div>
-            <CommentsList
-              authenticated={!!profile}
-              comments={top.comments}
-              showWebsite={true}
-              onVoteUp={onVoteUp}
-              onVoteDown={onVoteDown}
-              onVoteRemove={onVoteRemove}
-            />
+            <CommentsPreviewList comments={top.comments} />
           </div>
           <div>
-            <CommentsList
-              authenticated={!!profile}
-              comments={latest.comments}
-              showWebsite={true}
-              onVoteUp={onVoteUp}
-              onVoteDown={onVoteDown}
-              onVoteRemove={onVoteRemove}
-            />
+            <CommentsPreviewList comments={latest.comments} />
           </div>
         </div>
       </div>
