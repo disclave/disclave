@@ -3,9 +3,16 @@ import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 import { CommentsContainer } from '@disclave/ui';
 import { loginHref } from '@/pages/auth/login';
-import { CommentModel, logout, useSession } from '@disclave/client';
+import {
+  addCommentVoteDown,
+  addCommentVoteUp,
+  CommentModel,
+  logout,
+  removeCommentVote,
+  useSession
+} from '@disclave/client';
 import { registerHref } from '@/pages/auth/register';
-import { useComments } from '@/modules/comments';
+import { useWebsiteComments } from '@/modules/comments';
 import { getCommentService, getUserCookie } from '@disclave/server';
 import { initServer } from '@/modules/server';
 import { useContainerHeightMessage } from '@/modules/iframe';
@@ -24,7 +31,7 @@ export const getServerSideProps: GetServerSideProps<IFrameProps> = async (contex
   return {
     props: {
       comments,
-      serverSideUid: userCookie?.uid || null,
+      serverSideUid: userCookie?.uid || null
     }
   };
 };
@@ -43,14 +50,22 @@ const Index: React.FC<IFrameProps> = (props) => {
   const router = useRouter();
   const website = router.query.website as string;
 
-  const { comments, addComment, addVoteUp, addVoteDown, removeVote } = useComments(
-    props.comments,
-    website,
-    props.serverSideUid
-  );
+  const { comments, addComment } = useWebsiteComments(props.comments, website, props.serverSideUid);
 
   const loginHrefWithRedirect = loginHref();
   const registerHrefWithRedirect = registerHref();
+
+  const onVoteUp = async (commentId: string) => {
+    await addCommentVoteUp(commentId);
+  };
+
+  const onVoteDown = async (commentId: string) => {
+    await addCommentVoteDown(commentId);
+  };
+
+  const onVoteRemove = async (commentId: string) => {
+    await removeCommentVote(commentId);
+  };
 
   return (
     <div ref={containerRef} className="w-full p-3">
@@ -64,9 +79,9 @@ const Index: React.FC<IFrameProps> = (props) => {
         registerHref={registerHrefWithRedirect}
         onSubmit={addComment}
         onLogout={logout}
-        onVoteDown={addVoteDown}
-        onVoteRemove={removeVote}
-        onVoteUp={addVoteUp}
+        onVoteDown={onVoteDown}
+        onVoteRemove={onVoteRemove}
+        onVoteUp={onVoteUp}
       />
     </div>
   );

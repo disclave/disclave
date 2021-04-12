@@ -1,7 +1,14 @@
-import { CommentModel, logout, useSession } from '@disclave/client';
+import {
+  addCommentVoteDown,
+  addCommentVoteUp,
+  CommentModel,
+  logout,
+  removeCommentVote,
+  useSession
+} from '@disclave/client';
 import React from 'react';
 import { CommentsContainer } from '@disclave/ui';
-import { useComments } from '@/modules/comments';
+import { useWebsiteComments } from '@/modules/comments';
 
 export interface WebsiteCommentsProps {
   website: string;
@@ -15,11 +22,19 @@ export const WebsiteComments: React.VFC<WebsiteCommentsProps> = (props) => {
   const { profile } = useSession();
 
   const website = props.website;
-  const { comments, addComment, addVoteUp, addVoteDown, removeVote } = useComments(
-    props.comments,
-    website,
-    props.serverSideUid
-  );
+  const { comments, addComment } = useWebsiteComments(props.comments, website, props.serverSideUid);
+
+  const onVoteUp = async (commentId: string) => {
+    await addCommentVoteUp(commentId);
+  };
+
+  const onVoteDown = async (commentId: string) => {
+    await addCommentVoteDown(commentId);
+  };
+
+  const onVoteRemove = async (commentId: string) => {
+    await removeCommentVote(commentId);
+  };
 
   return (
     <section className="container mx-auto my-4">
@@ -32,9 +47,9 @@ export const WebsiteComments: React.VFC<WebsiteCommentsProps> = (props) => {
         registerHref={props.registerHref}
         onSubmit={addComment}
         onLogout={logout}
-        onVoteUp={addVoteUp}
-        onVoteRemove={removeVote}
-        onVoteDown={addVoteDown}
+        onVoteUp={onVoteUp}
+        onVoteRemove={onVoteRemove}
+        onVoteDown={onVoteDown}
       />
     </section>
   );
