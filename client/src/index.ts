@@ -38,7 +38,12 @@ export {
   addCommentVoteUp,
   addCommentVoteDown,
 } from "./modules/comments";
-export type { CommentModel } from "./modules/comments";
+export type {
+  CommentModel,
+  CommentUrlMeta,
+  CommentAuthor,
+  CommentVotes,
+} from "./modules/comments";
 
 export { getSelfProfile, createSelfProfile } from "./modules/users";
 export type { UserProfileModel } from "./modules/users";

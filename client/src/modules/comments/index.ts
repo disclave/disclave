@@ -7,4 +7,9 @@ export {
   addCommentVoteUp,
   addCommentVoteDown,
 } from "./client";
-export type { CommentModel } from "./CommentModel";
+export type {
+  CommentModel,
+  CommentUrlMeta,
+  CommentAuthor,
+  CommentVotes,
+} from "./CommentModel";

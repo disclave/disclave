@@ -4,11 +4,13 @@ import {
   addCommentVoteDown,
   addCommentVoteUp,
   CommentModel,
+  CommentUrlMeta,
   removeCommentVote,
   useSession
 } from '@disclave/client';
 import { CommentsList } from '@disclave/ui';
 import { useLatestComments, useTopComments } from '@/modules/comments';
+import { websiteHref } from '@/pages/website/[website]';
 
 export interface CommentsRankingsSectionProps {
   commentsLimit: number;
@@ -49,10 +51,14 @@ export const CommentsRankingsSection: React.VFC<CommentsRankingsSectionProps> = 
     await removeCommentVote(commentId);
   };
 
+  const websiteHrefBuilder = (urlMeta: CommentUrlMeta) =>
+    websiteHref(urlMeta.websiteId + urlMeta.pageId, true);
+
   const CommentsPreviewList = ({ comments }) => (
     <CommentsList
       authenticated={!!profile}
       comments={comments}
+      hrefBuilder={websiteHrefBuilder}
       preview={true}
       showWebsite={true}
       onVoteUp={onVoteUp}

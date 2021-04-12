@@ -7,7 +7,8 @@ import { WebsitePage } from '@/modules/pages/website';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { initServer } from '@/modules/server';
 
-export const websiteHref = (url: string) => websiteHrefRaw + encodeUrl(url);
+export const websiteHref = (url: string, encoded: boolean = false) =>
+  websiteHrefRaw + (encoded ? url : encodeUrl(url));
 export const websiteHrefRaw = '/website/';
 
 export const getServerSideProps: GetServerSideProps<WebsiteProps> = async (context) => {
