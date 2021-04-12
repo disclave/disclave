@@ -1,5 +1,7 @@
 export {
   getComments,
+  getLatestComments,
+  getTopComments,
   createComment,
   removeCommentVote,
   addCommentVoteUp,
