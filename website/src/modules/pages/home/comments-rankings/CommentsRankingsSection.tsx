@@ -61,14 +61,18 @@ export const CommentsRankingsSection: React.VFC<CommentsRankingsSectionProps> = 
     />
   );
 
+  const titleClassNames = 'text-3xl font-semibold mb-8';
+
   return (
     <section>
       <div className="container mx-auto py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 mx-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 mx-4 gap-8">
           <div>
+            <div className={titleClassNames}>{t('comment rankings.top.title')}</div>
             <CommentsPreviewList comments={top.comments} />
           </div>
           <div>
+            <div className={titleClassNames}>{t('comment rankings.latest.title')}</div>
             <CommentsPreviewList comments={latest.comments} />
           </div>
         </div>
