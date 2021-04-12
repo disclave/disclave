@@ -12,7 +12,7 @@ import { useContainerHeightMessage } from '@/modules/iframe';
 
 export const websiteIframeHref = (url: string) => `/website/${url}/iframe/`;
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps<IFrameProps> = async (context) => {
   await initServer();
   const { website } = context.query;
 
@@ -23,16 +23,18 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   return {
     props: {
-      comments
+      comments,
+      serverSideUid: userCookie?.uid || null,
     }
   };
 };
 
-interface WebsiteProps {
+interface IFrameProps {
   comments: Array<CommentModel>;
+  serverSideUid: string | null;
 }
 
-const Index: React.FC<WebsiteProps> = (props) => {
+const Index: React.FC<IFrameProps> = (props) => {
   const containerRef = useRef<HTMLDivElement>();
   useContainerHeightMessage(containerRef);
 
@@ -43,7 +45,8 @@ const Index: React.FC<WebsiteProps> = (props) => {
 
   const { comments, addComment, addVoteUp, addVoteDown, removeVote } = useComments(
     props.comments,
-    website
+    website,
+    props.serverSideUid
   );
 
   const loginHrefWithRedirect = loginHref();

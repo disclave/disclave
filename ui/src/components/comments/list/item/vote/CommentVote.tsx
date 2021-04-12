@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CommentVotes } from "../../../CommentModel";
 import classNames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -17,6 +17,12 @@ export const CommentVote: React.VFC<CommentVoteProps> = (props) => {
   const [sum, setSum] = useState(props.votes.sum);
   const [votedUp, setVotedUp] = useState(props.votes.votedUp);
   const [votedDown, setVotedDown] = useState(props.votes.votedDown);
+
+  useEffect(() => {
+    setSum(props.votes.sum);
+    setVotedUp(props.votes.votedUp);
+    setVotedDown(props.votes.votedDown);
+  }, [props.votes]);
 
   const wrapperClasses = classNames("flex flex-row items-center", {
     "space-x-2": props.enabled,

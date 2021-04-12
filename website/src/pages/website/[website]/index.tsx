@@ -10,7 +10,7 @@ import { initServer } from '@/modules/server';
 export const websiteHref = (url: string) => websiteHrefRaw + encodeUrl(url);
 export const websiteHrefRaw = '/website/';
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps<WebsiteProps> = async (context) => {
   await initServer();
   const { website } = context.query;
 
@@ -23,6 +23,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
     props: {
       comments: await commentsPromise,
+      serverSideUid: userCookie?.uid || null,
       ...(await translationsPromise)
     }
   };
@@ -30,12 +31,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 interface WebsiteProps {
   comments: Array<CommentModel>;
+  serverSideUid: string | null;
 }
 
 const Website: React.FC<WebsiteProps> = (props) => {
   const router = useRouter();
   const website = router.query.website as string;
 
-  return <WebsitePage website={website} comments={props.comments} />;
+  return (
+    <WebsitePage website={website} comments={props.comments} serverSideUid={props.serverSideUid} />
+  );
 };
 export default Website;
