@@ -2,7 +2,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import React from 'react';
 import { PluginsPage } from '@/modules/pages/plugins';
 
-export const pluginsHref = () => '/plugins/';
+export const pluginsHref = () => '/plugins';
 
 const Plugins: React.VFC = () => {
   return <PluginsPage />;
