@@ -83,7 +83,8 @@ export const ListItem: React.VFC<ListItemProps> = (props) => {
         <div ref={textWrapperRef} className={textWrapperClassNames}>
           <p
             ref={textRef}
-            className="text-sm whitespace-pre-wrap break-words"
+            id={props.comment.id}
+            className="text-sm whitespace-pre-wrap break-words pt-32 -mt-32"
             dangerouslySetInnerHTML={{ __html: props.comment.text }}
           />
         </div>
