@@ -4,9 +4,9 @@ import { initServer } from '@/modules/server';
 import { getCommentService, getUserCookie } from '@disclave/server';
 import { CommentModel } from '@disclave/client';
 import React from 'react';
-import { TopCommentsPage } from '@/modules/pages/comments/top';
+import { LatestCommentsPage } from '@/modules/pages/comments/latest';
 
-export const getServerSideProps: GetServerSideProps<TopCommentsProps> = async (context) => {
+export const getServerSideProps: GetServerSideProps<LatestCommentsProps> = async (context) => {
   await initServer();
 
   const userCookie = getUserCookie(context.req);
@@ -15,7 +15,7 @@ export const getServerSideProps: GetServerSideProps<TopCommentsProps> = async (c
   const minVoteSum = 1;
   const commentsLimit = 0;
 
-  const topCommentsPromise = service.getTopComments(minVoteSum, commentsLimit, userCookie?.uid);
+  const topCommentsPromise = service.getLatestComments(minVoteSum, commentsLimit, userCookie?.uid);
   const translationsPromise = serverSideTranslations(context.locale, ['common', 'layout']);
 
   return {
@@ -29,16 +29,16 @@ export const getServerSideProps: GetServerSideProps<TopCommentsProps> = async (c
   };
 };
 
-interface TopCommentsProps {
+interface LatestCommentsProps {
   comments: Array<CommentModel>;
   commentsLimit: number;
   minVoteSum: number;
   serverSideUid: string | null;
 }
 
-const TopComments: React.VFC<TopCommentsProps> = (props) => {
+const LatestComments: React.VFC<LatestCommentsProps> = (props) => {
   return (
-    <TopCommentsPage
+    <LatestCommentsPage
       comments={props.comments}
       commentsLimit={props.commentsLimit}
       minVoteSum={props.minVoteSum}
@@ -46,4 +46,4 @@ const TopComments: React.VFC<TopCommentsProps> = (props) => {
     />
   );
 };
-export default TopComments;
+export default LatestComments;

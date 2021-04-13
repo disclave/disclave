@@ -1,0 +1,1 @@
+export { LatestCommentsPage } from './LatestCommentsPage';
