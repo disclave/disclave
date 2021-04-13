@@ -18,6 +18,13 @@
   "list": {
     "empty": {
       "text": "There are no comments. Be first to say something!"
+    },
+    "item": {
+      "vote": {
+        "up": "Vote up",
+        "down": "Vote down",
+        "remove": "Remove vote"
+      }
     }
   }
 }

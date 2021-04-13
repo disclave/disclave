@@ -3,6 +3,7 @@ import { CommentVotes } from "../../../CommentModel";
 import classNames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
+import { useTranslation } from "@/i18n";
 
 export interface CommentVoteProps {
   commentId: string;
@@ -14,6 +15,8 @@ export interface CommentVoteProps {
 }
 
 export const CommentVote: React.VFC<CommentVoteProps> = (props) => {
+  const { t } = useTranslation("comments");
+
   const [sum, setSum] = useState(props.votes.sum);
   const [votedUp, setVotedUp] = useState(props.votes.votedUp);
   const [votedDown, setVotedDown] = useState(props.votes.votedDown);
@@ -92,14 +95,24 @@ export const CommentVote: React.VFC<CommentVoteProps> = (props) => {
 
   return (
     <div className={wrapperClasses}>
-      <button className={upBtnClasses} onClick={onClickPlus}>
+      <button
+        className={upBtnClasses}
+        onClick={onClickPlus}
+        title={votedUp ? t("list.item.vote.remove") : t("list.item.vote.up")}
+      >
         <FontAwesomeIcon icon={faPlus} className={btnIconClasses} />
       </button>
       <div className={sumClasses}>
         {sum > 0 ? "+" : ""}
         {sum}
       </div>
-      <button className={downBtnClasses} onClick={onClickMinus}>
+      <button
+        className={downBtnClasses}
+        onClick={onClickMinus}
+        title={
+          votedDown ? t("list.item.vote.remove") : t("list.item.vote.down")
+        }
+      >
         <FontAwesomeIcon icon={faMinus} className={btnIconClasses} />
       </button>
     </div>
