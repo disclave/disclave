@@ -1,0 +1,19 @@
+{
+  "main": {
+    "header": "Disclave for your website",
+    "text": ""
+  },
+  "plugins list": {
+    "react": {
+      "name": "React plugin"
+    },
+    "more soon": "More coming soon...",
+    "not found": {
+      "text": ""
+    }
+  },
+  "example": {
+    "header": "How does it work>",
+    "text": ""
+  }
+}
