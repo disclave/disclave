@@ -4,6 +4,8 @@ export const disclaveGithub = 'https://github.com/disclave';
 export const disclaveTwitter = 'https://twitter.com/disclave_';
 export const disclaveReddit = 'https://reddit.com/u/disclave';
 
+export const reactPluginHref = 'https://www.npmjs.com/package/@disclave/react-plugin';
+
 // TODO: modify to use translations
 // TODO: verify openGraph and twitter
 export const SEO = {
