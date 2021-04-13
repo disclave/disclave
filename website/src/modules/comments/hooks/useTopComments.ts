@@ -1,8 +1,14 @@
 import { CommentModel, getTopComments } from '@disclave/client';
 import { useComments } from '@/modules/comments/hooks/useComments';
 
+type VoteDown = (commentId: string) => Promise<void>;
+type VoteRemove = (commentId: string) => Promise<void>;
+type VoteUp = (commentId: string) => Promise<void>;
 type UseTopComments = {
   comments: CommentModel[];
+  voteDown: VoteDown;
+  voteRemove: VoteRemove;
+  voteUp: VoteUp;
 };
 
 export const useTopComments = (
@@ -15,9 +21,16 @@ export const useTopComments = (
     return await getTopComments(minVoteSum, limit, true);
   };
 
-  const { comments } = useComments(initialState, fetchComments, serverSideUid);
+  const { comments, voteDown, voteUp, voteRemove } = useComments(
+    initialState,
+    fetchComments,
+    serverSideUid
+  );
 
   return {
-    comments: comments
+    comments: comments,
+    voteDown,
+    voteUp,
+    voteRemove
   };
 };

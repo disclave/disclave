@@ -1,7 +1,9 @@
 {
   "header": {
     "main nav": {
-      "home": "Home"
+      "home": "Home",
+      "top comments": "Top comments",
+      "latest comments": "Latest comments"
     },
     "auth": {
       "buttons": {
@@ -12,7 +14,9 @@
   },
   "footer": {
     "nav": {
-      "home": "Home"
+      "home": "Home",
+      "top comments": "Top comments",
+      "latest comments": "Latest comments"
     },
     "contact": {
       "find us": "Find us:",

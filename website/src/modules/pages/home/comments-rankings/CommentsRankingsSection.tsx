@@ -1,16 +1,11 @@
 import React from 'react';
 import { useTranslation } from 'next-i18next';
-import {
-  addCommentVoteDown,
-  addCommentVoteUp,
-  CommentModel,
-  CommentUrlMeta,
-  removeCommentVote,
-  useSession
-} from '@disclave/client';
-import { CommentsList } from '@disclave/ui';
+import { CommentModel, useSession } from '@disclave/client';
+import { Button, CommentsList } from '@disclave/ui';
 import { useLatestComments, useTopComments } from '@/modules/comments';
-import { websiteHref } from '@/pages/website/[website]';
+import { websiteHrefFromMeta } from '@/pages/website/[website]';
+import { topCommentsHref } from '@/pages/comments/top';
+import { latestCommentsHref } from '@/pages/comments/latest';
 
 export interface CommentsRankingsSectionProps {
   commentsLimit: number;
@@ -22,7 +17,7 @@ export interface CommentsRankingsSectionProps {
 }
 
 export const CommentsRankingsSection: React.VFC<CommentsRankingsSectionProps> = (props) => {
-  const { t } = useTranslation('home');
+  const { t } = useTranslation(['home', 'common']);
   const { profile } = useSession();
 
   const top = useTopComments(
@@ -39,26 +34,11 @@ export const CommentsRankingsSection: React.VFC<CommentsRankingsSectionProps> = 
     props.serverSideUid
   );
 
-  const onVoteUp = async (commentId: string) => {
-    await addCommentVoteUp(commentId);
-  };
-
-  const onVoteDown = async (commentId: string) => {
-    await addCommentVoteDown(commentId);
-  };
-
-  const onVoteRemove = async (commentId: string) => {
-    await removeCommentVote(commentId);
-  };
-
-  const websiteHrefBuilder = (urlMeta: CommentUrlMeta) =>
-    websiteHref(urlMeta.websiteId + urlMeta.pageId, true);
-
-  const CommentsPreviewList = ({ comments }) => (
+  const CommentsPreviewList = ({ comments, onVoteUp, onVoteDown, onVoteRemove }) => (
     <CommentsList
       authenticated={!!profile}
       comments={comments}
-      hrefBuilder={websiteHrefBuilder}
+      hrefBuilder={websiteHrefFromMeta}
       preview={true}
       showWebsite={true}
       onVoteUp={onVoteUp}
@@ -67,19 +47,42 @@ export const CommentsRankingsSection: React.VFC<CommentsRankingsSectionProps> = 
     />
   );
 
-  const titleClassNames = 'text-3xl font-semibold mb-8';
+  const ViewAllBtn = ({ href }) => (
+    <div>
+      <Button href={href} outlined>
+        {t('common:buttons.view all')}
+      </Button>
+    </div>
+  );
+
+  const ListHeader = ({ title, href }) => (
+    <div className="flex flex-row justify-between items-center mb-8">
+      <h2 className="text-3xl font-semibold">{title}</h2>
+      <ViewAllBtn href={href} />
+    </div>
+  );
 
   return (
     <section>
       <div className="container mx-auto py-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 mx-4 gap-8">
           <div>
-            <div className={titleClassNames}>{t('comment rankings.top.title')}</div>
-            <CommentsPreviewList comments={top.comments} />
+            <ListHeader href={topCommentsHref()} title={t('comment rankings.top.title')} />
+            <CommentsPreviewList
+              comments={top.comments}
+              onVoteUp={top.voteUp}
+              onVoteDown={top.voteDown}
+              onVoteRemove={top.voteRemove}
+            />
           </div>
           <div>
-            <div className={titleClassNames}>{t('comment rankings.latest.title')}</div>
-            <CommentsPreviewList comments={latest.comments} />
+            <ListHeader href={latestCommentsHref()} title={t('comment rankings.latest.title')} />
+            <CommentsPreviewList
+              comments={latest.comments}
+              onVoteUp={latest.voteUp}
+              onVoteDown={latest.voteDown}
+              onVoteRemove={latest.voteRemove}
+            />
           </div>
         </div>
       </div>

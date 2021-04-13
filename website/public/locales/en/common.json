@@ -1,3 +1,5 @@
 {
-  "App name": "This is Disclave!!!"
+  "buttons": {
+    "view all": "View All"
+  }
 }
