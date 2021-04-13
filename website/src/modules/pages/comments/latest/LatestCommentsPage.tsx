@@ -4,6 +4,7 @@ import { CommentModel, useSession } from '@disclave/client';
 import { CommentsList } from '@disclave/ui';
 import { useLatestComments } from '@/modules/comments';
 import { websiteHrefFromMeta } from '@/pages/website/[website]';
+import { useTranslation } from 'next-i18next';
 
 export interface LatestCommentsPageProps {
   comments: Array<CommentModel>;
@@ -13,6 +14,7 @@ export interface LatestCommentsPageProps {
 }
 
 export const LatestCommentsPage: React.VFC<LatestCommentsPageProps> = (props) => {
+  const { t } = useTranslation('comments');
   const { profile } = useSession();
   const { comments, voteDown, voteUp, voteRemove } = useLatestComments(
     props.comments,
@@ -25,6 +27,7 @@ export const LatestCommentsPage: React.VFC<LatestCommentsPageProps> = (props) =>
     <Layout>
       <section className="container mx-auto py-8">
         <div className="mx-4">
+          <h1 className="text-3xl pb-4">{t('latest.header')}</h1>
           <CommentsList
             authenticated={!!profile}
             comments={comments}

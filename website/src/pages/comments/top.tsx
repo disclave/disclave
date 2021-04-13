@@ -18,7 +18,11 @@ export const getServerSideProps: GetServerSideProps<TopCommentsProps> = async (c
   const commentsLimit = 0;
 
   const topCommentsPromise = service.getTopComments(minVoteSum, commentsLimit, userCookie?.uid);
-  const translationsPromise = serverSideTranslations(context.locale, ['common', 'layout']);
+  const translationsPromise = serverSideTranslations(context.locale, [
+    'comments',
+    'common',
+    'layout'
+  ]);
 
   return {
     props: {
