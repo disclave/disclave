@@ -1,0 +1,1 @@
+export { TopCommentsPage } from './TopCommentsPage';
