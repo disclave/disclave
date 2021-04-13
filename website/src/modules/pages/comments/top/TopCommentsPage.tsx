@@ -45,8 +45,8 @@ export const TopCommentsPage: React.VFC<TopCommentsPageProps> = (props) => {
 
   return (
     <Layout>
-      <section>
-        <div className="container mx-auto py-8">
+      <section className="container mx-auto py-8">
+        <div className="mx-4">
           <CommentsList
             authenticated={!!profile}
             comments={comments}
