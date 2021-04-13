@@ -1,16 +1,9 @@
 import React from 'react';
 import { Layout } from '@/modules/layout';
-import {
-  addCommentVoteDown,
-  addCommentVoteUp,
-  CommentModel,
-  CommentUrlMeta,
-  removeCommentVote,
-  useSession
-} from '@disclave/client';
+import { CommentModel, useSession } from '@disclave/client';
 import { CommentsList } from '@disclave/ui';
 import { useTopComments } from '@/modules/comments';
-import { websiteHref } from '@/pages/website/[website]';
+import { websiteHrefFromMeta } from '@/pages/website/[website]';
 
 export interface TopCommentsPageProps {
   comments: Array<CommentModel>;
@@ -21,27 +14,12 @@ export interface TopCommentsPageProps {
 
 export const TopCommentsPage: React.VFC<TopCommentsPageProps> = (props) => {
   const { profile } = useSession();
-  const { comments } = useTopComments(
+  const { comments, voteDown, voteUp, voteRemove } = useTopComments(
     props.comments,
     props.minVoteSum,
     props.commentsLimit,
     props.serverSideUid
   );
-
-  const onVoteUp = async (commentId: string) => {
-    await addCommentVoteUp(commentId);
-  };
-
-  const onVoteDown = async (commentId: string) => {
-    await addCommentVoteDown(commentId);
-  };
-
-  const onVoteRemove = async (commentId: string) => {
-    await removeCommentVote(commentId);
-  };
-
-  const websiteHrefBuilder = (urlMeta: CommentUrlMeta) =>
-    websiteHref(urlMeta.websiteId + urlMeta.pageId, true);
 
   return (
     <Layout>
@@ -50,12 +28,12 @@ export const TopCommentsPage: React.VFC<TopCommentsPageProps> = (props) => {
           <CommentsList
             authenticated={!!profile}
             comments={comments}
-            hrefBuilder={websiteHrefBuilder}
+            hrefBuilder={websiteHrefFromMeta}
             preview={true}
             showWebsite={true}
-            onVoteUp={onVoteUp}
-            onVoteDown={onVoteDown}
-            onVoteRemove={onVoteRemove}
+            onVoteUp={voteUp}
+            onVoteDown={voteDown}
+            onVoteRemove={voteRemove}
           />
         </div>
       </section>

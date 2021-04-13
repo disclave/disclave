@@ -1,16 +1,9 @@
 import React from 'react';
 import { useTranslation } from 'next-i18next';
-import {
-  addCommentVoteDown,
-  addCommentVoteUp,
-  CommentModel,
-  CommentUrlMeta,
-  removeCommentVote,
-  useSession
-} from '@disclave/client';
+import { CommentModel, useSession } from '@disclave/client';
 import { CommentsList } from '@disclave/ui';
 import { useLatestComments, useTopComments } from '@/modules/comments';
-import { websiteHref } from '@/pages/website/[website]';
+import { websiteHrefFromMeta } from '@/pages/website/[website]';
 
 export interface CommentsRankingsSectionProps {
   commentsLimit: number;
@@ -39,26 +32,11 @@ export const CommentsRankingsSection: React.VFC<CommentsRankingsSectionProps> = 
     props.serverSideUid
   );
 
-  const onVoteUp = async (commentId: string) => {
-    await addCommentVoteUp(commentId);
-  };
-
-  const onVoteDown = async (commentId: string) => {
-    await addCommentVoteDown(commentId);
-  };
-
-  const onVoteRemove = async (commentId: string) => {
-    await removeCommentVote(commentId);
-  };
-
-  const websiteHrefBuilder = (urlMeta: CommentUrlMeta) =>
-    websiteHref(urlMeta.websiteId + urlMeta.pageId, true);
-
-  const CommentsPreviewList = ({ comments }) => (
+  const CommentsPreviewList = ({ comments, onVoteUp, onVoteDown, onVoteRemove }) => (
     <CommentsList
       authenticated={!!profile}
       comments={comments}
-      hrefBuilder={websiteHrefBuilder}
+      hrefBuilder={websiteHrefFromMeta}
       preview={true}
       showWebsite={true}
       onVoteUp={onVoteUp}
@@ -75,11 +53,21 @@ export const CommentsRankingsSection: React.VFC<CommentsRankingsSectionProps> = 
         <div className="grid grid-cols-1 lg:grid-cols-2 mx-4 gap-8">
           <div>
             <div className={titleClassNames}>{t('comment rankings.top.title')}</div>
-            <CommentsPreviewList comments={top.comments} />
+            <CommentsPreviewList
+              comments={top.comments}
+              onVoteUp={top.voteUp}
+              onVoteDown={top.voteDown}
+              onVoteRemove={top.voteRemove}
+            />
           </div>
           <div>
             <div className={titleClassNames}>{t('comment rankings.latest.title')}</div>
-            <CommentsPreviewList comments={latest.comments} />
+            <CommentsPreviewList
+              comments={latest.comments}
+              onVoteUp={latest.voteUp}
+              onVoteDown={latest.voteDown}
+              onVoteRemove={latest.voteRemove}
+            />
           </div>
         </div>
       </div>

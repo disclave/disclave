@@ -1,12 +1,14 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
-import { CommentModel, encodeUrl } from '@disclave/client';
+import { CommentModel, CommentUrlMeta, encodeUrl } from '@disclave/client';
 import { getCommentService, getUserCookie } from '@disclave/server';
 import { WebsitePage } from '@/modules/pages/website';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { initServer } from '@/modules/server';
 
+export const websiteHrefFromMeta = (urlMeta: CommentUrlMeta) =>
+  websiteHref(urlMeta.websiteId + urlMeta.pageId, true);
 export const websiteHref = (url: string, encoded: boolean = false) =>
   websiteHrefRaw + (encoded ? url : encodeUrl(url));
 export const websiteHrefRaw = '/website/';
