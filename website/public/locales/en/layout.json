@@ -3,7 +3,8 @@
     "main nav": {
       "home": "Home",
       "top comments": "Top comments",
-      "latest comments": "Latest comments"
+      "latest comments": "Latest comments",
+      "plugins": "Plugins"
     },
     "auth": {
       "buttons": {
@@ -15,6 +16,7 @@
   "footer": {
     "nav": {
       "home": "Home",
+      "plugins": "Plugins",
       "top comments": "Top comments",
       "latest comments": "Latest comments"
     },

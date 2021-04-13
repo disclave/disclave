@@ -1,0 +1,19 @@
+{
+  "main": {
+    "header": "Disclave for your website",
+    "text": "Do you have your own website? Or are you a software developer building websites for others? In those cases, this section may be exciting for you.\n\nIf you like Disclave and want to use it to promote a website or allow your website visitors to leave a comment and let you know what they think, using Disclave Plugins may be the best solution."
+  },
+  "plugins list": {
+    "react": {
+      "name": "React plugin"
+    },
+    "more soon": "More coming soon...",
+    "not found": {
+      "text": "If you can't find a Plugin matching technology used in your website, don't worry - just let us know! We are constantly working on new plugins, and we will let you know when they will be ready to use on your website."
+    }
+  },
+  "example": {
+    "header": "How does it work?",
+    "text": "Install plugin chose a place on the website where you would like to display comments, and that's all! Dislcave will take care of everything else. We will show all the comments left on your page, and we will allow visitors the leave new comments. How will it look like? Precisely like the comments section below this text:"
+  }
+}

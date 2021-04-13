@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@disclave/client": "^0.3.0",
+    "@disclave/react-plugin": "^0.2.0",
     "@disclave/server": "^0.3.0",
     "@disclave/ui": "^0.3.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
