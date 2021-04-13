@@ -29,7 +29,7 @@ export const PluginTile: React.VFC<PluginTileProps> = ({ href, logoSrc, name }) 
     <>
       {href ? (
         <Link href={href}>
-          <a target="_blank" rel="nofollow noopener">
+          <a target="_blank" rel="noopener">
             <TileBox />
           </a>
         </Link>
