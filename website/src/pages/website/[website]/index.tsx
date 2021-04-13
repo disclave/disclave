@@ -19,7 +19,11 @@ export const getServerSideProps: GetServerSideProps<WebsiteProps> = async (conte
   const service = getCommentService();
 
   const commentsPromise = service.getComments(website as string, userCookie?.uid);
-  const translationsPromise = serverSideTranslations(context.locale, ['common', 'layout']);
+  const translationsPromise = serverSideTranslations(context.locale, [
+    'common',
+    'layout',
+    'website'
+  ]);
 
   return {
     props: {
