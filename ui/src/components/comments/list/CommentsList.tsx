@@ -8,7 +8,7 @@ export interface CommentsListProps {
   authenticated: boolean;
   className?: string;
   comments: Array<CommentModel>;
-  hrefBuilder?: (urlMeta: CommentUrlMeta) => string;
+  hrefBuilder?: (urlMeta: CommentUrlMeta, commentId?: string) => string;
   preview: boolean;
   showWebsite: boolean;
   onVoteUp: (commentId: string) => Promise<void>;
