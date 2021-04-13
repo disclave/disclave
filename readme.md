@@ -26,7 +26,7 @@ API_URL=http://localhost:3000/api/graphql
 The first one is the same as the firebase client config for the website. The second one is GraphQL API url.
 
 #### React plugin
-It requires a single `.env` file in `./chrome-extension` folder. It should contain one value:
+It requires a single `.env` file in `./plugins/react` folder. It should contain one value:
 ```
 IFRAME_URL=https://disclave.com/website/{{url}}/iframe
 ```
