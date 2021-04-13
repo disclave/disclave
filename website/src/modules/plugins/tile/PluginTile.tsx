@@ -13,7 +13,7 @@ export const PluginTile: React.VFC<PluginTileProps> = ({ href, logoSrc, name }) 
   const boxClassName = classNames(
     'border rounded shadow p-4 w-64 h-64 text-center flex flex-col justify-center',
     {
-      'hover:shadow-lg': href
+      'hover:shadow-lg hover:bg-gray-100': href
     }
   );
 
