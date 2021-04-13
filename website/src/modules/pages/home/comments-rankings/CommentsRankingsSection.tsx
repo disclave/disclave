@@ -1,9 +1,11 @@
 import React from 'react';
 import { useTranslation } from 'next-i18next';
 import { CommentModel, useSession } from '@disclave/client';
-import { CommentsList } from '@disclave/ui';
+import { Button, CommentsList } from '@disclave/ui';
 import { useLatestComments, useTopComments } from '@/modules/comments';
 import { websiteHrefFromMeta } from '@/pages/website/[website]';
+import { topCommentsHref } from '@/pages/comments/top';
+import { latestCommentsHref } from '@/pages/comments/latest';
 
 export interface CommentsRankingsSectionProps {
   commentsLimit: number;
@@ -15,7 +17,7 @@ export interface CommentsRankingsSectionProps {
 }
 
 export const CommentsRankingsSection: React.VFC<CommentsRankingsSectionProps> = (props) => {
-  const { t } = useTranslation('home');
+  const { t } = useTranslation(['home', 'common']);
   const { profile } = useSession();
 
   const top = useTopComments(
@@ -45,14 +47,27 @@ export const CommentsRankingsSection: React.VFC<CommentsRankingsSectionProps> = 
     />
   );
 
-  const titleClassNames = 'text-3xl font-semibold mb-8';
+  const ViewAllBtn = ({ href }) => (
+    <div>
+      <Button href={href} outlined>
+        {t('common:buttons.view all')}
+      </Button>
+    </div>
+  );
+
+  const ListHeader = ({ title, href }) => (
+    <div className="flex flex-row justify-between items-center mb-8">
+      <h2 className="text-3xl font-semibold">{title}</h2>
+      <ViewAllBtn href={href} />
+    </div>
+  );
 
   return (
     <section>
       <div className="container mx-auto py-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 mx-4 gap-8">
           <div>
-            <div className={titleClassNames}>{t('comment rankings.top.title')}</div>
+            <ListHeader href={topCommentsHref()} title={t('comment rankings.top.title')} />
             <CommentsPreviewList
               comments={top.comments}
               onVoteUp={top.voteUp}
@@ -61,7 +76,7 @@ export const CommentsRankingsSection: React.VFC<CommentsRankingsSectionProps> = 
             />
           </div>
           <div>
-            <div className={titleClassNames}>{t('comment rankings.latest.title')}</div>
+            <ListHeader href={latestCommentsHref()} title={t('comment rankings.latest.title')} />
             <CommentsPreviewList
               comments={latest.comments}
               onVoteUp={latest.voteUp}
