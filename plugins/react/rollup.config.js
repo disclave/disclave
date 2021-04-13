@@ -1,11 +1,15 @@
 import babel from "@rollup/plugin-babel";
 import del from "rollup-plugin-delete";
-import dotEnv from "rollup-plugin-dotenv";
 import external from "rollup-plugin-peer-deps-external";
 import json from "@rollup/plugin-json";
 import pkg from "./package.json";
 import postcss from "rollup-plugin-postcss-modules";
 import typescript from "@rollup/plugin-typescript";
+import { config } from 'dotenv';
+import replace from '@rollup/plugin-replace';
+
+const parsed = config().parsed || {};
+parsed.IFRAME_URL = parsed.IFRAME_URL || process.env.IFRAME_URL;
 
 export default {
   input: "src/index.ts",
@@ -15,7 +19,11 @@ export default {
   ],
   plugins: [
     del({ targets: ["dist/*"] }),
-    dotEnv(),
+    replace({
+      process: JSON.stringify({
+        env: parsed
+     }),
+    }),
     postcss({
       extract: false,
       modules: true,
