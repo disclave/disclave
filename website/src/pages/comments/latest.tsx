@@ -6,6 +6,8 @@ import { CommentModel } from '@disclave/client';
 import React from 'react';
 import { LatestCommentsPage } from '@/modules/pages/comments/latest';
 
+export const latestCommentsHref = () => '/comments/latest';
+
 export const getServerSideProps: GetServerSideProps<LatestCommentsProps> = async (context) => {
   await initServer();
 

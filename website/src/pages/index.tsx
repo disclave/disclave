@@ -6,6 +6,8 @@ import { getCommentService, getUserCookie } from '@disclave/server';
 import { CommentModel } from '@disclave/client';
 import React from 'react';
 
+export const homeHref = () => '/';
+
 export const getServerSideProps: GetServerSideProps<HomeProps> = async (context) => {
   await initServer();
 

@@ -1,7 +1,9 @@
 {
   "header": {
     "main nav": {
-      "home": "Home"
+      "home": "Home",
+      "top comments": "Top comments",
+      "latest comments": "Latest comments"
     },
     "auth": {
       "buttons": {
