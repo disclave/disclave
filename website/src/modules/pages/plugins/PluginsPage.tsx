@@ -14,7 +14,7 @@ export const PluginsPage: React.VFC = () => {
         <div className="mx-4">
           <div>
             <h1 className="text-3xl pb-4">{t('main.header')}</h1>
-            <p>{t('main.text')}</p>
+            <p className="whitespace-pre-line">{t('main.text')}</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 justify-items-center my-6">
             <PluginTile
