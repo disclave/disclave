@@ -11,6 +11,6 @@ export default Extensions;
 
 export const getStaticProps = async ({ locale }) => ({
   props: {
-    ...(await serverSideTranslations(locale, ['common', 'layout', 'plugins']))
+    ...(await serverSideTranslations(locale, ['common', 'layout', 'extensions']))
   }
 });

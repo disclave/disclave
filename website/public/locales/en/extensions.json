@@ -1,0 +1,15 @@
+{
+  "main": {
+    "header": "Disclave in your browser",
+    "text": "Visited an interesting page and want to know what others think about it or comment on it yourself? You don't have to copy the page URL, open disclave, and past it there to access all the Disclave functionalities!\n\nInstall Disclave browser extension and access all the comments directly from the website you are currently visiting!"
+  },
+  "extensions list": {
+    "chrome": {
+      "name": "Chrome extension"
+    },
+    "more soon": "More coming soon...",
+    "not found": {
+      "text": "If you can't find an extension for your browser, don't worry - just let us know! We are constantly working on new extensions for other browsers, and we will let you know when they will be ready for your browser!"
+    }
+  }
+}

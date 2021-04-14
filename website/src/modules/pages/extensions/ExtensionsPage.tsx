@@ -5,7 +5,7 @@ import { reactPluginHref } from '@/consts';
 import { useTranslation } from 'next-i18next';
 
 export const ExtensionsPage: React.VFC = () => {
-  const { t } = useTranslation('plugins');
+  const { t } = useTranslation('extensions');
 
   return (
     <Layout>
@@ -18,13 +18,13 @@ export const ExtensionsPage: React.VFC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 justify-items-center my-6">
             <PluginTile
               href={reactPluginHref}
-              name={t('plugins list.react.name')}
-              logoSrc="/images/plugins/react-logo.png"
+              name={t('extensions list.chrome.name')}
+              logoSrc="/images/extensions/chrome-logo.png"
             />
-            <PluginTile name={t('plugins list.more soon')} />
+            <PluginTile name={t('extensions list.more soon')} />
           </div>
           <div>
-            <p>{t('plugins list.not found.text')}</p>
+            <p>{t('extensions list.not found.text')}</p>
           </div>
         </div>
       </section>
