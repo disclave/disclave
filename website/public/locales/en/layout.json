@@ -4,7 +4,8 @@
       "home": "Home",
       "top comments": "Top comments",
       "latest comments": "Latest comments",
-      "plugins": "Plugins"
+      "plugins": "Plugins",
+      "extensions": "Extensions"
     },
     "auth": {
       "buttons": {
@@ -17,6 +18,7 @@
     "nav": {
       "home": "Home",
       "plugins": "Plugins",
+      "extensions": "Extensions",
       "top comments": "Top comments",
       "latest comments": "Latest comments"
     },
