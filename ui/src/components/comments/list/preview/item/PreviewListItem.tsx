@@ -4,10 +4,10 @@ import {
   CommentModel,
   CommentUrlMeta,
 } from "@/components/comments/CommentModel";
-import { CommentWebsiteInfo } from "@/components/comments/list/item/website";
 import { getAnchorWrapper } from "@/config";
 import { useTranslation } from "@/i18n";
 import {
+  CommentWebsiteInfo,
   ListItemContent,
   ListItemFooter,
   ListItemTimestamp,

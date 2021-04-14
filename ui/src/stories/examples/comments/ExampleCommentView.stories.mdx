@@ -1,6 +1,6 @@
 import { Meta, Story, Canvas } from '@storybook/addon-docs/blocks';
-import { CommentsContainer } from "@/components/comments";
-import { commentsTimestampComparator, RandomCommentsList } from "../../data/Comments";
+import { PageCommentsContainer } from "@/components/comments";
+import { commentsTimestampComparator, EmptyActionHandler, RandomCommentsList } from "../../data/Comments";
 
 <Meta title="Examples/Comments/View" />
 
@@ -13,12 +13,13 @@ Using comments container between other page components.
     <div className="py-3 bg-yellow-100">
       Page header
     </div>
-    <CommentsContainer
+    <PageCommentsContainer
       className="max-h-64"
       comments={RandomCommentsList(50).sort(commentsTimestampComparator)}
       authenticated={true}
       onSubmit={() => {}}
       onLogin={() => {}}
+      commentsActionsHandler={EmptyActionHandler}
     />
     <div className="py-3 bg-yellow-100">
       Page footer

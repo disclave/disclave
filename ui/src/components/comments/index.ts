@@ -1,2 +1,2 @@
-export { PageCommentsList, PreviewCommentsList, CommentsList } from "./list";
+export { PageCommentsList, PreviewCommentsList } from "./list";
 export { PageCommentsContainer } from "./PageCommentsContainer";

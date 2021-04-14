@@ -3,7 +3,7 @@ import {
   CommentActionsHandler,
   CommentModel,
 } from "@/components/comments/CommentModel";
-import { CommentVote } from "@/components/comments/list/item/vote";
+import { CommentVote } from "./vote";
 
 export interface ListItemFooterProps {
   actionsHandler: CommentActionsHandler;

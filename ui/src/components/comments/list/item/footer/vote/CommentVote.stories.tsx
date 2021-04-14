@@ -4,7 +4,7 @@ import { CommentVote, CommentVoteProps } from "./CommentVote";
 import { Story } from "@storybook/react";
 
 export default {
-  title: "Comments/List/ListItem/Vote",
+  title: "Comments/List/Item/Footer/Vote",
   component: CommentVote,
 };
 

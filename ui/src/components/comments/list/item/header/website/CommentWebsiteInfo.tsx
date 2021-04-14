@@ -1,5 +1,5 @@
 import React from "react";
-import { CommentUrlMeta } from "../../../CommentModel";
+import { CommentUrlMeta } from "@/components/comments/CommentModel";
 import classNames from "classnames";
 import { getAnchorWrapper } from "@/config";
 
