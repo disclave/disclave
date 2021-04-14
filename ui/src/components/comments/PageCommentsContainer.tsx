@@ -1,13 +1,13 @@
 import * as React from "react";
-import { CommentModel } from "./CommentModel";
-import { CommentsList } from "./list";
+import { CommentActionsHandler, CommentModel } from "./CommentModel";
+import { PageCommentsList } from "./list";
 import { CommentAddForm } from "./add";
 import { CommentAddAuth } from "./auth";
 import { UserSelfAvatar } from "@/components/auth";
 import { UserProfileModel } from "../auth/UserProfileModel";
 import classNames from "classnames";
 
-export interface CommentsContainerProps {
+export interface PageCommentsContainerProps {
   className?: string;
   comments: Array<CommentModel>;
   iframe?: boolean;
@@ -17,16 +17,16 @@ export interface CommentsContainerProps {
   userProfile?: UserProfileModel;
   onSubmit: (text: string) => Promise<void>;
   onLogout: () => Promise<void>;
-  onVoteUp: (commentId: string) => Promise<void>;
-  onVoteDown: (commentId: string) => Promise<void>;
-  onVoteRemove: (commentId: string) => Promise<void>;
+  commentsActionsHandler: CommentActionsHandler;
 }
 
-export const CommentsContainer: React.VFC<CommentsContainerProps> = (props) => {
+export const PageCommentsContainer: React.VFC<PageCommentsContainerProps> = (
+  props
+) => {
   const authenticated = !!props.userProfile;
 
   const containerClasses = classNames(
-    "flex flex-col overflow-auto",
+    "flex flex-col overflow-auto py-1",
     props.className
   );
 
@@ -39,15 +39,11 @@ export const CommentsContainer: React.VFC<CommentsContainerProps> = (props) => {
 
   return (
     <div className={containerClasses}>
-      <CommentsList
+      <PageCommentsList
+        actionsHandler={props.commentsActionsHandler}
         authenticated={authenticated}
-        comments={props.comments}
         className={commentsClasses}
-        preview={false}
-        showWebsite={false}
-        onVoteRemove={props.onVoteRemove}
-        onVoteDown={props.onVoteDown}
-        onVoteUp={props.onVoteUp}
+        comments={props.comments}
       />
       <div className={stickyFooterClasses}>
         {props.userProfile ? (

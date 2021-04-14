@@ -27,5 +27,5 @@ export {
   PreviewCommentsList,
   PageCommentsList,
   CommentsList,
-  CommentsContainer,
+  PageCommentsContainer,
 } from "./components/comments";
