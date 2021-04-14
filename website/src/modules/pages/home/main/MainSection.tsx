@@ -1,5 +1,4 @@
 import React from 'react';
-import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 import { Button, FormErrorContainer, FormFactory, TextField } from '@disclave/ui';
 import { useLoading } from '@disclave/ui';
@@ -58,7 +57,7 @@ export const MainSection: React.VFC = () => {
             </div>
           </div>
           <div className="justify-self-center">
-            <Image src="/images/home/main/hero.svg" alt="" width={630} height={540} quality={100} />
+            <img src="/images/home/main/hero.svg" alt="" width={630} height={540} />
           </div>
         </div>
       </div>
