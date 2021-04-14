@@ -11,6 +11,7 @@ import { useTranslation } from "@/i18n";
 import {
   ListItemContent,
   ListItemFooter,
+  ListItemTimestamp,
 } from "@/components/comments/list/item";
 
 export interface PreviewListItemProps {
@@ -41,15 +42,6 @@ export const PreviewListItem: React.VFC<PreviewListItemProps> = (props) => {
 
   const AnchorTag = getAnchorWrapper() ?? "a";
 
-  const DateTimeLink = () => (
-    <AnchorTag className="hover:underline" href={detailsHref}>
-      <DateTimePreview
-        className="ml-2 font-light text-xs"
-        iso={props.comment.timestamp}
-      />
-    </AnchorTag>
-  );
-
   const ShowMoreLink = () => (
     <AnchorTag
       href={detailsHref}
@@ -70,7 +62,7 @@ export const PreviewListItem: React.VFC<PreviewListItemProps> = (props) => {
         <span className="font-semibold text-sm">
           {props.comment.author.name}
         </span>
-        <DateTimeLink />
+        <ListItemTimestamp comment={props.comment} href={detailsHref} />
       </div>
 
       <div ref={textWrapperRef} className="max-h-10 overflow-hidden">

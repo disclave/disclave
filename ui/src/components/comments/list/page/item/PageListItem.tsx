@@ -7,6 +7,7 @@ import { DateTimePreview } from "@/components/date/dateTimePreview";
 import {
   ListItemContent,
   ListItemFooter,
+  ListItemTimestamp,
 } from "@/components/comments/list/item";
 
 export interface PageListItemProps {
@@ -22,10 +23,7 @@ export const PageListItem: React.VFC<PageListItemProps> = (props) => {
         <span className="font-semibold text-sm">
           {props.comment.author.name}
         </span>
-        <DateTimePreview
-          className="ml-2 font-light text-xs"
-          iso={props.comment.timestamp}
-        />
+        <ListItemTimestamp comment={props.comment} />
       </div>
 
       <div id={props.comment.id} className="pt-32 -mt-32">
