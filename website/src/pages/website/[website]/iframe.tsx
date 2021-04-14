@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
-import { CommentsContainer } from '@disclave/ui';
+import { PageCommentsContainer } from '@disclave/ui';
 import { loginHref } from '@/pages/auth/login';
 import { CommentModel, logout, useSession } from '@disclave/client';
 import { registerHref } from '@/pages/auth/register';
@@ -54,7 +54,7 @@ const Index: React.FC<IFrameProps> = (props) => {
 
   return (
     <div ref={containerRef} className="w-full p-3">
-      <CommentsContainer
+      <PageCommentsContainer
         userProfile={profile}
         comments={comments}
         className="h-max"
@@ -64,9 +64,11 @@ const Index: React.FC<IFrameProps> = (props) => {
         registerHref={registerHrefWithRedirect}
         onSubmit={addComment}
         onLogout={logout}
-        onVoteDown={voteDown}
-        onVoteRemove={voteRemove}
-        onVoteUp={voteUp}
+        commentsActionsHandler={{
+          onVoteDown: voteDown,
+          onVoteRemove: voteRemove,
+          onVoteUp: voteUp
+        }}
       />
     </div>
   );

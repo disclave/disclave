@@ -1,6 +1,6 @@
 import { CommentModel, logout, useSession } from '@disclave/client';
 import React from 'react';
-import { CommentsContainer } from '@disclave/ui';
+import { PageCommentsContainer } from '@disclave/ui';
 import { useWebsiteComments } from '@/modules/comments';
 
 export interface WebsiteCommentsProps {
@@ -23,7 +23,7 @@ export const WebsiteComments: React.VFC<WebsiteCommentsProps> = (props) => {
 
   return (
     <section className="container mx-auto my-4">
-      <CommentsContainer
+      <PageCommentsContainer
         userProfile={profile}
         comments={comments}
         className="max-h-full"
@@ -32,9 +32,11 @@ export const WebsiteComments: React.VFC<WebsiteCommentsProps> = (props) => {
         registerHref={props.registerHref}
         onSubmit={addComment}
         onLogout={logout}
-        onVoteUp={voteUp}
-        onVoteRemove={voteRemove}
-        onVoteDown={voteDown}
+        commentsActionsHandler={{
+          onVoteDown: voteDown,
+          onVoteRemove: voteRemove,
+          onVoteUp: voteUp
+        }}
       />
     </section>
   );

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { CommentsContainer } from "@disclave/ui";
+import { PageCommentsContainer } from "@disclave/ui";
 import { useComments } from "../hooks";
 import { loginHref } from "./Login";
 import { logout, useSession } from "@disclave/client";
@@ -21,7 +21,7 @@ export const Home = () => {
   if (!comments) return <div>loading</div>;
 
   return (
-    <CommentsContainer
+    <PageCommentsContainer
       className="max-h-96"
       userProfile={profile}
       comments={comments}
@@ -29,9 +29,11 @@ export const Home = () => {
       registerHref={registerHref}
       onSubmit={addComment}
       onLogout={logout}
-      onVoteDown={addVoteDown}
-      onVoteRemove={removeVote}
-      onVoteUp={addVoteUp}
+      commentsActionsHandler={{
+        onVoteDown: addVoteDown,
+        onVoteRemove: removeVote,
+        onVoteUp: addVoteUp,
+      }}
     />
   );
 };
