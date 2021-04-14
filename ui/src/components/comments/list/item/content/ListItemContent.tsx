@@ -11,6 +11,7 @@ export const ListItemContent = React.forwardRef<
 >((props, ref) => {
   return (
     <p
+      ref={ref}
       className="text-sm whitespace-pre-wrap break-words"
       dangerouslySetInnerHTML={{ __html: props.comment.text.trim() }}
     />

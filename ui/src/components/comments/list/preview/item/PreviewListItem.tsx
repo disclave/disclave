@@ -26,13 +26,6 @@ export const PreviewListItem: React.VFC<PreviewListItemProps> = (props) => {
   const textWrapperRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLParagraphElement>(null);
 
-  const detailsHref = props.hrefBuilder(
-    props.comment.urlMeta,
-    props.comment.id
-  );
-
-  const AnchorTag = getAnchorWrapper() ?? "a";
-
   useEffect(() => {
     if (!textWrapperRef.current || !textRef.current) return;
 
@@ -41,8 +34,15 @@ export const PreviewListItem: React.VFC<PreviewListItemProps> = (props) => {
     );
   });
 
-  const DateTimeLink = ({ href }: { href: string }) => (
-    <AnchorTag className="hover:underline" href={href}>
+  const detailsHref = props.hrefBuilder(
+    props.comment.urlMeta,
+    props.comment.id
+  );
+
+  const AnchorTag = getAnchorWrapper() ?? "a";
+
+  const DateTimeLink = () => (
+    <AnchorTag className="hover:underline" href={detailsHref}>
       <DateTimePreview
         className="ml-2 font-light text-xs"
         iso={props.comment.timestamp}
@@ -50,9 +50,9 @@ export const PreviewListItem: React.VFC<PreviewListItemProps> = (props) => {
     </AnchorTag>
   );
 
-  const ShowMoreLink = ({ href }: { href: string }) => (
+  const ShowMoreLink = () => (
     <AnchorTag
-      href={href}
+      href={detailsHref}
       className="uppercase text-primary text-xs hover:underline"
     >
       {t("list.item.show all")}
@@ -62,7 +62,6 @@ export const PreviewListItem: React.VFC<PreviewListItemProps> = (props) => {
   return (
     <div>
       <CommentWebsiteInfo
-        className="mb-1"
         urlMeta={props.comment.urlMeta}
         hrefBuilder={props.hrefBuilder}
       />
@@ -71,16 +70,16 @@ export const PreviewListItem: React.VFC<PreviewListItemProps> = (props) => {
         <span className="font-semibold text-sm">
           {props.comment.author.name}
         </span>
-        <DateTimeLink href={detailsHref} />
+        <DateTimeLink />
       </div>
 
-      <div ref={textWrapperRef}>
-        <div className="max-h-10 overflow-hidden pt-32 -mt-32">
+      <div ref={textWrapperRef} className="max-h-10 overflow-hidden">
+        <AnchorTag href={detailsHref}>
           <ListItemContent ref={textRef} comment={props.comment} />
-        </div>
-
-        {showMoreVisible ? <ShowMoreLink href={detailsHref} /> : null}
+        </AnchorTag>
       </div>
+
+      {showMoreVisible ? <ShowMoreLink /> : null}
 
       <ListItemFooter
         actionsHandler={props.actionsHandler}
