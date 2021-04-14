@@ -5,13 +5,14 @@ export interface ListItemContentProps {
   comment: CommentModel;
 }
 
-export const ListItemContent: React.VFC<ListItemContentProps> = ({
-  comment,
-}) => {
+export const ListItemContent = React.forwardRef<
+  HTMLParagraphElement,
+  ListItemContentProps
+>((props, ref) => {
   return (
     <p
       className="text-sm whitespace-pre-wrap break-words"
-      dangerouslySetInnerHTML={{ __html: comment.text.trim() }}
+      dangerouslySetInnerHTML={{ __html: props.comment.text.trim() }}
     />
   );
-};
+});

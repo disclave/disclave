@@ -8,7 +8,10 @@ import { DateTimePreview } from "@/components/date/dateTimePreview";
 import { CommentWebsiteInfo } from "@/components/comments/list/item/website";
 import { getAnchorWrapper } from "@/config";
 import { useTranslation } from "@/i18n";
-import { ListItemFooter } from "@/components/comments/list/item";
+import {
+  ListItemContent,
+  ListItemFooter,
+} from "@/components/comments/list/item";
 
 export interface PreviewListItemProps {
   actionsHandler: CommentActionsHandler;
@@ -71,17 +74,9 @@ export const PreviewListItem: React.VFC<PreviewListItemProps> = (props) => {
         <DateTimeLink href={detailsHref} />
       </div>
 
-      <div>
-        <div
-          ref={textWrapperRef}
-          id={props.comment.id}
-          className="max-h-10 overflow-hidden pt-32 -mt-32"
-        >
-          <p
-            ref={textRef}
-            className="text-sm whitespace-pre-wrap break-words"
-            dangerouslySetInnerHTML={{ __html: props.comment.text.trim() }}
-          />
+      <div ref={textWrapperRef}>
+        <div className="max-h-10 overflow-hidden pt-32 -mt-32">
+          <ListItemContent ref={textRef} comment={props.comment} />
         </div>
 
         {showMoreVisible ? <ShowMoreLink href={detailsHref} /> : null}

@@ -4,7 +4,10 @@ import {
   CommentModel,
 } from "@/components/comments/CommentModel";
 import { DateTimePreview } from "@/components/date/dateTimePreview";
-import { ListItemFooter } from "@/components/comments/list/item";
+import {
+  ListItemContent,
+  ListItemFooter,
+} from "@/components/comments/list/item";
 
 export interface PageListItemProps {
   actionsHandler: CommentActionsHandler;
@@ -26,10 +29,7 @@ export const PageListItem: React.VFC<PageListItemProps> = (props) => {
       </div>
 
       <div id={props.comment.id} className="pt-32 -mt-32">
-        <p
-          className="text-sm whitespace-pre-wrap break-words"
-          dangerouslySetInnerHTML={{ __html: props.comment.text.trim() }}
-        />
+        <ListItemContent comment={props.comment} />
       </div>
 
       <ListItemFooter
