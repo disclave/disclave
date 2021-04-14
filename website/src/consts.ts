@@ -6,6 +6,9 @@ export const disclaveReddit = 'https://reddit.com/u/disclave';
 
 export const reactPluginHref = 'https://www.npmjs.com/package/@disclave/react-plugin';
 
+export const chromeExtensionHref =
+  'https://chrome.google.com/webstore/detail/disclave/flpmkapcnkmddagllidpplfimllamjbc';
+
 // TODO: modify to use translations
 // TODO: verify openGraph and twitter
 export const SEO = {

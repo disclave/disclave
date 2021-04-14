@@ -1,12 +1,11 @@
 import React from 'react';
 import { Layout } from '@/modules/layout';
 import { ItemTile } from '@/modules/ui';
-import { reactPluginHref } from '@/consts';
-import { DisclaveComments } from '@disclave/react-plugin';
+import { chromeExtensionHref } from '@/consts';
 import { useTranslation } from 'next-i18next';
 
-export const PluginsPage: React.VFC = () => {
-  const { t } = useTranslation('plugins');
+export const ExtensionsPage: React.VFC = () => {
+  const { t } = useTranslation('extensions');
 
   return (
     <Layout>
@@ -18,21 +17,14 @@ export const PluginsPage: React.VFC = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 justify-items-center my-6">
             <ItemTile
-              href={reactPluginHref}
-              name={t('plugins list.react.name')}
-              logoSrc="/images/plugins/react-logo.png"
+              href={chromeExtensionHref}
+              name={t('extensions list.chrome.name')}
+              logoSrc="/images/extensions/chrome-logo.png"
             />
-            <ItemTile name={t('plugins list.more soon')} />
+            <ItemTile name={t('extensions list.more soon')} />
           </div>
           <div>
-            <p>{t('plugins list.not found.text')}</p>
-          </div>
-          <div>
-            <h3 className="text-xl py-4">{t('example.header')}</h3>
-            <p>{t('example.text')}</p>
-            <div>
-              <DisclaveComments />
-            </div>
+            <p>{t('extensions list.not found.text')}</p>
           </div>
         </div>
       </section>
