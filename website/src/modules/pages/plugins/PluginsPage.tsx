@@ -1,6 +1,6 @@
 import React from 'react';
 import { Layout } from '@/modules/layout';
-import { PluginTile } from '@/modules/plugins';
+import { ItemTile } from '@/modules/ui';
 import { reactPluginHref } from '@/consts';
 import { DisclaveComments } from '@disclave/react-plugin';
 import { useTranslation } from 'next-i18next';
@@ -17,12 +17,12 @@ export const PluginsPage: React.VFC = () => {
             <p className="whitespace-pre-line">{t('main.text')}</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 justify-items-center my-6">
-            <PluginTile
+            <ItemTile
               href={reactPluginHref}
               name={t('plugins list.react.name')}
               logoSrc="/images/plugins/react-logo.png"
             />
-            <PluginTile name={t('plugins list.more soon')} />
+            <ItemTile name={t('plugins list.more soon')} />
           </div>
           <div>
             <p>{t('plugins list.not found.text')}</p>

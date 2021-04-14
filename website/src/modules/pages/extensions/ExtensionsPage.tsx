@@ -1,7 +1,7 @@
 import React from 'react';
 import { Layout } from '@/modules/layout';
-import { PluginTile } from '@/modules/plugins';
-import { reactPluginHref } from '@/consts';
+import { ItemTile } from '@/modules/ui';
+import { chromeExtensionHref } from '@/consts';
 import { useTranslation } from 'next-i18next';
 
 export const ExtensionsPage: React.VFC = () => {
@@ -16,12 +16,12 @@ export const ExtensionsPage: React.VFC = () => {
             <p className="whitespace-pre-line">{t('main.text')}</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 justify-items-center my-6">
-            <PluginTile
-              href={reactPluginHref}
+            <ItemTile
+              href={chromeExtensionHref}
               name={t('extensions list.chrome.name')}
               logoSrc="/images/extensions/chrome-logo.png"
             />
-            <PluginTile name={t('extensions list.more soon')} />
+            <ItemTile name={t('extensions list.more soon')} />
           </div>
           <div>
             <p>{t('extensions list.not found.text')}</p>

@@ -8,7 +8,7 @@ export interface PluginTileProps {
   name: string;
 }
 
-export const PluginTile: React.VFC<PluginTileProps> = ({ href, logoSrc, name }) => {
+export const ItemTile: React.VFC<PluginTileProps> = ({ href, logoSrc, name }) => {
   const boxClassName = classNames(
     'border rounded shadow p-4 w-64 h-64 text-center flex flex-col justify-center',
     {
