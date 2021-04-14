@@ -1,4 +1,7 @@
-import { CommentModel } from "@/components/comments/CommentModel";
+import {
+  CommentActionsHandler,
+  CommentModel,
+} from "@/components/comments/CommentModel";
 
 const randomDate = (start: Date, end: Date): Date => {
   return new Date(
@@ -88,4 +91,10 @@ export const ExampleComment: CommentModel = {
     websiteId: "example.com",
     pageId: "%2Fpage%2Fwith%2Fexample%2Furl",
   },
+};
+
+export const EmptyActionHandler: CommentActionsHandler = {
+  onVoteDown: async () => {},
+  onVoteRemove: async () => {},
+  onVoteUp: async () => {},
 };
