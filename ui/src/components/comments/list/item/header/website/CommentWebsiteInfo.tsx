@@ -1,5 +1,5 @@
 import React from "react";
-import { CommentUrlMeta } from "../../../CommentModel";
+import { CommentUrlMeta } from "@/components/comments/CommentModel";
 import classNames from "classnames";
 import { getAnchorWrapper } from "@/config";
 
@@ -14,7 +14,7 @@ export const CommentWebsiteInfo: React.VFC<CommentWebsiteInfoProps> = ({
   hrefBuilder,
   urlMeta,
 }) => {
-  const wrapperClassName = classNames("text-xs truncate", className);
+  const wrapperClassName = classNames("text-sm truncate", className);
   const decodedPageId = decodeURIComponent(urlMeta.pageId);
 
   const href = hrefBuilder(urlMeta);

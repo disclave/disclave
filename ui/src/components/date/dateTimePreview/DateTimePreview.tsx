@@ -2,11 +2,13 @@ import React from "react";
 import { getLanguage } from "@/i18n";
 
 export interface DateTimePreviewProps {
+  className?: string;
   iso: string;
   locales?: string | string[];
 }
 
 export const DateTimePreview: React.VFC<DateTimePreviewProps> = ({
+  className,
   iso,
   locales,
 }) => {
@@ -22,7 +24,7 @@ export const DateTimePreview: React.VFC<DateTimePreviewProps> = ({
   });
 
   return (
-    <time dateTime={iso} title={dateTimeStr}>
+    <time className={className} dateTime={iso} title={dateTimeStr}>
       {dateStr} {timeStr}
     </time>
   );

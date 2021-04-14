@@ -23,4 +23,8 @@ export {
   RegisterFormContainer,
   UserSelfAvatar,
 } from "./components/auth";
-export { CommentsList, CommentsContainer } from "./components/comments";
+export {
+  PreviewCommentsList,
+  PageCommentsList,
+  PageCommentsContainer,
+} from "./components/comments";

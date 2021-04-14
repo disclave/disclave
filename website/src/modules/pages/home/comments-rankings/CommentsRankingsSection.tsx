@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'next-i18next';
 import { CommentModel, useSession } from '@disclave/client';
-import { Button, CommentsList } from '@disclave/ui';
+import { Button, PreviewCommentsList } from '@disclave/ui';
 import { useLatestComments, useTopComments } from '@/modules/comments';
 import { websiteHrefFromMeta } from '@/pages/website/[website]';
 import { topCommentsHref } from '@/pages/comments/top';
@@ -35,15 +35,11 @@ export const CommentsRankingsSection: React.VFC<CommentsRankingsSectionProps> = 
   );
 
   const CommentsPreviewList = ({ comments, onVoteUp, onVoteDown, onVoteRemove }) => (
-    <CommentsList
+    <PreviewCommentsList
+      actionsHandler={{ onVoteDown, onVoteRemove, onVoteUp }}
       authenticated={!!profile}
       comments={comments}
       hrefBuilder={websiteHrefFromMeta}
-      preview={true}
-      showWebsite={true}
-      onVoteUp={onVoteUp}
-      onVoteDown={onVoteDown}
-      onVoteRemove={onVoteRemove}
     />
   );
 

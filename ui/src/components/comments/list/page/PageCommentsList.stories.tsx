@@ -1,9 +1,10 @@
 import React from "react";
 
-import { CommentsList, CommentsListProps } from "./CommentsList";
+import { PageCommentsList, PageCommentsListProps } from "./PageCommentsList";
 import { Story } from "@storybook/react";
 import {
   commentsTimestampComparator,
+  EmptyActionHandler,
   RandomCommentsList,
 } from "@/stories/data/Comments";
 
@@ -17,44 +18,35 @@ const exampleLongComments = RandomCommentsList(
 ).sort(commentsTimestampComparator);
 
 export default {
-  title: "Comments/List/CommentsList",
-  component: CommentsList,
+  title: "Comments/Lists/Page/PageCommentsList",
+  component: PageCommentsList,
 };
 
-const Template: Story<CommentsListProps> = (args) => <CommentsList {...args} />;
+const Template: Story<PageCommentsListProps> = (args) => (
+  <PageCommentsList {...args} />
+);
 
 export const Default = Template.bind({});
 Default.args = {
+  actionsHandler: EmptyActionHandler,
   comments: exampleComments,
 };
 
 export const Authenticated = Template.bind({});
 Authenticated.args = {
+  actionsHandler: EmptyActionHandler,
   authenticated: true,
-  comments: exampleComments,
-};
-
-export const ShowWebsite = Template.bind({});
-ShowWebsite.args = {
-  showWebsite: true,
-  comments: exampleComments,
-};
-
-export const AuthenticatedShowWebsite = Template.bind({});
-AuthenticatedShowWebsite.args = {
-  authenticated: true,
-  showWebsite: true,
   comments: exampleComments,
 };
 
 export const Empty = Template.bind({});
 Empty.args = {
+  actionsHandler: EmptyActionHandler,
   comments: [],
 };
 
-export const PreviewWithWebsiteInfo = Template.bind({});
-PreviewWithWebsiteInfo.args = {
-  preview: true,
-  showWebsite: true,
+export const LongComments = Template.bind({});
+LongComments.args = {
+  actionsHandler: EmptyActionHandler,
   comments: exampleLongComments,
 };

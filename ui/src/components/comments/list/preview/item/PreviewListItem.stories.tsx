@@ -1,8 +1,12 @@
 import React from "react";
 
-import { ListItem, ListItemProps } from "./ListItem";
+import { PreviewListItem, PreviewListItemProps } from "./PreviewListItem";
 import { Story } from "@storybook/react";
-import { ExampleComment, buildExampleComment } from "@/stories/data/Comments";
+import {
+  ExampleComment,
+  buildExampleComment,
+  EmptyActionHandler,
+} from "@/stories/data/Comments";
 import { CommentUrlMeta } from "@/components/comments/CommentModel";
 
 const hrefBuilder = (urlMeta: CommentUrlMeta, commentId?: string) =>
@@ -11,50 +15,32 @@ const hrefBuilder = (urlMeta: CommentUrlMeta, commentId?: string) =>
   (commentId ? `#${commentId}` : "");
 
 export default {
-  title: "Comments/List/ListItem",
-  component: ListItem,
+  title: "Comments/Lists/Preview/PreviewListItem",
+  component: PreviewListItem,
 };
 
-const Template: Story<ListItemProps> = (args) => <ListItem {...args} />;
+const Template: Story<PreviewListItemProps> = (args) => (
+  <PreviewListItem {...args} />
+);
 
 export const Default = Template.bind({});
 Default.args = {
-  comment: ExampleComment,
-};
-
-export const WithWebsiteInfo = Template.bind({});
-WithWebsiteInfo.args = {
+  actionsHandler: EmptyActionHandler,
   hrefBuilder: hrefBuilder,
-  showWebsite: true,
   comment: ExampleComment,
 };
 
 export const Authenticated = Template.bind({});
 Authenticated.args = {
+  actionsHandler: EmptyActionHandler,
   authenticated: true,
+  hrefBuilder: hrefBuilder,
   comment: ExampleComment,
 };
 
 export const LongComment = Template.bind({});
 LongComment.args = {
-  comment: buildExampleComment({
-    text: `This        is a strange comment with\n\n\n new\nlines and     many     spaces.
-    dsa.
-    
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-HAHAAHAHAH!!!
-    `,
-  }),
-};
-
-export const Preview = Template.bind({});
-Preview.args = {
-  preview: true,
+  actionsHandler: EmptyActionHandler,
   hrefBuilder: hrefBuilder,
   comment: buildExampleComment({
     text: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.

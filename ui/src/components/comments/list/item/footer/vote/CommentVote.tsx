@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { CommentVotes } from "../../../CommentModel";
+import { CommentVotes } from "@/components/comments/CommentModel";
 import classNames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";

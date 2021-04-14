@@ -11,7 +11,7 @@ const hrefBuilder = (urlMeta: CommentUrlMeta) =>
   urlMeta.websiteId + decodeURIComponent(urlMeta.pageId);
 
 export default {
-  title: "Comments/List/ListItem/WebsiteInfo",
+  title: "Comments/List/Item/Header/WebsiteInfo",
   component: CommentWebsiteInfo,
 };
 
