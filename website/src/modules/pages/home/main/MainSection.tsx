@@ -1,5 +1,4 @@
 import React from 'react';
-// import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 import { Button, FormErrorContainer, FormFactory, TextField } from '@disclave/ui';
 import { useLoading } from '@disclave/ui';
