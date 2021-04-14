@@ -1,21 +1,20 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
+  CommentActionsHandler,
   CommentModel,
   CommentUrlMeta,
 } from "@/components/comments/CommentModel";
 import { DateTimePreview } from "@/components/date/dateTimePreview";
-import { CommentVote } from "@/components/comments/list/item/vote";
 import { CommentWebsiteInfo } from "@/components/comments/list/item/website";
 import { getAnchorWrapper } from "@/config";
 import { useTranslation } from "@/i18n";
+import { ListItemFooter } from "@/components/comments/list/item";
 
 export interface PreviewListItemProps {
-  comment: CommentModel;
+  actionsHandler: CommentActionsHandler;
   authenticated: boolean;
+  comment: CommentModel;
   hrefBuilder: (urlMeta: CommentUrlMeta, commentId?: string) => string;
-  onVoteUp: (commentId: string) => Promise<void>;
-  onVoteDown: (commentId: string) => Promise<void>;
-  onVoteRemove: (commentId: string) => Promise<void>;
 }
 
 export const PreviewListItem: React.VFC<PreviewListItemProps> = (props) => {
@@ -88,16 +87,12 @@ export const PreviewListItem: React.VFC<PreviewListItemProps> = (props) => {
         {showMoreVisible ? <ShowMoreLink href={detailsHref} /> : null}
       </div>
 
-      <div className="mt-1">
-        <CommentVote
-          commentId={props.comment.id}
-          enabled={props.authenticated}
-          votes={props.comment.votes}
-          onVoteUp={props.onVoteUp}
-          onVoteDown={props.onVoteDown}
-          onVoteRemove={props.onVoteRemove}
-        />
-      </div>
+      <ListItemFooter
+        actionsHandler={props.actionsHandler}
+        authenticated={props.authenticated}
+        className="mt-1"
+        comment={props.comment}
+      />
     </div>
   );
 };

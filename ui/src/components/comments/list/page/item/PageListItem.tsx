@@ -1,14 +1,15 @@
 import React from "react";
-import { CommentModel } from "@/components/comments/CommentModel";
+import {
+  CommentActionsHandler,
+  CommentModel,
+} from "@/components/comments/CommentModel";
 import { DateTimePreview } from "@/components/date/dateTimePreview";
-import { CommentVote } from "@/components/comments/list/item/vote";
+import { ListItemFooter } from "@/components/comments/list/item";
 
 export interface PageListItemProps {
-  comment: CommentModel;
+  actionsHandler: CommentActionsHandler;
   authenticated: boolean;
-  onVoteUp: (commentId: string) => Promise<void>;
-  onVoteDown: (commentId: string) => Promise<void>;
-  onVoteRemove: (commentId: string) => Promise<void>;
+  comment: CommentModel;
 }
 
 export const PageListItem: React.VFC<PageListItemProps> = (props) => {
@@ -31,16 +32,12 @@ export const PageListItem: React.VFC<PageListItemProps> = (props) => {
         />
       </div>
 
-      <div className="mt-1">
-        <CommentVote
-          commentId={props.comment.id}
-          enabled={props.authenticated}
-          votes={props.comment.votes}
-          onVoteUp={props.onVoteUp}
-          onVoteDown={props.onVoteDown}
-          onVoteRemove={props.onVoteRemove}
-        />
-      </div>
+      <ListItemFooter
+        actionsHandler={props.actionsHandler}
+        authenticated={props.authenticated}
+        className="mt-1"
+        comment={props.comment}
+      />
     </div>
   );
 };

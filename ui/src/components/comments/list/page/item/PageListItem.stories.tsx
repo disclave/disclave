@@ -2,7 +2,11 @@ import React from "react";
 
 import { PageListItem, PageListItemProps } from "./PageListItem";
 import { Story } from "@storybook/react";
-import { ExampleComment, buildExampleComment } from "@/stories/data/Comments";
+import {
+  ExampleComment,
+  buildExampleComment,
+  EmptyActionHandler,
+} from "@/stories/data/Comments";
 
 export default {
   title: "Comments/Lists/Page/PageListItem",
@@ -13,17 +17,20 @@ const Template: Story<PageListItemProps> = (args) => <PageListItem {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
+  actionsHandler: EmptyActionHandler,
   comment: ExampleComment,
 };
 
 export const Authenticated = Template.bind({});
 Authenticated.args = {
+  actionsHandler: EmptyActionHandler,
   authenticated: true,
   comment: ExampleComment,
 };
 
 export const LongComment = Template.bind({});
 LongComment.args = {
+  actionsHandler: EmptyActionHandler,
   comment: buildExampleComment({
     text: `This        is a strange comment with\n\n\n new\nlines and     many     spaces.
     dsa.
