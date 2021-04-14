@@ -5,6 +5,7 @@ import { Button, PreviewCommentsList } from '@disclave/ui';
 import { websiteHrefFromMeta } from '@/pages/website/[website]';
 
 export interface CommentsPreviewSectionProps {
+  className?: string;
   commentsLimit: number;
   comments: Array<CommentModel>;
   header: string;
@@ -21,7 +22,7 @@ export const CommentsPreviewSection: React.VFC<CommentsPreviewSectionProps> = (p
   const { profile } = useSession();
 
   return (
-    <section>
+    <section className={props.className}>
       <div className="flex flex-row justify-between items-center mb-8">
         <h2 className="text-3xl font-semibold">{props.header}</h2>
         <div>

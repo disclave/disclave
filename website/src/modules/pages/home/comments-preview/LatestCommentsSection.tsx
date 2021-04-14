@@ -6,6 +6,7 @@ import { CommentsPreviewSection } from '@/modules/pages/home/comments-preview/Co
 import { latestCommentsHref } from '@/pages/comments/latest';
 
 export interface LatestCommentsSectionProps {
+  className?: string;
   commentsLimit: number;
   comments: Array<CommentModel>;
   minVoteSum: number;
@@ -23,6 +24,7 @@ export const LatestCommentsSection: React.VFC<LatestCommentsSectionProps> = (pro
 
   return (
     <CommentsPreviewSection
+      className={props.className}
       commentsLimit={props.commentsLimit}
       comments={comments}
       header={t('comment rankings.latest.title')}

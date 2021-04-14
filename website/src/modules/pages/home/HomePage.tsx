@@ -3,6 +3,8 @@ import { Layout } from '@/modules/layout';
 import { MainSection } from './main';
 import { CommentModel } from '@disclave/client';
 import { LatestCommentsSection, TopCommentsSection } from '@/modules/pages/home/comments-preview';
+import { PluginsSection } from '@/modules/pages/home/plugins';
+import { ExtensionsSection } from '@/modules/pages/home/extensions';
 
 export interface HomePageProps {
   commentsLimit: number;
@@ -18,19 +20,28 @@ export const HomePage: React.VFC<HomePageProps> = (props) => {
     <Layout>
       <MainSection />
       <div className="container mx-auto py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 mx-4 gap-8">
+        <div className="flex flex-col lg:flex-row">
           <TopCommentsSection
+            className="lg:w-1/2 p-4"
             commentsLimit={props.commentsLimit}
             comments={props.topComments}
             minVoteSum={props.topMinVoteSum}
             serverSideUid={props.serverSideUid}
           />
+
+          <PluginsSection className="lg:w-1/2 p-4" />
+        </div>
+
+        <div className="flex flex-col lg:flex-row">
           <LatestCommentsSection
+            className="lg:w-1/2 lg:order-2 p-4"
             commentsLimit={props.commentsLimit}
             comments={props.latestComments}
             minVoteSum={props.latestMinVoteSum}
             serverSideUid={props.serverSideUid}
           />
+
+          <ExtensionsSection className="lg:w-1/2 lg:order-1 p-4" />
         </div>
       </div>
     </Layout>
