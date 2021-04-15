@@ -28,6 +28,7 @@ export class FirebaseAuthProvider implements AuthProvider {
       httpOnly: true,
       secure: true,
       path: "/",
+      sameSite: "none" as boolean | "none" | "lax" | "strict",
     };
     return cookie.serialize("session", sessionCookie, options);
   }
