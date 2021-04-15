@@ -44,7 +44,21 @@ const Index: React.FC<IFrameProps> = (props) => {
   const website = router.query.website as string;
 
   useEffect(() => {
-    localStorage.setItem('websiteId', website);
+    try {
+      console.info('Testing local storage');
+      localStorage.setItem('websiteId', website);
+      console.info('Local storage test success');
+    } catch (e) {
+      console.error('Local storage test error', e);
+    }
+
+    try {
+      console.info('Testing cookies');
+      document.cookie = `websiteId=${encodeURIComponent(website)}`;
+      console.info('Cookies test success');
+    } catch (e) {
+      console.error('Cookies test error', e);
+    }
   }, []);
 
   const { comments, addComment, voteDown, voteUp, voteRemove } = useWebsiteComments(
