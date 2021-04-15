@@ -6,3 +6,5 @@ export const enableUserCookieUpdates = () => {
     await updateUserCookie();
   });
 };
+
+export { login, logout } from "./client";
