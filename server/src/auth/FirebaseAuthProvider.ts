@@ -23,7 +23,12 @@ export class FirebaseAuthProvider implements AuthProvider {
     const sessionCookie = await auth().createSessionCookie(idToken, {
       expiresIn,
     });
-    const options = { maxAge: expiresIn, httpOnly: true, secure: true };
+    const options = {
+      maxAge: expiresIn,
+      httpOnly: true,
+      secure: true,
+      path: "/",
+    };
     return cookie.serialize("session", sessionCookie, options);
   }
 
