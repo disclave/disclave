@@ -12,12 +12,12 @@ import { login as gqlLogin, logout as gqlLogout } from "../modules/auth";
 export const login = async (email: string, password: string) => {
   const result = await auth().signInWithEmailAndPassword(email, password);
   const idToken = await result.user.getIdToken();
-  await gqlLogin(idToken);
+  // await gqlLogin(idToken);
   return result;
 };
 export const logout = async () => {
   await auth().signOut();
-  await gqlLogout();
+  // await gqlLogout();
 };
 
 export const register = async (
