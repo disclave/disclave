@@ -7,7 +7,7 @@
 //   sendEmailVerification: SendEmailVerification;
 // };
 
-export const useUser = ()/*: UseUser*/ => {
+export const useUser = () /*: UseUser*/ => {
   // const [user, setUser] = useState<UserModel | undefined | null>(undefined);
   //
   // const emailVerification = async (emailRedirectUrl?: string) => {

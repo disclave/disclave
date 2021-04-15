@@ -13,7 +13,7 @@
 //   sendEmailVerification: SendEmailVerification;
 // };
 
-export const useSession = ()/*: UseUserProfile*/ => {
+export const useSession = () /*: UseUserProfile*/ => {
   // const { user, sendEmailVerification } = useUser();
   // const [profile, updateProfile] = useUserProfile();
   //

@@ -10,7 +10,7 @@
 //   name: string;
 // }
 
-export const useUserProfile = ()/*: UseUserProfile*/ => {
+export const useUserProfile = () /*: UseUserProfile*/ => {
   // const {user} = useUser();
   // const [profile, setProfile] = useState<UserProfileModel | null>(null);
   //
