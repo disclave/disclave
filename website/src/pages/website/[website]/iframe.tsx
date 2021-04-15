@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 import { PageCommentsContainer } from '@disclave/ui';
@@ -42,40 +42,6 @@ const Index: React.FC<IFrameProps> = (props) => {
 
   const router = useRouter();
   const website = router.query.website as string;
-
-  useEffect(() => {
-    try {
-      console.info('Testing local storage');
-      localStorage.setItem('websiteId', website);
-      console.info('Local storage test success');
-    } catch (e) {
-      console.error('Local storage test error', e);
-    }
-
-    try {
-      console.info('Testing cookies');
-      document.cookie = 'cookie2=test; expires=Sun, 1 Jan 2023 00:00:00 UTC; path=/';
-      document.cookie = `websiteId=${encodeURIComponent(
-        website
-      )}; expires=Sun, 1 Jan 2023 00:00:00 UTC; path=/`;
-      console.info('Cookies test success');
-    } catch (e) {
-      console.error('Cookies test error', e);
-    }
-
-    try {
-      console.info('Testing indexedDB');
-      var request = window.indexedDB.open('MyTestDatabase', 1);
-      request.onerror = function (event) {
-        console.error('indexedDB test error', event);
-      };
-      request.onsuccess = function (event) {
-        console.info('indexedDB test success');
-      };
-    } catch (e) {
-      console.error('indexedDB test error', e);
-    }
-  }, []);
 
   const { comments, addComment, voteDown, voteUp, voteRemove } = useWebsiteComments(
     props.comments,
