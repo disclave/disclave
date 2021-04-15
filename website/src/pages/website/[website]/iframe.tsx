@@ -54,10 +54,26 @@ const Index: React.FC<IFrameProps> = (props) => {
 
     try {
       console.info('Testing cookies');
-      document.cookie = `websiteId=${encodeURIComponent(website)}`;
+      document.cookie = 'cookie2=test; expires=Sun, 1 Jan 2023 00:00:00 UTC; path=/';
+      document.cookie = `websiteId=${encodeURIComponent(
+        website
+      )}; expires=Sun, 1 Jan 2023 00:00:00 UTC; path=/`;
       console.info('Cookies test success');
     } catch (e) {
       console.error('Cookies test error', e);
+    }
+
+    try {
+      console.info('Testing indexedDB');
+      var request = window.indexedDB.open('MyTestDatabase', 1);
+      request.onerror = function (event) {
+        console.error('indexedDB test error', event);
+      };
+      request.onsuccess = function (event) {
+        console.info('indexedDB test success');
+      };
+    } catch (e) {
+      console.error('indexedDB test error', e);
     }
   }, []);
 
