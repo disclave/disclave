@@ -1,6 +1,8 @@
 import { UserCookieContent } from "../auth";
 import cookie from "cookie";
 
+// TODO: remove this file?
+
 const userCookieName = "DISCLAVE_USER";
 
 export const setUserCookie = (content: UserCookieContent | null, res: any) => {

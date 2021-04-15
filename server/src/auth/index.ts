@@ -10,14 +10,14 @@ export interface UserCookieContent {
 }
 
 export abstract class AuthProvider {
-  abstract verifyIdToken(
-    idToken: IdToken,
-    checkIfRevoked: boolean
-  ): Promise<DecodedIdToken>;
+  // abstract verifyIdToken(
+  //   idToken: IdToken,
+  //   checkIfRevoked: boolean
+  // ): Promise<DecodedIdToken>;
 
   abstract createSessionCookie(idToken: string): Promise<string>;
 
-  abstract getUserCookieContent(
-    idToken: IdToken | null
-  ): Promise<UserCookieContent | null>;
+  // abstract getUserCookieContent(
+  //   idToken: IdToken | null
+  // ): Promise<UserCookieContent | null>;
 }

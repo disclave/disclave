@@ -1,20 +1,20 @@
-import { AuthProvider, DecodedIdToken, UserCookieContent } from "./index";
+import { AuthProvider } from "./index";
 import { auth } from "../firebase";
 import { injectable } from "inversify";
 import cookie from "cookie";
 
 @injectable()
 export class FirebaseAuthProvider implements AuthProvider {
-  async verifyIdToken(
-    idToken: string,
-    checkIfRevoked: boolean
-  ): Promise<DecodedIdToken> {
-    const token = await auth().verifyIdToken(idToken, checkIfRevoked);
-
-    return {
-      uid: token.uid,
-    };
-  }
+  // async verifyIdToken(
+  //   idToken: string,
+  //   checkIfRevoked: boolean
+  // ): Promise<DecodedIdToken> {
+  //   const token = await auth().verifyIdToken(idToken, checkIfRevoked);
+  //
+  //   return {
+  //     uid: token.uid,
+  //   };
+  // }
 
   async createSessionCookie(idToken: string): Promise<string> {
     // Set session expiration to 7 days.
@@ -23,6 +23,7 @@ export class FirebaseAuthProvider implements AuthProvider {
     const sessionCookie = await auth().createSessionCookie(idToken, {
       expiresIn,
     });
+    // TODO: maybe move to cookies/index.ts file?
     const options = {
       maxAge: expiresIn,
       httpOnly: true,
@@ -30,21 +31,22 @@ export class FirebaseAuthProvider implements AuthProvider {
       path: "/",
       sameSite: "none" as boolean | "none" | "lax" | "strict",
     };
+    // TODO: rename cookie?
     return cookie.serialize("session", sessionCookie, options);
   }
 
-  async getUserCookieContent(
-    idToken: string | null
-  ): Promise<UserCookieContent | null> {
-    if (!idToken) return null;
-
-    try {
-      const data = await this.verifyIdToken(idToken, false);
-      return {
-        uid: data.uid,
-      };
-    } catch {
-      return null;
-    }
-  }
+  // async getUserCookieContent(
+  //   idToken: string | null
+  // ): Promise<UserCookieContent | null> {
+  //   if (!idToken) return null;
+  //
+  //   try {
+  //     const data = await this.verifyIdToken(idToken, false);
+  //     return {
+  //       uid: data.uid,
+  //     };
+  //   } catch {
+  //     return null;
+  //   }
+  // }
 }
