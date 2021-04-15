@@ -11,5 +11,17 @@ export const authResolvers = {
       setUserCookie(cookieContent, res);
       return true;
     },
+
+    login: async (_, args, { res }) => {
+      const sessionCookie = await authProvider.createSessionCookie(
+        args.idToken
+      );
+      res.setHeader("Set-Cookie", sessionCookie);
+      return true;
+    },
+
+    logout: async () => {
+      // TODO:
+    },
   },
 };

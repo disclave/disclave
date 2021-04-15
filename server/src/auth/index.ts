@@ -15,6 +15,8 @@ export abstract class AuthProvider {
     checkIfRevoked: boolean
   ): Promise<DecodedIdToken>;
 
+  abstract createSessionCookie(idToken: string): Promise<string>;
+
   abstract getUserCookieContent(
     idToken: IdToken | null
   ): Promise<UserCookieContent | null>;
