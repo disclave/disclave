@@ -1,9 +1,11 @@
 import { onAuthStateChanged } from "../../auth";
-import { updateUserCookie } from "./client";
+import { updateUserCookie, login } from "./client";
 
 export const enableUserCookieUpdates = () => {
-  onAuthStateChanged(async () => {
+  onAuthStateChanged(async (user) => {
     await updateUserCookie();
+    const idToken = await user.getIdToken();
+    await login(idToken);
   });
 };
 

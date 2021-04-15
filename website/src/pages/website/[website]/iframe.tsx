@@ -60,10 +60,10 @@ const Index: React.FC<IFrameProps> = (props) => {
 
     const eventListener = (ev: MessageEvent) => {
       console.log(ev);
-      const data = JSON.parse(ev.data);
-      if (data.type == 'LOGIN') {
-        loginGql(data.content.idToken);
-      }
+      // const data = JSON.parse(ev.data);
+      // if (data.type == 'LOGIN') {
+      //   loginGql(data.content.idToken);
+      // }
     };
 
     window.addEventListener('message', eventListener, false);
