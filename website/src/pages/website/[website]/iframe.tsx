@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 import { PageCommentsContainer } from '@disclave/ui';
@@ -42,6 +42,10 @@ const Index: React.FC<IFrameProps> = (props) => {
 
   const router = useRouter();
   const website = router.query.website as string;
+
+  useEffect(() => {
+    localStorage.setItem('websiteId', website);
+  }, []);
 
   const { comments, addComment, voteDown, voteUp, voteRemove } = useWebsiteComments(
     props.comments,
