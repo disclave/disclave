@@ -1,33 +1,20 @@
 import { initFirebaseApp } from "./firebase";
 import { initApolloClient } from "./graphql";
-import { enableUserCookieUpdates } from "./modules/auth";
 
-export const init = (
-  firebaseOptions: Object,
-  graphqlUri: string,
-  autoUpdateUserCookie: boolean
-) => {
+export const init = (firebaseOptions: Object, graphqlUri: string) => {
   initFirebaseApp(firebaseOptions);
   initApolloClient(graphqlUri);
-
-  if (autoUpdateUserCookie) enableUserCookieUpdates();
 };
 
 export { analytics } from "./firebase";
 
 export {
-  login,
+  loginEmailPass,
   logout,
-  register,
-  applyActionCode,
+  registerEmailPass,
   loginWithGoogle,
   loginWithFacebook,
-  currentUser,
-  onAuthStateChanged,
-  useSession,
-} from "./auth";
-
-export { login as loginGql } from "./modules/auth";
+} from "./modules/auth";
 
 export { isUrl, stringToUrl, encodeUrl } from "./modules/url";
 
