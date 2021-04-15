@@ -40,19 +40,4 @@ export class FirebaseAuthProvider implements AuthProvider {
     // TODO: rename cookie?
     return cookie.serialize("session", sessionCookie, options);
   }
-
-  // async getUserCookieContent(
-  //   idToken: string | null
-  // ): Promise<UserCookieContent | null> {
-  //   if (!idToken) return null;
-  //
-  //   try {
-  //     const data = await this.verifyIdToken(idToken, false);
-  //     return {
-  //       uid: data.uid,
-  //     };
-  //   } catch {
-  //     return null;
-  //   }
-  // }
 }
