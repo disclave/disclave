@@ -1,8 +1,9 @@
 export type UserId = string;
-export type IdToken = string;
 
 export interface DecodedIdToken {
   uid: UserId;
+  email: string;
+  emailVerified: boolean;
 }
 
 export interface UserCookieContent {
@@ -10,10 +11,10 @@ export interface UserCookieContent {
 }
 
 export abstract class AuthProvider {
-  // abstract verifyIdToken(
-  //   idToken: IdToken,
-  //   checkIfRevoked: boolean
-  // ): Promise<DecodedIdToken>;
+  abstract verifySessionCookie(
+    sessionCookie: string,
+    checkIfRevoked: boolean
+  ): Promise<DecodedIdToken>;
 
   abstract createSessionCookie(idToken: string): Promise<string>;
 
