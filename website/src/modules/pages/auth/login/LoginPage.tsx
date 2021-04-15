@@ -1,5 +1,12 @@
 import React, { useEffect } from 'react';
-import { login, loginWithFacebook, loginWithGoogle, logout, useSession } from '@disclave/client';
+import {
+  currentUser,
+  login,
+  loginWithFacebook,
+  loginWithGoogle,
+  logout,
+  useSession
+} from '@disclave/client';
 import { useRouter } from 'next/router';
 import { redirectParamsToUrl, routerQueryToRedirectParams } from '@/modules/redirect';
 import { registerHref } from '@/pages/auth/register';
@@ -23,6 +30,8 @@ export const LoginPage: React.VFC = () => {
   };
 
   useEffect(() => {
+    console.log('window.opener', window.opener);
+
     if (partialProfile == null) return;
 
     const checkRedirects = async () => {
@@ -32,7 +41,15 @@ export const LoginPage: React.VFC = () => {
       }
 
       if (redirectUrl) await router.push(redirectUrl);
-      else if (window.opener) window.close();
+      else if (window.opener) {
+        // TODO: validate window opener origin
+        console.log('window.opener', window.opener);
+        const idToken = await currentUser().getIdToken();
+        // TODO: change origin
+        window.opener.postMessage(JSON.stringify({ type: 'LOGIN', content: { idToken } }), '*');
+
+        window.close();
+      }
     };
 
     checkRedirects();

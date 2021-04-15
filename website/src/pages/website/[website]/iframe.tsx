@@ -1,9 +1,9 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 import { PageCommentsContainer } from '@disclave/ui';
 import { loginHref } from '@/pages/auth/login';
-import { CommentModel, logout, useSession } from '@disclave/client';
+import { CommentModel, loginGql, logout, useSession } from '@disclave/client';
 import { registerHref } from '@/pages/auth/register';
 import { useWebsiteComments } from '@/modules/comments';
 import { getCommentService, getUserCookie } from '@disclave/server';
@@ -51,6 +51,26 @@ const Index: React.FC<IFrameProps> = (props) => {
 
   const loginHrefWithRedirect = loginHref();
   const registerHrefWithRedirect = registerHref();
+
+  useEffect(() => {
+    if (!window) {
+      console.error('Window not available. Can not initialize message listener.');
+      return;
+    }
+
+    const eventListener = (ev: MessageEvent) => {
+      console.log(ev);
+      const data = JSON.parse(ev.data);
+      if (data.type == 'LOGIN') {
+        loginGql(data.content.idToken);
+      }
+    };
+
+    window.addEventListener('message', eventListener, false);
+    return () => {
+      window.removeEventListener('message', eventListener);
+    };
+  }, []);
 
   return (
     <div ref={containerRef} className="w-full p-3">

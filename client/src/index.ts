@@ -27,6 +27,8 @@ export {
   useSession,
 } from "./auth";
 
+export { login as loginGql } from "./modules/auth";
+
 export { isUrl, stringToUrl, encodeUrl } from "./modules/url";
 
 export {
