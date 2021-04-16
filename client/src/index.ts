@@ -1,8 +1,8 @@
 import { initFirebaseApp } from "./firebase";
 import { initApolloClient } from "./graphql";
 
-export const init = (firebaseOptions: Object, graphqlUri: string) => {
-  initFirebaseApp(firebaseOptions);
+export const init = async (firebaseOptions: Object, graphqlUri: string) => {
+  await initFirebaseApp(firebaseOptions);
   initApolloClient(graphqlUri);
 };
 
