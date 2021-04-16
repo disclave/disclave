@@ -7,34 +7,41 @@ import {
   UserCredential,
 } from "../../firebase";
 import { login } from "./client";
+import { SessionModel } from "./models/SessionModel";
 
-export const loginEmailPass = async (email: string, password: string) => {
+export const loginEmailPass = async (
+  email: string,
+  password: string
+): Promise<SessionModel> => {
   const userCredential = await auth().signInWithEmailAndPassword(
     email,
     password
   );
-  await authorizeWithServer(userCredential);
+  return await authorizeWithServer(userCredential);
 };
 
-export const loginWithGoogle = async (emailRedirectUrl?: string) => {
-  await signInWithPopup(new GoogleAuthProvider(), emailRedirectUrl);
+export const loginWithGoogle = async (
+  emailRedirectUrl?: string
+): Promise<SessionModel> => {
+  return await signInWithPopup(new GoogleAuthProvider(), emailRedirectUrl);
 };
-export const loginWithFacebook = async (emailRedirectUrl?: string) => {
-  await signInWithPopup(new FacebookAuthProvider(), emailRedirectUrl);
+export const loginWithFacebook = async (
+  emailRedirectUrl?: string
+): Promise<SessionModel> => {
+  return await signInWithPopup(new FacebookAuthProvider(), emailRedirectUrl);
 };
 
 export const registerEmailPass = async (
   email: string,
   password: string,
   emailRedirectUrl?: string
-) => {
+): Promise<SessionModel> => {
   const userCredential = await auth().createUserWithEmailAndPassword(
     email,
     password
   );
   await sendVerificationEmail(userCredential.user, emailRedirectUrl);
-  // TODO: authorize with server in here or after email confirmation?
-  // TODO: and what if email already verified?
+  return await authorizeWithServer(userCredential);
 };
 
 // TODO: verify this
@@ -47,22 +54,21 @@ export const registerEmailPass = async (
 const signInWithPopup = async (
   provider: AuthProvider,
   emailRedirectUrl?: string
-) => {
+): Promise<SessionModel> => {
   const userCredential = await auth().signInWithPopup(provider);
   await sendVerificationEmail(userCredential.user, emailRedirectUrl);
-  // TODO: authorize with server in here or after email confirmation?
-  // TODO: and what if email already verified?
+  return await authorizeWithServer(userCredential);
 };
 
-const authorizeWithServer = async (userCredential: UserCredential) => {
+const authorizeWithServer = async (
+  userCredential: UserCredential
+): Promise<SessionModel> => {
   const idToken = await userCredential.user.getIdToken();
-
   // TODO: use csrfToken with this request
-  // TODO: should return user profile - fetch it and return from this function
-  await login(idToken);
-
+  const session = await login(idToken);
   // clear firebase storage - from now use the cookie
   await auth().signOut();
+  return session;
 };
 
 const sendVerificationEmail = async (user: User, emailRedirectUrl?: string) => {
