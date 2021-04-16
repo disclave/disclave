@@ -8,7 +8,6 @@ export interface WebsiteCommentsProps {
   comments: Array<CommentModel>;
   loginHref: string;
   registerHref: string;
-  serverSideUid: string | null;
 }
 
 export const WebsiteComments: React.VFC<WebsiteCommentsProps> = (props) => {
@@ -17,8 +16,7 @@ export const WebsiteComments: React.VFC<WebsiteCommentsProps> = (props) => {
   const website = props.website;
   const { comments, addComment, voteDown, voteUp, voteRemove } = useWebsiteComments(
     props.comments,
-    website,
-    props.serverSideUid
+    website
   );
 
   return (

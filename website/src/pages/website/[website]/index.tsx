@@ -1,8 +1,14 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
-import { CommentModel, CommentUrlMeta, encodeUrl } from '@disclave/client';
-import { getCommentService, getUserCookie } from '@disclave/server';
+import {
+  CommentModel,
+  CommentUrlMeta,
+  encodeUrl,
+  SessionModel,
+  SessionProvider
+} from '@disclave/client';
+import { getAuthProvider, getCommentService, getSessionCookie } from '@disclave/server';
 import { WebsitePage } from '@/modules/pages/website';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { initServer } from '@/modules/server';
@@ -17,10 +23,13 @@ export const getServerSideProps: GetServerSideProps<WebsiteProps> = async (conte
   await initServer();
   const { website } = context.query;
 
-  const userCookie = getUserCookie(context.req);
+  const authProvider = getAuthProvider();
   const service = getCommentService();
 
-  const commentsPromise = service.getComments(website as string, userCookie?.uid);
+  const sessionCookie = getSessionCookie(context.req);
+  const session = await authProvider.getSession(sessionCookie);
+
+  const commentsPromise = service.getComments(website as string, session?.uid);
   const translationsPromise = serverSideTranslations(context.locale, [
     'common',
     'layout',
@@ -30,7 +39,7 @@ export const getServerSideProps: GetServerSideProps<WebsiteProps> = async (conte
   return {
     props: {
       comments: await commentsPromise,
-      serverSideUid: userCookie?.uid || null,
+      session: session,
       ...(await translationsPromise)
     }
   };
@@ -38,7 +47,7 @@ export const getServerSideProps: GetServerSideProps<WebsiteProps> = async (conte
 
 interface WebsiteProps {
   comments: Array<CommentModel>;
-  serverSideUid: string | null;
+  session: SessionModel | null;
 }
 
 const Website: React.FC<WebsiteProps> = (props) => {
@@ -46,7 +55,9 @@ const Website: React.FC<WebsiteProps> = (props) => {
   const website = router.query.website as string;
 
   return (
-    <WebsitePage website={website} comments={props.comments} serverSideUid={props.serverSideUid} />
+    <SessionProvider savedSession={props.session}>
+      <WebsitePage website={website} comments={props.comments} />
+    </SessionProvider>
   );
 };
 export default Website;

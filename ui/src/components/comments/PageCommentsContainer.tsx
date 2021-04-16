@@ -14,7 +14,7 @@ export interface PageCommentsContainerProps {
   inputTop?: boolean;
   loginHref: string;
   registerHref: string;
-  userProfile?: UserProfileModel;
+  userProfile: UserProfileModel | null;
   onSubmit: (text: string) => Promise<void>;
   onLogout: () => Promise<void>;
   commentsActionsHandler: CommentActionsHandler;

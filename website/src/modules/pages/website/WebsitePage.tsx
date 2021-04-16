@@ -10,10 +10,9 @@ import { registerHref } from '@/pages/auth/register';
 export interface WebsitePageProps {
   website: string;
   comments: Array<CommentModel>;
-  serverSideUid: string | null;
 }
 
-export const WebsitePage: React.VFC<WebsitePageProps> = ({ website, comments, serverSideUid }) => {
+export const WebsitePage: React.VFC<WebsitePageProps> = ({ website, comments }) => {
   const loginHrefWithRedirect = loginHref(websiteHrefRaw, website);
   const registerHrefWithRedirect = registerHref(websiteHrefRaw, website);
 
@@ -26,7 +25,6 @@ export const WebsitePage: React.VFC<WebsitePageProps> = ({ website, comments, se
           comments={comments}
           loginHref={loginHrefWithRedirect}
           registerHref={registerHrefWithRedirect}
-          serverSideUid={serverSideUid}
         />
       </div>
     </Layout>
