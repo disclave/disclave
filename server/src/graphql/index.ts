@@ -7,6 +7,7 @@ import { commentsResolvers } from "../comments/Resolvers";
 import { usersTypeDefs } from "../users/Schemas";
 import { usersResolvers } from "../users/Resolvers";
 import cookie from "cookie";
+import { getSessionCookie } from "../cookies";
 
 // TODO: verify cors
 const cors = Cors({
@@ -31,14 +32,6 @@ const baseTypes = gql`
     _: String
   }
 `;
-
-const getSessionCookie = (req: any): string | null => {
-  const parsed = cookie.parse(req.headers?.cookie || "");
-  const sessionCookie = parsed.session;
-  if (!sessionCookie) return null;
-
-  return sessionCookie;
-};
 
 const apolloServer = new ApolloServer({
   typeDefs: [baseTypes, authTypeDefs, commentsTypeDefs, usersTypeDefs],
