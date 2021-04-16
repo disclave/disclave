@@ -1,6 +1,6 @@
 import { client, runQuery } from "../../graphql";
 import { GET_SESSION, LOGIN, LOGOUT } from "./schemas";
-import { SessionModel } from "./models/SessionModel";
+import { SessionModel } from "./models";
 import { CommentModel } from "../comments";
 
 export const getSession = async (
