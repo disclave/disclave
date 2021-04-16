@@ -1,6 +1,11 @@
 import React from "react";
 import { SessionModel } from "../models";
 
-export const SessionContext = React.createContext<SessionModel | null>(
+type SessionContextData = {
+  session?: SessionModel | null;
+  logout: () => Promise<void>;
+};
+
+export const SessionContext = React.createContext<SessionContextData>(
   undefined
 );

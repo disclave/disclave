@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { SessionContext } from "./SessionContext";
 import { SessionModel } from "../models";
-import { getSession } from "../client";
+import { getSession, logout } from "../client";
 
 export interface SessionProviderProps {
   savedSession?: SessionModel | null;
@@ -18,14 +18,24 @@ export const SessionProvider: React.FC<SessionProviderProps> = ({
     setSession(result);
   };
 
+  const onLogout = async () => {
+    await logout();
+    setSession(null);
+  };
+
   useEffect(() => {
     if (savedSession != undefined) return;
 
     fetchSession();
   }, []);
 
+  const sessionContextData = {
+    session: session,
+    logout: onLogout,
+  };
+
   return (
-    <SessionContext.Provider value={session}>
+    <SessionContext.Provider value={sessionContextData}>
       {children}
     </SessionContext.Provider>
   );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { logout, UserProfileModel } from '@disclave/client';
+import { UserProfileModel, useSession } from '@disclave/client';
 import { UserSelfAvatar } from '@disclave/ui';
 
 export interface AuthenticatedProps {
@@ -7,5 +7,7 @@ export interface AuthenticatedProps {
 }
 
 export const Authenticated: React.VFC<AuthenticatedProps> = ({ userProfile }) => {
+  const { logout } = useSession();
+
   return <UserSelfAvatar userProfile={userProfile} onLogout={logout} left />;
 };
