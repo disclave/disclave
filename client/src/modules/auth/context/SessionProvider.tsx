@@ -10,15 +10,8 @@ import {
   loginWithGoogle,
 } from "../../auth";
 
-export interface SessionProviderProps {
-  savedSession?: SessionModel | null;
-}
-
-export const SessionProvider: React.FC<SessionProviderProps> = ({
-  savedSession,
-  children,
-}) => {
-  const [session, setSession] = useState<SessionModel | null>(savedSession);
+export const SessionProvider: React.FC = ({ children }) => {
+  const [session, setSession] = useState<SessionModel | null>();
 
   const fetchSession = async () => {
     const result = await getSession(false);
@@ -55,13 +48,14 @@ export const SessionProvider: React.FC<SessionProviderProps> = ({
   };
 
   useEffect(() => {
-    if (savedSession != undefined) return;
+    if (session != undefined) return;
 
     fetchSession();
   }, []);
 
   const sessionContextData = {
     session: session,
+    setSession: setSession,
     loginEmailPass: onLoginEmailPass,
     loginWithGoogle: onLoginWithGoogle,
     loginWithFacebook: onLoginWithFacebook,

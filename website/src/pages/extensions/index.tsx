@@ -1,16 +1,11 @@
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import React from 'react';
 import { ExtensionsPage } from '@/modules/pages/extensions';
-import { SessionProvider } from '@disclave/client';
 
 export const extensionsHref = () => '/extensions';
 
 const Extensions: React.VFC = () => {
-  return (
-    <SessionProvider>
-      <ExtensionsPage />
-    </SessionProvider>
-  );
+  return <ExtensionsPage />;
 };
 export default Extensions;
 

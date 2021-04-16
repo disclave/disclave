@@ -1,17 +1,20 @@
 import React from "react";
 import { SessionModel } from "../models";
 
-type LoginEmailPass = (email: string, password: string) => Promise<void>;
-type LoginWithGoogle = (emailRedirectUrl?: string) => Promise<void>;
-type LoginWithFacebook = (emailRedirectUrl?: string) => Promise<void>;
-type RegisterEmailPass = (
+export type SetSession = (session: SessionModel | null) => void;
+export type LoginEmailPass = (email: string, password: string) => Promise<void>;
+export type LoginWithGoogle = (emailRedirectUrl?: string) => Promise<void>;
+export type LoginWithFacebook = (emailRedirectUrl?: string) => Promise<void>;
+export type RegisterEmailPass = (
   email: string,
   password: string,
   emailRedirectUrl?: string
 ) => Promise<void>;
-type Logout = () => Promise<void>;
+export type Logout = () => Promise<void>;
+
 type SessionContextData = {
   session?: SessionModel | null;
+  setSession: SetSession;
   loginEmailPass: LoginEmailPass;
   loginWithGoogle: LoginWithGoogle;
   loginWithFacebook: LoginWithFacebook;

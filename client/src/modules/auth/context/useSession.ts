@@ -1,17 +1,15 @@
 import { useContext } from "react";
-import { SessionContext } from "./SessionContext";
+import {
+  LoginEmailPass,
+  LoginWithFacebook,
+  LoginWithGoogle,
+  Logout,
+  RegisterEmailPass,
+  SessionContext,
+  SetSession,
+} from "./SessionContext";
 import { SessionModel } from "../models";
 import { UserProfileModel } from "../../users";
-
-type LoginEmailPass = (email: string, password: string) => Promise<void>;
-type LoginWithGoogle = (emailRedirectUrl?: string) => Promise<void>;
-type LoginWithFacebook = (emailRedirectUrl?: string) => Promise<void>;
-type RegisterEmailPass = (
-  email: string,
-  password: string,
-  emailRedirectUrl?: string
-) => Promise<void>;
-type Logout = () => Promise<void>;
 
 type Actions = {
   loginEmailPass: LoginEmailPass;
@@ -25,12 +23,14 @@ type UseSession = {
   isLoading: boolean;
   profile: UserProfileModel | null;
   session: SessionModel | null;
+  setSession: SetSession;
   actions: Actions;
 };
 
-export const useSession = (): UseSession => {
+export const useSession = (savedSession?: SessionModel | null): UseSession => {
   const {
     session,
+    setSession,
     logout,
     loginEmailPass,
     registerEmailPass,
@@ -38,10 +38,14 @@ export const useSession = (): UseSession => {
     loginWithFacebook,
   } = useContext(SessionContext);
 
+  if (savedSession != undefined)
+    setSession(savedSession);
+
   return {
     isLoading: session == undefined,
     profile: session ? session.profile : null,
     session: session ?? null,
+    setSession: setSession,
     actions: {
       loginEmailPass,
       logout,

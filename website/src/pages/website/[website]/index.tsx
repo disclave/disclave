@@ -5,7 +5,7 @@ import {
   CommentUrlMeta,
   encodeUrl,
   SessionModel,
-  SessionProvider
+  useSession
 } from '@disclave/client';
 import { getAuthProvider, getCommentService, getSessionCookie } from '@disclave/server';
 import { WebsitePage } from '@/modules/pages/website';
@@ -52,10 +52,7 @@ interface WebsiteProps {
 }
 
 const Website: React.FC<WebsiteProps> = (props) => {
-  return (
-    <SessionProvider savedSession={props.session}>
-      <WebsitePage website={props.website} comments={props.comments} />
-    </SessionProvider>
-  );
+  useSession(props.session);
+  return <WebsitePage website={props.website} comments={props.comments} />;
 };
 export default Website;

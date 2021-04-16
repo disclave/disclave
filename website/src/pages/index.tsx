@@ -3,10 +3,9 @@ import { HomePage } from '@/modules/pages/home';
 import { GetServerSideProps } from 'next';
 import { initServer } from '@/modules/server';
 import { getAuthProvider, getCommentService } from '@disclave/server';
-import { CommentModel, SessionModel } from '@disclave/client';
+import { CommentModel, SessionModel, useSession } from '@disclave/client';
 import React from 'react';
 import { getSessionCookie } from '@disclave/server';
-import { SessionProvider } from '@disclave/client';
 
 export const homeHref = () => '/';
 
@@ -48,10 +47,8 @@ interface HomeProps {
 }
 
 const Home: React.VFC<HomeProps> = (props) => {
-  return (
-    <SessionProvider savedSession={props.session}>
-      <HomePage topComments={props.topComments} latestComments={props.latestComments} />
-    </SessionProvider>
-  );
+  useSession(props.session);
+
+  return <HomePage topComments={props.topComments} latestComments={props.latestComments} />;
 };
 export default Home;

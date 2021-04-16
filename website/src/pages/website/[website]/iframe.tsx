@@ -1,6 +1,6 @@
 import React from 'react';
 import { GetServerSideProps } from 'next';
-import { CommentModel, SessionModel, SessionProvider } from '@disclave/client';
+import { CommentModel, SessionModel, useSession } from '@disclave/client';
 import { getAuthProvider, getCommentService, getSessionCookie } from '@disclave/server';
 import { initServer } from '@/modules/server';
 import { WebsiteIframePage } from '@/modules/pages/website/iframe';
@@ -35,6 +35,8 @@ interface IFrameProps {
 }
 
 const Index: React.FC<IFrameProps> = (props) => {
+  useSession(props.session);
+
   // useEffect(() => {
   //   if (!window) {
   //     console.error('Window not available. Can not initialize message listener.');
@@ -55,10 +57,6 @@ const Index: React.FC<IFrameProps> = (props) => {
   //   };
   // }, []);
 
-  return (
-    <SessionProvider savedSession={props.session}>
-      <WebsiteIframePage website={props.website} comments={props.comments} />
-    </SessionProvider>
-  );
+  return <WebsiteIframePage website={props.website} comments={props.comments} />;
 };
 export default Index;

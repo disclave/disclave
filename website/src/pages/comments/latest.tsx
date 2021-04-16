@@ -2,7 +2,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { GetServerSideProps } from 'next';
 import { initServer } from '@/modules/server';
 import { getAuthProvider, getCommentService, getSessionCookie } from '@disclave/server';
-import { CommentModel, SessionModel, SessionProvider } from '@disclave/client';
+import { CommentModel, SessionModel, useSession } from '@disclave/client';
 import React from 'react';
 import { LatestCommentsPage } from '@/modules/pages/comments/latest';
 
@@ -42,10 +42,8 @@ interface LatestCommentsProps {
 }
 
 const LatestComments: React.VFC<LatestCommentsProps> = (props) => {
-  return (
-    <SessionProvider savedSession={props.session}>
-      <LatestCommentsPage comments={props.comments} />
-    </SessionProvider>
-  );
+  useSession(props.session);
+
+  return <LatestCommentsPage comments={props.comments} />;
 };
 export default LatestComments;
