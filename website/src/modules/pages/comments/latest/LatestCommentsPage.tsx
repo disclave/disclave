@@ -8,20 +8,12 @@ import { useTranslation } from 'next-i18next';
 
 export interface LatestCommentsPageProps {
   comments: Array<CommentModel>;
-  commentsLimit: number;
-  minVoteSum: number;
-  serverSideUid: string | null;
 }
 
 export const LatestCommentsPage: React.VFC<LatestCommentsPageProps> = (props) => {
   const { t } = useTranslation('comments');
   const { profile } = useSession();
-  const { comments, voteDown, voteUp, voteRemove } = useLatestComments(
-    props.comments,
-    props.minVoteSum,
-    props.commentsLimit,
-    props.serverSideUid
-  );
+  const { comments, voteDown, voteUp, voteRemove } = useLatestComments(props.comments);
 
   return (
     <Layout>

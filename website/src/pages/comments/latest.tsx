@@ -1,8 +1,8 @@
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { GetServerSideProps } from 'next';
 import { initServer } from '@/modules/server';
-import { getCommentService, getUserCookie } from '@disclave/server';
-import { CommentModel } from '@disclave/client';
+import { getAuthProvider, getCommentService, getSessionCookie } from '@disclave/server';
+import { CommentModel, SessionModel, SessionProvider } from '@disclave/client';
 import React from 'react';
 import { LatestCommentsPage } from '@/modules/pages/comments/latest';
 
@@ -11,13 +11,16 @@ export const latestCommentsHref = () => '/comments/latest';
 export const getServerSideProps: GetServerSideProps<LatestCommentsProps> = async (context) => {
   await initServer();
 
-  const userCookie = getUserCookie(context.req);
+  const authProvider = getAuthProvider();
   const service = getCommentService();
+
+  const sessionCookie = getSessionCookie(context.req);
+  const session = await authProvider.getSession(sessionCookie);
 
   const minVoteSum = 1;
   const commentsLimit = 0;
 
-  const topCommentsPromise = service.getLatestComments(minVoteSum, commentsLimit, userCookie?.uid);
+  const topCommentsPromise = service.getLatestComments(minVoteSum, commentsLimit, session?.uid);
   const translationsPromise = serverSideTranslations(context.locale, [
     'comments',
     'common',
@@ -27,9 +30,7 @@ export const getServerSideProps: GetServerSideProps<LatestCommentsProps> = async
   return {
     props: {
       comments: await topCommentsPromise,
-      commentsLimit: commentsLimit,
-      minVoteSum: minVoteSum,
-      serverSideUid: userCookie?.uid || null,
+      session: session,
       ...(await translationsPromise)
     }
   };
@@ -37,19 +38,14 @@ export const getServerSideProps: GetServerSideProps<LatestCommentsProps> = async
 
 interface LatestCommentsProps {
   comments: Array<CommentModel>;
-  commentsLimit: number;
-  minVoteSum: number;
-  serverSideUid: string | null;
+  session: SessionModel | null;
 }
 
 const LatestComments: React.VFC<LatestCommentsProps> = (props) => {
   return (
-    <LatestCommentsPage
-      comments={props.comments}
-      commentsLimit={props.commentsLimit}
-      minVoteSum={props.minVoteSum}
-      serverSideUid={props.serverSideUid}
-    />
+    <SessionProvider savedSession={props.session}>
+      <LatestCommentsPage comments={props.comments} />
+    </SessionProvider>
   );
 };
 export default LatestComments;
