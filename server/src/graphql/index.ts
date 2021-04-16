@@ -6,7 +6,9 @@ import { commentsTypeDefs } from "../comments/Schemas";
 import { commentsResolvers } from "../comments/Resolvers";
 import { usersTypeDefs } from "../users/Schemas";
 import { usersResolvers } from "../users/Resolvers";
+import cookie from "cookie";
 
+// TODO: verify cors
 const cors = Cors({
   allowMethods: ["POST", "GET", "OPTIONS"],
   allowHeaders: [
@@ -30,23 +32,24 @@ const baseTypes = gql`
   }
 `;
 
-const getIdToken = (req: any): string | null => {
-  const authorization = req?.headers?.authorization || null;
-  if (authorization && authorization.startsWith("Bearer "))
-    return authorization.replace("Bearer ", "");
-  return null;
+const getSessionCookie = (req: any): string | null => {
+  const parsed = cookie.parse(req.headers?.cookie || "");
+  const sessionCookie = parsed.session;
+  if (!sessionCookie) return null;
+
+  return sessionCookie;
 };
 
 const apolloServer = new ApolloServer({
   typeDefs: [baseTypes, authTypeDefs, commentsTypeDefs, usersTypeDefs],
   resolvers: [authResolvers, commentsResolvers, usersResolvers],
   context: ({ req, res }) => {
-    const idToken = getIdToken(req);
+    const sessionCookie = getSessionCookie(req);
 
     return {
       req,
       res,
-      idToken,
+      sessionCookie,
     };
   },
 });
