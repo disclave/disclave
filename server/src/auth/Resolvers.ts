@@ -1,7 +1,7 @@
 import { container } from "../inversify.config";
 import { AuthProvider } from "./index";
 import { Session } from "./Session";
-import { buildExpiredSessionCookie } from "../cookies";
+import { buildExpiredSessionCookie, buildSessionCookie } from "../cookies";
 
 const authProvider = container.get(AuthProvider);
 
@@ -17,12 +17,13 @@ export const authResolvers = {
   Mutation: {
     login: async (_, args, { res }) => {
       // TODO: validate CSRF?
-      const sessionCookie = await authProvider.createSessionCookie(
+      const { content, expiresIn } = await authProvider.createSessionCookie(
         args.idToken
       );
+      const sessionCookie = buildSessionCookie(content, expiresIn);
       res.setHeader("Set-Cookie", sessionCookie);
 
-      const session = await authProvider.getSession(sessionCookie);
+      const session = await authProvider.getSession(content);
       return sessionToResponse(session);
     },
 

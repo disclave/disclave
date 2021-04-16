@@ -7,7 +7,9 @@ export interface AuthenticatedProps {
 }
 
 export const Authenticated: React.VFC<AuthenticatedProps> = ({ userProfile }) => {
-  const { logout } = useSession();
+  const {
+    actions: { logout }
+  } = useSession();
 
   return <UserSelfAvatar userProfile={userProfile} onLogout={logout} left />;
 };

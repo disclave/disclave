@@ -26,7 +26,9 @@ export class FirebaseAuthProvider implements AuthProvider {
     };
   }
 
-  async createSessionCookie(idToken: string): Promise<string> {
+  async createSessionCookie(
+    idToken: string
+  ): Promise<{ content: string; expiresIn: number }> {
     // Set session expiration to 7 days.
     const expiresIn = 60 * 60 * 24 * 7 * 1000;
 
@@ -35,7 +37,7 @@ export class FirebaseAuthProvider implements AuthProvider {
       expiresIn,
     });
 
-    return buildSessionCookie(sessionCookie, expiresIn);
+    return { content: sessionCookie, expiresIn };
   }
 
   async getSession(sessionCookie: string | null): Promise<Session | null> {
