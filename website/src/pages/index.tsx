@@ -2,27 +2,32 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { HomePage } from '@/modules/pages/home';
 import { GetServerSideProps } from 'next';
 import { initServer } from '@/modules/server';
-import { getCommentService, getUserCookie } from '@disclave/server';
-import { CommentModel } from '@disclave/client';
+import { getAuthProvider, getCommentService } from '@disclave/server';
+import { CommentModel, SessionModel } from '@disclave/client';
 import React from 'react';
+import { getSessionCookie } from '@disclave/server';
+import { SessionProvider } from '@disclave/client';
 
 export const homeHref = () => '/';
 
 export const getServerSideProps: GetServerSideProps<HomeProps> = async (context) => {
   await initServer();
 
-  const userCookie = getUserCookie(context.req);
+  const authProvider = getAuthProvider();
   const service = getCommentService();
+
+  const sessionCookie = getSessionCookie(context.req);
+  const session = await authProvider.getSession(sessionCookie);
 
   const topMinVoteSum = 1;
   const latestMinVoteSum = 1;
   const commentsLimit = 5;
 
-  const topCommentsPromise = service.getTopComments(topMinVoteSum, commentsLimit, userCookie?.uid);
+  const topCommentsPromise = service.getTopComments(topMinVoteSum, commentsLimit, session?.uid);
   const latestCommentsPromise = service.getLatestComments(
     latestMinVoteSum,
     commentsLimit,
-    userCookie?.uid
+    session?.uid
   );
   const translationsPromise = serverSideTranslations(context.locale, ['common', 'home', 'layout']);
 
@@ -33,7 +38,7 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (context)
       topMinVoteSum: topMinVoteSum,
       latestComments: await latestCommentsPromise,
       latestMinVoteSum: latestMinVoteSum,
-      serverSideUid: userCookie?.uid || null,
+      session: session,
       ...(await translationsPromise)
     }
   };
@@ -45,19 +50,20 @@ interface HomeProps {
   topMinVoteSum: number;
   latestComments: Array<CommentModel>;
   latestMinVoteSum: number;
-  serverSideUid: string | null;
+  session: SessionModel | null;
 }
 
 const Home: React.VFC<HomeProps> = (props) => {
   return (
-    <HomePage
-      commentsLimit={props.commentsLimit}
-      topComments={props.topComments}
-      topMinVoteSum={props.topMinVoteSum}
-      latestComments={props.latestComments}
-      latestMinVoteSum={props.latestMinVoteSum}
-      serverSideUid={props.serverSideUid}
-    />
+    <SessionProvider>
+      <HomePage
+        commentsLimit={props.commentsLimit}
+        topComments={props.topComments}
+        topMinVoteSum={props.topMinVoteSum}
+        latestComments={props.latestComments}
+        latestMinVoteSum={props.latestMinVoteSum}
+      />
+    </SessionProvider>
   );
 };
 export default Home;

@@ -46,7 +46,9 @@ export class FirebaseAuthProvider implements AuthProvider {
     return cookie.serialize("session", sessionCookie, options);
   }
 
-  async getSession(sessionCookie: string): Promise<Session> {
+  async getSession(sessionCookie: string | null): Promise<Session | null> {
+    if (!sessionCookie) return null;
+
     const decodedIdToken = await this.verifySessionCookie(sessionCookie, false);
     const userProfile = await this.userService.getProfile(decodedIdToken.uid);
 

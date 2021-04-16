@@ -14,16 +14,17 @@ import { useAnalytics } from '@/modules/analytics';
 
 config.autoAddCss = false;
 
+// TODO: move to useEffect?
+const firebaseConfig = JSON.parse(process.env.FIREBASE_CLIENT_CONFIG);
+const domain = process.env.DOMAIN;
+
+init(firebaseConfig, domain + '/api/graphql');
+
 setAnchorWrapper((props) => (
   <Link href={props.href}>
     <a {...props} />
   </Link>
 ));
-
-const firebaseConfig = JSON.parse(process.env.FIREBASE_CLIENT_CONFIG);
-const domain = process.env.DOMAIN;
-
-init(firebaseConfig, domain + '/api/graphql', true);
 
 const App = ({ Component, pageProps }) => {
   useEffect(() => {
