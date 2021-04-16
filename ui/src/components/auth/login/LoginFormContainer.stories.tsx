@@ -5,7 +5,7 @@ import {
   LoginFormContainerProps,
 } from "./LoginFormContainer";
 import { Story } from "@storybook/react";
-import { ExampleUserProfile } from "@/stories/data/UserProfiles";
+import { ExampleSession } from "@/stories/data/Sessions";
 
 export default {
   title: "Auth/Login/Container",
@@ -18,12 +18,12 @@ const Template: Story<LoginFormContainerProps> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  userProfile: null,
+  session: null,
 };
 
 export const Loading = Template.bind({});
 
 export const Authenticated = Template.bind({});
 Authenticated.args = {
-  userProfile: ExampleUserProfile,
+  session: ExampleSession,
 };

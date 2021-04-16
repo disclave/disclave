@@ -73,6 +73,7 @@ export const RegisterFormContainer: React.VFC<RegisterFormContainerProps> = (
 };
 
 const getState = (loading: boolean, session: SessionModel | null): State => {
+  // TODO: is loading used only when session fetch pending? if yes, maybe remove it and use undefined session?
   if (loading) return State.LOADING;
   else if (!session) return State.SELECT_METHOD;
   else if (!session.emailVerified) return State.EMAIL_VERIFICATION;
