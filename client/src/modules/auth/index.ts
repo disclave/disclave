@@ -1,4 +1,4 @@
-export { logout } from "./client";
+export { getSession, logout } from "./client";
 
 export {
   loginEmailPass,

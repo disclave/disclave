@@ -38,7 +38,7 @@ const sessionToResponse = (session: Session) => {
     emailVerified: session.emailVerified,
     profile: session.profile
       ? {
-          id: session.profile.id,
+          uid: session.profile.id,
           name: session.profile.name,
         }
       : null,
