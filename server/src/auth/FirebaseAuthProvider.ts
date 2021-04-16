@@ -1,9 +1,9 @@
 import { AuthProvider, DecodedIdToken } from "./index";
 import { auth } from "../firebase";
 import { inject, injectable } from "inversify";
-import cookie from "cookie";
 import { Session } from "./Session";
 import { UserService } from "../users";
+import { buildSessionCookie } from "../cookies";
 
 @injectable()
 export class FirebaseAuthProvider implements AuthProvider {
@@ -34,16 +34,8 @@ export class FirebaseAuthProvider implements AuthProvider {
     const sessionCookie = await auth().createSessionCookie(idToken, {
       expiresIn,
     });
-    // TODO: maybe move to cookies/index.ts file?
-    const options = {
-      maxAge: expiresIn,
-      httpOnly: true,
-      secure: true,
-      path: "/",
-      sameSite: "none" as boolean | "none" | "lax" | "strict",
-    };
-    // TODO: rename cookie?
-    return cookie.serialize("session", sessionCookie, options);
+
+    return buildSessionCookie(sessionCookie, expiresIn);
   }
 
   async getSession(sessionCookie: string | null): Promise<Session | null> {

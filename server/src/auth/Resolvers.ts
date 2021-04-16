@@ -1,6 +1,7 @@
 import { container } from "../inversify.config";
 import { AuthProvider } from "./index";
 import { Session } from "./Session";
+import { buildExpiredSessionCookie } from "../cookies";
 
 const authProvider = container.get(AuthProvider);
 
@@ -25,8 +26,10 @@ export const authResolvers = {
       return sessionToResponse(session);
     },
 
-    logout: async () => {
-      // TODO: remove session cookie
+    logout: async (_, args, { res }) => {
+      const sessionCookie = buildExpiredSessionCookie();
+      res.setHeader("Set-Cookie", sessionCookie);
+      return true;
     },
   },
 };
