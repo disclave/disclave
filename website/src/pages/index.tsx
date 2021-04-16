@@ -3,7 +3,7 @@ import { HomePage } from '@/modules/pages/home';
 import { GetServerSideProps } from 'next';
 import { initServer } from '@/modules/server';
 import { getAuthProvider, getCommentService } from '@disclave/server';
-import { CommentModel, SessionModel, useSession } from '@disclave/client';
+import { CommentModel } from '@disclave/client';
 import React from 'react';
 import { getSessionCookie } from '@disclave/server';
 
@@ -43,12 +43,9 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (context)
 interface HomeProps {
   topComments: Array<CommentModel>;
   latestComments: Array<CommentModel>;
-  session: SessionModel | null;
 }
 
 const Home: React.VFC<HomeProps> = (props) => {
-  useSession(props.session);
-
   return <HomePage topComments={props.topComments} latestComments={props.latestComments} />;
 };
 export default Home;

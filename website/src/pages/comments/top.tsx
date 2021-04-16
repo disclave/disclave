@@ -2,7 +2,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { GetServerSideProps } from 'next';
 import { initServer } from '@/modules/server';
 import { getAuthProvider, getCommentService, getSessionCookie } from '@disclave/server';
-import { CommentModel, SessionModel, useSession } from '@disclave/client';
+import { CommentModel } from '@disclave/client';
 import React from 'react';
 import { TopCommentsPage } from '@/modules/pages/comments/top';
 
@@ -38,12 +38,9 @@ export const getServerSideProps: GetServerSideProps<TopCommentsProps> = async (c
 
 interface TopCommentsProps {
   comments: Array<CommentModel>;
-  session: SessionModel | null;
 }
 
 const TopComments: React.VFC<TopCommentsProps> = (props) => {
-  useSession(props.session);
-
   return <TopCommentsPage comments={props.comments} />;
 };
 export default TopComments;

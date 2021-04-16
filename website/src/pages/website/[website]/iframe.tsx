@@ -1,6 +1,6 @@
 import React from 'react';
 import { GetServerSideProps } from 'next';
-import { CommentModel, SessionModel, useSession } from '@disclave/client';
+import { CommentModel } from '@disclave/client';
 import { getAuthProvider, getCommentService, getSessionCookie } from '@disclave/server';
 import { initServer } from '@/modules/server';
 import { WebsiteIframePage } from '@/modules/pages/website/iframe';
@@ -22,8 +22,8 @@ export const getServerSideProps: GetServerSideProps<IFrameProps> = async (contex
   return {
     props: {
       comments,
-      website: website,
-      session: session
+      session: session,
+      website: website
     }
   };
 };
@@ -31,12 +31,9 @@ export const getServerSideProps: GetServerSideProps<IFrameProps> = async (contex
 interface IFrameProps {
   comments: Array<CommentModel>;
   website: string;
-  session: SessionModel | null;
 }
 
 const Index: React.FC<IFrameProps> = (props) => {
-  useSession(props.session);
-
   // useEffect(() => {
   //   if (!window) {
   //     console.error('Window not available. Can not initialize message listener.');

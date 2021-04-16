@@ -27,7 +27,7 @@ type UseSession = {
   actions: Actions;
 };
 
-export const useSession = (savedSession?: SessionModel | null): UseSession => {
+export const useSession = (): UseSession => {
   const {
     session,
     setSession,
@@ -37,9 +37,6 @@ export const useSession = (savedSession?: SessionModel | null): UseSession => {
     loginWithGoogle,
     loginWithFacebook,
   } = useContext(SessionContext);
-
-  if (savedSession != undefined)
-    setSession(savedSession);
 
   return {
     isLoading: session == undefined,

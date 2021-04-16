@@ -10,8 +10,15 @@ import {
   loginWithGoogle,
 } from "../../auth";
 
-export const SessionProvider: React.FC = ({ children }) => {
-  const [session, setSession] = useState<SessionModel | null>();
+export interface SessionProviderProps {
+  savedSession?: SessionModel | null;
+}
+
+export const SessionProvider: React.FC<SessionProviderProps> = ({
+  savedSession,
+  children,
+}) => {
+  const [session, setSession] = useState<SessionModel | null>(savedSession);
 
   const fetchSession = async () => {
     const result = await getSession(false);

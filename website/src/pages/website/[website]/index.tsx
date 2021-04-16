@@ -1,12 +1,6 @@
 import React from 'react';
 import { GetServerSideProps } from 'next';
-import {
-  CommentModel,
-  CommentUrlMeta,
-  encodeUrl,
-  SessionModel,
-  useSession
-} from '@disclave/client';
+import { CommentModel, CommentUrlMeta, encodeUrl } from '@disclave/client';
 import { getAuthProvider, getCommentService, getSessionCookie } from '@disclave/server';
 import { WebsitePage } from '@/modules/pages/website';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -19,6 +13,7 @@ export const websiteHref = (url: string, encoded: boolean = false) =>
 export const websiteHrefRaw = '/website/';
 
 export const getServerSideProps: GetServerSideProps<WebsiteProps> = async (context) => {
+  // TODO: should I still init in here, if there is init in _app?
   await initServer();
   const website = context.query.website as string;
 
@@ -38,8 +33,8 @@ export const getServerSideProps: GetServerSideProps<WebsiteProps> = async (conte
   return {
     props: {
       comments: await commentsPromise,
-      session: session,
       website: website,
+      session: session,
       ...(await translationsPromise)
     }
   };
@@ -48,11 +43,9 @@ export const getServerSideProps: GetServerSideProps<WebsiteProps> = async (conte
 interface WebsiteProps {
   comments: Array<CommentModel>;
   website: string;
-  session: SessionModel | null;
 }
 
 const Website: React.FC<WebsiteProps> = (props) => {
-  useSession(props.session);
   return <WebsitePage website={props.website} comments={props.comments} />;
 };
 export default Website;
