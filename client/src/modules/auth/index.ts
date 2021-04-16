@@ -6,3 +6,7 @@ export {
   loginWithFacebook,
   registerEmailPass,
 } from "./auth";
+
+export { SessionProvider, useSession } from "./context";
+
+export type { SessionModel } from "./models";

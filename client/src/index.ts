@@ -14,7 +14,11 @@ export {
   registerEmailPass,
   loginWithGoogle,
   loginWithFacebook,
+  SessionProvider,
+  useSession,
 } from "./modules/auth";
+
+export type { SessionModel } from "./modules/auth";
 
 export { isUrl, stringToUrl, encodeUrl } from "./modules/url";
 
