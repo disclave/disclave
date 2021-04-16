@@ -65,7 +65,7 @@ const toDbProfile = (uid: UserId, name: string): DbProfile => ({
 });
 
 const cursorDocToEntity = (doc: DbProfile): UserProfileEntity => ({
-  id: doc._id,
+  uid: doc._id,
   name: doc.name,
 });
 

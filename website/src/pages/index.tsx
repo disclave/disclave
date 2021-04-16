@@ -33,11 +33,8 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (context)
 
   return {
     props: {
-      commentsLimit: commentsLimit,
       topComments: await topCommentsPromise,
-      topMinVoteSum: topMinVoteSum,
       latestComments: await latestCommentsPromise,
-      latestMinVoteSum: latestMinVoteSum,
       session: session,
       ...(await translationsPromise)
     }
@@ -45,24 +42,15 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (context)
 };
 
 interface HomeProps {
-  commentsLimit: number;
   topComments: Array<CommentModel>;
-  topMinVoteSum: number;
   latestComments: Array<CommentModel>;
-  latestMinVoteSum: number;
   session: SessionModel | null;
 }
 
 const Home: React.VFC<HomeProps> = (props) => {
   return (
     <SessionProvider savedSession={props.session}>
-      <HomePage
-        commentsLimit={props.commentsLimit}
-        topComments={props.topComments}
-        topMinVoteSum={props.topMinVoteSum}
-        latestComments={props.latestComments}
-        latestMinVoteSum={props.latestMinVoteSum}
-      />
+      <HomePage topComments={props.topComments} latestComments={props.latestComments} />
     </SessionProvider>
   );
 };

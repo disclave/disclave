@@ -121,7 +121,7 @@ describe("Testing CommentService", () => {
     );
     expect(comment.urlMeta.websiteId).toEqual(parsedUrl.websiteId);
     expect(comment.urlMeta.pageId).toEqual(parsedUrl.pageId);
-    expect(comment.author.id).toEqual(UserServiceMock.defaultUserProfile.id);
+    expect(comment.author.id).toEqual(UserServiceMock.defaultUserProfile.uid);
     expect(comment.author.name).toEqual(
       UserServiceMock.defaultUserProfile.name
     );

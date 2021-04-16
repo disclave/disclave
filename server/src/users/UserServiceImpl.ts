@@ -56,7 +56,7 @@ export class UserServiceImpl implements UserService {
 
 const toDomain = (entity: UserProfileEntity): UserProfile => {
   return {
-    id: entity.id,
+    uid: entity.uid,
     name: entity.name,
   };
 };

@@ -31,7 +31,7 @@ export class UserRepositoryMock implements UserRepository<{}> {
     profile: CreateProfileData
   ): Promise<void> {
     UserRepositoryMock.db.set(userId, {
-      id: userId,
+      uid: userId,
       name: profile.name,
     });
   }

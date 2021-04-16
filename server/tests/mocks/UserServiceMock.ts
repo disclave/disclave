@@ -4,7 +4,7 @@ import { injectable } from "inversify";
 @injectable()
 export class UserServiceMock implements UserService {
   public static defaultUserProfile: UserProfile = {
-    id: "mock-user-id",
+    uid: "mock-user-id",
     name: "mock_user_name",
   };
 
@@ -20,6 +20,6 @@ export class UserServiceMock implements UserService {
     idToken: string,
     checkIfRevoked: boolean
   ): Promise<string> {
-    return UserServiceMock.defaultUserProfile.id;
+    return UserServiceMock.defaultUserProfile.uid;
   }
 }

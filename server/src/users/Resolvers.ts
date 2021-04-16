@@ -27,7 +27,7 @@ export const usersResolvers = {
 
 const profileToResponse = (profile: UserProfile) => {
   return {
-    uid: profile.id,
+    uid: profile.uid,
     name: profile.name,
   };
 };

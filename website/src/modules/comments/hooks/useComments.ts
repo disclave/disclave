@@ -1,10 +1,9 @@
-import { useEffect, useState, useRef } from 'react';
+import { useState } from 'react';
 import {
   addCommentVoteDown,
   addCommentVoteUp,
   CommentModel,
-  removeCommentVote,
-  useSession
+  removeCommentVote
 } from '@disclave/client';
 
 type SetComments = (data: Array<CommentModel>) => void;
@@ -19,26 +18,8 @@ type UseComments = {
   voteUp: VoteUp;
 };
 
-export const useComments = (
-  initialState: Array<CommentModel>,
-  getComments: () => Promise<Array<CommentModel>>
-): UseComments => {
+export const useComments = (initialState: Array<CommentModel>): UseComments => {
   const [comments, setComments] = useState(initialState);
-  const { profile, isLoading } = useSession();
-  const prevUid = useRef(profile?.uid);
-
-  const fetchComments = async () => {
-    const result = await getComments();
-    setComments(result);
-  };
-
-  useEffect(() => {
-    if (isLoading) return;
-
-    if (profile?.uid != prevUid.current) fetchComments();
-
-    prevUid.current = profile?.uid;
-  }, [profile?.uid, isLoading]);
 
   const onVoteUp = async (commentId: string) => {
     await addCommentVoteUp(commentId);
