@@ -2,7 +2,7 @@ import { UserProfile } from "./UserProfile";
 import { UserService } from "./index";
 import { UserRepository, UserProfileEntity } from "./db";
 import { inject, injectable } from "inversify";
-import { AuthProvider, IdToken, UserId } from "../auth";
+import { UserId } from "../auth";
 import {
   ProfileAlreadyExists,
   UsernameInvalidCharacters,
@@ -14,27 +14,12 @@ import {
 
 @injectable()
 export class UserServiceImpl implements UserService {
-  @inject(AuthProvider)
-  private auth: AuthProvider;
-
   @inject(UserRepository)
   private repository: UserRepository;
 
-  public async verifyIdToken(
-    idToken: IdToken,
-    checkIfRevoked: boolean = false
-  ): Promise<UserId> {
-    const token = await this.auth.verifyIdToken(idToken, checkIfRevoked);
-    return token.uid;
-  }
-
-  public async createProfile(
-    idToken: IdToken,
-    name: string
-  ): Promise<UserProfile> {
+  public async createProfile(uid: UserId, name: string): Promise<UserProfile> {
     validateUserName(name);
 
-    const uid = await this.verifyIdToken(idToken);
     const user = await this.repository.getUser(uid);
     // TODO: is this check required? can user with disabled account generate the idToken?
     if (user.disabled) throw "User account is disabled";
@@ -62,8 +47,7 @@ export class UserServiceImpl implements UserService {
     return await this.repository.getUserProfile(uid);
   }
 
-  public async getProfile(idToken: IdToken): Promise<UserProfile | null> {
-    const uid = await this.verifyIdToken(idToken);
+  public async getProfile(uid: UserId): Promise<UserProfile | null> {
     const profile = await this.repository.getUserProfile(uid);
     if (profile == null) return null;
     return toDomain(profile);
