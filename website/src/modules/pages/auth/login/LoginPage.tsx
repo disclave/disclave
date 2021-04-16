@@ -1,62 +1,59 @@
-import React, { useEffect } from 'react';
-import {
-  currentUser,
-  login,
-  loginWithFacebook,
-  loginWithGoogle,
-  logout,
-  useSession
-} from '@disclave/client';
+import React from 'react';
+import { useSession } from '@disclave/client';
 import { useRouter } from 'next/router';
-import { redirectParamsToUrl, routerQueryToRedirectParams } from '@/modules/redirect';
+import { routerQueryToRedirectParams } from '@/modules/redirect';
 import { registerHref } from '@/pages/auth/register';
 import { LoginFormContainer } from '@disclave/ui';
 import { Layout } from '@/modules/layout';
 
 export const LoginPage: React.VFC = () => {
-  const { partialProfile, profile, isCompleted } = useSession();
+  const {
+    session,
+    actions: { loginEmailPass, logout, loginWithGoogle, loginWithFacebook }
+  } = useSession();
 
   const router = useRouter();
   const redirectParams = routerQueryToRedirectParams(router.query);
-  const redirectUrl = redirectParamsToUrl(redirectParams);
+  // const redirectUrl = redirectParamsToUrl(redirectParams);
 
   const registerHrefWithRedirect = registerHref(
     redirectParams.redirectPath,
     redirectParams.redirectPathParamToEncode
   );
 
-  const redirectToRegisterPage = async () => {
-    await router.push(registerHrefWithRedirect);
-  };
+  // const redirectToRegisterPage = async () => {
+  //   await router.push(registerHrefWithRedirect);
+  // };
 
-  useEffect(() => {
-    console.log('window.opener', window.opener);
-
-    if (partialProfile == null) return;
-
-    const checkRedirects = async () => {
-      if (!isCompleted) {
-        await redirectToRegisterPage();
-        return;
-      }
-
-      if (redirectUrl) await router.push(redirectUrl);
-      else if (window.opener) {
-        // TODO: validate window opener origin
-        console.log('window.opener', window.opener);
-        const idToken = await currentUser().getIdToken();
-        // TODO: change origin
-        window.opener.postMessage(JSON.stringify({ type: 'LOGIN', content: { idToken } }), '*');
-
-        window.close();
-      }
-    };
-
-    checkRedirects();
-  }, [partialProfile?.uid, isCompleted]);
+  // TODO: validate and restore
+  // useEffect(() => {
+  //   console.log('window.opener', window.opener);
+  //
+  //   if (partialProfile == null) return;
+  //
+  //   const checkRedirects = async () => {
+  //     if (!isCompleted) {
+  //       await redirectToRegisterPage();
+  //       return;
+  //     }
+  //
+  //     if (redirectUrl) await router.push(redirectUrl);
+  //     else if (window.opener) {
+  //       // TODO: validate window opener origin
+  //       console.log('window.opener', window.opener);
+  //       const idToken = await currentUser().getIdToken();
+  //       // TODO: change origin
+  //       window.opener.postMessage(JSON.stringify({ type: 'LOGIN', content: { idToken } }), '*');
+  //
+  //       window.close();
+  //     }
+  //   };
+  //
+  //   checkRedirects();
+  // }, [partialProfile?.uid, isCompleted]);
 
   const onLogin = async (email: string, password: string) => {
-    await login(email, password);
+    await loginEmailPass(email, password);
   };
 
   const onLogout = async () => {
@@ -79,7 +76,7 @@ export const LoginPage: React.VFC = () => {
           onLoginFacebook={onFacebookLogin}
           onLoginGoogle={onGoogleLogin}
           registerHref={registerHrefWithRedirect}
-          userProfile={profile}
+          session={session}
         />
       </section>
     </Layout>
