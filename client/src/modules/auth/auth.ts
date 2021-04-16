@@ -7,7 +7,7 @@ import {
   UserCredential,
 } from "../../firebase";
 import { login } from "./client";
-import { SessionModel } from "./models/SessionModel";
+import { SessionModel } from "./models";
 
 export const loginEmailPass = async (
   email: string,

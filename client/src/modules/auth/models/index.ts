@@ -1,1 +1,1 @@
-export type { SessionModel } from "./UserProfileModel";
+export type { SessionModel } from "./SessionModel";
