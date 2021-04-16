@@ -1,6 +1,8 @@
 import { valuesToParamsArray } from '@/modules/redirect';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { RegisterPage } from '@/modules/pages/auth/register';
+import { SessionProvider } from '@disclave/client';
+import React from 'react';
 
 export const registerHref = (redirectPath?: string, redirectPathParamToEncode?: string): string => {
   let path = '/auth/register';
@@ -12,7 +14,11 @@ export const registerHref = (redirectPath?: string, redirectPathParamToEncode?: 
 };
 
 const Register = () => {
-  return <RegisterPage />;
+  return (
+    <SessionProvider>
+      <RegisterPage />
+    </SessionProvider>
+  );
 };
 export default Register;
 

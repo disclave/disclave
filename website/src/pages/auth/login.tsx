@@ -1,6 +1,8 @@
 import { valuesToParamsArray } from '@/modules/redirect';
 import { LoginPage } from '@/modules/pages/auth/login';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { SessionProvider } from '@disclave/client';
+import React from 'react';
 
 export const loginHref = (redirectPath?: string, redirectPathParamToEncode?: string): string => {
   let path = '/auth/login';
@@ -12,7 +14,11 @@ export const loginHref = (redirectPath?: string, redirectPathParamToEncode?: str
 };
 
 const Login = () => {
-  return <LoginPage />;
+  return (
+    <SessionProvider>
+      <LoginPage />
+    </SessionProvider>
+  );
 };
 export default Login;
 
