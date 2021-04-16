@@ -20,7 +20,8 @@
     "noEmit": true,
     "declaration": true,
     "declarationDir": "dist",
-    "rootDir": "src"
+    "rootDir": "src",
+    "jsx": "react"
   },
   "include": [
     "src"
