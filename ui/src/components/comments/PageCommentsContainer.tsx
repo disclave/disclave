@@ -3,8 +3,7 @@ import { CommentActionsHandler, CommentModel } from "./CommentModel";
 import { PageCommentsList } from "./list";
 import { CommentAddForm } from "./add";
 import { CommentAddAuth } from "./auth";
-import { UserSelfAvatar } from "@/components/auth";
-import { UserProfileModel } from "../auth/UserProfileModel";
+import { UserProfileModel, UserSelfAvatar } from "@/components/auth";
 import classNames from "classnames";
 
 export interface PageCommentsContainerProps {
