@@ -19,18 +19,12 @@ export const CommentsRankingsSection: React.VFC<CommentsRankingsSectionProps> = 
   const { t } = useTranslation(['home', 'common']);
   const { profile } = useSession();
 
-  const top = useTopComments(
-    props.topComments,
-    props.topMinVoteSum,
-    props.commentsLimit,
-    profile?.uid
-  );
+  const top = useTopComments(props.topComments, props.topMinVoteSum, props.commentsLimit);
 
   const latest = useLatestComments(
     props.latestComments,
     props.latestMinVoteSum,
-    props.commentsLimit,
-    profile?.uid
+    props.commentsLimit
   );
 
   const CommentsPreviewList = ({ comments, onVoteUp, onVoteDown, onVoteRemove }) => (

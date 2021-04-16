@@ -21,12 +21,11 @@ type UseComments = {
 
 export const useComments = (
   initialState: Array<CommentModel>,
-  getComments: () => Promise<Array<CommentModel>>,
-  serverSideUid: string | null
+  getComments: () => Promise<Array<CommentModel>>
 ): UseComments => {
   const [comments, setComments] = useState(initialState);
   const { profile, isLoading } = useSession();
-  const prevUid = useRef(serverSideUid);
+  const prevUid = useRef(profile?.uid);
 
   const fetchComments = async () => {
     const result = await getComments();

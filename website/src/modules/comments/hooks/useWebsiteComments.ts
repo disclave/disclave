@@ -15,8 +15,7 @@ type UseWebsiteComments = {
 
 export const useWebsiteComments = (
   initialState: Array<CommentModel>,
-  website: string,
-  serverSideUid: string | null
+  website: string
 ): UseWebsiteComments => {
   const fetchComments = async () => {
     return await getComments(website, true);
@@ -24,8 +23,7 @@ export const useWebsiteComments = (
 
   const { comments, setComments, voteDown, voteRemove, voteUp } = useComments(
     initialState,
-    fetchComments,
-    serverSideUid
+    fetchComments
   );
 
   const addComment: AddComment = async (text: string) => {

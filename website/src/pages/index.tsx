@@ -55,7 +55,7 @@ interface HomeProps {
 
 const Home: React.VFC<HomeProps> = (props) => {
   return (
-    <SessionProvider>
+    <SessionProvider savedSession={props.session}>
       <HomePage
         commentsLimit={props.commentsLimit}
         topComments={props.topComments}
