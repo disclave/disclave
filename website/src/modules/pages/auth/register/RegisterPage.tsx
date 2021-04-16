@@ -1,54 +1,47 @@
-import React, { useEffect } from 'react';
-import {
-  createSelfProfile,
-  loginWithFacebook,
-  loginWithGoogle,
-  logout,
-  register,
-  useSession
-} from '@disclave/client';
+import React from 'react';
+import { useSession } from '@disclave/client';
 import { useRouter } from 'next/router';
-import { redirectParamsToUrl, routerQueryToRedirectParams } from '@/modules/redirect';
+import { routerQueryToRedirectParams } from '@/modules/redirect';
 import { loginHref } from '@/pages/auth/login';
 import { RegisterFormContainer } from '@disclave/ui';
 import { Layout } from '@/modules/layout';
 
 export const RegisterPage: React.VFC = () => {
   const {
-    partialProfile,
     isLoading,
-    isCompleted,
-    updateProfile,
-    sendEmailVerification
+    session,
+    actions: { registerEmailPass, logout, loginWithGoogle, loginWithFacebook }
   } = useSession();
 
   const router = useRouter();
   const redirectParams = routerQueryToRedirectParams(router.query);
-  const redirectUrl = redirectParamsToUrl(redirectParams);
+  // const redirectUrl = redirectParamsToUrl(redirectParams);
 
   const loginHrefWithRedirect = loginHref(
     redirectParams.redirectPath,
     redirectParams.redirectPathParamToEncode
   );
 
-  useEffect(() => {
-    if (!isCompleted) return;
-
-    const checkRedirects = async () => {
-      if (redirectUrl) await router.push(redirectUrl);
-      else if (window.opener) window.close();
-    };
-
-    checkRedirects();
-  }, [isCompleted]);
+  // TODO: verify and resotre
+  // useEffect(() => {
+  //   if (!isCompleted) return;
+  //
+  //   const checkRedirects = async () => {
+  //     if (redirectUrl) await router.push(redirectUrl);
+  //     else if (window.opener) window.close();
+  //   };
+  //
+  //   checkRedirects();
+  // }, [isCompleted]);
 
   const onRegisterEmailPass = async (email: string, password: string) => {
-    await register(email, password, window.location.href);
+    await registerEmailPass(email, password, window.location.href);
   };
 
   const onCreateUsername = async (name: string) => {
-    await createSelfProfile(name);
-    await updateProfile();
+    // TODO: fix
+    // await createSelfProfile(name);
+    // await updateProfile();
   };
 
   const onLogout = async () => {
@@ -64,7 +57,8 @@ export const RegisterPage: React.VFC = () => {
   };
 
   const onSendEmailVerification = async () => {
-    await sendEmailVerification(window.location.href);
+    // TODO: fix
+    // await sendEmailVerification(window.location.href);
   };
 
   return (
@@ -72,7 +66,7 @@ export const RegisterPage: React.VFC = () => {
       <section className="container mx-auto my-8 lg:mt-24 max-w-max">
         <RegisterFormContainer
           loading={isLoading}
-          userProfile={partialProfile}
+          session={session}
           onRegisterEmailPass={onRegisterEmailPass}
           onRegisterGoogle={onGoogleLogin}
           onRegisterFacebook={onFacebookLogin}
