@@ -1,3 +1,5 @@
+import { Session } from "./Session";
+
 export type UserId = string;
 
 export interface DecodedIdToken {
@@ -17,4 +19,6 @@ export abstract class AuthProvider {
   ): Promise<DecodedIdToken>;
 
   abstract createSessionCookie(idToken: string): Promise<string>;
+
+  abstract getSession(sessionCookie: string): Promise<Session>;
 }
