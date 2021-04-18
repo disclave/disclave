@@ -6,14 +6,14 @@ import { AuthProvider } from "../auth";
 const authProvider = container.get(AuthProvider);
 const service = container.get(CommentService);
 
-const parseIdToken = async (
-  idToken: string | null,
+const parseSessionCookie = async (
+  sessionCookie: string | null,
   throwOnInvalid: boolean = true
 ) => {
-  if (!idToken) return null;
+  if (!sessionCookie) return null;
 
   try {
-    return authProvider.verifyIdToken(idToken, false);
+    return authProvider.verifySessionCookie(sessionCookie, false);
   } catch (e) {
     if (throwOnInvalid) throw e;
   }
@@ -22,13 +22,13 @@ const parseIdToken = async (
 
 export const commentsResolvers = {
   Query: {
-    getComments: async (_, args, { idToken }) => {
-      const userData = await parseIdToken(idToken, false);
+    getComments: async (_, args, { sessionCookie }) => {
+      const userData = await parseSessionCookie(sessionCookie, false);
       const comments = await service.getComments(args.url, userData?.uid);
       return comments.map(commentToResponse);
     },
-    latestComments: async (_, args, { idToken }) => {
-      const userData = await parseIdToken(idToken, false);
+    latestComments: async (_, args, { sessionCookie }) => {
+      const userData = await parseSessionCookie(sessionCookie, false);
       const comments = await service.getLatestComments(
         args.minVoteSum,
         args.limit,
@@ -36,8 +36,8 @@ export const commentsResolvers = {
       );
       return comments.map(commentToResponse);
     },
-    topComments: async (_, args, { idToken }) => {
-      const userData = await parseIdToken(idToken, false);
+    topComments: async (_, args, { sessionCookie }) => {
+      const userData = await parseSessionCookie(sessionCookie, false);
       const comments = await service.getTopComments(
         args.minVoteSum,
         args.limit,
@@ -49,32 +49,34 @@ export const commentsResolvers = {
       return await service.countComments(args.url);
     },
   },
+  // TODO: add CSRF tokens
   Mutation: {
-    createComment: async (_, args, { idToken }) => {
-      if (!idToken) throw "Unauthorized";
+    createComment: async (_, args, { sessionCookie }) => {
+      const userData = await parseSessionCookie(sessionCookie, true);
+      if (!userData) throw "Unauthorized";
 
       const comment = await service.addComment(
-        idToken,
+        userData.uid,
         args.comment.text,
         args.comment.url
       );
       return commentToResponse(comment);
     },
-    removeCommentVote: async (_, args, { idToken }) => {
-      if (!idToken) throw "Unauthorized";
-      const userData = await parseIdToken(idToken);
+    removeCommentVote: async (_, args, { sessionCookie }) => {
+      const userData = await parseSessionCookie(sessionCookie, true);
+      if (!userData) throw "Unauthorized";
 
       return await service.removeVote(args.commentId, userData.uid);
     },
-    addCommentVoteUp: async (_, args, { idToken }) => {
-      if (!idToken) throw "Unauthorized";
-      const userData = await parseIdToken(idToken);
+    addCommentVoteUp: async (_, args, { sessionCookie }) => {
+      const userData = await parseSessionCookie(sessionCookie, true);
+      if (!userData) throw "Unauthorized";
 
       return await service.setVoteUp(args.commentId, userData.uid);
     },
-    addCommentVoteDown: async (_, args, { idToken }) => {
-      if (!idToken) throw "Unauthorized";
-      const userData = await parseIdToken(idToken);
+    addCommentVoteDown: async (_, args, { sessionCookie }) => {
+      const userData = await parseSessionCookie(sessionCookie, true);
+      if (!userData) throw "Unauthorized";
 
       return await service.setVoteDown(args.commentId, userData.uid);
     },
