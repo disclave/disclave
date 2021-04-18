@@ -13,7 +13,6 @@ export const websiteHref = (url: string, encoded: boolean = false) =>
 export const websiteHrefRaw = '/website/';
 
 export const getServerSideProps: GetServerSideProps<WebsiteProps> = async (context) => {
-  // TODO: should I still init in here, if there is init in _app?
   await initServer();
   const website = context.query.website as string;
 
