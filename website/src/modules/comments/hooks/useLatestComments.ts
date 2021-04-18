@@ -1,4 +1,4 @@
-import { CommentModel } from '@disclave/client';
+import { CommentModel, getLatestComments } from '@disclave/client';
 import { useComments } from '@/modules/comments/hooks/useComments';
 
 type VoteDown = (commentId: string) => Promise<void>;
@@ -11,8 +11,16 @@ type UseLatestComments = {
   voteUp: VoteUp;
 };
 
-export const useLatestComments = (initialState: Array<CommentModel>): UseLatestComments => {
-  const { comments, voteUp, voteDown, voteRemove } = useComments(initialState);
+export const useLatestComments = (
+  initialState: Array<CommentModel>,
+  minVoteSum: number,
+  limit: number
+): UseLatestComments => {
+  const fetchComments = async () => {
+    return await getLatestComments(minVoteSum, limit, true);
+  };
+
+  const { comments, voteUp, voteDown, voteRemove } = useComments(initialState, fetchComments);
 
   return {
     comments: comments,

@@ -30,6 +30,8 @@ export const getServerSideProps: GetServerSideProps<TopCommentsProps> = async (c
   return {
     props: {
       comments: await topCommentsPromise,
+      commentsLimit: commentsLimit,
+      minVoteSum: minVoteSum,
       session: session,
       ...(await translationsPromise)
     }
@@ -38,9 +40,17 @@ export const getServerSideProps: GetServerSideProps<TopCommentsProps> = async (c
 
 interface TopCommentsProps {
   comments: Array<CommentModel>;
+  commentsLimit: number;
+  minVoteSum: number;
 }
 
 const TopComments: React.VFC<TopCommentsProps> = (props) => {
-  return <TopCommentsPage comments={props.comments} />;
+  return (
+    <TopCommentsPage
+      comments={props.comments}
+      commentsLimit={props.commentsLimit}
+      minVoteSum={props.minVoteSum}
+    />
+  );
 };
 export default TopComments;

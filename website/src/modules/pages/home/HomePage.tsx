@@ -5,8 +5,11 @@ import { CommentsRankingsSection } from '@/modules/pages/home/comments-rankings'
 import { CommentModel } from '@disclave/client';
 
 export interface HomePageProps {
+  commentsLimit: number;
   topComments: Array<CommentModel>;
+  topMinVoteSum: number;
   latestComments: Array<CommentModel>;
+  latestMinVoteSum: number;
 }
 
 export const HomePage: React.VFC<HomePageProps> = (props) => {
@@ -14,8 +17,11 @@ export const HomePage: React.VFC<HomePageProps> = (props) => {
     <Layout>
       <MainSection />
       <CommentsRankingsSection
+        commentsLimit={props.commentsLimit}
         topComments={props.topComments}
+        topMinVoteSum={props.topMinVoteSum}
         latestComments={props.latestComments}
+        latestMinVoteSum={props.latestMinVoteSum}
       />
     </Layout>
   );

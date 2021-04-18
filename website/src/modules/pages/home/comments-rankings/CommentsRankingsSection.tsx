@@ -8,16 +8,19 @@ import { topCommentsHref } from '@/pages/comments/top';
 import { latestCommentsHref } from '@/pages/comments/latest';
 
 export interface CommentsRankingsSectionProps {
+  commentsLimit: number;
   topComments: Array<CommentModel>;
+  topMinVoteSum: number;
   latestComments: Array<CommentModel>;
+  latestMinVoteSum: number;
 }
 
 export const CommentsRankingsSection: React.VFC<CommentsRankingsSectionProps> = (props) => {
   const { t } = useTranslation(['home', 'common']);
   const { profile } = useSession();
 
-  const top = useTopComments(props.topComments);
-  const latest = useLatestComments(props.latestComments);
+  const top = useTopComments(props.topComments, props.topMinVoteSum, props.commentsLimit);
+  const latest = useLatestComments(props.latestComments, props.latestMinVoteSum, props.commentsLimit);
 
   const CommentsPreviewList = ({ comments, onVoteUp, onVoteDown, onVoteRemove }) => (
     <PreviewCommentsList
