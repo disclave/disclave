@@ -1,7 +1,7 @@
-import React from 'react';
-import { useSession } from '@disclave/client';
+import React, { useEffect } from 'react';
+import { createSelfProfile, useSession } from '@disclave/client';
 import { useRouter } from 'next/router';
-import { routerQueryToRedirectParams } from '@/modules/redirect';
+import { redirectParamsToUrl, routerQueryToRedirectParams } from '@/modules/redirect';
 import { loginHref } from '@/pages/auth/login';
 import { RegisterFormContainer } from '@disclave/ui';
 import { Layout } from '@/modules/layout';
@@ -10,38 +10,39 @@ export const RegisterPage: React.VFC = () => {
   const {
     isLoading,
     session,
+    profile,
+    setProfile,
     actions: { registerEmailPass, logout, loginWithGoogle, loginWithFacebook }
   } = useSession();
 
   const router = useRouter();
   const redirectParams = routerQueryToRedirectParams(router.query);
-  // const redirectUrl = redirectParamsToUrl(redirectParams);
+  const redirectUrl = redirectParamsToUrl(redirectParams);
 
   const loginHrefWithRedirect = loginHref(
     redirectParams.redirectPath,
     redirectParams.redirectPathParamToEncode
   );
 
-  // TODO: verify and resotre
-  // useEffect(() => {
-  //   if (!isCompleted) return;
-  //
-  //   const checkRedirects = async () => {
-  //     if (redirectUrl) await router.push(redirectUrl);
-  //     else if (window.opener) window.close();
-  //   };
-  //
-  //   checkRedirects();
-  // }, [isCompleted]);
+  useEffect(() => {
+    if (!profile) return;
+
+    const checkRedirects = async () => {
+      // TODO: validate and fix flow for popups register
+      if (redirectUrl) await router.push(redirectUrl);
+      else if (window.opener) window.close();
+    };
+
+    checkRedirects();
+  }, [profile]);
 
   const onRegisterEmailPass = async (email: string, password: string) => {
     await registerEmailPass(email, password, window.location.href);
   };
 
   const onCreateUsername = async (name: string) => {
-    // TODO: fix
-    // await createSelfProfile(name);
-    // await updateProfile();
+    const profile = await createSelfProfile(name);
+    setProfile(profile);
   };
 
   const onLogout = async () => {

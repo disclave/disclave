@@ -3,7 +3,6 @@ import { auth } from "../firebase";
 import { inject, injectable } from "inversify";
 import { Session } from "./Session";
 import { UserService } from "../users";
-import { buildSessionCookie } from "../cookies";
 
 @injectable()
 export class FirebaseAuthProvider implements AuthProvider {
@@ -55,7 +54,7 @@ export class FirebaseAuthProvider implements AuthProvider {
   }
 
   async sendVerificationEmail(email: string, redirectUrl: string | null) {
-    // const user = await auth().getUser("test");
+    const user = await auth().getUser("test");
 
     const settings = redirectUrl
       ? {
