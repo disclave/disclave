@@ -1,11 +1,13 @@
 import { useContext } from "react";
 import {
+  FetchSession,
   LoginEmailPass,
   LoginWithFacebook,
   LoginWithGoogle,
   Logout,
   RegisterEmailPass,
   SessionContext,
+  SetProfile,
   SetSession,
 } from "./SessionContext";
 import { SessionModel } from "../models";
@@ -24,6 +26,8 @@ type UseSession = {
   profile: UserProfileModel | null;
   session: SessionModel | null;
   setSession: SetSession;
+  setProfile: SetProfile;
+  fetchSession: FetchSession;
   actions: Actions;
 };
 
@@ -31,6 +35,8 @@ export const useSession = (): UseSession => {
   const {
     session,
     setSession,
+    setProfile,
+    fetchSession,
     logout,
     loginEmailPass,
     registerEmailPass,
@@ -43,6 +49,8 @@ export const useSession = (): UseSession => {
     profile: session ? session.profile : null,
     session: session ?? null,
     setSession: setSession,
+    setProfile: setProfile,
+    fetchSession: fetchSession,
     actions: {
       loginEmailPass,
       logout,

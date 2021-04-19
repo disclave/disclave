@@ -9,6 +9,7 @@ import {
   loginWithFacebook,
   loginWithGoogle,
 } from "../../auth";
+import { UserProfileModel } from "../../users";
 
 export interface SessionProviderProps {
   savedSession?: SessionModel | null;
@@ -20,9 +21,22 @@ export const SessionProvider: React.FC<SessionProviderProps> = ({
 }) => {
   const [session, setSession] = useState<SessionModel | null>(savedSession);
 
-  const fetchSession = async () => {
-    const result = await getSession(false);
+  const fetchSession = async (noCache: boolean) => {
+    const result = await getSession(noCache);
     setSession(result);
+  };
+
+  const onSetProfile = (profile: UserProfileModel | null) => {
+    if (!session) throw "Can not set profile if session does not exist";
+
+    setSession({
+      ...session,
+      profile: profile,
+    });
+  };
+
+  const onFetchSession = async () => {
+    await fetchSession(true);
   };
 
   const onLoginEmailPass = async (email: string, password: string) => {
@@ -57,12 +71,14 @@ export const SessionProvider: React.FC<SessionProviderProps> = ({
   useEffect(() => {
     if (session != undefined) return;
 
-    fetchSession();
+    fetchSession(false);
   }, []);
 
   const sessionContextData = {
     session: session,
     setSession: setSession,
+    setProfile: onSetProfile,
+    fetchSession: onFetchSession,
     loginEmailPass: onLoginEmailPass,
     loginWithGoogle: onLoginWithGoogle,
     loginWithFacebook: onLoginWithFacebook,
