@@ -1,9 +1,9 @@
 import { AuthProvider, DecodedIdToken, UserId } from "./index";
-import { auth } from "../firebase";
+import { auth } from "@/connectors/firebase";
 import { inject, injectable } from "inversify";
 import { Session } from "./Session";
-import { UserService } from "../users";
-import { EmailService } from "../email";
+import { UserService } from "@/modules/users";
+import { EmailService } from "@/modules/email";
 
 @injectable()
 export class FirebaseAuthProvider implements AuthProvider {

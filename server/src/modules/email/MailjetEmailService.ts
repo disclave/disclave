@@ -3,7 +3,7 @@ import {
   getTemplateId,
   mailjetClient,
   MjClient,
-} from "../mailjet";
+} from "@/connectors/mailjet";
 import { EmailService } from "./index";
 import { injectable } from "inversify";
 

@@ -1,5 +1,5 @@
 import { UserProfile } from "./UserProfile";
-import { UserId } from "../auth";
+import { UserId } from "@/modules/auth";
 
 export type { UserProfile };
 

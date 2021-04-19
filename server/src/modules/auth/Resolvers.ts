@@ -1,7 +1,7 @@
-import { container } from "../inversify.config";
+import { container } from "@/inversify.config";
 import { AuthProvider } from "./index";
 import { Session } from "./Session";
-import { buildExpiredSessionCookie, buildSessionCookie } from "../cookies";
+import { buildExpiredSessionCookie, buildSessionCookie } from "@/cookies";
 
 const authProvider = container.get(AuthProvider);
 

@@ -1,19 +1,19 @@
 import { Container } from "inversify";
 import "reflect-metadata";
-import { CommentRepository } from "./comments/db";
-import { CommentMongoRepository } from "./comments/db/CommentMongoRepository";
-import { CommentService } from "./comments";
-import { CommentServiceImpl } from "./comments/CommentServiceImpl";
-import { UserMongoRepository } from "./users/db/UserMongoRepository";
-import { UserRepository } from "./users/db";
-import { UserService } from "./users";
-import { UserServiceImpl } from "./users/UserServiceImpl";
-import { UrlServiceImpl } from "./url/UrlServiceImpl";
-import { UrlService } from "./url";
-import { AuthProvider } from "./auth";
-import { FirebaseAuthProvider } from "./auth/FirebaseAuthProvider";
-import { EmailService } from "./email";
-import { MailjetEmailService } from "./email/MailjetEmailService";
+import { CommentRepository } from "@/modules/comments/db";
+import { CommentMongoRepository } from "@/modules/comments/db/CommentMongoRepository";
+import { CommentService } from "@/modules/comments";
+import { CommentServiceImpl } from "@/modules/comments/CommentServiceImpl";
+import { UserMongoRepository } from "@/modules/users/db/UserMongoRepository";
+import { UserRepository } from "@/modules/users/db";
+import { UserService } from "@/modules/users";
+import { UserServiceImpl } from "@/modules/users/UserServiceImpl";
+import { UrlServiceImpl } from "@/modules/url/UrlServiceImpl";
+import { UrlService } from "@/modules/url";
+import { AuthProvider } from "@/modules/auth";
+import { FirebaseAuthProvider } from "@/modules/auth/FirebaseAuthProvider";
+import { EmailService } from "@/modules/email";
+import { MailjetEmailService } from "@/modules/email/MailjetEmailService";
 
 const container = new Container();
 

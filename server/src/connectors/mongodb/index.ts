@@ -7,7 +7,7 @@ import {
   Timestamp,
   ObjectID,
 } from "mongodb";
-import { retryUntilNullOrUndefined } from "../helpers";
+import { retryUntilNullOrUndefined } from "@/helpers";
 
 let _client: MongoClient | null = null;
 let _db: Db | null = null;
@@ -47,7 +47,7 @@ export const withSession = async <T>(
 };
 
 export const withTransaction = async <T>(
-  run: WithTransactionCallback<T>
+  run: (session: ClientSession) => Promise<T>
 ): Promise<T> => {
   return await withSession(
     async (session: ClientSession): Promise<T> => {

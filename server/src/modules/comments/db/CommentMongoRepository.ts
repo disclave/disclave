@@ -1,8 +1,8 @@
 import { CommentEntity } from "./CommentEntity";
 import { AuthorInfo, CommentRepository, UrlMeta } from "./index";
 import { injectable } from "inversify";
-import { db, Timestamp, ObjectID, MongoRepository } from "../../mongodb";
-import { UserId } from "../../auth";
+import { db, Timestamp, ObjectID, MongoRepository } from "@/connectors/mongodb";
+import { UserId } from "@/modules/auth";
 import { ClientSession } from "mongodb";
 import { commentsDbCollection, DbComment, getProjection } from "./mongo";
 
@@ -84,7 +84,7 @@ export class CommentMongoRepository
         _id: result.insertedId,
       },
       {
-        projection: getProjection(author.id),
+        projection: getProjection(author.uid),
       }
     );
     return cursorDocToEntity(doc);
@@ -169,10 +169,10 @@ const toDbComment = (
 ): DbComment => ({
   text: text,
   author: {
-    id: author.id,
+    id: author.uid,
     name: author.name,
   },
-  votesUp: [author.id],
+  votesUp: [author.uid],
   votesDown: [],
   votesSum: 1,
   timestamp: new Timestamp(0, Math.floor(new Date().getTime() / 1000)),

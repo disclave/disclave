@@ -1,6 +1,6 @@
 import { CommentEntity } from "./CommentEntity";
-import { UserId } from "../../auth";
-import { BaseRepository } from "../../repository";
+import { UserId } from "@/modules/auth";
+import { BaseRepository } from "@/repository";
 
 export type { CommentEntity };
 
@@ -11,7 +11,7 @@ export interface UrlMeta {
 }
 
 export interface AuthorInfo {
-  id: UserId;
+  uid: UserId;
   name: string;
 }
 

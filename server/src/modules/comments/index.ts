@@ -1,5 +1,5 @@
 import { Comment } from "./Comment";
-import { UserId } from "../auth";
+import { UserId } from "@/modules/auth";
 
 export type { Comment };
 

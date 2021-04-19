@@ -1,9 +1,14 @@
-import { auth } from "../../firebase";
+import { auth } from "@/connectors/firebase";
 import { UserProfileEntity } from "./UserProfileEntity";
 import { UserRepository } from "./index";
 import { injectable } from "inversify";
-import { ClientSession, db, Timestamp, MongoRepository } from "../../mongodb";
-import { UserId } from "../../auth";
+import {
+  ClientSession,
+  db,
+  Timestamp,
+  MongoRepository,
+} from "@/connectors/mongodb";
+import { UserId } from "@/modules/auth";
 
 interface DbProfile {
   _id: UserId;

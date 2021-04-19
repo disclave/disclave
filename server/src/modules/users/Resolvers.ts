@@ -1,4 +1,4 @@
-import { container } from "../inversify.config";
+import { container } from "@/inversify.config";
 import { UserProfile, UserService } from "./index";
 import { AuthProvider } from "../auth";
 

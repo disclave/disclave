@@ -1,4 +1,4 @@
-import { UserProfile } from "../users";
+import { UserProfile } from "@/modules/users";
 
 export interface Session {
   uid: string;

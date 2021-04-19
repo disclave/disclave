@@ -1,7 +1,7 @@
 import { Comment } from "./Comment";
-import { container } from "../inversify.config";
+import { container } from "@/inversify.config";
 import { CommentService } from "./index";
-import { AuthProvider } from "../auth";
+import { AuthProvider } from "@/modules/auth";
 
 const authProvider = container.get(AuthProvider);
 const service = container.get(CommentService);

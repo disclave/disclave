@@ -1,9 +1,9 @@
 import { CommentEntity, CommentRepository } from "./db";
-import { UrlService } from "../url";
-import { UserService } from "../users";
+import { UrlService } from "@/modules/url";
+import { UserService } from "@/modules/users";
 import { CommentService, Comment } from "./index";
 import { inject, injectable } from "inversify";
-import { IdToken, UserId } from "../auth";
+import { UserId } from "@/modules/auth";
 import escapeHtml from "escape-html";
 import { CommentTextMaxLength, CommentTextMinLength } from "./exceptions";
 
@@ -59,11 +59,11 @@ export class CommentServiceImpl implements CommentService {
   }
 
   public async addComment(
-    idToken: IdToken,
+    uid: UserId,
     text: string,
     url: string
   ): Promise<Comment> {
-    const author = await this.userService.getProfile(idToken);
+    const author = await this.userService.getProfile(uid);
     const parsedUrl = this.urlService.parseUrl(url);
     const escapedText = validateAndParseCommentText(text);
     const result = await this.repository.addComment(

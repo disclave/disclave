@@ -1,7 +1,7 @@
-import { UserRecord } from "../../firebase";
+import { UserRecord } from "@/connectors/firebase";
 import { UserProfileEntity } from "./UserProfileEntity";
-import { BaseRepository } from "../../repository";
-import { UserId } from "../../auth";
+import { BaseRepository } from "@/repository";
+import { UserId } from "@/modules/auth";
 
 export type { UserRecord, UserProfileEntity };
 

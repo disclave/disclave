@@ -1,9 +1,9 @@
-import { initFirebase } from "./firebase/firebase";
+import { initFirebase } from "@/connectors/firebase/firebase";
 import { container } from "./inversify.config";
-import { CommentService } from "./comments";
-import { initDatabase } from "./mongodb";
-import { AuthProvider } from "./auth";
-import { EmailTemplate, initMailjet } from "./mailjet";
+import { CommentService } from "@/modules/comments";
+import { initDatabase } from "@/connectors/mongodb";
+import { AuthProvider } from "@/modules/auth";
+import { EmailTemplate, initMailjet } from "@/connectors/mailjet";
 
 export interface DbConfig {
   dbUri: string;

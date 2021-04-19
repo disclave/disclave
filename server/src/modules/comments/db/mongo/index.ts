@@ -1,5 +1,5 @@
-import { db, ObjectID, Timestamp } from "../../../mongodb";
-import { UserId } from "../../../auth";
+import { db, ObjectID, Timestamp } from "@/connectors/mongodb";
+import { UserId } from "@/modules/auth";
 
 const websitesCollection = "websites";
 const pagesCollection = "pages";
