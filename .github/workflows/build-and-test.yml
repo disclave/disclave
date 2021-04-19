@@ -32,5 +32,8 @@ jobs:
         IFRAME_URL: http://example.com/mock/{url}
         DB_URI: mongodb+srv://user:pass@cluster.random.mongodb.net/db
         DB_NAME: db-name
+        MJ_API_KEY: mjapikey
+        MJ_API_SECRET: mjapisecret
+        MJ_TEMPLATE_EMAIL_VERIFICATION: mj-template-email-verification
     - run: yarn test
 
