@@ -5,7 +5,9 @@ import {
   MjClient,
 } from "../mailjet";
 import { EmailService } from "./index";
+import { injectable } from "inversify";
 
+@injectable()
 export class MailjetEmailService implements EmailService {
   private client: MjClient;
 

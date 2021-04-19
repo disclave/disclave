@@ -1,13 +1,17 @@
-import { AuthProvider, DecodedIdToken } from "./index";
+import { AuthProvider, DecodedIdToken, UserId } from "./index";
 import { auth } from "../firebase";
 import { inject, injectable } from "inversify";
 import { Session } from "./Session";
 import { UserService } from "../users";
+import { EmailService } from "../email";
 
 @injectable()
 export class FirebaseAuthProvider implements AuthProvider {
   @inject(UserService)
   private userService: UserService;
+
+  @inject(EmailService)
+  private emailService: EmailService;
 
   async verifySessionCookie(
     sessionCookie: string,
@@ -53,8 +57,12 @@ export class FirebaseAuthProvider implements AuthProvider {
     };
   }
 
-  async sendVerificationEmail(email: string, redirectUrl: string | null) {
-    const user = await auth().getUser("test");
+  async sendVerificationEmail(
+    uid: UserId,
+    redirectUrl: string | null
+  ): Promise<boolean> {
+    const user = await auth().getUser(uid);
+    if (user.emailVerified || !user.email) return false;
 
     const settings = redirectUrl
       ? {
@@ -62,6 +70,11 @@ export class FirebaseAuthProvider implements AuthProvider {
         }
       : undefined;
 
-    await auth().generateEmailVerificationLink(email, settings);
+    const verificationLink = await auth().generateEmailVerificationLink(
+      user.email,
+      settings
+    );
+    await this.emailService.sendVerificationEmail(user.email, verificationLink);
+    return true;
   }
 }

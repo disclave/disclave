@@ -23,4 +23,9 @@ export abstract class AuthProvider {
   ): Promise<{ content: string; expiresIn: number }>;
 
   abstract getSession(sessionCookie: string): Promise<Session>;
+
+  abstract sendVerificationEmail(
+    uid: UserId,
+    redirectUrl: string | null
+  ): Promise<boolean>;
 }
