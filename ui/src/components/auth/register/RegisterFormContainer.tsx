@@ -9,8 +9,7 @@ import { EmailVerificationForm } from "./form/email-verification";
 import { SessionModel } from "@disclave/client";
 
 export interface RegisterFormContainerProps {
-  loading: boolean;
-  session: SessionModel | null;
+  session?: SessionModel | null;
   loginHref: string;
   onRegisterEmailPass: (email: string, password: string) => Promise<void>;
   onSendEmailVerification: () => Promise<void>;
@@ -26,7 +25,7 @@ export const RegisterFormContainer: React.VFC<RegisterFormContainerProps> = (
   const { t } = useTranslation("auth");
 
   const Component = () => {
-    const state = getState(props.loading, props.session);
+    const state = getState(props.session);
     switch (state) {
       case State.LOADING:
         return <Loading />;
@@ -72,9 +71,8 @@ export const RegisterFormContainer: React.VFC<RegisterFormContainerProps> = (
   );
 };
 
-const getState = (loading: boolean, session: SessionModel | null): State => {
-  // TODO: is loading used only when session fetch pending? if yes, maybe remove it and use undefined session?
-  if (loading) return State.LOADING;
+const getState = (session?: SessionModel | null): State => {
+  if (session === undefined) return State.LOADING;
   else if (!session) return State.SELECT_METHOD;
   else if (!session.emailVerified) return State.EMAIL_VERIFICATION;
   else if (!session.profile) return State.USERNAME;

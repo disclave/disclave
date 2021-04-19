@@ -8,7 +8,6 @@ import { Layout } from '@/modules/layout';
 
 export const RegisterPage: React.VFC = () => {
   const {
-    isLoading,
     session,
     profile,
     setProfile,
@@ -66,7 +65,6 @@ export const RegisterPage: React.VFC = () => {
     <Layout>
       <section className="container mx-auto my-8 lg:mt-24 max-w-max">
         <RegisterFormContainer
-          loading={isLoading}
           session={session}
           onRegisterEmailPass={onRegisterEmailPass}
           onRegisterGoogle={onGoogleLogin}

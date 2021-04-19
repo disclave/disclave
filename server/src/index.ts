@@ -23,10 +23,10 @@ export const init = async (
   dbConfig: DbConfig,
   mjConfig: MailjetConfig
 ) => {
-  const emailTemplates = new Map<EmailTemplate, string>();
+  const emailTemplates = new Map<EmailTemplate, number>();
   emailTemplates.set(
     EmailTemplate.EMAIL_VERIFICATION,
-    mjConfig.templates.emailVerification
+    Number(mjConfig.templates.emailVerification)
   );
 
   initMailjet(mjConfig.apiKey, mjConfig.apiSecret, emailTemplates);

@@ -40,9 +40,9 @@ export const registerEmailPass = async (
     email,
     password
   );
-  if (!userCredential.user.emailVerified)
-    await sendVerificationEmail(emailRedirectUrl);
-  return await authorizeWithServer(userCredential);
+  const session = await authorizeWithServer(userCredential);
+  if (!session.emailVerified) await sendVerificationEmail(emailRedirectUrl);
+  return session;
 };
 
 // TODO: verify this
@@ -53,9 +53,9 @@ const signInWithPopup = async (
   emailRedirectUrl?: string
 ): Promise<SessionModel> => {
   const userCredential = await auth().signInWithPopup(provider);
-  if (!userCredential.user.emailVerified)
-    await sendVerificationEmail(emailRedirectUrl);
-  return await authorizeWithServer(userCredential);
+  const session = await authorizeWithServer(userCredential);
+  if (!session.emailVerified) await sendVerificationEmail(emailRedirectUrl);
+  return session;
 };
 
 const authorizeWithServer = async (

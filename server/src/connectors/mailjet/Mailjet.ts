@@ -6,7 +6,7 @@ export enum EmailTemplate {
   EMAIL_VERIFICATION,
 }
 
-export type EmailTemplateIds = Map<EmailTemplate, string>;
+export type EmailTemplateIds = Map<EmailTemplate, number>;
 
 let client: MjClient | undefined = undefined;
 let templates: EmailTemplateIds | undefined = undefined;
@@ -25,7 +25,7 @@ export const mailjetClient = (): MjClient => {
   return client;
 };
 
-export const getTemplateId = (template: EmailTemplate): string => {
+export const getTemplateId = (template: EmailTemplate): number => {
   if (!templates) throw "Mailjet client not initialized";
   const id = templates.get(template);
   if (!id) throw `Template Id for email template ${template} does not exist`;

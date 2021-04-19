@@ -18,7 +18,7 @@ export class MailjetEmailService implements EmailService {
 }
 
 const sendMailFromTemplate = async (
-  templateId: string,
+  templateId: number,
   variables: object,
   toEmail: string
 ) => {
@@ -27,6 +27,7 @@ const sendMailFromTemplate = async (
     .request({
       Messages: [
         {
+          TemplateLanguage: true,
           TemplateID: templateId,
           To: [
             {
