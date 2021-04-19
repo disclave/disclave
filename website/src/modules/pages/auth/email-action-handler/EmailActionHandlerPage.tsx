@@ -3,7 +3,7 @@ import { FormErrorContainer, Loading, useLoading } from '@disclave/ui';
 import { Layout } from '@/modules/layout';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
-import { applyActionCode } from '@disclave/client';
+// import { applyActionCode } from '@disclave/client';
 import {
   EAHInvalidMode,
   EAHMissingActionCode,
@@ -37,11 +37,12 @@ export const EmailActionHandlerPage: React.VFC = () => {
   };
 
   const verifyEmail = async () => {
-    if (!actionCode) throw EAHMissingActionCode('Missing required action code parameter.');
-
-    await applyActionCode(actionCode);
-    await redirect();
-    successText = t('email verification.success message');
+    // TODO: fix
+    // if (!actionCode) throw EAHMissingActionCode('Missing required action code parameter.');
+    //
+    // await applyActionCode(actionCode);
+    // await redirect();
+    // successText = t('email verification.success message');
   };
 
   const redirect = async () => {

@@ -53,4 +53,16 @@ export class FirebaseAuthProvider implements AuthProvider {
       profile: userProfile,
     };
   }
+
+  async sendVerificationEmail(email: string, redirectUrl: string | null) {
+    // const user = await auth().getUser("test");
+
+    const settings = redirectUrl
+      ? {
+          url: redirectUrl,
+        }
+      : undefined;
+
+    await auth().generateEmailVerificationLink(email, settings);
+  }
 }
