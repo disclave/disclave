@@ -4,15 +4,16 @@ import {
   mailjetClient,
   MjClient,
 } from "../mailjet";
+import { EmailService } from "./index";
 
-export class MailjetEmailService {
+export class MailjetEmailService implements EmailService {
   private client: MjClient;
 
   constructor() {
     this.client = mailjetClient();
   }
 
-  private async sendVerificationEmail(email: string, link: string) {
+  public async sendVerificationEmail(email: string, link: string) {
     const templateId = getTemplateId(EmailTemplate.EMAIL_VERIFICATION);
     const variables = {
       confirmation_link: link,

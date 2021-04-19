@@ -12,9 +12,12 @@ import { UrlServiceImpl } from "./url/UrlServiceImpl";
 import { UrlService } from "./url";
 import { AuthProvider } from "./auth";
 import { FirebaseAuthProvider } from "./auth/FirebaseAuthProvider";
+import { EmailService } from "./email";
+import { MailjetEmailService } from "./email/MailjetEmailService";
 
 const container = new Container();
 
+container.bind(EmailService).to(MailjetEmailService);
 container.bind(AuthProvider).to(FirebaseAuthProvider);
 
 container.bind(UserRepository).to(UserMongoRepository);
