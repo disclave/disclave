@@ -1,5 +1,5 @@
 import { client, runQuery } from "../../graphql";
-import { GET_SESSION, LOGIN, LOGOUT } from "./schemas";
+import { GET_SESSION, LOGIN, LOGOUT, SEND_VERIFICATION_EMAIL } from "./schemas";
 import { SessionModel } from "./models";
 import { CommentModel } from "../comments";
 
@@ -24,6 +24,18 @@ export const login = async (idToken: string): Promise<SessionModel> => {
     },
   });
   return responseToModel(result.data.login);
+};
+
+export const sendVerificationEmail = async (
+  redirectUrl?: string
+): Promise<boolean> => {
+  const result = await client().mutate({
+    mutation: SEND_VERIFICATION_EMAIL,
+    variables: {
+      redirectUrl: redirectUrl,
+    },
+  });
+  return result.data.sendVerificationEmail;
 };
 
 export const logout = async () => {

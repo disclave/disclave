@@ -6,7 +6,7 @@ import {
   User,
   UserCredential,
 } from "../../firebase";
-import { login } from "./client";
+import { login, sendVerificationEmail } from "./client";
 import { SessionModel } from "./models";
 
 export const loginEmailPass = async (
@@ -40,23 +40,21 @@ export const registerEmailPass = async (
     email,
     password
   );
-  await sendVerificationEmail(userCredential.user, emailRedirectUrl);
+  if (!userCredential.user.emailVerified)
+    await sendVerificationEmail(emailRedirectUrl);
   return await authorizeWithServer(userCredential);
 };
 
 // TODO: verify this
 // export const applyActionCode = (code: string) => auth().applyActionCode(code);
 
-// TODO: how to handle it without local state? server side?
-// export const sendEmailVerification = (emailRedirectUrl?: string) =>
-//   sendVerificationEmail(currentUser(), emailRedirectUrl);
-
 const signInWithPopup = async (
   provider: AuthProvider,
   emailRedirectUrl?: string
 ): Promise<SessionModel> => {
   const userCredential = await auth().signInWithPopup(provider);
-  await sendVerificationEmail(userCredential.user, emailRedirectUrl);
+  if (!userCredential.user.emailVerified)
+    await sendVerificationEmail(emailRedirectUrl);
   return await authorizeWithServer(userCredential);
 };
 
@@ -69,16 +67,4 @@ const authorizeWithServer = async (
   // clear firebase storage - from now use the cookie
   await auth().signOut();
   return session;
-};
-
-const sendVerificationEmail = async (user: User, emailRedirectUrl?: string) => {
-  if (user.emailVerified) return;
-
-  const settings = emailRedirectUrl
-    ? {
-        url: emailRedirectUrl,
-      }
-    : undefined;
-
-  await user.sendEmailVerification(settings);
 };

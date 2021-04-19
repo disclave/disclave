@@ -26,6 +26,12 @@ export const LOGIN = gql`
   }
 `;
 
+export const SEND_VERIFICATION_EMAIL = gql`
+  mutation($redirectUrl: String) {
+    sendVerificationEmail(redirectUrl: $redirectUrl)
+  }
+`;
+
 export const LOGOUT = gql`
   mutation {
     logout
