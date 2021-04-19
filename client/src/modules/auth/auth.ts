@@ -45,8 +45,7 @@ export const registerEmailPass = async (
   return session;
 };
 
-// TODO: verify this
-// export const applyActionCode = (code: string) => auth().applyActionCode(code);
+export const applyActionCode = (code: string) => auth().applyActionCode(code);
 
 const signInWithPopup = async (
   provider: AuthProvider,

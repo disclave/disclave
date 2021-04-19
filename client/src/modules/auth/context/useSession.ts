@@ -1,25 +1,13 @@
 import { useContext } from "react";
 import {
   FetchSession,
-  LoginEmailPass,
-  LoginWithFacebook,
-  LoginWithGoogle,
-  Logout,
-  RegisterEmailPass,
   SessionContext,
   SetProfile,
   SetSession,
+  Actions,
 } from "./SessionContext";
 import { SessionModel } from "../models";
 import { UserProfileModel } from "../../users";
-
-type Actions = {
-  loginEmailPass: LoginEmailPass;
-  loginWithGoogle: LoginWithGoogle;
-  loginWithFacebook: LoginWithFacebook;
-  registerEmailPass: RegisterEmailPass;
-  logout: Logout;
-};
 
 type UseSession = {
   isLoading: boolean;
@@ -37,11 +25,14 @@ export const useSession = (): UseSession => {
     setSession,
     setProfile,
     fetchSession,
-    logout,
-    loginEmailPass,
-    registerEmailPass,
-    loginWithGoogle,
-    loginWithFacebook,
+    actions: {
+      logout,
+      loginEmailPass,
+      registerEmailPass,
+      loginWithGoogle,
+      loginWithFacebook,
+      confirmEmail,
+    },
   } = useContext(SessionContext);
 
   return {
@@ -57,6 +48,7 @@ export const useSession = (): UseSession => {
       loginWithFacebook,
       loginWithGoogle,
       registerEmailPass,
+      confirmEmail,
     },
   };
 };

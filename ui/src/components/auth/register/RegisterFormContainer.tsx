@@ -73,7 +73,7 @@ export const RegisterFormContainer: React.VFC<RegisterFormContainerProps> = (
 
 const getState = (session?: SessionModel | null): State => {
   if (session === undefined) return State.LOADING;
-  else if (!session) return State.SELECT_METHOD;
+  else if (session === null) return State.SELECT_METHOD;
   else if (!session.emailVerified) return State.EMAIL_VERIFICATION;
   else if (!session.profile) return State.USERNAME;
   else return State.USER_INFO;

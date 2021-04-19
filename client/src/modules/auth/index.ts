@@ -1,6 +1,7 @@
 export { getSession, sendVerificationEmail, logout } from "./client";
 
 export {
+  applyActionCode,
   loginEmailPass,
   loginWithGoogle,
   loginWithFacebook,

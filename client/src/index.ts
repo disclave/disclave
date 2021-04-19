@@ -8,15 +8,7 @@ export const init = async (firebaseOptions: Object, graphqlUri: string) => {
 
 export { analytics } from "./firebase";
 
-export {
-  loginEmailPass,
-  logout,
-  registerEmailPass,
-  loginWithGoogle,
-  loginWithFacebook,
-  SessionProvider,
-  useSession,
-} from "./modules/auth";
+export { SessionProvider, useSession } from "./modules/auth";
 
 export type { SessionModel } from "./modules/auth";
 

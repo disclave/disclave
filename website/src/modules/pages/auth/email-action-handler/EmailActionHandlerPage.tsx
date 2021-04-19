@@ -3,7 +3,7 @@ import { FormErrorContainer, Loading, useLoading } from '@disclave/ui';
 import { Layout } from '@/modules/layout';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
-// import { applyActionCode } from '@disclave/client';
+import { useSession } from '@disclave/client';
 import {
   EAHInvalidMode,
   EAHMissingActionCode,
@@ -14,6 +14,9 @@ import {
 export const EmailActionHandlerPage: React.VFC = () => {
   const { t } = useTranslation('auth');
   const [loading, runWithLoading, error] = useLoading(true);
+  const {
+    actions: { confirmEmail }
+  } = useSession();
 
   const router = useRouter();
   const mode = router.query.mode as string | undefined;
@@ -37,12 +40,11 @@ export const EmailActionHandlerPage: React.VFC = () => {
   };
 
   const verifyEmail = async () => {
-    // TODO: fix
-    // if (!actionCode) throw EAHMissingActionCode('Missing required action code parameter.');
-    //
-    // await applyActionCode(actionCode);
-    // await redirect();
-    // successText = t('email verification.success message');
+    if (!actionCode) throw EAHMissingActionCode('Missing required action code parameter.');
+
+    await confirmEmail(actionCode);
+    await redirect();
+    successText = t('email verification.success message');
   };
 
   const redirect = async () => {

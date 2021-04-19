@@ -8,6 +8,7 @@ import {
   registerEmailPass,
   loginWithFacebook,
   loginWithGoogle,
+  applyActionCode,
 } from "../../auth";
 import { UserProfileModel } from "../../users";
 
@@ -68,6 +69,14 @@ export const SessionProvider: React.FC<SessionProviderProps> = ({
     setSession(null);
   };
 
+  const onConfirmEmail = async (actionCode: string) => {
+    await applyActionCode(actionCode);
+    setSession({
+      ...session,
+      emailVerified: true,
+    });
+  };
+
   useEffect(() => {
     if (session != undefined) return;
 
@@ -79,11 +88,14 @@ export const SessionProvider: React.FC<SessionProviderProps> = ({
     setSession: setSession,
     setProfile: onSetProfile,
     fetchSession: onFetchSession,
-    loginEmailPass: onLoginEmailPass,
-    loginWithGoogle: onLoginWithGoogle,
-    loginWithFacebook: onLoginWithFacebook,
-    registerEmailPass: onRegisterEmailPass,
-    logout: onLogout,
+    actions: {
+      loginEmailPass: onLoginEmailPass,
+      loginWithGoogle: onLoginWithGoogle,
+      loginWithFacebook: onLoginWithFacebook,
+      registerEmailPass: onRegisterEmailPass,
+      logout: onLogout,
+      confirmEmail: onConfirmEmail,
+    },
   };
 
   return (
