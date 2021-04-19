@@ -14,6 +14,7 @@ export const authTypeDefs = gql`
 
   extend type Mutation {
     login(idToken: String!): Session
+    sendVerificationEmail(redirectUrl: String): Boolean
     logout: Boolean
   }
 `;

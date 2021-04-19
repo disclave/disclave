@@ -1,47 +1,34 @@
 import { Comment } from "./Comment";
 import { container } from "@/inversify.config";
 import { CommentService } from "./index";
-import { AuthProvider } from "@/modules/auth";
+import { AuthProvider, DecodedIdToken } from "@/modules/auth";
+import { Unauthorized } from "@/exceptions/exceptions";
 
-const authProvider = container.get(AuthProvider);
 const service = container.get(CommentService);
-
-const parseSessionCookie = async (
-  sessionCookie: string | null,
-  throwOnInvalid: boolean = true
-) => {
-  if (!sessionCookie) return null;
-
-  try {
-    return authProvider.verifySessionCookie(sessionCookie, false);
-  } catch (e) {
-    if (throwOnInvalid) throw e;
-  }
-  return null;
-};
 
 export const commentsResolvers = {
   Query: {
-    getComments: async (_, args, { sessionCookie }) => {
-      const userData = await parseSessionCookie(sessionCookie, false);
-      const comments = await service.getComments(args.url, userData?.uid);
+    getComments: async (_, args, { session }: { session: DecodedIdToken }) => {
+      const comments = await service.getComments(args.url, session?.uid);
       return comments.map(commentToResponse);
     },
-    latestComments: async (_, args, { sessionCookie }) => {
-      const userData = await parseSessionCookie(sessionCookie, false);
+    latestComments: async (
+      _,
+      args,
+      { session }: { session: DecodedIdToken }
+    ) => {
       const comments = await service.getLatestComments(
         args.minVoteSum,
         args.limit,
-        userData?.uid
+        session?.uid
       );
       return comments.map(commentToResponse);
     },
-    topComments: async (_, args, { sessionCookie }) => {
-      const userData = await parseSessionCookie(sessionCookie, false);
+    topComments: async (_, args, { session }: { session: DecodedIdToken }) => {
       const comments = await service.getTopComments(
         args.minVoteSum,
         args.limit,
-        userData?.uid
+        session?.uid
       );
       return comments.map(commentToResponse);
     },
@@ -51,34 +38,44 @@ export const commentsResolvers = {
   },
   // TODO: add CSRF tokens
   Mutation: {
-    createComment: async (_, args, { sessionCookie }) => {
-      const userData = await parseSessionCookie(sessionCookie, true);
-      if (!userData) throw "Unauthorized";
+    createComment: async (
+      _,
+      args,
+      { session }: { session: DecodedIdToken }
+    ) => {
+      if (!session)
+        throw Unauthorized("You have to be authorized to create comment.");
 
       const comment = await service.addComment(
-        userData.uid,
+        session.uid,
         args.comment.text,
         args.comment.url
       );
       return commentToResponse(comment);
     },
-    removeCommentVote: async (_, args, { sessionCookie }) => {
-      const userData = await parseSessionCookie(sessionCookie, true);
-      if (!userData) throw "Unauthorized";
-
-      return await service.removeVote(args.commentId, userData.uid);
+    removeCommentVote: async (
+      _,
+      args,
+      { session }: { session: DecodedIdToken }
+    ) => {
+      if (!session) throw Unauthorized("You have to be authorized to vote.");
+      return await service.removeVote(args.commentId, session.uid);
     },
-    addCommentVoteUp: async (_, args, { sessionCookie }) => {
-      const userData = await parseSessionCookie(sessionCookie, true);
-      if (!userData) throw "Unauthorized";
-
-      return await service.setVoteUp(args.commentId, userData.uid);
+    addCommentVoteUp: async (
+      _,
+      args,
+      { session }: { session: DecodedIdToken }
+    ) => {
+      if (!session) throw Unauthorized("You have to be authorized to vote.");
+      return await service.setVoteUp(args.commentId, session.uid);
     },
-    addCommentVoteDown: async (_, args, { sessionCookie }) => {
-      const userData = await parseSessionCookie(sessionCookie, true);
-      if (!userData) throw "Unauthorized";
-
-      return await service.setVoteDown(args.commentId, userData.uid);
+    addCommentVoteDown: async (
+      _,
+      args,
+      { session }: { session: DecodedIdToken }
+    ) => {
+      if (!session) throw Unauthorized("You have to be authorized to vote.");
+      return await service.setVoteDown(args.commentId, session.uid);
     },
   },
 };

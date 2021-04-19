@@ -1,33 +1,35 @@
 import { container } from "@/inversify.config";
 import { UserProfile, UserService } from "./index";
-import { AuthProvider } from "../auth";
+import { AuthProvider, DecodedIdToken } from "../auth";
+import { Unauthorized } from "@/exceptions/exceptions";
 
-const authProvider = container.get(AuthProvider);
 const service = container.get(UserService);
 
 export const usersResolvers = {
   Query: {
-    getSelfProfile: async (_, args, { sessionCookie }) => {
-      const userData = await authProvider.verifySessionCookie(
-        sessionCookie,
-        false
-      );
-      if (!userData) throw "Unauthorized";
-      const profile = await service.getProfile(userData.uid);
+    getSelfProfile: async (
+      _,
+      args,
+      { session }: { session: DecodedIdToken }
+    ) => {
+      if (!session)
+        throw Unauthorized("You have to be authorized to get self profile.");
+      const profile = await service.getProfile(session.uid);
       if (!profile) return null;
       return profileToResponse(profile);
     },
   },
   // TODO: add CSRF tokens
   Mutation: {
-    createSelfProfile: async (_, args, { sessionCookie }) => {
-      const userData = await authProvider.verifySessionCookie(
-        sessionCookie,
-        true
-      );
-      if (!userData) throw "Unauthorized";
+    createSelfProfile: async (
+      _,
+      args,
+      { session }: { session: DecodedIdToken }
+    ) => {
+      if (!session)
+        throw Unauthorized("You have to be authorized to create self profile.");
       const profile = await service.createProfile(
-        userData.uid,
+        session.uid,
         args.profile.name
       );
 

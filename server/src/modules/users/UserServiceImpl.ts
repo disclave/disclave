@@ -2,7 +2,7 @@ import { UserProfile } from "./UserProfile";
 import { UserService } from "./index";
 import { UserRepository, UserProfileEntity } from "./db";
 import { inject, injectable } from "inversify";
-import { UserId } from "../auth";
+import { UserId } from "@/modules/auth";
 import {
   ProfileAlreadyExists,
   UsernameInvalidCharacters,

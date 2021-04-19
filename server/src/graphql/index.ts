@@ -7,6 +7,8 @@ import { commentsResolvers } from "@/modules/comments/Resolvers";
 import { usersTypeDefs } from "@/modules/users/Schemas";
 import { usersResolvers } from "@/modules/users/Resolvers";
 import { getSessionCookie } from "@/cookies";
+import { container } from "@/inversify.config";
+import { AuthProvider } from "@/modules/auth";
 
 // TODO: verify cors
 const cors = Cors({
@@ -32,16 +34,29 @@ const baseTypes = gql`
   }
 `;
 
+const authProvider = container.get(AuthProvider);
+
+const parseSessionCookie = async (sessionCookie: string | null) => {
+  if (!sessionCookie) return undefined;
+  try {
+    return await authProvider.verifySessionCookie(sessionCookie, false);
+  } catch (e) {
+    return undefined;
+  }
+};
+
 const apolloServer = new ApolloServer({
   typeDefs: [baseTypes, authTypeDefs, commentsTypeDefs, usersTypeDefs],
   resolvers: [authResolvers, commentsResolvers, usersResolvers],
-  context: ({ req, res }) => {
+  context: async ({ req, res }) => {
     const sessionCookie = getSessionCookie(req);
+    const session = await parseSessionCookie(sessionCookie);
 
     return {
       req,
       res,
       sessionCookie,
+      session,
     };
   },
 });
