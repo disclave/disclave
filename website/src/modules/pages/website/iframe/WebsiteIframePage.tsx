@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { CommentModel, logout, useSession } from '@disclave/client';
+import { CommentModel, useSession } from '@disclave/client';
 import { loginHref } from '@/pages/auth/login';
 import { registerHref } from '@/pages/auth/register';
 import { PageCommentsContainer } from '@disclave/ui';
@@ -15,7 +15,10 @@ export const WebsiteIframePage: React.VFC<WebsiteIframePageProps> = (props) => {
   const containerRef = useRef<HTMLDivElement>();
   useContainerHeightMessage(containerRef);
 
-  const { profile } = useSession();
+  const {
+    profile,
+    actions: { logout }
+  } = useSession();
 
   const { comments, addComment, voteDown, voteUp, voteRemove } = useWebsiteComments(
     props.comments,
