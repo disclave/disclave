@@ -11,6 +11,7 @@ import { AppHead } from '@/modules/head';
 import { useEffect } from 'react';
 import { swOnLoadEventListener } from '@/modules/sw';
 import { useAnalytics } from '@/modules/analytics';
+import { UserProvider } from '@auth0/nextjs-auth0';
 
 config.autoAddCss = false;
 
@@ -44,9 +45,11 @@ const Disclave = ({ Component, pageProps }) => {
 
       <DefaultSeo {...SEO} />
 
-      <SessionProvider savedSession={pageProps.session}>
-        <Component {...pageProps} />
-      </SessionProvider>
+      <UserProvider>
+        <SessionProvider savedSession={pageProps.session}>
+          <Component {...pageProps} />
+        </SessionProvider>
+      </UserProvider>
     </>
   );
 };
