@@ -14,7 +14,9 @@ export const NotAuthenticated: React.VFC<NotAuthenticatedProps> = (props) => {
   const { t } = useTranslation('layout');
   const router = useRouter();
 
-  const loginBtnHref = props.loginHref ?? loginHref(router.route);
+  // TODO
+  const loginBtnHref = '/api/auth/login';
+  // const loginBtnHref = props.loginHref ?? loginHref(router.route);
   const registerBtnHref = props.registerHref ?? registerHref(router.route);
 
   return (
