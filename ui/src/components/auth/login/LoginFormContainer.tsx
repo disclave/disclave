@@ -54,6 +54,7 @@ export const LoginFormContainer: React.VFC<LoginFormContainerProps> = (
 const getState = (session?: SessionModel | null): State => {
   if (session === undefined) return State.LOADING;
   else if (session === null) return State.LOGIN_FORM;
+  else if (!session.profile) return State.LOADING;
   else return State.USER_INFO;
 };
 
