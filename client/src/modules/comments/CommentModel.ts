@@ -4,7 +4,6 @@ export interface CommentUrlMeta {
 }
 
 export interface CommentAuthor {
-  id: string;
   name: string;
 }
 

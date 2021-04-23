@@ -1,16 +1,12 @@
 import { initFirebaseApp } from "./firebase";
 import { initApolloClient } from "./graphql";
 
-export const init = async (firebaseOptions: Object, graphqlUri: string) => {
+export const init = (firebaseOptions: Object, graphqlUri: string) => {
   initApolloClient(graphqlUri);
-  await initFirebaseApp(firebaseOptions);
+  initFirebaseApp(firebaseOptions);
 };
 
 export { analytics } from "./firebase";
-
-export { SessionProvider, useSession } from "./modules/auth";
-
-export type { SessionModel } from "./modules/auth";
 
 export { isUrl, stringToUrl, encodeUrl } from "./modules/url";
 
@@ -30,5 +26,4 @@ export type {
   CommentVotes,
 } from "./modules/comments";
 
-export { getSelfProfile, createSelfProfile } from "./modules/users";
-export type { UserProfileModel } from "./modules/users";
+export { createSelfProfile } from "./modules/users";

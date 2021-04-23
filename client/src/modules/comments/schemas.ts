@@ -4,7 +4,6 @@ const defaultCommentResponseFields = `
   id
   text
   author {
-    id
     name
   }
   votes {
