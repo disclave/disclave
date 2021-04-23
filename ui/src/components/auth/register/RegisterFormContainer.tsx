@@ -6,10 +6,10 @@ import { Loading } from "@/components/loading";
 import { useTranslation } from "@/i18n";
 import { RegisterMethodSelect } from "@/components/auth/register/RegisterMethodSelect";
 import { EmailVerificationForm } from "./form/email-verification";
-import { SessionModel } from "@disclave/client";
+import { UserModel } from "@/components/auth";
 
 export interface RegisterFormContainerProps {
-  session?: SessionModel | null;
+  user?: UserModel | null;
   loginHref: string;
   onRegisterEmailPass: (email: string, password: string) => Promise<void>;
   onSendEmailVerification: () => Promise<void>;
@@ -25,14 +25,14 @@ export const RegisterFormContainer: React.VFC<RegisterFormContainerProps> = (
   const { t } = useTranslation("auth");
 
   const Component = () => {
-    const state = getState(props.session);
+    const state = getState(props.user);
     switch (state) {
       case State.LOADING:
         return <Loading />;
       case State.USER_INFO:
         return (
           <UserInfo
-            userProfile={props.session!.profile!}
+            userProfile={props.user!.profile!}
             onLogout={props.onLogout}
           />
         );
@@ -48,7 +48,7 @@ export const RegisterFormContainer: React.VFC<RegisterFormContainerProps> = (
       case State.EMAIL_VERIFICATION:
         return (
           <EmailVerificationForm
-            userEmail={props.session!.email}
+            userEmail={props.user!.email}
             onSendEmailVerification={props.onSendEmailVerification}
             onLogout={props.onLogout}
           />
@@ -56,7 +56,7 @@ export const RegisterFormContainer: React.VFC<RegisterFormContainerProps> = (
       case State.USERNAME:
         return (
           <RegisterUsernameForm
-            userEmail={props.session!.email}
+            userEmail={props.user!.email}
             onSubmit={props.onCreateUsername}
             onLogout={props.onLogout}
           />
@@ -71,11 +71,11 @@ export const RegisterFormContainer: React.VFC<RegisterFormContainerProps> = (
   );
 };
 
-const getState = (session?: SessionModel | null): State => {
-  if (session === undefined) return State.LOADING;
-  else if (session === null) return State.SELECT_METHOD;
-  else if (!session.emailVerified) return State.EMAIL_VERIFICATION;
-  else if (!session.profile) return State.USERNAME;
+const getState = (user?: UserModel | null): State => {
+  if (user === undefined) return State.LOADING;
+  else if (user === null) return State.SELECT_METHOD;
+  else if (!user.emailVerified) return State.EMAIL_VERIFICATION;
+  else if (!user.profile) return State.USERNAME;
   else return State.USER_INFO;
 };
 

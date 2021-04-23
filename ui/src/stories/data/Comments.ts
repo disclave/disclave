@@ -33,7 +33,6 @@ export interface BuildExampleCommentProps {
 export const buildExampleComment = ({
   text = "Example comment text.",
   timestamp = randomDate(new Date(2012, 0, 1), new Date()),
-  authorId = "mock-author-id" + Math.random(),
   authorName = "author_name",
   voteSum = randomInt(-50, 100),
   votedUp = false,
@@ -44,7 +43,6 @@ export const buildExampleComment = ({
   id: "mock-comment-id-" + Math.random(),
   text: text,
   author: {
-    id: authorId,
     name: authorName,
   },
   votes: {
@@ -78,7 +76,6 @@ export const ExampleComment: CommentModel = {
   id: "mock-comment-id",
   text: "This is example comment text!",
   author: {
-    id: "mock-author-id",
     name: "author_name",
   },
   votes: {

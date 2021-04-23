@@ -4,7 +4,7 @@ import { ContainerWrapper } from "@/components/container";
 import { Loading } from "@/components/loading";
 import { useTranslation } from "@/i18n";
 import { LoginMethodSelect } from "@/components/auth/login/LoginMethodSelect";
-import { SessionModel } from "@/components/auth";
+import { UserModel } from "@/components/auth";
 
 export interface LoginFormContainerProps {
   onLogin: (email: string, password: string) => Promise<void>;
@@ -12,7 +12,7 @@ export interface LoginFormContainerProps {
   onLoginFacebook: () => Promise<void>;
   onLoginGoogle: () => Promise<void>;
   registerHref: string;
-  session?: SessionModel | null;
+  user?: UserModel | null;
 }
 
 export const LoginFormContainer: React.VFC<LoginFormContainerProps> = (
@@ -21,7 +21,7 @@ export const LoginFormContainer: React.VFC<LoginFormContainerProps> = (
   const { t } = useTranslation("auth");
 
   const Component = () => {
-    const state = getState(props.session);
+    const state = getState(props.user);
     switch (state) {
       case State.LOADING:
         return <Loading />;
@@ -37,7 +37,7 @@ export const LoginFormContainer: React.VFC<LoginFormContainerProps> = (
       case State.USER_INFO:
         return (
           <UserInfo
-            userProfile={props.session?.profile!}
+            userProfile={props.user!.profile!}
             onLogout={props.onLogout}
           />
         );
@@ -51,10 +51,10 @@ export const LoginFormContainer: React.VFC<LoginFormContainerProps> = (
   );
 };
 
-const getState = (session?: SessionModel | null): State => {
-  if (session === undefined) return State.LOADING;
-  else if (session === null) return State.LOGIN_FORM;
-  else if (!session.profile) return State.LOADING;
+const getState = (user?: UserModel | null): State => {
+  if (user === undefined) return State.LOADING;
+  else if (user === null) return State.LOGIN_FORM;
+  else if (!user.profile) return State.LOADING;
   else return State.USER_INFO;
 };
 
