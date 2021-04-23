@@ -1,7 +1,7 @@
 import React from 'react';
 import { Authenticated } from './Authenticated';
 import { NotAuthenticated } from './NotAuthenticated';
-import { useUserProfile } from '@/modules/auth';
+import { useSession } from 'next-auth/client';
 
 export interface HeaderAuthProps {
   className?: string;
@@ -10,13 +10,13 @@ export interface HeaderAuthProps {
 }
 
 export const HeaderAuth: React.VFC<HeaderAuthProps> = ({ className, loginHref, registerHref }) => {
-  const { user } = useUserProfile();
+  const [session] = useSession();
 
   return (
     <div className={className}>
-      {user?.profile ? (
+      {session ? (
         <div className="w-max mr-0 ml-auto">
-          <Authenticated userProfile={user.profile} />
+          <Authenticated userProfile={session.user} />
         </div>
       ) : (
         <NotAuthenticated loginHref={loginHref} registerHref={registerHref} />

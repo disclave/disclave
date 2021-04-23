@@ -1,8 +1,10 @@
 import React from 'react';
 import { UserProfileModel } from '@/modules/auth';
+import { UserSelfAvatar } from '@disclave/ui';
+import { signOut } from 'next-auth/client';
 
 export interface AuthenticatedProps {
-  userProfile: UserProfileModel;
+  userProfile: any; // TODO: fixme
 }
 
 export const Authenticated: React.VFC<AuthenticatedProps> = ({ userProfile }) => {
@@ -10,8 +12,8 @@ export const Authenticated: React.VFC<AuthenticatedProps> = ({ userProfile }) =>
   //   actions: { logout }
   // } = useSession();
 
-  return <div>{JSON.stringify(userProfile)}</div>;
+  // return <div>{JSON.stringify(userProfile)}</div>;
 
   // TODO: fixme
-  // return <UserSelfAvatar userProfile={userProfile} onLogout={logout} left />;
+  return <UserSelfAvatar userProfile={userProfile} onLogout={() => signOut()} left />;
 };

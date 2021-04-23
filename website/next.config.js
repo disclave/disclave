@@ -12,6 +12,7 @@ module.exports = {
   target: 'server',
   env: {
     DOMAIN: getDomain(),
+    NEXTAUTH_URL: getDomain(),
     FIREBASE_CLIENT_CONFIG: process.env.FIREBASE_CLIENT_CONFIG
   },
   future: {
