@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Head from 'next/head';
 import { appWithTranslation } from 'next-i18next';
 import { setAnchorWrapper } from '@disclave/ui';
-import { init, SessionProvider } from '@disclave/client';
+import { init } from '@disclave/client';
 import { config } from '@fortawesome/fontawesome-svg-core';
 import { DefaultSeo } from 'next-seo';
 import { SEO } from '@/consts';
@@ -46,9 +46,7 @@ const Disclave = ({ Component, pageProps }) => {
       <DefaultSeo {...SEO} />
 
       <UserProvider>
-        <SessionProvider savedSession={pageProps.session}>
-          <Component {...pageProps} />
-        </SessionProvider>
+        <Component {...pageProps} />
       </UserProvider>
     </>
   );

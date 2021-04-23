@@ -1,11 +1,12 @@
 import React from 'react';
 import { useTranslation } from 'next-i18next';
-import { CommentModel, useSession } from '@disclave/client';
+import { CommentModel } from '@disclave/client';
 import { Button, PreviewCommentsList } from '@disclave/ui';
 import { useLatestComments, useTopComments } from '@/modules/comments';
 import { websiteHrefFromMeta } from '@/pages/website/[website]';
 import { topCommentsHref } from '@/pages/comments/top';
 import { latestCommentsHref } from '@/pages/comments/latest';
+import { useUserProfile } from '@/modules/auth';
 
 export interface CommentsRankingsSectionProps {
   commentsLimit: number;
@@ -17,15 +18,19 @@ export interface CommentsRankingsSectionProps {
 
 export const CommentsRankingsSection: React.VFC<CommentsRankingsSectionProps> = (props) => {
   const { t } = useTranslation(['home', 'common']);
-  const { profile } = useSession();
+  const { user } = useUserProfile();
 
   const top = useTopComments(props.topComments, props.topMinVoteSum, props.commentsLimit);
-  const latest = useLatestComments(props.latestComments, props.latestMinVoteSum, props.commentsLimit);
+  const latest = useLatestComments(
+    props.latestComments,
+    props.latestMinVoteSum,
+    props.commentsLimit
+  );
 
   const CommentsPreviewList = ({ comments, onVoteUp, onVoteDown, onVoteRemove }) => (
     <PreviewCommentsList
       actionsHandler={{ onVoteDown, onVoteRemove, onVoteUp }}
-      authenticated={!!profile}
+      authenticated={!!user?.profile}
       comments={comments}
       hrefBuilder={websiteHrefFromMeta}
     />

@@ -1,10 +1,8 @@
 import React from 'react';
-// import { UserProfileModel, useSession } from '@disclave/client';
-// import { UserSelfAvatar } from '@disclave/ui';
-import { UserProfile } from '@auth0/nextjs-auth0';
+import { UserProfileModel } from '@/modules/auth';
 
 export interface AuthenticatedProps {
-  userProfile: UserProfile;
+  userProfile: UserProfileModel;
 }
 
 export const Authenticated: React.VFC<AuthenticatedProps> = ({ userProfile }) => {
@@ -14,5 +12,6 @@ export const Authenticated: React.VFC<AuthenticatedProps> = ({ userProfile }) =>
 
   return <div>{JSON.stringify(userProfile)}</div>;
 
+  // TODO: fixme
   // return <UserSelfAvatar userProfile={userProfile} onLogout={logout} left />;
 };
