@@ -55,11 +55,6 @@ const Login = () => {
     )}&token=${encodeURIComponent(data.code)}`;
 
     await router.push(url);
-
-    // // TODO: handle result
-    // await fetch(url, {
-    //   method: 'POST'
-    // });
   };
 
   if (emailSent) {

@@ -1,18 +1,14 @@
 import React, { useEffect } from 'react';
-import { createSelfProfile, useSession } from '@disclave/client';
+import { createSelfProfile } from '@disclave/client';
 import { useRouter } from 'next/router';
 import { redirectParamsToUrl, routerQueryToRedirectParams } from '@/modules/redirect';
 import { loginHref } from '@/pages/auth/login';
 import { RegisterFormContainer } from '@disclave/ui';
 import { Layout } from '@/modules/layout';
+import { useUserProfile } from '@/modules/auth';
 
 export const RegisterPage: React.VFC = () => {
-  const {
-    session,
-    profile,
-    setProfile,
-    actions: { registerEmailPass, logout, loginWithGoogle, loginWithFacebook }
-  } = useSession();
+  const { user } = useUserProfile();
 
   const router = useRouter();
   const redirectParams = routerQueryToRedirectParams(router.query);
@@ -24,7 +20,7 @@ export const RegisterPage: React.VFC = () => {
   );
 
   useEffect(() => {
-    if (!profile) return;
+    if (!user?.profile) return;
 
     const checkRedirects = async () => {
       // TODO: validate and fix flow for popups register
@@ -33,7 +29,7 @@ export const RegisterPage: React.VFC = () => {
     };
 
     checkRedirects();
-  }, [profile]);
+  }, [user?.profile]);
 
   const onRegisterEmailPass = async (email: string, password: string) => {
     await registerEmailPass(email, password, window.location.href);

@@ -6,9 +6,6 @@ import { commentsTypeDefs } from "@/modules/comments/Schemas";
 import { commentsResolvers } from "@/modules/comments/Resolvers";
 import { usersTypeDefs } from "@/modules/users/Schemas";
 import { usersResolvers } from "@/modules/users/Resolvers";
-import { getSessionCookie } from "@/cookies";
-import { container } from "@/inversify.config";
-import { AuthProvider } from "@/modules/auth";
 
 // TODO: verify cors
 const cors = Cors({
@@ -34,41 +31,44 @@ const baseTypes = gql`
   }
 `;
 
-const authProvider = container.get(AuthProvider);
+interface Session {
+  user?: {
+    email?: string | null;
+  };
+}
 
-const parseSessionCookie = async (sessionCookie: string | null) => {
-  if (!sessionCookie) return undefined;
-  try {
-    return await authProvider.verifySessionCookie(sessionCookie, false);
-  } catch (e) {
-    return undefined;
-  }
+const createApolloHandler = (
+  path: string,
+  sessionParser: (req: any) => Promise<Session>
+) => {
+  const apolloServer = new ApolloServer({
+    typeDefs: [baseTypes, authTypeDefs, commentsTypeDefs, usersTypeDefs],
+    resolvers: [authResolvers, commentsResolvers, usersResolvers],
+    context: async ({ req, res }) => {
+      const session = await sessionParser(req);
+
+      return {
+        req,
+        res,
+        session,
+      };
+    },
+  });
+
+  return apolloServer.createHandler({ path });
 };
 
-const apolloServer = new ApolloServer({
-  typeDefs: [baseTypes, authTypeDefs, commentsTypeDefs, usersTypeDefs],
-  resolvers: [authResolvers, commentsResolvers, usersResolvers],
-  context: async ({ req, res }) => {
-    const sessionCookie = getSessionCookie(req);
-    const session = await parseSessionCookie(sessionCookie);
-
-    return {
-      req,
-      res,
-      sessionCookie,
-      session,
-    };
-  },
-});
-
-export const graphqlHandler = (path: string) => {
-  const handler = apolloServer.createHandler({ path });
+export const graphqlHandler = (
+  path: string,
+  sessionParser: (req: any) => Promise<Session>
+) => {
+  const apolloHandler = createApolloHandler(path, sessionParser);
 
   return cors((req, res) => {
     if (req.method === "OPTIONS") {
       return res.end();
     }
 
-    return handler(req, res);
+    return apolloHandler(req, res);
   });
 };
