@@ -1,16 +1,14 @@
 import React, { useEffect } from 'react';
-import { useSession } from '@disclave/client';
 import { useRouter } from 'next/router';
 import { redirectParamsToUrl, routerQueryToRedirectParams } from '@/modules/redirect';
 import { registerHref } from '@/pages/auth/register';
 import { LoginFormContainer } from '@disclave/ui';
 import { Layout } from '@/modules/layout';
+import { useUserProfile } from '@/modules/auth';
+import { signIn } from 'next-auth/client';
 
 export const LoginPage: React.VFC = () => {
-  const {
-    session,
-    actions: { loginEmailPass, logout, loginWithGoogle, loginWithFacebook }
-  } = useSession();
+  const { session, profile } = useUserProfile();
 
   const router = useRouter();
   const redirectParams = routerQueryToRedirectParams(router.query);
@@ -29,7 +27,7 @@ export const LoginPage: React.VFC = () => {
     if (session == null) return;
 
     const checkRedirects = async () => {
-      if (!session.emailVerified || !session.profile) {
+      if (!profile) {
         await redirectToRegisterPage();
         return;
       }
@@ -51,31 +49,26 @@ export const LoginPage: React.VFC = () => {
     checkRedirects();
   }, [session]);
 
-  const onLogin = async (email: string, password: string) => {
-    await loginEmailPass(email, password);
+  const onEmailLogin = async (email: string) => {
+    // TODO: handle result
+    const result = await signIn('email', { email, redirect: false });
   };
 
-  const onLogout = async () => {
-    await logout();
-  };
+  const onVerificationCodeConfirm = async (email: string, token: string) => {
+    // TODO: extract URL to separate builder method
+    const url = `/api/auth/callback/email?email=${encodeURIComponent(
+      email
+    )}&token=${encodeURIComponent(token)}`;
 
-  const onFacebookLogin = async () => {
-    await loginWithFacebook(window.location.href);
-  };
-  const onGoogleLogin = async () => {
-    await loginWithGoogle(window.location.href);
+    await router.push(url);
   };
 
   return (
     <Layout>
       <section className="container mx-auto my-8 lg:mt-24 max-w-max">
         <LoginFormContainer
-          onLogin={onLogin}
-          onLogout={onLogout}
-          onLoginFacebook={onFacebookLogin}
-          onLoginGoogle={onGoogleLogin}
-          registerHref={registerHrefWithRedirect}
-          session={session}
+          onEmailLogin={onEmailLogin}
+          onVerificationCodeConfirm={onVerificationCodeConfirm}
         />
       </section>
     </Layout>

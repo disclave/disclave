@@ -6,7 +6,7 @@ import { LoginVerificationCodeForm } from "@/components/auth/login/verificaiton-
 
 export interface LoginFormContainerProps {
   onEmailLogin: (email: string) => Promise<void>;
-  onVerificationCodeConfirm: (token: string) => Promise<void>;
+  onVerificationCodeConfirm: (email: string, token: string) => Promise<void>;
 }
 
 export const LoginFormContainer: React.VFC<LoginFormContainerProps> = (
@@ -22,6 +22,10 @@ export const LoginFormContainer: React.VFC<LoginFormContainerProps> = (
     setVerificationCodeSent(true);
   };
 
+  const onVerificationCodeConfirm = async (token: string) => {
+    await props.onVerificationCodeConfirm(email, token);
+  };
+
   const Component = () => {
     const state = getState(verificationCodeSent);
     switch (state) {
@@ -30,7 +34,7 @@ export const LoginFormContainer: React.VFC<LoginFormContainerProps> = (
       case State.VERIFICATION_CODE:
         return (
           <LoginVerificationCodeForm
-            onSubmit={props.onVerificationCodeConfirm}
+            onSubmit={onVerificationCodeConfirm}
             userEmail={email}
           />
         );
