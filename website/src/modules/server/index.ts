@@ -12,7 +12,7 @@ export const initServer = async () => {
     apiKey: process.env.MJ_API_KEY,
     apiSecret: process.env.MJ_API_SECRET,
     templates: {
-      emailVerification: process.env.MJ_TEMPLATE_EMAIL_VERIFICATION
+      authVerificationCode: process.env.MJ_TEMPLATE_AUTH_VERIFICATION_CODE
     }
   };
 

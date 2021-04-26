@@ -1,16 +1,18 @@
 import NextAuth from 'next-auth';
 import Providers from 'next-auth/providers';
+import { getEmailService } from '@disclave/server';
+import { initServer } from '@/modules/server';
+
+initServer().catch((e) => console.error(e));
 
 export default NextAuth({
-  // Configure one or more authentication providers
   providers: [
-    Providers.GitHub({
-      clientId: process.env.GITHUB_ID,
-      clientSecret: process.env.GITHUB_SECRET
+    Providers.Email({
+      sendVerificationRequest: async ({ identifier: email, url, token, baseUrl, provider }) => {
+        const emailService = getEmailService();
+        await emailService.sendAuthVerificationCodeEmail(email, token);
+      }
     })
-    // ...add more providers here
   ],
-
-  // A database is optional, but required to persist accounts in a database
   database: process.env.DB_URI
 });

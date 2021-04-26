@@ -74,7 +74,7 @@ export class FirebaseAuthProvider implements AuthProvider {
       user.email,
       settings
     );
-    await this.emailService.sendVerificationEmail(user.email, verificationLink);
+    // await this.emailService.sendVerificationEmail(user.email, verificationLink);
     return true;
   }
 }

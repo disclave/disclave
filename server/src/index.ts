@@ -4,6 +4,7 @@ import { CommentService } from "@/modules/comments";
 import { initDatabase } from "@/connectors/mongodb";
 import { AuthProvider } from "@/modules/auth";
 import { EmailTemplate, initMailjet } from "@/connectors/mailjet";
+import { EmailService } from "@/modules/email";
 
 export interface DbConfig {
   dbUri: string;
@@ -14,7 +15,7 @@ export interface MailjetConfig {
   apiKey: string;
   apiSecret: string;
   templates: {
-    emailVerification: string;
+    authVerificationCode: string;
   };
 }
 
@@ -25,8 +26,8 @@ export const init = async (
 ) => {
   const emailTemplates = new Map<EmailTemplate, number>();
   emailTemplates.set(
-    EmailTemplate.EMAIL_VERIFICATION,
-    Number(mjConfig.templates.emailVerification)
+    EmailTemplate.AUTH_VERIFICATION_CODE,
+    Number(mjConfig.templates.authVerificationCode)
   );
 
   initMailjet(mjConfig.apiKey, mjConfig.apiSecret, emailTemplates);
@@ -38,5 +39,6 @@ export { graphqlHandler } from "./graphql";
 
 export { getSessionCookie } from "./cookies";
 
+export const getEmailService = () => container.get(EmailService);
 export const getAuthProvider = () => container.get(AuthProvider);
 export const getCommentService = () => container.get(CommentService);

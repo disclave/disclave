@@ -1,3 +1,6 @@
 export abstract class EmailService {
-  abstract sendVerificationEmail(email: string, link: string): Promise<void>;
+  abstract sendAuthVerificationCodeEmail(
+    email: string,
+    code: string
+  ): Promise<void>;
 }
