@@ -1,6 +1,6 @@
 import NextAuth from 'next-auth';
 import Providers from 'next-auth/providers';
-import { getEmailService } from '@disclave/server';
+import { getEmailService, getUserService } from '@disclave/server';
 import { initServer } from '@/modules/server';
 
 initServer().catch((e) => console.error(e));
@@ -8,11 +8,11 @@ initServer().catch((e) => console.error(e));
 export default NextAuth({
   providers: [
     Providers.Email({
-      sendVerificationRequest: async ({ identifier: email, url, token, baseUrl, provider }) => {
+      async sendVerificationRequest({ identifier: email, token }) {
         const emailService = getEmailService();
         await emailService.sendAuthVerificationCodeEmail(email, token);
       },
-      generateVerificationToken: async (): Promise<string> => {
+      async generateVerificationToken() {
         const length = 6;
         const characters = 'ABCDEFGHIJKLMNPQRSTUVWXYZ123456789'; // A-Z1-9 (O and 0 removed)
         const charactersLength = characters.length;
@@ -25,6 +25,17 @@ export default NextAuth({
   ],
   pages: {
     signIn: '/auth/login'
+  },
+  callbacks: {
+    async session(session, token) {
+      if (token) {
+        const userService = getUserService();
+        const uid = token?.id;
+        session.uid = uid;
+        session.profile = await userService.getProfile(uid);
+      }
+      return session;
+    }
   },
   database: process.env.DB_URI
 });

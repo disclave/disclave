@@ -3,6 +3,7 @@ import { CommentService } from "@/modules/comments";
 import { initDatabase } from "@/connectors/mongodb";
 import { EmailTemplate, initMailjet } from "@/connectors/mailjet";
 import { EmailService } from "@/modules/email";
+import { UserService } from "@/modules/users";
 
 export interface DbConfig {
   dbUri: string;
@@ -32,5 +33,6 @@ export { graphqlHandler } from "./graphql";
 
 export { getSessionCookie } from "./cookies";
 
+export const getUserService = () => container.get(UserService);
 export const getEmailService = () => container.get(EmailService);
 export const getCommentService = () => container.get(CommentService);
