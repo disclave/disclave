@@ -23,5 +23,8 @@ export default NextAuth({
       }
     } as any) // TODO: remove cast to any when next-auth types fixed
   ],
+  pages: {
+    signIn: '/auth/login'
+  },
   database: process.env.DB_URI
 });
