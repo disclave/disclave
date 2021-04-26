@@ -1,44 +1,37 @@
-import React from "react";
-import { UserInfo } from "../user";
+import React, { useState } from "react";
 import { ContainerWrapper } from "@/components/container";
-import { Loading } from "@/components/loading";
 import { useTranslation } from "@/i18n";
 import { LoginMethodSelect } from "@/components/auth/login/LoginMethodSelect";
-import { UserModel } from "@/components/auth";
+import { LoginVerificationCodeForm } from "@/components/auth/login/verificaiton-code-form";
 
 export interface LoginFormContainerProps {
-  onLogin: (email: string, password: string) => Promise<void>;
-  onLogout: () => Promise<void>;
-  onLoginFacebook: () => Promise<void>;
-  onLoginGoogle: () => Promise<void>;
-  registerHref: string;
-  user?: UserModel | null;
+  onEmailLogin: (email: string) => Promise<void>;
+  onVerificationCodeConfirm: (token: string) => Promise<void>;
 }
 
 export const LoginFormContainer: React.VFC<LoginFormContainerProps> = (
   props
 ) => {
+  const [email, setEmail] = useState("");
+  const [verificationCodeSent, setVerificationCodeSent] = useState(false);
   const { t } = useTranslation("auth");
 
+  const onEmailLogin = async (email: string) => {
+    await props.onEmailLogin(email);
+    setEmail(email);
+    setVerificationCodeSent(true);
+  };
+
   const Component = () => {
-    const state = getState(props.user);
+    const state = getState(verificationCodeSent);
     switch (state) {
-      case State.LOADING:
-        return <Loading />;
-      case State.LOGIN_FORM:
+      case State.METHOD_SELECT:
+        return <LoginMethodSelect onEmailLogin={onEmailLogin} />;
+      case State.VERIFICATION_CODE:
         return (
-          <LoginMethodSelect
-            onLogin={props.onLogin}
-            onLoginFacebook={props.onLoginFacebook}
-            onLoginGoogle={props.onLoginGoogle}
-            registerHref={props.registerHref}
-          />
-        );
-      case State.USER_INFO:
-        return (
-          <UserInfo
-            userProfile={props.user!.profile!}
-            onLogout={props.onLogout}
+          <LoginVerificationCodeForm
+            onSubmit={props.onVerificationCodeConfirm}
+            userEmail={email}
           />
         );
     }
@@ -51,15 +44,12 @@ export const LoginFormContainer: React.VFC<LoginFormContainerProps> = (
   );
 };
 
-const getState = (user?: UserModel | null): State => {
-  if (user === undefined) return State.LOADING;
-  else if (user === null) return State.LOGIN_FORM;
-  else if (!user.profile) return State.LOADING;
-  else return State.USER_INFO;
+const getState = (verificationCodeSent: boolean): State => {
+  if (verificationCodeSent) return State.VERIFICATION_CODE;
+  else return State.METHOD_SELECT;
 };
 
 enum State {
-  LOADING,
-  LOGIN_FORM,
-  USER_INFO,
+  METHOD_SELECT,
+  VERIFICATION_CODE,
 }

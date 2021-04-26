@@ -1,1 +1,0 @@
-export {EmailVerificationForm} from "./EmailVerificationForm";

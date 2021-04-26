@@ -1,12 +1,12 @@
 import React from "react";
 
-import { LoginForm, LoginFormProps } from "./LoginForm";
+import { LoginEmailForm, LoginEmailFormProps } from "./LoginEmailForm";
 import { Story } from "@storybook/react";
 import { sleep } from "@/stories/Helpers";
 
 export default {
-  title: "Auth/Login/Form",
-  component: LoginForm,
+  title: "Auth/Login/Email Form",
+  component: LoginEmailForm,
 };
 
 const onSubmitCorrect = async () => {
@@ -17,7 +17,9 @@ const onSubmitError = async () => {
   await sleep(2000, { code: "login-error" });
 };
 
-const Template: Story<LoginFormProps> = (args) => <LoginForm {...args} />;
+const Template: Story<LoginEmailFormProps> = (args) => (
+  <LoginEmailForm {...args} />
+);
 
 export const Default = Template.bind({});
 Default.args = {

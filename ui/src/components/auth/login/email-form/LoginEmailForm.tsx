@@ -6,27 +6,24 @@ import { useTranslation } from "@/i18n";
 
 const FormField = {
   email: "email",
-  pass: "pass",
 } as const;
 
 interface FormData {
   [FormField.email]: string;
-  [FormField.pass]: string;
 }
 
-export interface LoginFormProps {
-  onSubmit: (email: string, password: string) => Promise<void>;
-  registerHref: string;
+export interface LoginEmailFormProps {
+  onSubmit: (email: string) => Promise<void>;
 }
 
 const Form = FormFactory<FormData>();
 
-export const LoginForm: React.VFC<LoginFormProps> = (props) => {
+export const LoginEmailForm: React.VFC<LoginEmailFormProps> = (props) => {
   const { t } = useTranslation("auth");
   const [loading, runWithLoading, error] = useLoading(false);
 
   const onSubmit = async (data: FormData) => {
-    await runWithLoading(() => props.onSubmit(data.email, data.pass));
+    await runWithLoading(() => props.onSubmit(data.email));
   };
 
   return (
@@ -35,23 +32,13 @@ export const LoginForm: React.VFC<LoginFormProps> = (props) => {
         disabled={loading}
         name={FormField.email}
         options={{ required: true }}
-        placeholder={t("login.email.placeholder")}
+        placeholder={t("login.email.email.placeholder")}
         type="email"
-      />
-      <TextField
-        disabled={loading}
-        name={FormField.pass}
-        options={{ required: true }}
-        placeholder={t("login.password.placeholder")}
-        type="password"
       />
       <FormErrorContainer error={error} />
       <div className="flex justify-end space-x-2">
-        <Button href={props.registerHref} flat disabled={loading}>
-          {t("login.button.register")}
-        </Button>
         <Button type="submit" disabled={loading}>
-          {t("login.button.login")}
+          {t("login.email.button.login")}
         </Button>
       </div>
     </Form>
