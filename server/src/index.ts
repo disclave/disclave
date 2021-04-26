@@ -31,7 +31,8 @@ export const init = async (dbConfig: DbConfig, mjConfig: MailjetConfig) => {
 
 export { graphqlHandler } from "./graphql";
 
-export { getSessionCookie } from "./cookies";
+export type { Session } from "./modules/auth";
+export type { UserProfile } from "./modules/users";
 
 export const getUserService = () => container.get(UserService);
 export const getEmailService = () => container.get(EmailService);

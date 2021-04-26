@@ -10,13 +10,13 @@ export interface HeaderAuthProps {
 }
 
 export const HeaderAuth: React.VFC<HeaderAuthProps> = ({ className, loginHref, registerHref }) => {
-  const { user } = useUserProfile();
+  const { profile } = useUserProfile();
 
   return (
     <div className={className}>
-      {user?.profile ? (
+      {profile ? (
         <div className="w-max mr-0 ml-auto">
-          <Authenticated userProfile={user.profile} />
+          <Authenticated userProfile={profile} />
         </div>
       ) : (
         <NotAuthenticated loginHref={loginHref} registerHref={registerHref} />

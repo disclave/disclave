@@ -18,7 +18,7 @@ export interface CommentsRankingsSectionProps {
 
 export const CommentsRankingsSection: React.VFC<CommentsRankingsSectionProps> = (props) => {
   const { t } = useTranslation(['home', 'common']);
-  const { user } = useUserProfile();
+  const { profile } = useUserProfile();
 
   const top = useTopComments(props.topComments, props.topMinVoteSum, props.commentsLimit);
   const latest = useLatestComments(
@@ -30,7 +30,7 @@ export const CommentsRankingsSection: React.VFC<CommentsRankingsSectionProps> = 
   const CommentsPreviewList = ({ comments, onVoteUp, onVoteDown, onVoteRemove }) => (
     <PreviewCommentsList
       actionsHandler={{ onVoteDown, onVoteRemove, onVoteUp }}
-      authenticated={!!user?.profile}
+      authenticated={!!profile}
       comments={comments}
       hrefBuilder={websiteHrefFromMeta}
     />
