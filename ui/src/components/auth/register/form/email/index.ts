@@ -1,1 +1,0 @@
-export { RegisterEmailPassForm } from "./RegisterEmailPassForm";
