@@ -1,11 +1,10 @@
 import Cors from "micro-cors";
 import { ApolloServer, gql } from "apollo-server-micro";
-import { authTypeDefs } from "@/modules/auth/Schemas";
-import { authResolvers } from "@/modules/auth/Resolvers";
 import { commentsTypeDefs } from "@/modules/comments/Schemas";
 import { commentsResolvers } from "@/modules/comments/Resolvers";
 import { usersTypeDefs } from "@/modules/users/Schemas";
 import { usersResolvers } from "@/modules/users/Resolvers";
+import { Session } from "@/modules/auth";
 
 // TODO: verify cors
 const cors = Cors({
@@ -31,19 +30,13 @@ const baseTypes = gql`
   }
 `;
 
-interface Session {
-  user?: {
-    email?: string | null;
-  };
-}
-
 const createApolloHandler = (
   path: string,
   sessionParser: (req: any) => Promise<Session>
 ) => {
   const apolloServer = new ApolloServer({
-    typeDefs: [baseTypes, authTypeDefs, commentsTypeDefs, usersTypeDefs],
-    resolvers: [authResolvers, commentsResolvers, usersResolvers],
+    typeDefs: [baseTypes, commentsTypeDefs, usersTypeDefs],
+    resolvers: [commentsResolvers, usersResolvers],
     context: async ({ req, res }) => {
       const session = await sessionParser(req);
 

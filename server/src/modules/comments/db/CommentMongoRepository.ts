@@ -1,8 +1,7 @@
 import { CommentEntity } from "./CommentEntity";
 import { AuthorInfo, CommentRepository, UrlMeta } from "./index";
 import { injectable } from "inversify";
-import { db, Timestamp, ObjectID, MongoRepository } from "@/connectors/mongodb";
-import { UserId } from "@/modules/auth";
+import { Timestamp, ObjectID, MongoRepository } from "@/connectors/mongodb";
 import { ClientSession } from "mongodb";
 import { commentsDbCollection, DbComment, getProjection } from "./mongo";
 
@@ -12,7 +11,7 @@ export class CommentMongoRepository
   implements CommentRepository<ClientSession> {
   public async findComments(
     url: UrlMeta,
-    uid: UserId | null
+    uid: string | null
   ): Promise<Array<CommentEntity>> {
     const collection = await commentsDbCollection();
     const cursor = collection
@@ -27,7 +26,7 @@ export class CommentMongoRepository
   public async findLatestComments(
     minVoteSum: number,
     limit: number,
-    uid: UserId | null
+    uid: string | null
   ): Promise<Array<CommentEntity>> {
     const collection = await commentsDbCollection();
     const cursor = collection
@@ -48,7 +47,7 @@ export class CommentMongoRepository
   public async findTopComments(
     minVoteSum: number,
     limit: number,
-    uid: UserId | null
+    uid: string | null
   ): Promise<Array<CommentEntity>> {
     const collection = await commentsDbCollection();
     const cursor = collection
@@ -90,7 +89,7 @@ export class CommentMongoRepository
     return cursorDocToEntity(doc);
   }
 
-  public async removeVote(commentId: string, uid: UserId): Promise<boolean> {
+  public async removeVote(commentId: string, uid: string): Promise<boolean> {
     const collection = await commentsDbCollection();
 
     const bulk = collection.initializeOrderedBulkOp();
@@ -106,7 +105,7 @@ export class CommentMongoRepository
     return result.nModified > 0;
   }
 
-  public async setVoteDown(commentId: string, uid: UserId): Promise<boolean> {
+  public async setVoteDown(commentId: string, uid: string): Promise<boolean> {
     const collection = await commentsDbCollection();
 
     const bulk = collection.initializeOrderedBulkOp();
@@ -124,7 +123,7 @@ export class CommentMongoRepository
     return result.nModified > 0;
   }
 
-  public async setVoteUp(commentId: string, uid: UserId): Promise<boolean> {
+  public async setVoteUp(commentId: string, uid: string): Promise<boolean> {
     const collection = await commentsDbCollection();
 
     const bulk = collection.initializeOrderedBulkOp();

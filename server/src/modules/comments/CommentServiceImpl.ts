@@ -3,7 +3,6 @@ import { UrlService } from "@/modules/url";
 import { UserService } from "@/modules/users";
 import { CommentService, Comment } from "./index";
 import { inject, injectable } from "inversify";
-import { UserId } from "@/modules/auth";
 import escapeHtml from "escape-html";
 import { CommentTextMaxLength, CommentTextMinLength } from "./exceptions";
 
@@ -20,7 +19,7 @@ export class CommentServiceImpl implements CommentService {
 
   public async getComments(
     url: string,
-    userId: UserId | null
+    userId: string | null
   ): Promise<Array<Comment>> {
     const parsedUrl = this.urlService.parseUrl(url);
     const comments = await this.repository.findComments(parsedUrl, userId);
@@ -30,7 +29,7 @@ export class CommentServiceImpl implements CommentService {
   public async getLatestComments(
     minVoteSum: number,
     limit: number,
-    userId: UserId | null
+    userId: string | null
   ): Promise<Array<Comment>> {
     const comments = await this.repository.findLatestComments(
       minVoteSum,
@@ -43,7 +42,7 @@ export class CommentServiceImpl implements CommentService {
   public async getTopComments(
     minVoteSum: number,
     limit: number,
-    userId: UserId | null
+    userId: string | null
   ): Promise<Array<Comment>> {
     const comments = await this.repository.findTopComments(
       minVoteSum,
@@ -59,7 +58,7 @@ export class CommentServiceImpl implements CommentService {
   }
 
   public async addComment(
-    uid: UserId,
+    uid: string,
     text: string,
     url: string
   ): Promise<Comment> {
@@ -74,18 +73,18 @@ export class CommentServiceImpl implements CommentService {
     return toDomain(result);
   }
 
-  public async removeVote(commentId: string, userId: UserId): Promise<boolean> {
+  public async removeVote(commentId: string, userId: string): Promise<boolean> {
     return await this.repository.removeVote(commentId, userId);
   }
 
   public async setVoteDown(
     commentId: string,
-    userId: UserId
+    userId: string
   ): Promise<boolean> {
     return await this.repository.setVoteDown(commentId, userId);
   }
 
-  public async setVoteUp(commentId: string, userId: UserId): Promise<boolean> {
+  public async setVoteUp(commentId: string, userId: string): Promise<boolean> {
     return await this.repository.setVoteUp(commentId, userId);
   }
 }

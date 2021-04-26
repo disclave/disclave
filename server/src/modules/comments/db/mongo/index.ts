@@ -1,5 +1,4 @@
 import { db, ObjectID, Timestamp } from "@/connectors/mongodb";
-import { UserId } from "@/modules/auth";
 
 const websitesCollection = "websites";
 const pagesCollection = "pages";
@@ -12,8 +11,8 @@ export interface DbComment {
     id: string;
     name: string;
   };
-  votesUp: UserId[];
-  votesDown: UserId[];
+  votesUp: string[];
+  votesDown: string[];
   votesSum: number;
   timestamp: Timestamp;
   url: {
@@ -23,7 +22,7 @@ export interface DbComment {
   };
 }
 
-export const getProjection = (uid: UserId | null) => ({
+export const getProjection = (uid: string | null) => ({
   text: 1,
   author: {
     id: 1,

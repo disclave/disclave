@@ -1,8 +1,6 @@
 import { init } from '@disclave/server';
 
 export const initServer = async () => {
-  const firebaseCert = JSON.parse(process.env.FIREBASE_CERT);
-
   const dbConfig = {
     dbUri: process.env.DB_URI,
     dbName: process.env.DB_NAME
@@ -16,5 +14,5 @@ export const initServer = async () => {
     }
   };
 
-  await init(firebaseCert, dbConfig, mailjetConfig);
+  await init(dbConfig, mailjetConfig);
 };

@@ -10,15 +10,12 @@ import { UserService } from "@/modules/users";
 import { UserServiceImpl } from "@/modules/users/UserServiceImpl";
 import { UrlServiceImpl } from "@/modules/url/UrlServiceImpl";
 import { UrlService } from "@/modules/url";
-import { AuthProvider } from "@/modules/auth";
-import { FirebaseAuthProvider } from "@/modules/auth/FirebaseAuthProvider";
 import { EmailService } from "@/modules/email";
 import { MailjetEmailService } from "@/modules/email/MailjetEmailService";
 
 const container = new Container();
 
 container.bind(EmailService).to(MailjetEmailService);
-container.bind(AuthProvider).to(FirebaseAuthProvider);
 
 container.bind(UserRepository).to(UserMongoRepository);
 container.bind(CommentRepository).to(CommentMongoRepository);

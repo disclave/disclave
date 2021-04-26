@@ -2,7 +2,6 @@ import { UserProfile } from "./UserProfile";
 import { UserService } from "./index";
 import { UserRepository, UserProfileEntity } from "./db";
 import { inject, injectable } from "inversify";
-import { UserId } from "@/modules/auth";
 import {
   ProfileAlreadyExists,
   UsernameInvalidCharacters,
@@ -17,12 +16,13 @@ export class UserServiceImpl implements UserService {
   @inject(UserRepository)
   private repository: UserRepository;
 
-  public async createProfile(uid: UserId, name: string): Promise<UserProfile> {
+  public async createProfile(uid: string, name: string): Promise<UserProfile> {
     validateUserName(name);
 
-    const user = await this.repository.getUser(uid);
-    // TODO: is this check required? can user with disabled account generate the idToken?
-    if (user.disabled) throw "User account is disabled";
+    // TODO: validate
+    // const user = await this.repository.getUser(uid);
+    // // TODO: is this check required? can user with disabled account generate the idToken?
+    // if (user.disabled) throw "User account is disabled";
 
     await this.repository.runTransaction(async (t) => {
       if (await this.repository.getUserProfile(uid))
@@ -47,7 +47,7 @@ export class UserServiceImpl implements UserService {
     return await this.repository.getUserProfile(uid);
   }
 
-  public async getProfile(uid: UserId): Promise<UserProfile | null> {
+  public async getProfile(uid: string): Promise<UserProfile | null> {
     const profile = await this.repository.getUserProfile(uid);
     if (profile == null) return null;
     return toDomain(profile);

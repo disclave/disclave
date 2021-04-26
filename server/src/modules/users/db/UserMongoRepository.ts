@@ -1,4 +1,3 @@
-import { auth } from "@/connectors/firebase";
 import { UserProfileEntity } from "./UserProfileEntity";
 import { UserRepository } from "./index";
 import { injectable } from "inversify";
@@ -8,10 +7,9 @@ import {
   Timestamp,
   MongoRepository,
 } from "@/connectors/mongodb";
-import { UserId } from "@/modules/auth";
 
 interface DbProfile {
-  _id: UserId;
+  _id: string;
   name: string;
   normalizedName: string;
   createdTs: Timestamp;
@@ -21,10 +19,10 @@ interface DbProfile {
 export class UserMongoRepository
   extends MongoRepository
   implements UserRepository<ClientSession> {
-  // TODO: move to auth module?
-  public async getUser(uid: UserId) {
-    return auth().getUser(uid);
-  }
+  // // TODO: move to auth module?
+  // public async getUser(uid: string) {
+  //   return auth().getUser(uid);
+  // }
 
   public async existProfileByName(
     name: string,
@@ -40,7 +38,7 @@ export class UserMongoRepository
   }
 
   public async createProfile(
-    userId: UserId,
+    userId: string,
     profile: { name: string },
     session?: ClientSession
   ) {
@@ -51,7 +49,7 @@ export class UserMongoRepository
   }
 
   public async getUserProfile(
-    uid: UserId,
+    uid: string,
     session?: ClientSession
   ): Promise<UserProfileEntity | null> {
     const collection = await profilesDbCollection();
@@ -62,7 +60,7 @@ export class UserMongoRepository
   }
 }
 
-const toDbProfile = (uid: UserId, name: string): DbProfile => ({
+const toDbProfile = (uid: string, name: string): DbProfile => ({
   _id: uid,
   name: name,
   normalizedName: name.toLowerCase(),

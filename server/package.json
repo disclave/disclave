@@ -15,7 +15,6 @@
     "apollo-server-micro": "^2.22.2",
     "cookie": "^0.4.1",
     "escape-html": "^1.0.3",
-    "firebase-admin": "^9.6.0",
     "graphql": "^15.5.0",
     "inversify": "^5.0.5",
     "micro-cors": "^0.1.1",

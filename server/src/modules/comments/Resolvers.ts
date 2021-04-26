@@ -1,34 +1,33 @@
 import { Comment } from "./Comment";
 import { container } from "@/inversify.config";
 import { CommentService } from "./index";
-import { AuthProvider, DecodedIdToken } from "@/modules/auth";
 import { Unauthorized } from "@/exceptions/exceptions";
+import { Session } from "@/modules/auth";
 
 const service = container.get(CommentService);
 
 export const commentsResolvers = {
   Query: {
-    getComments: async (_, args, { session }: { session: DecodedIdToken }) => {
-      const comments = await service.getComments(args.url, session?.uid);
+    getComments: async (_, args, { session }: { session: Session }) => {
+      // TODO: fixme
+      const comments = await service.getComments(args.url, /*session?.uid*/ "");
       return comments.map(commentToResponse);
     },
-    latestComments: async (
-      _,
-      args,
-      { session }: { session: DecodedIdToken }
-    ) => {
+    latestComments: async (_, args, { session }: { session: Session }) => {
+      // TODO: fixme
       const comments = await service.getLatestComments(
         args.minVoteSum,
         args.limit,
-        session?.uid
+        /*session?.uid*/ ""
       );
       return comments.map(commentToResponse);
     },
-    topComments: async (_, args, { session }: { session: DecodedIdToken }) => {
+    topComments: async (_, args, { session }: { session: Session }) => {
+      // TODO: fixme
       const comments = await service.getTopComments(
         args.minVoteSum,
         args.limit,
-        session?.uid
+        /*session?.uid*/ ""
       );
       return comments.map(commentToResponse);
     },
@@ -38,44 +37,32 @@ export const commentsResolvers = {
   },
   // TODO: add CSRF tokens
   Mutation: {
-    createComment: async (
-      _,
-      args,
-      { session }: { session: DecodedIdToken }
-    ) => {
+    createComment: async (_, args, { session }: { session: Session }) => {
       if (!session)
         throw Unauthorized("You have to be authorized to create comment.");
 
+      // TODO: fixme
       const comment = await service.addComment(
-        session.uid,
+        /*session.uid*/ "",
         args.comment.text,
         args.comment.url
       );
       return commentToResponse(comment);
     },
-    removeCommentVote: async (
-      _,
-      args,
-      { session }: { session: DecodedIdToken }
-    ) => {
+    removeCommentVote: async (_, args, { session }: { session: Session }) => {
       if (!session) throw Unauthorized("You have to be authorized to vote.");
-      return await service.removeVote(args.commentId, session.uid);
+      // TODO: fixme
+      return await service.removeVote(args.commentId, /*session.uid*/ "");
     },
-    addCommentVoteUp: async (
-      _,
-      args,
-      { session }: { session: DecodedIdToken }
-    ) => {
+    addCommentVoteUp: async (_, args, { session }: { session: Session }) => {
       if (!session) throw Unauthorized("You have to be authorized to vote.");
-      return await service.setVoteUp(args.commentId, session.uid);
+      // TODO: fixme
+      return await service.setVoteUp(args.commentId, /*session.uid*/ "");
     },
-    addCommentVoteDown: async (
-      _,
-      args,
-      { session }: { session: DecodedIdToken }
-    ) => {
+    addCommentVoteDown: async (_, args, { session }: { session: Session }) => {
       if (!session) throw Unauthorized("You have to be authorized to vote.");
-      return await service.setVoteDown(args.commentId, session.uid);
+      // TODO: fixme
+      return await service.setVoteDown(args.commentId, /*session.uid*/ "");
     },
   },
 };

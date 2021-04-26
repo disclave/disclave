@@ -1,27 +1,25 @@
-import { UserRecord } from "@/connectors/firebase";
 import { UserProfileEntity } from "./UserProfileEntity";
 import { BaseRepository } from "@/repository";
-import { UserId } from "@/modules/auth";
 
-export type { UserRecord, UserProfileEntity };
+export type { UserProfileEntity };
 
 export interface CreateProfileData {
   name: string;
 }
 
 export abstract class UserRepository<T = unknown> extends BaseRepository<T> {
-  abstract getUser(uid: UserId): Promise<UserRecord>;
+  // abstract getUser(uid: string): Promise<UserRecord>;
 
   abstract existProfileByName(name: string, transaction?: T): Promise<boolean>;
 
   abstract createProfile(
-    userId: UserId,
+    userId: string,
     profile: CreateProfileData,
     transaction?: T
   ): Promise<void>;
 
   abstract getUserProfile(
-    uid: UserId,
+    uid: string,
     transation?: T
   ): Promise<UserProfileEntity | null>;
 }
