@@ -8,7 +8,7 @@ import { useUserProfile } from '@/modules/auth';
 import { signOut } from 'next-auth/client';
 
 export const RegisterPage: React.VFC = () => {
-  const { profile } = useUserProfile();
+  const { session, profile } = useUserProfile();
 
   const router = useRouter();
   const redirectParams = routerQueryToRedirectParams(router.query);
@@ -40,7 +40,12 @@ export const RegisterPage: React.VFC = () => {
   return (
     <Layout>
       <section className="container mx-auto my-8 lg:mt-24 max-w-max">
-        <RegisterFormContainer onCreateUsername={onCreateUsername} onLogout={onLogout} />
+        <RegisterFormContainer
+          user={session?.user}
+          profile={profile}
+          onCreateUsername={onCreateUsername}
+          onLogout={onLogout}
+        />
       </section>
     </Layout>
   );
