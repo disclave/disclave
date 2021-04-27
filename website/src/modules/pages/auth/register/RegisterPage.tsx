@@ -4,8 +4,7 @@ import { useRouter } from 'next/router';
 import { redirectParamsToUrl, routerQueryToRedirectParams } from '@/modules/redirect';
 import { RegisterFormContainer } from '@disclave/ui';
 import { Layout } from '@/modules/layout';
-import { useUserProfile } from '@/modules/auth';
-import { signOut } from 'next-auth/client';
+import { logout, useUserProfile } from '@/modules/auth';
 
 export const RegisterPage: React.VFC = () => {
   const { session, profile } = useUserProfile();
@@ -32,7 +31,7 @@ export const RegisterPage: React.VFC = () => {
   };
 
   const onLogout = async () => {
-    await signOut();
+    await logout();
     // TODO: restore redirect?
     // await router.push(loginHref());
   };

@@ -4,8 +4,7 @@ import { loginHref } from '@/pages/auth/login';
 import { PageCommentsContainer } from '@disclave/ui';
 import { useWebsiteComments } from '@/modules/comments';
 import { useContainerHeightMessage } from '@/modules/iframe';
-import { useUserProfile } from '@/modules/auth';
-import { signOut } from 'next-auth/client';
+import { logout, useUserProfile } from '@/modules/auth';
 
 export interface WebsiteIframePageProps {
   website: string;
@@ -35,7 +34,7 @@ export const WebsiteIframePage: React.VFC<WebsiteIframePageProps> = (props) => {
         iframe={true}
         loginHref={loginHrefWithRedirect}
         onSubmit={addComment}
-        onLogout={() => signOut()}
+        onLogout={logout}
         commentsActionsHandler={{
           onVoteDown: voteDown,
           onVoteRemove: voteRemove,

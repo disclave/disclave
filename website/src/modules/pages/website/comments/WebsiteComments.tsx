@@ -2,8 +2,7 @@ import { CommentModel } from '@disclave/client';
 import React from 'react';
 import { PageCommentsContainer } from '@disclave/ui';
 import { useWebsiteComments } from '@/modules/comments';
-import { useUserProfile } from '@/modules/auth';
-import { signOut } from 'next-auth/client';
+import { logout, useUserProfile } from '@/modules/auth';
 
 export interface WebsiteCommentsProps {
   website: string;
@@ -29,7 +28,7 @@ export const WebsiteComments: React.VFC<WebsiteCommentsProps> = (props) => {
         inputTop={true}
         loginHref={props.loginHref}
         onSubmit={addComment}
-        onLogout={() => signOut()}
+        onLogout={logout}
         commentsActionsHandler={{
           onVoteDown: voteDown,
           onVoteRemove: voteRemove,

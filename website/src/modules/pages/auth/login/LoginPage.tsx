@@ -58,7 +58,7 @@ export const LoginPage: React.VFC = () => {
     // TODO: extract URL to separate builder method
     const url = `/api/auth/callback/email?email=${encodeURIComponent(
       email
-    )}&token=${encodeURIComponent(token)}`;
+    )}&token=${encodeURIComponent(token)}&callbackUrl=${redirectUrl}`;
 
     await router.push(url);
   };
