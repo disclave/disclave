@@ -56,9 +56,10 @@ export const LoginPage: React.VFC = () => {
 
   const onVerificationCodeConfirm = async (email: string, token: string) => {
     // TODO: extract URL to separate builder method
+    const domain = process.env.DOMAIN;
     const url = `/api/auth/callback/email?email=${encodeURIComponent(
       email
-    )}&token=${encodeURIComponent(token)}&callbackUrl=${redirectUrl}`;
+    )}&token=${encodeURIComponent(token)}&callbackUrl=${domain}${redirectUrl}`;
 
     await router.push(url);
   };
