@@ -6,7 +6,6 @@ import {
   addCommentVoteUp,
   addCommentVoteDown,
   removeCommentVote,
-  UserProfileModel,
 } from "@disclave/client";
 import { useActiveTab } from "./";
 
@@ -24,7 +23,7 @@ type UseComments = {
 };
 
 export const useComments = (
-  userProfile: UserProfileModel | null,
+  userProfile: any | null, // TODO: fix types
   authPending: boolean
 ): UseComments => {
   const [comments, setComments] = useState<CommentsState>(undefined);
