@@ -10,13 +10,14 @@ import {
   UsernameNotAllowed,
   UsernameTaken,
 } from "./exceptions";
+import { UserId } from "@/modules/auth";
 
 @injectable()
 export class UserServiceImpl implements UserService {
   @inject(UserRepository)
   private repository: UserRepository;
 
-  public async createProfile(uid: string, name: string): Promise<UserProfile> {
+  public async createProfile(uid: UserId, name: string): Promise<UserProfile> {
     validateUserName(name);
 
     // TODO: validate
@@ -47,7 +48,7 @@ export class UserServiceImpl implements UserService {
     return await this.repository.getUserProfile(uid);
   }
 
-  public async getProfile(uid: string): Promise<UserProfile | null> {
+  public async getProfile(uid: UserId): Promise<UserProfile | null> {
     const profile = await this.repository.getUserProfile(uid);
     if (profile == null) return null;
     return toDomain(profile);

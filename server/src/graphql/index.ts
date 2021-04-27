@@ -17,6 +17,7 @@ const cors = Cors({
     "Authorization",
     "Accept",
   ],
+  // TODO: modify origin and allow only disclave and chrome extension?
   origin: "*",
 });
 

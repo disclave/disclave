@@ -1,10 +1,12 @@
+import { UserId } from "@/modules/auth";
+
 export interface CommentUrlMeta {
   websiteId: string;
   pageId: string;
 }
 
 export interface CommentAuthor {
-  id: string;
+  id: UserId;
   name: string;
 }
 

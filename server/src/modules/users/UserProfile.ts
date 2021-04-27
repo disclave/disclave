@@ -1,4 +1,6 @@
+import { UserId } from "@/modules/auth";
+
 export interface UserProfile {
-  uid: string;
+  uid: UserId;
   name: string;
 }

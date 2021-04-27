@@ -7,6 +7,7 @@ import {
   Timestamp,
   MongoRepository,
 } from "@/connectors/mongodb";
+import { UserId } from "@/modules/auth";
 
 interface DbProfile {
   _id: string;
@@ -38,7 +39,7 @@ export class UserMongoRepository
   }
 
   public async createProfile(
-    userId: string,
+    userId: UserId,
     profile: { name: string },
     session?: ClientSession
   ) {
@@ -49,7 +50,7 @@ export class UserMongoRepository
   }
 
   public async getUserProfile(
-    uid: string,
+    uid: UserId,
     session?: ClientSession
   ): Promise<UserProfileEntity | null> {
     const collection = await profilesDbCollection();
@@ -59,7 +60,7 @@ export class UserMongoRepository
   }
 }
 
-const toDbProfile = (uid: string, name: string): DbProfile => ({
+const toDbProfile = (uid: UserId, name: string): DbProfile => ({
   _id: uid,
   name: name,
   normalizedName: name.toLowerCase(),

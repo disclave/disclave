@@ -1,3 +1,5 @@
+import { UserId } from "@/modules/auth";
+
 interface CommentEntityUrlMeta {
   raw: string;
   websiteId: string;
@@ -5,7 +7,7 @@ interface CommentEntityUrlMeta {
 }
 
 interface CommentAuthor {
-  id: string;
+  id: UserId;
   name: string;
 }
 

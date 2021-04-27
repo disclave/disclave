@@ -1,5 +1,6 @@
 import { UserProfileEntity } from "./UserProfileEntity";
 import { BaseRepository } from "@/repository";
+import { UserId } from "@/modules/auth";
 
 export type { UserProfileEntity };
 
@@ -13,13 +14,13 @@ export abstract class UserRepository<T = unknown> extends BaseRepository<T> {
   abstract existProfileByName(name: string, transaction?: T): Promise<boolean>;
 
   abstract createProfile(
-    userId: string,
+    userId: UserId,
     profile: CreateProfileData,
     transaction?: T
   ): Promise<void>;
 
   abstract getUserProfile(
-    uid: string,
+    uid: UserId,
     transation?: T
   ): Promise<UserProfileEntity | null>;
 }

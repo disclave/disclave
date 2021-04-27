@@ -1,7 +1,8 @@
 import { UserProfile } from "@/modules/users";
+import { UserId } from "@/modules/auth";
 
 export interface Session {
-  uid: string;
+  uid: UserId;
   user: {
     email: string;
   };
