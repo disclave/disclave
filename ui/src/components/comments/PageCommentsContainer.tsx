@@ -12,7 +12,6 @@ export interface PageCommentsContainerProps {
   iframe?: boolean;
   inputTop?: boolean;
   loginHref: string;
-  registerHref: string;
   userProfile: UserProfileModel | null;
   onSubmit: (text: string) => Promise<void>;
   onLogout: () => Promise<void>;
@@ -56,11 +55,7 @@ export const PageCommentsContainer: React.VFC<PageCommentsContainerProps> = (
           </div>
         ) : (
           <div>
-            <CommentAddAuth
-              iframe={props.iframe}
-              loginHref={props.loginHref}
-              registerHref={props.registerHref}
-            />
+            <CommentAddAuth iframe={props.iframe} loginHref={props.loginHref} />
           </div>
         )}
       </div>

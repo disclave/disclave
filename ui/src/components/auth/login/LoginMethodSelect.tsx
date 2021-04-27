@@ -15,11 +15,11 @@ export const LoginMethodSelect: React.VFC<LoginMethodSelectProps> = (props) => {
       {/*  <GoogleBtn onClick={props.onLoginGoogle} />*/}
       {/*  <FacebookBtn onClick={props.onLoginFacebook} />*/}
       {/*</div>*/}
-      <div className="flex flex-row mt-2 mb-4 uppercase text-gray-400 font-semibold items-center">
-        <hr className="flex-grow mx-3" />
-        <div>{t("or")}</div>
-        <hr className="flex-grow mx-3" />
-      </div>
+      {/*<div className="flex flex-row mt-2 mb-4 uppercase text-gray-400 font-semibold items-center">*/}
+      {/*  <hr className="flex-grow mx-3" />*/}
+      {/*  <div>{t("or")}</div>*/}
+      {/*  <hr className="flex-grow mx-3" />*/}
+      {/*</div>*/}
       <LoginEmailForm onSubmit={props.onEmailLogin} />
     </div>
   );
