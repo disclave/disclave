@@ -1,9 +1,9 @@
 import { useSession } from 'next-auth/client';
-import { Session, UserProfile } from '@disclave/server';
+import { Session, Profile } from '@disclave/server';
 
 export type UseUserProfile = {
   session: Session | null;
-  profile: UserProfile | null;
+  profile: Profile | null;
 };
 
 export const useUserProfile = (): UseUserProfile => {

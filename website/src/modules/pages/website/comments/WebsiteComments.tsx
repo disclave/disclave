@@ -9,7 +9,6 @@ export interface WebsiteCommentsProps {
   website: string;
   comments: Array<CommentModel>;
   loginHref: string;
-  registerHref: string;
 }
 
 export const WebsiteComments: React.VFC<WebsiteCommentsProps> = (props) => {
@@ -29,7 +28,6 @@ export const WebsiteComments: React.VFC<WebsiteCommentsProps> = (props) => {
         className="max-h-full"
         inputTop={true}
         loginHref={props.loginHref}
-        registerHref={props.registerHref}
         onSubmit={addComment}
         onLogout={() => signOut()}
         commentsActionsHandler={{
