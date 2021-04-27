@@ -5,6 +5,10 @@ import { initServer } from '@/modules/server';
 
 initServer().catch((e) => console.error(e));
 
+const domain = process.env.DOMAIN;
+const useSecureCookies = domain.startsWith('https://');
+const cookiePrefix = useSecureCookies ? '__Secure-' : '';
+
 export default NextAuth({
   providers: [
     Providers.Email({
@@ -37,5 +41,43 @@ export default NextAuth({
       return session;
     }
   },
-  database: process.env.DB_URI
+  database: process.env.DB_URI,
+  cookies: {
+    sessionToken: {
+      name: `${cookiePrefix}disclave.ST`,
+      options: {
+        httpOnly: true,
+        sameSite: useSecureCookies ? 'none' : 'lax',
+        path: '/',
+        secure: useSecureCookies
+      }
+    },
+    callbackUrl: {
+      name: `${cookiePrefix}disclave.CB`,
+      options: {
+        httpOnly: false,
+        sameSite: 'lax',
+        path: '/',
+        secure: useSecureCookies
+      }
+    },
+    csrfToken: {
+      name: `${useSecureCookies ? '__Host-' : ''}disclave.CT`,
+      options: {
+        httpOnly: true,
+        sameSite: useSecureCookies ? 'none' : 'lax',
+        path: '/',
+        secure: useSecureCookies
+      }
+    },
+    pkceCodeVerifier: {
+      name: `${cookiePrefix}disclave.PCV`,
+      options: {
+        httpOnly: true,
+        sameSite: 'lax',
+        path: '/',
+        secure: useSecureCookies
+      }
+    }
+  }
 });
