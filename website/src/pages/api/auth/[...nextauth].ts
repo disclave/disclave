@@ -30,10 +30,11 @@ export default NextAuth({
     async session(session, token) {
       if (token) {
         const userService = getUserService();
-        const uid = token?.id;
+        const uid = String(token?.id);
         session.uid = uid;
         session.profile = await userService.getProfile(uid);
       }
+      console.log(session);
       return session;
     }
   },

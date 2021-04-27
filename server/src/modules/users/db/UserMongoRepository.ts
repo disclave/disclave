@@ -54,7 +54,6 @@ export class UserMongoRepository
   ): Promise<UserProfileEntity | null> {
     const collection = await profilesDbCollection();
     const doc = await collection.findOne({ _id: uid }, { session });
-
     if (!doc) return null;
     return cursorDocToEntity(doc);
   }

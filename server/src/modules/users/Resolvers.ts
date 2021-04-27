@@ -10,8 +10,7 @@ export const usersResolvers = {
     getSelfProfile: async (_, args, { session }: { session: Session }) => {
       if (!session)
         throw Unauthorized("You have to be authorized to get self profile.");
-      // TODO: fixme
-      const profile = await service.getProfile(/*session.uid*/ "");
+      const profile = await service.getProfile(session.uid);
       if (!profile) return null;
       return profileToResponse(profile);
     },
@@ -21,9 +20,8 @@ export const usersResolvers = {
     createSelfProfile: async (_, args, { session }: { session: Session }) => {
       if (!session)
         throw Unauthorized("You have to be authorized to create self profile.");
-      // TODO: fixme
       const profile = await service.createProfile(
-        /*session.uid*/ "",
+        session.uid,
         args.profile.name
       );
 
