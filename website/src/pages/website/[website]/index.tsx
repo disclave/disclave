@@ -1,10 +1,11 @@
 import React from 'react';
 import { GetServerSideProps } from 'next';
 import { CommentModel, CommentUrlMeta, encodeUrl } from '@disclave/client';
-import { getAuthProvider, getCommentService, getSessionCookie } from '@disclave/server';
+import { getCommentService } from '@disclave/server';
 import { WebsitePage } from '@/modules/pages/website';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { initServer } from '@/modules/server';
+import { getSession } from 'next-auth/client';
 
 export const websiteHrefFromMeta = (urlMeta: CommentUrlMeta, commentId?: string) =>
   websiteHref(urlMeta.websiteId + urlMeta.pageId + (commentId ? `#${commentId}` : ''), true);
@@ -14,14 +15,10 @@ export const websiteHrefRaw = '/website/';
 
 export const getServerSideProps: GetServerSideProps<WebsiteProps> = async (context) => {
   await initServer();
-  const website = context.query.website as string;
-
-  const authProvider = getAuthProvider();
+  const session = await getSession(context);
   const service = getCommentService();
 
-  const sessionCookie = getSessionCookie(context.req);
-  const session = await authProvider.getSession(sessionCookie);
-
+  const website = context.query.website as string;
   const commentsPromise = service.getComments(website, session?.uid);
   const translationsPromise = serverSideTranslations(context.locale, [
     'common',

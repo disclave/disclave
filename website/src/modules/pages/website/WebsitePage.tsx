@@ -14,10 +14,11 @@ export interface WebsitePageProps {
 
 export const WebsitePage: React.VFC<WebsitePageProps> = ({ website, comments }) => {
   const loginHrefWithRedirect = loginHref(websiteHrefRaw, website);
+  // TODO: remove register flow
   const registerHrefWithRedirect = registerHref(websiteHrefRaw, website);
 
   return (
-    <Layout loginHref={loginHrefWithRedirect} registerHref={registerHrefWithRedirect}>
+    <Layout loginHref={loginHrefWithRedirect}>
       <div className="mx-4 mt-4">
         <WebsiteInfo website={website} />
         <WebsiteComments

@@ -6,7 +6,6 @@ import { HeaderAuth } from './user';
 
 export interface HeaderProps {
   loginHref?: string;
-  registerHref?: string;
 }
 
 export const Header: React.VFC<HeaderProps> = (props) => {
@@ -26,7 +25,6 @@ export const Header: React.VFC<HeaderProps> = (props) => {
         <HeaderAuth
           className="md:order-2 flex-grow md:flex-grow-0 mx-2 justify-items-end"
           loginHref={props.loginHref}
-          registerHref={props.registerHref}
         />
         <NavBtn navExtended={navExtended} onClick={toggleNav} className="md:hidden" />
         <div className="flex-full md:flex-1 md:mx-4 bg-white">

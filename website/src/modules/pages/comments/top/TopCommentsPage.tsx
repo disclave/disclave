@@ -1,10 +1,11 @@
 import React from 'react';
 import { Layout } from '@/modules/layout';
-import { CommentModel, useSession } from '@disclave/client';
+import { CommentModel } from '@disclave/client';
 import { PreviewCommentsList } from '@disclave/ui';
 import { useTopComments } from '@/modules/comments';
 import { websiteHrefFromMeta } from '@/pages/website/[website]';
 import { useTranslation } from 'next-i18next';
+import { useUserProfile } from '@/modules/auth';
 
 export interface TopCommentsPageProps {
   comments: Array<CommentModel>;
@@ -14,7 +15,7 @@ export interface TopCommentsPageProps {
 
 export const TopCommentsPage: React.VFC<TopCommentsPageProps> = (props) => {
   const { t } = useTranslation('comments');
-  const { profile } = useSession();
+  const { profile } = useUserProfile();
   const { comments, voteDown, voteUp, voteRemove } = useTopComments(
     props.comments,
     props.minVoteSum,

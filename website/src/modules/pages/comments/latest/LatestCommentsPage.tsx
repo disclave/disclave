@@ -1,10 +1,11 @@
 import React from 'react';
 import { Layout } from '@/modules/layout';
-import { CommentModel, useSession } from '@disclave/client';
+import { CommentModel } from '@disclave/client';
 import { PreviewCommentsList } from '@disclave/ui';
 import { useLatestComments } from '@/modules/comments';
 import { websiteHrefFromMeta } from '@/pages/website/[website]';
 import { useTranslation } from 'next-i18next';
+import { useUserProfile } from '@/modules/auth';
 
 export interface LatestCommentsPageProps {
   comments: Array<CommentModel>;
@@ -14,7 +15,7 @@ export interface LatestCommentsPageProps {
 
 export const LatestCommentsPage: React.VFC<LatestCommentsPageProps> = (props) => {
   const { t } = useTranslation('comments');
-  const { profile } = useSession();
+  const { profile } = useUserProfile();
   const { comments, voteDown, voteUp, voteRemove } = useLatestComments(
     props.comments,
     props.minVoteSum,

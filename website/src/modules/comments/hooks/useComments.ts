@@ -24,19 +24,19 @@ export const useComments = (
   getComments: () => Promise<Array<CommentModel>>
 ): UseComments => {
   const [comments, setComments] = useState(initialState);
-  // const { user } = useUserProfile();
-  // const prevUid = useRef(session?.uid);
+  const { session } = useUserProfile();
+  const prevUid = useRef(session?.uid);
 
   const fetchComments = async () => {
     const result = await getComments();
     setComments(result);
   };
 
-  // useEffect(() => {
-  //   if (session?.uid != prevUid.current) fetchComments();
-  //
-  //   prevUid.current = session?.uid;
-  // }, [session?.uid]);
+  useEffect(() => {
+    if (session?.uid != prevUid.current) fetchComments();
+
+    prevUid.current = session?.uid;
+  }, [session?.uid]);
 
   const onVoteUp = async (commentId: string) => {
     await addCommentVoteUp(commentId);

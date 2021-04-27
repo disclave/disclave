@@ -1,10 +1,12 @@
 import React, { useRef } from 'react';
-import { CommentModel, useSession } from '@disclave/client';
+import { CommentModel } from '@disclave/client';
 import { loginHref } from '@/pages/auth/login';
 import { registerHref } from '@/pages/auth/register';
 import { PageCommentsContainer } from '@disclave/ui';
 import { useWebsiteComments } from '@/modules/comments';
 import { useContainerHeightMessage } from '@/modules/iframe';
+import { useUserProfile } from '@/modules/auth';
+import { signOut } from 'next-auth/client';
 
 export interface WebsiteIframePageProps {
   website: string;
@@ -15,10 +17,7 @@ export const WebsiteIframePage: React.VFC<WebsiteIframePageProps> = (props) => {
   const containerRef = useRef<HTMLDivElement>();
   useContainerHeightMessage(containerRef);
 
-  const {
-    profile,
-    actions: { logout }
-  } = useSession();
+  const { profile } = useUserProfile();
 
   const { comments, addComment, voteDown, voteUp, voteRemove } = useWebsiteComments(
     props.comments,
@@ -39,7 +38,7 @@ export const WebsiteIframePage: React.VFC<WebsiteIframePageProps> = (props) => {
         loginHref={loginHrefWithRedirect}
         registerHref={registerHrefWithRedirect}
         onSubmit={addComment}
-        onLogout={logout}
+        onLogout={() => signOut()}
         commentsActionsHandler={{
           onVoteDown: voteDown,
           onVoteRemove: voteRemove,

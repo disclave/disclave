@@ -6,10 +6,9 @@ import { useUserProfile } from '@/modules/auth';
 export interface HeaderAuthProps {
   className?: string;
   loginHref?: string;
-  registerHref?: string;
 }
 
-export const HeaderAuth: React.VFC<HeaderAuthProps> = ({ className, loginHref, registerHref }) => {
+export const HeaderAuth: React.VFC<HeaderAuthProps> = ({ className, loginHref }) => {
   const { profile } = useUserProfile();
 
   return (
@@ -19,7 +18,7 @@ export const HeaderAuth: React.VFC<HeaderAuthProps> = ({ className, loginHref, r
           <Authenticated userProfile={profile} />
         </div>
       ) : (
-        <NotAuthenticated loginHref={loginHref} registerHref={registerHref} />
+        <NotAuthenticated loginHref={loginHref} />
       )}
     </div>
   );

@@ -11,9 +11,7 @@ export const homeHref = () => '/';
 
 export const getServerSideProps: GetServerSideProps<HomeProps> = async (context) => {
   await initServer();
-
   const session = await getSession(context);
-
   const service = getCommentService();
 
   const topMinVoteSum = 1;
