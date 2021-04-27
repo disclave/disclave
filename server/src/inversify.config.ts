@@ -4,10 +4,10 @@ import { CommentRepository } from "@/modules/comments/db";
 import { CommentMongoRepository } from "@/modules/comments/db/CommentMongoRepository";
 import { CommentService } from "@/modules/comments";
 import { CommentServiceImpl } from "@/modules/comments/CommentServiceImpl";
-import { UserMongoRepository } from "@/modules/users/db/UserMongoRepository";
-import { UserRepository } from "@/modules/users/db";
-import { UserService } from "@/modules/users";
-import { UserServiceImpl } from "@/modules/users/UserServiceImpl";
+import { ProfileMongoRepository } from "@/modules/profiles/db/ProfileMongoRepository";
+import { ProfileRepository } from "@/modules/profiles/db";
+import { ProfileService } from "@/modules/profiles";
+import { ProfileServiceImpl } from "@/modules/profiles/ProfileServiceImpl";
 import { UrlServiceImpl } from "@/modules/url/UrlServiceImpl";
 import { UrlService } from "@/modules/url";
 import { EmailService } from "@/modules/email";
@@ -17,11 +17,11 @@ const container = new Container();
 
 container.bind(EmailService).to(MailjetEmailService);
 
-container.bind(UserRepository).to(UserMongoRepository);
+container.bind(ProfileRepository).to(ProfileMongoRepository);
 container.bind(CommentRepository).to(CommentMongoRepository);
 
 container.bind(UrlService).to(UrlServiceImpl);
-container.bind(UserService).to(UserServiceImpl);
+container.bind(ProfileService).to(ProfileServiceImpl);
 container.bind(CommentService).to(CommentServiceImpl);
 
 export { container };

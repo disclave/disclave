@@ -1,4 +1,4 @@
-import { UserProfile } from "@/modules/users";
+import { Profile } from "@/modules/profiles";
 import { UserId } from "@/modules/auth";
 
 export interface Session {
@@ -6,5 +6,5 @@ export interface Session {
   user: {
     email: string;
   };
-  profile: UserProfile | null;
+  profile: Profile | null;
 }

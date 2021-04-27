@@ -1,6 +1,6 @@
 import { CommentEntity, CommentRepository } from "./db";
 import { UrlService } from "@/modules/url";
-import { UserService } from "@/modules/users";
+import { ProfileService } from "@/modules/profiles";
 import { CommentService, Comment } from "./index";
 import { inject, injectable } from "inversify";
 import escapeHtml from "escape-html";
@@ -12,8 +12,8 @@ export class CommentServiceImpl implements CommentService {
   @inject(UrlService)
   private urlService: UrlService;
 
-  @inject(UserService)
-  private userService: UserService;
+  @inject(ProfileService)
+  private userService: ProfileService;
 
   @inject(CommentRepository)
   private repository: CommentRepository;

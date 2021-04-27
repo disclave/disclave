@@ -1,5 +1,5 @@
-import { UserProfileEntity } from "./UserProfileEntity";
-import { UserRepository } from "./index";
+import { ProfileEntity } from "./ProfileEntity";
+import { ProfileRepository } from "./index";
 import { injectable } from "inversify";
 import {
   ClientSession,
@@ -7,7 +7,7 @@ import {
   Timestamp,
   MongoRepository,
 } from "@/connectors/mongodb";
-import { UserId } from "@/modules/auth";
+import { asUserId, UserId } from "@/modules/auth";
 
 interface DbProfile {
   _id: string;
@@ -17,9 +17,9 @@ interface DbProfile {
 }
 
 @injectable()
-export class UserMongoRepository
+export class ProfileMongoRepository
   extends MongoRepository
-  implements UserRepository<ClientSession> {
+  implements ProfileRepository<ClientSession> {
   // // TODO: move to auth module?
   // public async getUser(uid: string) {
   //   return auth().getUser(uid);
@@ -49,10 +49,10 @@ export class UserMongoRepository
     });
   }
 
-  public async getUserProfile(
+  public async getProfile(
     uid: UserId,
     session?: ClientSession
-  ): Promise<UserProfileEntity | null> {
+  ): Promise<ProfileEntity | null> {
     const collection = await profilesDbCollection();
     const doc = await collection.findOne({ _id: uid }, { session });
     if (!doc) return null;
@@ -67,8 +67,8 @@ const toDbProfile = (uid: UserId, name: string): DbProfile => ({
   createdTs: new Timestamp(0, Math.floor(new Date().getTime() / 1000)),
 });
 
-const cursorDocToEntity = (doc: DbProfile): UserProfileEntity => ({
-  uid: doc._id,
+const cursorDocToEntity = (doc: DbProfile): ProfileEntity => ({
+  uid: asUserId(doc._id),
   name: doc.name,
 });
 

@@ -3,7 +3,7 @@ import { CommentService } from "@/modules/comments";
 import { initDatabase } from "@/connectors/mongodb";
 import { EmailTemplate, initMailjet } from "@/connectors/mailjet";
 import { EmailService } from "@/modules/email";
-import { UserService } from "@/modules/users";
+import { ProfileService } from "@/modules/profiles";
 
 export interface DbConfig {
   dbUri: string;
@@ -32,8 +32,8 @@ export const init = async (dbConfig: DbConfig, mjConfig: MailjetConfig) => {
 export { graphqlHandler } from "./graphql";
 
 export type { Session, UserId, asUserId } from "./modules/auth";
-export type { UserProfile } from "./modules/users";
+export type { Profile } from "./modules/profiles";
 
-export const getUserService = () => container.get(UserService);
+export const getUserService = () => container.get(ProfileService);
 export const getEmailService = () => container.get(EmailService);
 export const getCommentService = () => container.get(CommentService);

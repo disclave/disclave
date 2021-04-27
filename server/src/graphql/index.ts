@@ -2,8 +2,8 @@ import Cors from "micro-cors";
 import { ApolloServer, gql } from "apollo-server-micro";
 import { commentsTypeDefs } from "@/modules/comments/Schemas";
 import { commentsResolvers } from "@/modules/comments/Resolvers";
-import { usersTypeDefs } from "@/modules/users/Schemas";
-import { usersResolvers } from "@/modules/users/Resolvers";
+import { usersTypeDefs } from "@/modules/profiles/Schemas";
+import { usersResolvers } from "@/modules/profiles/Resolvers";
 import { Session } from "@/modules/auth";
 
 // TODO: verify cors

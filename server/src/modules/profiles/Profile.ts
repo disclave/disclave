@@ -1,6 +1,6 @@
 import { UserId } from "@/modules/auth";
 
-export interface UserProfileEntity {
+export interface Profile {
   uid: UserId;
   name: string;
 }

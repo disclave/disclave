@@ -1,9 +1,9 @@
 import { container } from "@/inversify.config";
-import { UserProfile, UserService } from "./index";
+import { Profile, ProfileService } from "./index";
 import { Unauthorized } from "@/exceptions/exceptions";
 import { Session } from "@/modules/auth";
 
-const service = container.get(UserService);
+const service = container.get(ProfileService);
 
 export const usersResolvers = {
   Query: {
@@ -30,7 +30,7 @@ export const usersResolvers = {
   },
 };
 
-const profileToResponse = (profile: UserProfile) => {
+const profileToResponse = (profile: Profile) => {
   return {
     uid: profile.uid,
     name: profile.name,

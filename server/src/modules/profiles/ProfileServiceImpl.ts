@@ -1,6 +1,6 @@
-import { UserProfile } from "./UserProfile";
-import { UserService } from "./index";
-import { UserRepository, UserProfileEntity } from "./db";
+import { Profile } from "./Profile";
+import { ProfileService } from "./index";
+import { ProfileRepository, ProfileEntity } from "./db";
 import { inject, injectable } from "inversify";
 import {
   ProfileAlreadyExists,
@@ -13,11 +13,11 @@ import {
 import { UserId } from "@/modules/auth";
 
 @injectable()
-export class UserServiceImpl implements UserService {
-  @inject(UserRepository)
-  private repository: UserRepository;
+export class ProfileServiceImpl implements ProfileService {
+  @inject(ProfileRepository)
+  private repository: ProfileRepository;
 
-  public async createProfile(uid: UserId, name: string): Promise<UserProfile> {
+  public async createProfile(uid: UserId, name: string): Promise<Profile> {
     validateUserName(name);
 
     // TODO: validate
@@ -26,7 +26,7 @@ export class UserServiceImpl implements UserService {
     // if (user.disabled) throw "User account is disabled";
 
     await this.repository.runTransaction(async (t) => {
-      if (await this.repository.getUserProfile(uid))
+      if (await this.repository.getProfile(uid))
         throw ProfileAlreadyExists(
           "Your profile already exists. Can not create it again."
         );
@@ -45,17 +45,17 @@ export class UserServiceImpl implements UserService {
       );
     });
 
-    return await this.repository.getUserProfile(uid);
+    return await this.repository.getProfile(uid);
   }
 
-  public async getProfile(uid: UserId): Promise<UserProfile | null> {
-    const profile = await this.repository.getUserProfile(uid);
+  public async getProfile(uid: UserId): Promise<Profile | null> {
+    const profile = await this.repository.getProfile(uid);
     if (profile == null) return null;
     return toDomain(profile);
   }
 }
 
-const toDomain = (entity: UserProfileEntity): UserProfile => {
+const toDomain = (entity: ProfileEntity): Profile => {
   return {
     uid: entity.uid,
     name: entity.name,
