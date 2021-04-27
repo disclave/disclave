@@ -34,7 +34,6 @@ export default NextAuth({
         session.uid = uid;
         session.profile = await userService.getProfile(uid);
       }
-      console.log(session);
       return session;
     }
   },
