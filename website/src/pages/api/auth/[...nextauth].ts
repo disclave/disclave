@@ -13,6 +13,7 @@ export default NextAuth({
   providers: [
     Providers.Email({
       async sendVerificationRequest({ identifier: email, token }) {
+        // TODO: skip and console.log the token if localhost or test env?
         const emailService = getEmailService();
         await emailService.sendAuthVerificationCodeEmail(email, token);
       },
