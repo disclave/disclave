@@ -44,8 +44,7 @@ export const LoginPage: React.VFC = () => {
         };
 
         window.opener.postMessage(JSON.stringify(message), process.env.DOMAIN);
-        // TODO: close window
-        // window.close();
+        window.close();
       }
     };
 
