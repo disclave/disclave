@@ -9,6 +9,45 @@ const domain = process.env.DOMAIN;
 const useSecureCookies = domain.startsWith('https://');
 const cookiePrefix = useSecureCookies ? '__Secure-' : '';
 
+export const cookiesConfig = {
+  sessionToken: {
+    name: `${cookiePrefix}disclave.ST`,
+    options: {
+      httpOnly: true,
+      sameSite: (useSecureCookies ? 'none' : 'lax') as true | 'none' | 'lax' | 'strict',
+      path: '/',
+      secure: useSecureCookies
+    }
+  },
+  callbackUrl: {
+    name: `${cookiePrefix}disclave.CB`,
+    options: {
+      httpOnly: false,
+      sameSite: 'lax' as true | 'none' | 'lax' | 'strict',
+      path: '/',
+      secure: useSecureCookies
+    }
+  },
+  csrfToken: {
+    name: `${useSecureCookies ? '__Host-' : ''}disclave.CT`,
+    options: {
+      httpOnly: true,
+      sameSite: (useSecureCookies ? 'none' : 'lax') as true | 'none' | 'lax' | 'strict',
+      path: '/',
+      secure: useSecureCookies
+    }
+  },
+  pkceCodeVerifier: {
+    name: `${cookiePrefix}disclave.PCV`,
+    options: {
+      httpOnly: true,
+      sameSite: 'lax' as true | 'none' | 'lax' | 'strict',
+      path: '/',
+      secure: useSecureCookies
+    }
+  }
+};
+
 export default NextAuth({
   providers: [
     Providers.Email({
@@ -32,6 +71,11 @@ export default NextAuth({
     signIn: '/auth/login'
   },
   callbacks: {
+    async redirect(url, baseUrl) {
+      // workaround for the preview environments where I am not able to set baseUrl correctly
+      if (baseUrl != domain) baseUrl = domain;
+      return url.startsWith(baseUrl) ? url : baseUrl;
+    },
     async session(session, token) {
       if (token) {
         const userService = getUserService();
@@ -43,42 +87,5 @@ export default NextAuth({
     }
   },
   database: process.env.DB_URI,
-  cookies: {
-    sessionToken: {
-      name: `${cookiePrefix}disclave.ST`,
-      options: {
-        httpOnly: true,
-        sameSite: useSecureCookies ? 'none' : 'lax',
-        path: '/',
-        secure: useSecureCookies
-      }
-    },
-    callbackUrl: {
-      name: `${cookiePrefix}disclave.CB`,
-      options: {
-        httpOnly: false,
-        sameSite: 'lax',
-        path: '/',
-        secure: useSecureCookies
-      }
-    },
-    csrfToken: {
-      name: `${useSecureCookies ? '__Host-' : ''}disclave.CT`,
-      options: {
-        httpOnly: true,
-        sameSite: useSecureCookies ? 'none' : 'lax',
-        path: '/',
-        secure: useSecureCookies
-      }
-    },
-    pkceCodeVerifier: {
-      name: `${cookiePrefix}disclave.PCV`,
-      options: {
-        httpOnly: true,
-        sameSite: 'lax',
-        path: '/',
-        secure: useSecureCookies
-      }
-    }
-  }
+  cookies: cookiesConfig
 });

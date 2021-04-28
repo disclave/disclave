@@ -5,6 +5,7 @@ import { WebsiteInfo } from './info';
 import { WebsiteComments } from './comments';
 import { loginHref } from '@/pages/auth/login';
 import { websiteHrefRaw } from '@/pages/website/[website]';
+import { setAuthToken } from '@disclave/client';
 
 export interface WebsitePageProps {
   website: string;
@@ -13,6 +14,8 @@ export interface WebsitePageProps {
 
 export const WebsitePage: React.VFC<WebsitePageProps> = ({ website, comments }) => {
   const loginHrefWithRedirect = loginHref(websiteHrefRaw, website);
+
+  // setAuthToken('Test-Auth-Token');
 
   return (
     <Layout loginHref={loginHrefWithRedirect}>

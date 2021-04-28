@@ -7,6 +7,7 @@ export const init = (firebaseOptions: Object, graphqlUri: string) => {
 };
 
 export { analytics } from "./firebase";
+export { setAuthToken } from "./graphql";
 
 export { isUrl, stringToUrl, encodeUrl } from "./modules/url";
 

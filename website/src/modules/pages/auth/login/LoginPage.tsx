@@ -34,15 +34,18 @@ export const LoginPage: React.VFC = () => {
 
       if (redirectUrl) await router.push(redirectUrl);
       else if (window.opener) {
-        // TODO: validate and fix flow for popups login
+        if (window.opener.origin != process.env.DOMAIN) return;
 
-        // // TODO: validate window opener origin
-        // console.log('window.opener', window.opener);
-        // const idToken = await currentUser().getIdToken();
-        // // TODO: change origin
-        // window.opener.postMessage(JSON.stringify({ type: 'LOGIN', content: { idToken } }), '*');
+        const message = {
+          type: 'SESSION',
+          content: {
+            session: session
+          }
+        };
 
-        window.close();
+        window.opener.postMessage(JSON.stringify(message), process.env.DOMAIN);
+        // TODO: close window
+        // window.close();
       }
     };
 

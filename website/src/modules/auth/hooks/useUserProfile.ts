@@ -1,5 +1,5 @@
-import { useSession } from 'next-auth/client';
 import { Session, Profile } from '@disclave/server';
+import { useAuth } from '@/modules/auth/provider';
 
 export type UseUserProfile = {
   session: Session | null;
@@ -7,11 +7,10 @@ export type UseUserProfile = {
 };
 
 export const useUserProfile = (): UseUserProfile => {
-  const [session] = useSession();
+  const { session } = useAuth();
 
-  // TODO: fix casting
   return {
-    session: session as any,
-    profile: session?.profile as any
+    session: session,
+    profile: session?.profile
   };
 };

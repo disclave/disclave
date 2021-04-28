@@ -8,10 +8,12 @@ import { config } from '@fortawesome/fontawesome-svg-core';
 import { DefaultSeo } from 'next-seo';
 import { SEO } from '@/consts';
 import { AppHead } from '@/modules/head';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { swOnLoadEventListener } from '@/modules/sw';
 import { useAnalytics } from '@/modules/analytics';
 import { Provider } from 'next-auth/client';
+import { AuthProvider } from '@/modules/auth/provider';
+import { AuthCtx } from '@/modules/auth/provider/AuthCtx';
 
 config.autoAddCss = false;
 
@@ -46,7 +48,9 @@ const Disclave = ({ Component, pageProps }) => {
       <DefaultSeo {...SEO} />
 
       <Provider session={pageProps.session}>
-        <Component {...pageProps} />
+        <AuthProvider iframe={pageProps.iframe ?? false} session={pageProps.session}>
+          <Component {...pageProps} />
+        </AuthProvider>
       </Provider>
     </>
   );

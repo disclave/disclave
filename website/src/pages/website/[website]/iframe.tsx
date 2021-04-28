@@ -20,7 +20,8 @@ export const getServerSideProps: GetServerSideProps<IFrameProps> = async (contex
     props: {
       comments,
       session: session,
-      website: website
+      website: website,
+      iframe: true
     }
   };
 };
@@ -31,27 +32,6 @@ interface IFrameProps {
 }
 
 const Index: React.FC<IFrameProps> = (props) => {
-  // TODO: remove or restore?
-  // useEffect(() => {
-  //   if (!window) {
-  //     console.error('Window not available. Can not initialize message listener.');
-  //     return;
-  //   }
-  //
-  //   const eventListener = (ev: MessageEvent) => {
-  //     console.log(ev);
-  //     // const data = JSON.parse(ev.data);
-  //     // if (data.type == 'LOGIN') {
-  //     //   loginGql(data.content.idToken);
-  //     // }
-  //   };
-  //
-  //   window.addEventListener('message', eventListener, false);
-  //   return () => {
-  //     window.removeEventListener('message', eventListener);
-  //   };
-  // }, []);
-
   return <WebsiteIframePage website={props.website} comments={props.comments} />;
 };
 export default Index;

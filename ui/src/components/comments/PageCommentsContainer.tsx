@@ -29,11 +29,15 @@ export const PageCommentsContainer: React.VFC<PageCommentsContainerProps> = (
   );
 
   const stickyFooterClasses = classNames(
+    "z-30",
     props.inputTop ? "order-1" : "sticky bottom-0",
     { "py-2": authenticated }
   );
 
-  const commentsClasses = props.inputTop ? "order-2 pt-2" : "flex-1";
+  const commentsClasses = classNames(
+    "z-20",
+    props.inputTop ? "order-2 pt-2" : "flex-1"
+  );
 
   return (
     <div className={containerClasses}>
