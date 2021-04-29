@@ -1,4 +1,5 @@
 import firebase from "firebase/app";
+import "firebase/auth";
 import "firebase/analytics";
 
 export const initFirebaseApp = (options: Object) => {
@@ -13,4 +14,7 @@ export const initFirebaseApp = (options: Object) => {
 };
 
 export default firebase;
+export const auth = () => firebase.auth();
 export const analytics = () => firebase.analytics();
+
+export type User = firebase.User;
