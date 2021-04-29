@@ -10,7 +10,7 @@ export const useUser = (): UseUser => {
   const [user, setUser] = useState<User | undefined | null>(undefined);
 
   const onAuthStateChanged = async (fbUser: User | null) => {
-    setUser(user);
+    setUser(fbUser);
   };
 
   useEffect(() => auth().onAuthStateChanged(onAuthStateChanged), []);
