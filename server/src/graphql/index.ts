@@ -5,6 +5,8 @@ import { commentsResolvers } from "@/modules/comments/Resolvers";
 import { usersTypeDefs } from "@/modules/profiles/Schemas";
 import { usersResolvers } from "@/modules/profiles/Resolvers";
 import { Session } from "@/modules/auth";
+import { authTypeDefs } from "@/modules/auth/Schemas";
+import { authResolvers } from "@/modules/auth/Resolvers";
 
 // TODO: verify cors
 const cors = Cors({
@@ -36,8 +38,8 @@ const createApolloHandler = (
   sessionParser: (req: any) => Promise<Session>
 ) => {
   const apolloServer = new ApolloServer({
-    typeDefs: [baseTypes, commentsTypeDefs, usersTypeDefs],
-    resolvers: [commentsResolvers, usersResolvers],
+    typeDefs: [baseTypes, authTypeDefs, commentsTypeDefs, usersTypeDefs],
+    resolvers: [authResolvers, commentsResolvers, usersResolvers],
     context: async ({ req, res }) => {
       const session = await sessionParser(req);
 
