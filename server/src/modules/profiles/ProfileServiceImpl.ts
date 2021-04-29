@@ -20,11 +20,6 @@ export class ProfileServiceImpl implements ProfileService {
   public async createProfile(uid: UserId, name: string): Promise<Profile> {
     validateUserName(name);
 
-    // TODO: validate
-    // const user = await this.repository.getUser(uid);
-    // // TODO: is this check required? can user with disabled account generate the idToken?
-    // if (user.disabled) throw "User account is disabled";
-
     await this.repository.runTransaction(async (t) => {
       if (await this.repository.getProfile(uid))
         throw ProfileAlreadyExists(

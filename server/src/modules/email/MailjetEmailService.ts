@@ -8,8 +8,8 @@ import { injectable } from "inversify";
 
 @injectable()
 export class MailjetEmailService implements EmailService {
-  public async sendAuthVerificationCodeEmail(email: string, code: string) {
-    const templateId = getTemplateId(EmailTemplate.AUTH_VERIFICATION_CODE);
+  public async sendEmailVerification(email: string, code: string) {
+    const templateId = getTemplateId(EmailTemplate.EMAIL_VERIFICATION);
     const variables = {
       verification_code: code,
     };
