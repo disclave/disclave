@@ -1,10 +1,10 @@
 import React from "react";
+import { UserProfileModel } from "@/components/auth";
+import { UserInfo } from "@/components/auth/user";
 import { ContainerWrapper } from "@/components/container";
+import { Loading } from "@/components/loading";
 import { useTranslation } from "@/i18n";
 import { LoginMethodSelect } from "@/components/auth/login/LoginMethodSelect";
-import { UserProfileModel } from "@/components/auth";
-import { Loading } from "@/components/loading";
-import { UserInfo } from "@/components/auth/user";
 
 export interface LoginFormContainerProps {
   onLogin: (email: string, password: string) => Promise<void>;

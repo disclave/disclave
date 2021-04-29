@@ -1,7 +1,7 @@
 import React from "react";
+import { UserProfileModel } from "@/components/auth";
 import { Button } from "@/components/button";
 import { useTranslation } from "@/i18n";
-import { UserProfileModel } from "@/components/auth";
 
 export interface UserInfoProps {
   userProfile: UserProfileModel;

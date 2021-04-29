@@ -29,7 +29,7 @@ export const CommentAddAuth: React.VFC<CommentAddAuthProps> = (props) => {
       <div className="flex flex-row space-x-2">
         <Button href={loginButtonHref} onClick={loginButtonClick} outlined>
           {t("add.auth.button.login")}
-        </Button>{" "}
+        </Button>
         <Button href={registerButtonHref} onClick={registerButtonClick}>
           {t("add.auth.button.register")}
         </Button>

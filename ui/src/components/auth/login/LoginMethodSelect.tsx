@@ -1,8 +1,8 @@
 import React from "react";
-import { useTranslation } from "@/i18n";
-import { FacebookBtn } from "@/components/auth/social/FacebookBtn";
 import { GoogleBtn } from "@/components/auth/social";
 import { LoginForm } from "@/components/auth/login/form";
+import { useTranslation } from "@/i18n";
+import { FacebookBtn } from "@/components/auth/social/FacebookBtn";
 
 export interface LoginMethodSelectProps {
   onLogin: (email: string, password: string) => Promise<void>;
