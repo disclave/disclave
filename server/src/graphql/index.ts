@@ -4,11 +4,9 @@ import { commentsTypeDefs } from "@/modules/comments/Schemas";
 import { commentsResolvers } from "@/modules/comments/Resolvers";
 import { usersTypeDefs } from "@/modules/profiles/Schemas";
 import { usersResolvers } from "@/modules/profiles/Resolvers";
-import { Session } from "@/modules/auth";
 import { authTypeDefs } from "@/modules/auth/Schemas";
 import { authResolvers } from "@/modules/auth/Resolvers";
 
-// TODO: verify cors
 const cors = Cors({
   allowMethods: ["POST", "GET", "OPTIONS"],
   allowHeaders: [
@@ -33,20 +31,24 @@ const baseTypes = gql`
   }
 `;
 
-const createApolloHandler = (
-  path: string,
-  sessionParser: (req: any) => Promise<Session>
-) => {
+const getIdToken = (req: any): string | null => {
+  const authorization = req?.headers?.authorization || null;
+  if (authorization && authorization.startsWith("Bearer "))
+    return authorization.replace("Bearer ", "");
+  return null;
+};
+
+const createApolloHandler = (path: string) => {
   const apolloServer = new ApolloServer({
     typeDefs: [baseTypes, authTypeDefs, commentsTypeDefs, usersTypeDefs],
     resolvers: [authResolvers, commentsResolvers, usersResolvers],
     context: async ({ req, res }) => {
-      const session = await sessionParser(req);
+      const idToken = getIdToken(req);
 
       return {
         req,
         res,
-        session,
+        idToken,
       };
     },
   });
@@ -54,11 +56,8 @@ const createApolloHandler = (
   return apolloServer.createHandler({ path });
 };
 
-export const graphqlHandler = (
-  path: string,
-  sessionParser: (req: any) => Promise<Session>
-) => {
-  const apolloHandler = createApolloHandler(path, sessionParser);
+export const graphqlHandler = (path: string) => {
+  const apolloHandler = createApolloHandler(path);
 
   return cors((req, res) => {
     if (req.method === "OPTIONS") {

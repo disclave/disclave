@@ -15,7 +15,7 @@ export interface MailjetConfig {
   apiKey: string;
   apiSecret: string;
   templates: {
-    authVerificationCode: string;
+    emailVerification: number;
   };
 }
 
@@ -26,8 +26,8 @@ export const init = async (
 ) => {
   const emailTemplates = new Map<EmailTemplate, number>();
   emailTemplates.set(
-    EmailTemplate.AUTH_VERIFICATION_CODE,
-    Number(mjConfig.templates.authVerificationCode)
+    EmailTemplate.EMAIL_VERIFICATION,
+    Number(mjConfig.templates.emailVerification)
   );
 
   initMailjet(mjConfig.apiKey, mjConfig.apiSecret, emailTemplates);
@@ -37,9 +37,10 @@ export const init = async (
 
 export { graphqlHandler } from "./graphql";
 
+export { getUserCookie } from "./cookies";
 export type { Session, UserId, asUserId } from "./modules/auth";
 export type { Profile } from "./modules/profiles";
 
-export const getUserService = () => container.get(ProfileService);
+export const getProfileService = () => container.get(ProfileService);
 export const getEmailService = () => container.get(EmailService);
 export const getCommentService = () => container.get(CommentService);

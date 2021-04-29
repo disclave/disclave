@@ -3,7 +3,7 @@ import Mailjet from "node-mailjet";
 type MjClient = Mailjet.Email.Client;
 
 export enum EmailTemplate {
-  AUTH_VERIFICATION_CODE,
+  EMAIL_VERIFICATION,
 }
 
 export type EmailTemplateIds = Map<EmailTemplate, number>;
