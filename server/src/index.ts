@@ -4,6 +4,7 @@ import { initDatabase } from "@/connectors/mongodb";
 import { EmailTemplate, initMailjet } from "@/connectors/mailjet";
 import { EmailService } from "@/modules/email";
 import { ProfileService } from "@/modules/profiles";
+import { initFirebase } from "@/connectors/firebase/Firebase";
 
 export interface DbConfig {
   dbUri: string;
@@ -18,7 +19,11 @@ export interface MailjetConfig {
   };
 }
 
-export const init = async (dbConfig: DbConfig, mjConfig: MailjetConfig) => {
+export const init = async (
+  firebaseServiceAccountObject: Object,
+  dbConfig: DbConfig,
+  mjConfig: MailjetConfig
+) => {
   const emailTemplates = new Map<EmailTemplate, number>();
   emailTemplates.set(
     EmailTemplate.AUTH_VERIFICATION_CODE,
@@ -26,6 +31,7 @@ export const init = async (dbConfig: DbConfig, mjConfig: MailjetConfig) => {
   );
 
   initMailjet(mjConfig.apiKey, mjConfig.apiSecret, emailTemplates);
+  initFirebase(firebaseServiceAccountObject);
   await initDatabase(dbConfig.dbUri, dbConfig.dbName);
 };
 
