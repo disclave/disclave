@@ -18,3 +18,7 @@ export const auth = () => firebase.auth();
 export const analytics = () => firebase.analytics();
 
 export type User = firebase.User;
+export type AuthProvider = firebase.auth.AuthProvider;
+export type UserCredential = firebase.auth.UserCredential;
+export const GoogleAuthProvider = firebase.auth.GoogleAuthProvider;
+export const FacebookAuthProvider = firebase.auth.FacebookAuthProvider;
