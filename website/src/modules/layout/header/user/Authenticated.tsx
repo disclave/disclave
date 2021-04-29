@@ -1,10 +1,9 @@
 import React from 'react';
 import { UserSelfAvatar } from '@disclave/ui';
-import { Profile } from '@disclave/server';
-import { logout } from '@/modules/auth';
+import { logout, ProfileModel } from '@disclave/client';
 
 export interface AuthenticatedProps {
-  userProfile: Profile;
+  userProfile: ProfileModel;
 }
 
 export const Authenticated: React.VFC<AuthenticatedProps> = ({ userProfile }) => {

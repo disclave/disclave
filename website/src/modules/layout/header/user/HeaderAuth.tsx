@@ -1,7 +1,7 @@
 import React from 'react';
 import { Authenticated } from './Authenticated';
 import { NotAuthenticated } from './NotAuthenticated';
-import { useUserProfile } from '@/modules/auth';
+import { useSession } from '@disclave/client';
 
 export interface HeaderAuthProps {
   className?: string;
@@ -9,7 +9,7 @@ export interface HeaderAuthProps {
 }
 
 export const HeaderAuth: React.VFC<HeaderAuthProps> = ({ className, loginHref }) => {
-  const { profile } = useUserProfile();
+  const { profile } = useSession();
 
   return (
     <div className={className}>

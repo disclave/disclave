@@ -18,6 +18,7 @@ export {
   loginWithGoogle,
   loginWithFacebook,
 } from "./modules/auth";
+export type { ProfileModel, UserModel } from "./modules/auth";
 
 export { isUrl, stringToUrl, encodeUrl } from "./modules/url";
 

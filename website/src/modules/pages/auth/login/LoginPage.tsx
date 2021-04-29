@@ -4,11 +4,10 @@ import { redirectParamsToUrl, routerQueryToRedirectParams } from '@/modules/redi
 import { registerHref } from '@/pages/auth/register';
 import { LoginFormContainer } from '@disclave/ui';
 import { Layout } from '@/modules/layout';
-import { useUserProfile } from '@/modules/auth';
-import { signIn } from 'next-auth/client';
+import { login, loginWithFacebook, loginWithGoogle, logout, useSession } from '@disclave/client';
 
 export const LoginPage: React.VFC = () => {
-  const { session, profile } = useUserProfile();
+  const { user, profile } = useSession();
 
   const router = useRouter();
   const redirectParams = routerQueryToRedirectParams(router.query);
@@ -24,7 +23,7 @@ export const LoginPage: React.VFC = () => {
   };
 
   useEffect(() => {
-    if (session == null) return;
+    if (user == null) return;
 
     const checkRedirects = async () => {
       if (!profile) {
@@ -34,44 +33,45 @@ export const LoginPage: React.VFC = () => {
 
       if (redirectUrl) await router.push(redirectUrl);
       else if (window.opener) {
-        if (window.opener.origin != process.env.DOMAIN) return;
-
-        const message = {
-          type: 'SESSION',
-          content: {
-            session: session
-          }
-        };
-
-        window.opener.postMessage(JSON.stringify(message), process.env.DOMAIN);
-        window.close();
+        // TODO: update to match SessionProvider
+        // if (window.opener.origin != process.env.DOMAIN) return;
+        //
+        // const message = {
+        //   type: 'SESSION',
+        //   content: {
+        //     session: session
+        //   }
+        // };
+        //
+        // window.opener.postMessage(JSON.stringify(message), process.env.DOMAIN);
+        // window.close();
       }
     };
 
     checkRedirects();
-  }, [session]);
+  }, [user]);
 
-  const onEmailLogin = async (email: string) => {
-    // TODO: handle result
-    const result = await signIn('email', { email, redirect: false });
+  const onLogin = async (email: string, password: string) => {
+    await login(email, password);
   };
 
-  const onVerificationCodeConfirm = async (email: string, token: string) => {
-    // TODO: extract URL to separate builder method
-    const domain = process.env.DOMAIN;
-    const url = `/api/auth/callback/email?email=${encodeURIComponent(
-      email
-    )}&token=${encodeURIComponent(token)}&callbackUrl=${domain}${redirectUrl}`;
-
-    await router.push(url);
+  const onFacebookLogin = async () => {
+    await loginWithFacebook(window.location.href);
+  };
+  const onGoogleLogin = async () => {
+    await loginWithGoogle(window.location.href);
   };
 
   return (
     <Layout>
       <section className="container mx-auto my-8 lg:mt-24 max-w-max">
         <LoginFormContainer
-          onEmailLogin={onEmailLogin}
-          onVerificationCodeConfirm={onVerificationCodeConfirm}
+          onLogin={onLogin}
+          onLogout={logout}
+          onLoginFacebook={onFacebookLogin}
+          onLoginGoogle={onGoogleLogin}
+          registerHref={registerHrefWithRedirect}
+          userProfile={profile}
         />
       </section>
     </Layout>
