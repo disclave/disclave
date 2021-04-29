@@ -4,9 +4,11 @@ import { asUserId, ProfileModel, UserModel } from "../models";
 import { User } from "../../../firebase";
 import { getSelfProfile } from "../../users/client";
 import { usePopupAuthCallback, useUser } from "../hooks";
+import { setAuthToken } from "../../../graphql";
 
 export interface SessionProviderProps {
   serverSideUid: string | null;
+  manageAuthCookie: boolean;
 }
 
 export const SessionProvider: React.FC<SessionProviderProps> = (props) => {
@@ -30,7 +32,24 @@ export const SessionProvider: React.FC<SessionProviderProps> = (props) => {
     return await getSelfProfile(noCache);
   };
 
+  const updateAuthToken = async (fbUser: User | null) => {
+    if (!fbUser) {
+      setAuthToken(null);
+      return;
+    }
+
+    const idToken = await fbUser.getIdToken();
+    setAuthToken(idToken);
+  };
+
+  const updateUserCookie = async () => {
+    if (props.manageAuthCookie) await updateUserCookie();
+  };
+
   const onAuthStateChanged = async (fbUser: User | null) => {
+    await updateAuthToken(fbUser);
+    await updateUserCookie();
+
     if (!fbUser) {
       updateUser(null);
       return;

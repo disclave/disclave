@@ -45,7 +45,7 @@ const Disclave = ({ Component, pageProps }) => {
 
       <DefaultSeo {...SEO} />
 
-      <SessionProvider serverSideUid={pageProps.serverSideUid}>
+      <SessionProvider serverSideUid={pageProps.serverSideUid} manageAuthCookie={true}>
         <Component {...pageProps} />
       </SessionProvider>
     </>
