@@ -6,6 +6,13 @@ import { usersTypeDefs } from "@/modules/profiles/Schemas";
 import { usersResolvers } from "@/modules/profiles/Resolvers";
 import { authTypeDefs } from "@/modules/auth/Schemas";
 import { authResolvers } from "@/modules/auth/Resolvers";
+import { container } from "@/inversify.config";
+import {
+  asIdToken,
+  AuthProvider,
+  DecodedIdToken,
+  IdToken,
+} from "@/modules/auth";
 
 const cors = Cors({
   allowMethods: ["POST", "GET", "OPTIONS"],
@@ -31,11 +38,16 @@ const baseTypes = gql`
   }
 `;
 
-const getIdToken = (req: any): string | null => {
+const authProvider = container.get(AuthProvider);
+type TokenWithDecoded = { idToken: IdToken; decodedToken: DecodedIdToken };
+
+const getIdToken = async (req: any): Promise<TokenWithDecoded | null> => {
   const authorization = req?.headers?.authorization || null;
-  if (authorization && authorization.startsWith("Bearer "))
-    return authorization.replace("Bearer ", "");
-  return null;
+  if (!authorization || !authorization.startsWith("Bearer ")) return null;
+
+  const idToken = asIdToken(authorization.replace("Bearer ", ""));
+  const decodedToken = await authProvider.verifyIdToken(idToken, false);
+  return { idToken, decodedToken };
 };
 
 const createApolloHandler = (path: string) => {
@@ -43,12 +55,13 @@ const createApolloHandler = (path: string) => {
     typeDefs: [baseTypes, authTypeDefs, commentsTypeDefs, usersTypeDefs],
     resolvers: [authResolvers, commentsResolvers, usersResolvers],
     context: async ({ req, res }) => {
-      const idToken = getIdToken(req);
+      const auth = await getIdToken(req);
 
       return {
         req,
         res,
-        idToken,
+        idToken: auth ? auth.idToken : null,
+        decodedToken: auth ? auth.decodedToken : null,
       };
     },
   });
