@@ -1,9 +1,8 @@
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { GetServerSideProps } from 'next';
 import React from 'react';
-import { getSession } from 'next-auth/client';
 import { initServer } from '@/modules/server';
-import { getCommentService } from '@disclave/server';
+import { getCommentService, getUserCookie } from '@disclave/server';
 import { CommentModel } from '@disclave/client';
 import { HomePage } from '@/modules/pages/home';
 
@@ -11,18 +10,18 @@ export const homeHref = () => '/';
 
 export const getServerSideProps: GetServerSideProps<HomeProps> = async (context) => {
   await initServer();
-  const session = await getSession(context);
+  const userCookie = getUserCookie(context.req);
   const service = getCommentService();
 
   const topMinVoteSum = 1;
   const latestMinVoteSum = 1;
   const commentsLimit = 5;
 
-  const topCommentsPromise = service.getTopComments(topMinVoteSum, commentsLimit, session?.uid);
+  const topCommentsPromise = service.getTopComments(topMinVoteSum, commentsLimit, userCookie?.uid);
   const latestCommentsPromise = service.getLatestComments(
     latestMinVoteSum,
     commentsLimit,
-    session?.uid
+    userCookie?.uid
   );
   const translationsPromise = serverSideTranslations(context.locale, ['common', 'home', 'layout']);
 
@@ -33,7 +32,7 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (context)
       topMinVoteSum: topMinVoteSum,
       latestComments: await latestCommentsPromise,
       latestMinVoteSum: latestMinVoteSum,
-      session: session,
+      serverSideUid: userCookie ? userCookie.uid : null,
       ...(await translationsPromise)
     }
   };

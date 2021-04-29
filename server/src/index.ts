@@ -38,8 +38,7 @@ export const init = async (
 export { graphqlHandler } from "./graphql";
 
 export { getUserCookie } from "./cookies";
-export type { Session, UserId, asUserId } from "./modules/auth";
-export type { Profile } from "./modules/profiles";
+export type { UserCookieContent } from "./modules/auth";
 
 export const getProfileService = () => container.get(ProfileService);
 export const getEmailService = () => container.get(EmailService);

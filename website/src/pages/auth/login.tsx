@@ -4,7 +4,7 @@ import React from 'react';
 import { LoginPage } from '@/modules/pages/auth/login';
 import { GetServerSideProps } from 'next';
 import { initServer } from '@/modules/server';
-import { getSession } from 'next-auth/client';
+import { getUserCookie } from '@disclave/server';
 
 export const loginHref = (redirectPath?: string, redirectPathParamToEncode?: string): string => {
   let path = '/auth/login';
@@ -18,12 +18,12 @@ export const loginHref = (redirectPath?: string, redirectPathParamToEncode?: str
 export const getServerSideProps: GetServerSideProps = async (context) => {
   await initServer();
 
-  const sessionPromise = getSession(context);
+  const userCookie = getUserCookie(context.req);
   const translationsPromise = serverSideTranslations(context.locale, ['common', 'layout']);
 
   return {
     props: {
-      session: await sessionPromise,
+      serverSideUid: userCookie ? userCookie.uid : null,
       ...(await translationsPromise)
     }
   };

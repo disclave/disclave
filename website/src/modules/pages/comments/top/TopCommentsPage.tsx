@@ -1,11 +1,10 @@
 import React from 'react';
 import { Layout } from '@/modules/layout';
-import { CommentModel } from '@disclave/client';
+import { CommentModel, useSession } from '@disclave/client';
 import { PreviewCommentsList } from '@disclave/ui';
 import { useTopComments } from '@/modules/comments';
 import { websiteHrefFromMeta } from '@/pages/website/[website]';
 import { useTranslation } from 'next-i18next';
-import { useUserProfile } from '@/modules/auth';
 
 export interface TopCommentsPageProps {
   comments: Array<CommentModel>;
@@ -15,7 +14,7 @@ export interface TopCommentsPageProps {
 
 export const TopCommentsPage: React.VFC<TopCommentsPageProps> = (props) => {
   const { t } = useTranslation('comments');
-  const { profile } = useUserProfile();
+  const { isAuthenticated } = useSession();
   const { comments, voteDown, voteUp, voteRemove } = useTopComments(
     props.comments,
     props.minVoteSum,
@@ -29,7 +28,7 @@ export const TopCommentsPage: React.VFC<TopCommentsPageProps> = (props) => {
           <h1 className="text-3xl pb-4">{t('top.header')}</h1>
           <PreviewCommentsList
             actionsHandler={{ onVoteDown: voteDown, onVoteRemove: voteRemove, onVoteUp: voteUp }}
-            authenticated={!!profile}
+            authenticated={isAuthenticated}
             comments={comments}
             hrefBuilder={websiteHrefFromMeta}
           />

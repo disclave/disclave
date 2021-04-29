@@ -1,5 +1,6 @@
 import { UserCookieContent } from "@/modules/auth";
 import cookie from "cookie";
+import { IncomingMessage } from "http";
 
 const userCookieName = "DISCLAVE_USER";
 
@@ -32,8 +33,10 @@ export const setUserCookie = (content: UserCookieContent | null, res: any) => {
   res.setHeader("Set-Cookie", userCookie);
 };
 
-export const getUserCookie = (req: any): UserCookieContent | null => {
-  const parsed = cookie.parse(req.headers?.cookie || "");
+export const getUserCookie = (
+  req: IncomingMessage
+): UserCookieContent | null => {
+  const parsed = cookie.parse(req.headers.cookie || "");
   const userCookie = parsed[userCookieName];
   if (!userCookie) return null;
 

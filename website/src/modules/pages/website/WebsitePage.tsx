@@ -5,7 +5,7 @@ import { WebsiteInfo } from './info';
 import { WebsiteComments } from './comments';
 import { loginHref } from '@/pages/auth/login';
 import { websiteHrefRaw } from '@/pages/website/[website]';
-import { setAuthToken } from '@disclave/client';
+import { registerHref } from '@/pages/auth/register';
 
 export interface WebsitePageProps {
   website: string;
@@ -14,14 +14,18 @@ export interface WebsitePageProps {
 
 export const WebsitePage: React.VFC<WebsitePageProps> = ({ website, comments }) => {
   const loginHrefWithRedirect = loginHref(websiteHrefRaw, website);
-
-  // setAuthToken('Test-Auth-Token');
+  const registerHrefWithRedirect = registerHref(websiteHrefRaw, website);
 
   return (
     <Layout loginHref={loginHrefWithRedirect}>
       <div className="mx-4 mt-4">
         <WebsiteInfo website={website} />
-        <WebsiteComments website={website} comments={comments} loginHref={loginHrefWithRedirect} />
+        <WebsiteComments
+          website={website}
+          comments={comments}
+          loginHref={loginHrefWithRedirect}
+          registerHref={registerHrefWithRedirect}
+        />
       </div>
     </Layout>
   );

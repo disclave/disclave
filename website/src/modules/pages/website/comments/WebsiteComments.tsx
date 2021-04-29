@@ -1,17 +1,17 @@
-import { CommentModel } from '@disclave/client';
+import { CommentModel, logout, useSession } from '@disclave/client';
 import React from 'react';
 import { PageCommentsContainer } from '@disclave/ui';
 import { useWebsiteComments } from '@/modules/comments';
-import { logout, useUserProfile } from '@/modules/auth';
 
 export interface WebsiteCommentsProps {
   website: string;
   comments: Array<CommentModel>;
   loginHref: string;
+  registerHref: string;
 }
 
 export const WebsiteComments: React.VFC<WebsiteCommentsProps> = (props) => {
-  const { profile } = useUserProfile();
+  const { profile } = useSession();
 
   const website = props.website;
   const { comments, addComment, voteDown, voteUp, voteRemove } = useWebsiteComments(
@@ -27,6 +27,7 @@ export const WebsiteComments: React.VFC<WebsiteCommentsProps> = (props) => {
         className="max-h-full"
         inputTop={true}
         loginHref={props.loginHref}
+        registerHref={props.registerHref}
         onSubmit={addComment}
         onLogout={logout}
         commentsActionsHandler={{
