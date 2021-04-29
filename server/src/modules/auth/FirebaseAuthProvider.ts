@@ -1,4 +1,5 @@
 import {
+  asEmail,
   asUserId,
   AuthProvider,
   DecodedIdToken,
@@ -18,6 +19,7 @@ export class FirebaseAuthProvider implements AuthProvider {
 
     return {
       uid: asUserId(token.uid),
+      email: token.email ? asEmail(token.email) : null,
     };
   }
 
@@ -34,5 +36,17 @@ export class FirebaseAuthProvider implements AuthProvider {
     } catch {
       return null;
     }
+  }
+
+  async generateEmailVerificationLink(
+    email: string,
+    redirectUrl?: string
+  ): Promise<string> {
+    const options = redirectUrl
+      ? {
+          url: redirectUrl,
+        }
+      : undefined;
+    return await auth().generateEmailVerificationLink(email, options);
   }
 }
