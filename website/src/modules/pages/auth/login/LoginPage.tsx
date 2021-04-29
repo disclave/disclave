@@ -4,10 +4,14 @@ import { redirectParamsToUrl, routerQueryToRedirectParams } from '@/modules/redi
 import { registerHref } from '@/pages/auth/register';
 import { LoginFormContainer } from '@disclave/ui';
 import { Layout } from '@/modules/layout';
-import { login, loginWithFacebook, loginWithGoogle, logout, useSession } from '@disclave/client';
+import { login, loginWithFacebook, loginWithGoogle, useSession } from '@disclave/client';
 
 export const LoginPage: React.VFC = () => {
-  const { user, profile } = useSession();
+  const {
+    user,
+    profile,
+    actions: { logout }
+  } = useSession();
 
   const router = useRouter();
   const redirectParams = routerQueryToRedirectParams(router.query);

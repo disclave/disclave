@@ -3,12 +3,17 @@ import { PageCommentsContainer } from "@disclave/ui";
 import { useComments } from "../hooks";
 import { loginHref } from "./Login";
 import { registerHref } from "./Register";
-import { logout, useSession } from "@disclave/client";
+import { useSession } from "@disclave/client";
 
 export const homeHref = "/";
 
 export const Home = () => {
-  const { user, profile, isLoading } = useSession();
+  const {
+    user,
+    profile,
+    isLoading,
+    actions: { logout },
+  } = useSession();
 
   const {
     comments,

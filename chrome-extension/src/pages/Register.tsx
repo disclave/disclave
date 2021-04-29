@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useHistory } from "react-router-dom";
 import { RegisterFormContainer } from "@disclave/ui";
-import { register, logout, useSession } from "@disclave/client";
+import { register, useSession } from "@disclave/client";
 import { homeHref } from "./Home";
 import { loginHref } from "./Login";
 import { MessageType, sendMessage } from "../messages";
@@ -10,17 +10,19 @@ export const registerHref = "/register";
 
 export const Register = () => {
   const history = useHistory();
-  const { user, isLoading } = useSession();
+  const {
+    user,
+    isLoading,
+    actions: { logout, sendVerificationEmail, createProfile },
+  } = useSession();
 
   const onRegisterEmailPass = async (email: string, password: string) => {
     await register(email, password);
   };
 
   const onCreateUsername = async (name: string) => {
-    // TODO: fix flow
-    // await createSelfProfile(name);
-    // await updateProfile();
-    // await history.push(homeHref);
+    await createProfile(name);
+    await history.push(homeHref);
   };
 
   const onLogout = async () => {
@@ -36,8 +38,7 @@ export const Register = () => {
   };
 
   const onSendEmailVerification = async () => {
-    // TODO: fix flow
-    // await sendEmailVerification();
+    await sendVerificationEmail();
   };
 
   return (

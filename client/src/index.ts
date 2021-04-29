@@ -13,7 +13,6 @@ export {
   SessionProvider,
   useSession,
   login,
-  logout,
   register,
   loginWithGoogle,
   loginWithFacebook,
@@ -37,5 +36,3 @@ export type {
   CommentAuthor,
   CommentVotes,
 } from "./modules/comments";
-
-export { createSelfProfile } from "./modules/users";

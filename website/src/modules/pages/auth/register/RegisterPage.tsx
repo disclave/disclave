@@ -1,12 +1,5 @@
 import React, { useEffect } from 'react';
-import {
-  createSelfProfile,
-  loginWithFacebook,
-  loginWithGoogle,
-  logout,
-  register,
-  useSession
-} from '@disclave/client';
+import { loginWithFacebook, loginWithGoogle, register, useSession } from '@disclave/client';
 import { useRouter } from 'next/router';
 import { redirectParamsToUrl, routerQueryToRedirectParams } from '@/modules/redirect';
 import { RegisterFormContainer } from '@disclave/ui';
@@ -14,7 +7,12 @@ import { Layout } from '@/modules/layout';
 import { loginHref } from '@/pages/auth/login';
 
 export const RegisterPage: React.VFC = () => {
-  const { user, profile, isLoading } = useSession();
+  const {
+    user,
+    profile,
+    isLoading,
+    actions: { logout, createProfile, sendVerificationEmail }
+  } = useSession();
 
   const router = useRouter();
   const redirectParams = routerQueryToRedirectParams(router.query);
@@ -29,7 +27,7 @@ export const RegisterPage: React.VFC = () => {
     if (!profile) return;
 
     const checkRedirects = async () => {
-      // TODO: validate and fix flow for popups register
+      // TODO: validate and fix flow for popups register - should be similar to login flow
       if (redirectUrl) await router.push(redirectUrl);
       else if (window.opener) window.close();
     };
@@ -42,8 +40,7 @@ export const RegisterPage: React.VFC = () => {
   };
 
   const onCreateUsername = async (name: string) => {
-    // TODO: createSelfProfile should be moved to useSession and the result should be used to update the context
-    await createSelfProfile(name);
+    await createProfile(name);
   };
 
   const onLogout = async () => {
@@ -59,8 +56,7 @@ export const RegisterPage: React.VFC = () => {
   };
 
   const onSendEmailVerification = async () => {
-    // TODO: FIXME
-    // await sendEmailVerification(window.location.href);
+    await sendVerificationEmail(window.location.href);
   };
 
   return (

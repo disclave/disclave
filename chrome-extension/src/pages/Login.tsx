@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useHistory } from "react-router-dom";
 import { LoginFormContainer } from "@disclave/ui";
-import { login, logout, useSession } from "@disclave/client";
+import { login, useSession } from "@disclave/client";
 import { homeHref } from "./Home";
 import { registerHref } from "./Register";
 import { MessageType, sendMessage } from "../messages";
@@ -11,7 +11,12 @@ export const loginHref = "/login";
 
 export const Login = () => {
   const history = useHistory();
-  const { user, profile, isAuthenticated } = useSession();
+  const {
+    user,
+    profile,
+    isAuthenticated,
+    actions: { logout },
+  } = useSession();
 
   useEffect(() => {
     if (user != null && !isAuthenticated) history.push(registerHref);

@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { SessionCtx, SessionCtxData } from "./SessionCtx";
 import { asUserId, ProfileModel, UserModel } from "../models";
 import { User } from "../../../firebase";
-import { getSelfProfile } from "../../users/client";
+import { getSelfProfile, createSelfProfile } from "../../users/client";
 import { usePopupAuthCallback, useUser } from "../hooks";
 import { setAuthToken } from "../../../graphql";
-import { updateUserCookie } from "../client";
+import { sendVerificationEmail, updateUserCookie } from "../client";
+import { logout } from "../index";
 
 export interface SessionProviderProps {
   serverSideUid: string | null;
@@ -20,6 +21,16 @@ export const SessionProvider: React.FC<SessionProviderProps> = (props) => {
   const updateUser = (userModel: UserModel | null) => {
     setUser(userModel);
     setUid(user ? user.uid : null);
+  };
+
+  const updateProfile = (profile: ProfileModel) => {
+    if (!user) return;
+    updateUser({
+      uid: user.uid,
+      email: user.email,
+      emailVerified: user.emailVerified,
+      profile: profile,
+    });
   };
 
   const onPopupAuthChange = (user: UserModel) => {
@@ -69,9 +80,28 @@ export const SessionProvider: React.FC<SessionProviderProps> = (props) => {
     onAuthStateChanged(fbUser.user);
   }, [fbUser.user]);
 
+  const onCreateProfile = async (name: string) => {
+    const result = await createSelfProfile(name);
+    updateProfile(result);
+  };
+
+  const onLogout = async () => {
+    // TODO: handle alternative state if working on iframe without initialized firebase
+    await logout();
+  };
+
+  const onSendVerificationEmail = async (redirectUrl?: string) => {
+    await sendVerificationEmail(redirectUrl);
+  };
+
   const ctxData: SessionCtxData = {
     user: user,
     uid: uid,
+    actions: {
+      createProfile: onCreateProfile,
+      logout: onLogout,
+      sendVerificationEmail: onSendVerificationEmail,
+    },
   };
 
   return (
