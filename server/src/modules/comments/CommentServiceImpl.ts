@@ -13,7 +13,7 @@ export class CommentServiceImpl implements CommentService {
   private urlService: UrlService;
 
   @inject(ProfileService)
-  private userService: ProfileService;
+  private profileService: ProfileService;
 
   @inject(CommentRepository)
   private repository: CommentRepository;
@@ -63,7 +63,7 @@ export class CommentServiceImpl implements CommentService {
     text: string,
     url: string
   ): Promise<Comment> {
-    const author = await this.userService.getProfile(uid);
+    const author = await this.profileService.getProfile(uid);
     const parsedUrl = this.urlService.parseUrl(url);
     const escapedText = validateAndParseCommentText(text);
     const result = await this.repository.addComment(

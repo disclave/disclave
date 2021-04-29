@@ -20,11 +20,6 @@ interface DbProfile {
 export class ProfileMongoRepository
   extends MongoRepository
   implements ProfileRepository<ClientSession> {
-  // // TODO: move to auth module?
-  // public async getUser(uid: string) {
-  //   return auth().getUser(uid);
-  // }
-
   public async existProfileByName(
     name: string,
     session?: ClientSession
