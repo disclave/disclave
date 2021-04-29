@@ -11,9 +11,7 @@ import { AppHead } from '@/modules/head';
 import React, { useEffect } from 'react';
 import { swOnLoadEventListener } from '@/modules/sw';
 import { useAnalytics } from '@/modules/analytics';
-import { Provider } from 'next-auth/client';
-import { AuthProvider } from '@/modules/auth/provider';
-import { AuthCtx } from '@/modules/auth/provider/AuthCtx';
+import { SessionProvider } from '@disclave/client';
 
 config.autoAddCss = false;
 
@@ -47,11 +45,9 @@ const Disclave = ({ Component, pageProps }) => {
 
       <DefaultSeo {...SEO} />
 
-      <Provider session={pageProps.session}>
-        <AuthProvider iframe={pageProps.iframe ?? false} session={pageProps.session}>
-          <Component {...pageProps} />
-        </AuthProvider>
-      </Provider>
+      <SessionProvider serverSideUid={pageProps.serverSideUid}>
+        <Component {...pageProps} />
+      </SessionProvider>
     </>
   );
 };
