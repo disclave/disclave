@@ -3,42 +3,37 @@ import { PageCommentsContainer } from "@disclave/ui";
 import { useComments } from "../hooks";
 import { loginHref } from "./Login";
 import { registerHref } from "./Register";
+import { logout, useSession } from "@disclave/client";
 
 export const homeHref = "/";
 
-// FIXME
 export const Home = () => {
-  // const {
-  //   profile,
-  //   isLoading,
-  //   actions: { logout },
-  // } = useSession();
+  const { user, profile, isLoading } = useSession();
 
-  // TODO: refactor the `isLoading` logic?
-  // const {
-  //   comments,
-  //   addComment,
-  //   addVoteDown,
-  //   removeVote,
-  //   addVoteUp,
-  // } = useComments(profile, isLoading);
+  const {
+    comments,
+    addComment,
+    addVoteDown,
+    removeVote,
+    addVoteUp,
+  } = useComments(user, isLoading);
 
-  /*if (!comments)*/ return <div>loading</div>;
+  if (!comments) return <div>loading</div>;
 
-  // return (
-  //   <PageCommentsContainer
-  //     className="max-h-96"
-  //     userProfile={profile}
-  //     comments={comments}
-  //     loginHref={loginHref}
-  //     registerHref={registerHref}
-  //     onSubmit={addComment}
-  //     onLogout={logout}
-  //     commentsActionsHandler={{
-  //       onVoteDown: addVoteDown,
-  //       onVoteRemove: removeVote,
-  //       onVoteUp: addVoteUp,
-  //     }}
-  //   />
-  // );
+  return (
+    <PageCommentsContainer
+      className="max-h-96"
+      userProfile={profile}
+      comments={comments}
+      loginHref={loginHref}
+      registerHref={registerHref}
+      onSubmit={addComment}
+      onLogout={logout}
+      commentsActionsHandler={{
+        onVoteDown: addVoteDown,
+        onVoteRemove: removeVote,
+        onVoteUp: addVoteUp,
+      }}
+    />
+  );
 };
