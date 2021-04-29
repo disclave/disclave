@@ -5,6 +5,7 @@ import { User } from "../../../firebase";
 import { getSelfProfile } from "../../users/client";
 import { usePopupAuthCallback, useUser } from "../hooks";
 import { setAuthToken } from "../../../graphql";
+import { updateUserCookie } from "../client";
 
 export interface SessionProviderProps {
   serverSideUid: string | null;
@@ -42,13 +43,13 @@ export const SessionProvider: React.FC<SessionProviderProps> = (props) => {
     setAuthToken(idToken);
   };
 
-  const updateUserCookie = async () => {
+  const updateCookie = async () => {
     if (props.manageAuthCookie) await updateUserCookie();
   };
 
   const onAuthStateChanged = async (fbUser: User | null) => {
     await updateAuthToken(fbUser);
-    await updateUserCookie();
+    await updateCookie();
 
     if (!fbUser) {
       updateUser(null);
