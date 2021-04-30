@@ -34,6 +34,6 @@ jobs:
         DB_NAME: db-name
         MJ_API_KEY: mjapikey
         MJ_API_SECRET: mjapisecret
-        MJ_TEMPLATE_EMAIL_VERIFICATION: mj-template-email-verification
+        MJ_TEMPLATE_EMAIL_VERIFICATION: 0
     - run: yarn test
 

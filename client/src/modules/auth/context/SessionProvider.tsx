@@ -11,6 +11,7 @@ import { logout } from "../index";
 export interface SessionProviderProps {
   serverSideUid: string | null;
   manageAuthCookie: boolean;
+  isIframe: boolean;
 }
 
 export const SessionProvider: React.FC<SessionProviderProps> = (props) => {
@@ -33,7 +34,9 @@ export const SessionProvider: React.FC<SessionProviderProps> = (props) => {
     });
   };
 
-  const onPopupAuthChange = (user: UserModel) => {
+  const onPopupAuthChange = (user: UserModel, authToken: string) => {
+    if (!props.isIframe) return;
+    setAuthToken(authToken);
     updateUser(user);
   };
   usePopupAuthCallback(onPopupAuthChange);

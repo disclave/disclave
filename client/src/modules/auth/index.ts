@@ -9,7 +9,7 @@ import {
 import { setAuthToken } from "../../graphql";
 import { sendVerificationEmail } from "./client";
 
-export type { ProfileModel, UserModel, UserId } from "./models";
+export type { ProfileModel, UserModel, UserId, SessionMessage } from "./models";
 export { asUserId } from "./models";
 export { SessionProvider, useSession } from "./context";
 

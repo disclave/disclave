@@ -1,31 +1,29 @@
 import { useEffect } from "react";
-import { UserModel } from "../models";
+import { UserModel, SessionMessage } from "../models";
+import {
+  addMessageListener,
+  canInitializeMessageListener,
+  MessageType,
+  removeMessageListener,
+} from "../../message";
 
-type AuthCallback = (user: UserModel) => void;
+type AuthCallback = (user: UserModel, authToken: string) => void;
 
 export const usePopupAuthCallback = (callback: AuthCallback) => {
   useEffect(() => {
-    if (!window) {
+    if (!canInitializeMessageListener()) {
       console.error(
         "Window not available. Can not initialize message listener."
       );
       return;
     }
 
-    const eventListener = (ev: MessageEvent) => {
-      // TODO: get domain from init props
-      if (ev.origin != process.env.DOMAIN) return;
-
-      const data = JSON.parse(ev.data);
-      if (data.type != "SESSION") return;
-
-      const msgUser = data.content?.user;
-      callback(msgUser);
-    };
-
-    window.addEventListener("message", eventListener, false);
+    const messageListener = addMessageListener(
+      MessageType.SESSION,
+      (data: SessionMessage) => callback(data.user, data.authToken)
+    );
     return () => {
-      window.removeEventListener("message", eventListener);
+      removeMessageListener(messageListener);
     };
   }, []);
 };
