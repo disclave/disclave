@@ -29,7 +29,7 @@ export const useSession = (): UseSession => {
     user: user ? user : null,
     profile: user?.profile ? user.profile : null,
     authToken: authToken,
-    isAuthenticated: !!user && !!user.profile,
+    isAuthenticated: uid != null,
     isLoading: user === undefined,
     actions: {
       createProfile,

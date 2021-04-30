@@ -3,11 +3,15 @@ import { MemoryRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { Home, homeHref } from "./pages/Home";
 import { Login, loginHref } from "./pages/Login";
 import { Register, registerHref } from "./pages/Register";
-import { SessionProvider } from "../../client/src";
+import { SessionProvider } from "@disclave/client";
 
 export const App = () => {
   return (
-    <SessionProvider serverSideUid={null} manageAuthCookie={false}>
+    <SessionProvider
+      serverSideUid={null}
+      manageAuthCookie={false}
+      isIframe={false}
+    >
       <Router>
         <div className="m-4 w-96">
           <Switch>
