@@ -15,10 +15,8 @@ import { SessionProvider } from '@disclave/client';
 
 config.autoAddCss = false;
 
-// TODO: move to useEffect?
 const firebaseConfig = JSON.parse(process.env.FIREBASE_CLIENT_CONFIG);
 const domain = process.env.DOMAIN;
-
 init(firebaseConfig, domain + '/api/graphql', domain);
 
 setAnchorWrapper((props) => (

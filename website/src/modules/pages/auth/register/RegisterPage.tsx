@@ -1,5 +1,13 @@
 import React, { useEffect } from 'react';
-import { loginWithFacebook, loginWithGoogle, register, useSession } from '@disclave/client';
+import {
+  loginWithFacebook,
+  loginWithGoogle,
+  MessageType,
+  register,
+  sendMessage,
+  SessionMessage,
+  useSession
+} from '@disclave/client';
 import { useRouter } from 'next/router';
 import { redirectParamsToUrl, routerQueryToRedirectParams } from '@/modules/redirect';
 import { RegisterFormContainer } from '@disclave/ui';
@@ -10,6 +18,7 @@ export const RegisterPage: React.VFC = () => {
   const {
     user,
     profile,
+    authToken,
     isLoading,
     actions: { logout, createProfile, sendVerificationEmail }
   } = useSession();
@@ -27,9 +36,15 @@ export const RegisterPage: React.VFC = () => {
     if (!profile) return;
 
     const checkRedirects = async () => {
-      // TODO: validate and fix flow for popups register - should be similar to login flow
       if (redirectUrl) await router.push(redirectUrl);
-      else if (window.opener) window.close();
+      else if (window.opener) {
+        const message: SessionMessage = {
+          user,
+          authToken
+        };
+        sendMessage(window.opener, MessageType.SESSION, message);
+        window.close();
+      }
     };
 
     checkRedirects();

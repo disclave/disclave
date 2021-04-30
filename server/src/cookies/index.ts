@@ -4,6 +4,8 @@ import { IncomingMessage } from "http";
 
 const userCookieName = "DISCLAVE_USER";
 
+const expiredCookieDate = new Date("Thu, 01 Jan 1970 00:00:00 GMT");
+
 export const setUserCookie = (content: UserCookieContent | null, res: any) => {
   let userCookie;
 
@@ -17,7 +19,7 @@ export const setUserCookie = (content: UserCookieContent | null, res: any) => {
   if (!content) {
     userCookie = cookie.serialize(userCookieName, "", {
       ...options,
-      expires: new Date("Thu, 01 Jan 1970 00:00:00 GMT"),
+      expires: expiredCookieDate,
     });
   } else {
     userCookie = cookie.serialize(
@@ -25,7 +27,7 @@ export const setUserCookie = (content: UserCookieContent | null, res: any) => {
       JSON.stringify(content, null, 0),
       {
         ...options,
-        maxAge: 60 * 60 * 24 * 7, // 1 week
+        maxAge: 60 * 60 * 24 * 30, // 30 days
       }
     );
   }
