@@ -11,16 +11,17 @@ export type EventListener = (ev: MessageEvent) => void;
 export const sendMessage = <T>(
   target: Window,
   type: MessageType,
-  content: T
+  content: T,
+  crossOrigin: boolean = false
 ) => {
-  if (target.origin != getDomain()) return;
+  if (!crossOrigin && target.origin != getDomain()) return;
 
   const message: Message<T> = {
     type,
     content,
   };
-
-  target.postMessage(JSON.stringify(message), getDomain());
+  const targetOrigin = crossOrigin ? "*" : getDomain();
+  target.postMessage(JSON.stringify(message), targetOrigin);
 };
 
 export const canInitializeMessageListener = (): boolean => {

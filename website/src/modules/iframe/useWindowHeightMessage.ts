@@ -10,14 +10,10 @@ export const useContainerHeightMessage = (containerRef: React.MutableRefObject<H
       return;
     }
 
-    // TODO: update plugin to handle new message content
     const message = {
-      type: MessageType.WINDOW_HEIGHT,
-      content: {
-        height: containerRef.current.clientHeight
-      }
+      height: containerRef.current.clientHeight
     };
 
-    sendMessage(parent, MessageType.WINDOW_HEIGHT, message);
+    sendMessage(parent, MessageType.WINDOW_HEIGHT, message, true);
   });
 };
