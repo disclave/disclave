@@ -15,7 +15,7 @@ export const init = (
 export { analytics } from "./firebase";
 export { setAuthToken } from "./graphql";
 
-export { sendMessage } from "./modules/message";
+export { MessageType, sendMessage } from "./modules/message";
 
 export {
   SessionProvider,

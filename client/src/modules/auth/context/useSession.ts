@@ -6,6 +6,7 @@ type UseSession = {
   uid: string | null;
   user: UserModel | null;
   profile: ProfileModel | null;
+  authToken: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
   actions: {
@@ -19,6 +20,7 @@ export const useSession = (): UseSession => {
   const {
     uid,
     user,
+    authToken,
     actions: { createProfile, sendVerificationEmail, logout },
   } = useContext(SessionCtx);
 
@@ -26,6 +28,7 @@ export const useSession = (): UseSession => {
     uid,
     user: user ? user : null,
     profile: user?.profile ? user.profile : null,
+    authToken: authToken,
     isAuthenticated: !!user && !!user.profile,
     isLoading: user === undefined,
     actions: {

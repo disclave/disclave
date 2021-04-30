@@ -4,12 +4,21 @@ import { redirectParamsToUrl, routerQueryToRedirectParams } from '@/modules/redi
 import { registerHref } from '@/pages/auth/register';
 import { LoginFormContainer } from '@disclave/ui';
 import { Layout } from '@/modules/layout';
-import { login, loginWithFacebook, loginWithGoogle, useSession } from '@disclave/client';
+import {
+  login,
+  loginWithFacebook,
+  loginWithGoogle,
+  MessageType,
+  sendMessage,
+  SessionMessage,
+  useSession
+} from '@disclave/client';
 
 export const LoginPage: React.VFC = () => {
   const {
     user,
     profile,
+    authToken,
     actions: { logout }
   } = useSession();
 
@@ -37,18 +46,12 @@ export const LoginPage: React.VFC = () => {
 
       if (redirectUrl) await router.push(redirectUrl);
       else if (window.opener) {
-        // TODO: update to match SessionProvider
-        // if (window.opener.origin != process.env.DOMAIN) return;
-        //
-        // const message = {
-        //   type: 'SESSION',
-        //   content: {
-        //     session: session
-        //   }
-        // };
-        //
-        // window.opener.postMessage(JSON.stringify(message), process.env.DOMAIN);
-        // window.close();
+        const message: SessionMessage = {
+          user,
+          authToken
+        };
+        sendMessage(window.opener, MessageType.SESSION, message);
+        window.close();
       }
     };
 

@@ -19,7 +19,7 @@ config.autoAddCss = false;
 const firebaseConfig = JSON.parse(process.env.FIREBASE_CLIENT_CONFIG);
 const domain = process.env.DOMAIN;
 
-init(firebaseConfig, domain + '/api/graphql');
+init(firebaseConfig, domain + '/api/graphql', domain);
 
 setAnchorWrapper((props) => (
   <Link href={props.href}>
@@ -45,7 +45,10 @@ const Disclave = ({ Component, pageProps }) => {
 
       <DefaultSeo {...SEO} />
 
-      <SessionProvider serverSideUid={pageProps.serverSideUid} manageAuthCookie={true}>
+      <SessionProvider
+        serverSideUid={pageProps.serverSideUid}
+        manageAuthCookie={true}
+        isIframe={pageProps.iframe}>
         <Component {...pageProps} />
       </SessionProvider>
     </>

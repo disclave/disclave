@@ -4,7 +4,7 @@ import { asUserId, ProfileModel, UserModel } from "../models";
 import { User } from "../../../firebase";
 import { getSelfProfile, createSelfProfile } from "../../users/client";
 import { usePopupAuthCallback, useUser } from "../hooks";
-import { setAuthToken } from "../../../graphql";
+import { setAuthToken as setApiAuthToken } from "../../../graphql";
 import { sendVerificationEmail, updateUserCookie } from "../client";
 import { logout } from "../index";
 
@@ -18,10 +18,16 @@ export const SessionProvider: React.FC<SessionProviderProps> = (props) => {
   const fbUser = useUser();
   const [uid, setUid] = useState<string | null>(props.serverSideUid);
   const [user, setUser] = useState<UserModel | null>();
+  const [authToken, setAuthToken] = useState<string | null>();
 
   const updateUser = (userModel: UserModel | null) => {
     setUser(userModel);
     setUid(user ? user.uid : null);
+  };
+
+  const updateAuthToken = (token: string | null) => {
+    setApiAuthToken(token);
+    setAuthToken(token);
   };
 
   const updateProfile = (profile: ProfileModel) => {
@@ -36,7 +42,7 @@ export const SessionProvider: React.FC<SessionProviderProps> = (props) => {
 
   const onPopupAuthChange = (user: UserModel, authToken: string) => {
     if (!props.isIframe) return;
-    setAuthToken(authToken);
+    updateAuthToken(authToken);
     updateUser(user);
   };
   usePopupAuthCallback(onPopupAuthChange);
@@ -47,22 +53,15 @@ export const SessionProvider: React.FC<SessionProviderProps> = (props) => {
     return await getSelfProfile(noCache);
   };
 
-  const updateAuthToken = async (fbUser: User | null) => {
-    if (!fbUser) {
-      setAuthToken(null);
-      return;
-    }
-
-    const idToken = await fbUser.getIdToken();
-    setAuthToken(idToken);
-  };
-
   const updateCookie = async () => {
     if (props.manageAuthCookie) await updateUserCookie();
   };
 
-  const onAuthStateChanged = async (fbUser: User | null) => {
-    await updateAuthToken(fbUser);
+  const onAuthStateChanged = async (
+    fbUser: User | null,
+    token: string | null
+  ) => {
+    await updateAuthToken(token);
     await updateCookie();
 
     if (!fbUser) {
@@ -80,8 +79,8 @@ export const SessionProvider: React.FC<SessionProviderProps> = (props) => {
   };
 
   useEffect(() => {
-    onAuthStateChanged(fbUser.user);
-  }, [fbUser.user]);
+    onAuthStateChanged(fbUser.user, fbUser.idToken);
+  }, [fbUser]);
 
   const onCreateProfile = async (name: string) => {
     const result = await createSelfProfile(name);
@@ -89,8 +88,14 @@ export const SessionProvider: React.FC<SessionProviderProps> = (props) => {
   };
 
   const onLogout = async () => {
-    // TODO: handle alternative state if working on iframe without initialized firebase
-    await logout();
+    try {
+      await logout();
+    } finally {
+      if (props.isIframe) {
+        updateUser(null);
+        updateAuthToken(null);
+      }
+    }
   };
 
   const onSendVerificationEmail = async (redirectUrl?: string) => {
@@ -100,6 +105,7 @@ export const SessionProvider: React.FC<SessionProviderProps> = (props) => {
   const ctxData: SessionCtxData = {
     user: user,
     uid: uid,
+    authToken: authToken,
     actions: {
       createProfile: onCreateProfile,
       logout: onLogout,
