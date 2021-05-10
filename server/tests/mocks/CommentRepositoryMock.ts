@@ -3,9 +3,9 @@ import {
   CommentEntity,
   CommentRepository,
   UrlMeta,
-} from "../../src/comments/db";
+} from "../../src/modules/comments/db";
 import { injectable } from "inversify";
-import { UserId } from "../../src/auth";
+import { UserId } from "../../src/modules/auth";
 
 type DBPage = Array<CommentEntity>;
 type DBWebsite = Map<string, DBPage>;
@@ -33,7 +33,7 @@ export class CommentRepositoryMock implements CommentRepository {
       id: "random-id-" + Math.random(),
       text: text,
       author: {
-        id: author.id,
+        id: author.uid,
         name: author.name,
       },
       votes: {

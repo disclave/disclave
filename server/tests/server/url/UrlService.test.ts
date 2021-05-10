@@ -1,4 +1,4 @@
-import { UrlServiceImpl } from "../../../src/url/UrlServiceImpl";
+import { UrlServiceImpl } from "../../../src/modules/url/UrlServiceImpl";
 
 const service = new UrlServiceImpl();
 
