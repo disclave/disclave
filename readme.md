@@ -21,10 +21,11 @@ MJ_TEMPLATE_EMAIL_VERIFICATION=MAILJET_TEMPLATE_ID_FOR_EMAIL_VERIFICATION
 **Those are mocked values (except localhost domain) - replace them with correct values from the Firebase and Mongo!!!**
 
 #### Chrome extension
-It requires `.env.local` and `.env.production` files in `./chrome-extension` folder. The first one is used for `build:dev` script, and the second one for `build` script. Each file should contain two values:
+It requires `.env.local` and `.env.production` files in `./chrome-extension` folder. The first one is used for `build:dev` script, and the second one for `build` script. Each file should contain three values:
 ```
 FIREBASE_CLIENT_CONFIG={"apiKey":"API_KEY","authDomain":"AUTH_DOMAIN","projectId":"PROJECT_ID","appId":"APP_ID","measurementId":"MEASUREMENT_ID"}
 API_URL=http://localhost:3000/api/graphql
+DOMAIN=http://localhost:3000
 ```
 The first one is the same as the firebase client config for the website. The second one is GraphQL API url.
 

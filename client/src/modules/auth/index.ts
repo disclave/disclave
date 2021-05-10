@@ -16,7 +16,6 @@ export const login = async (email: string, password: string) => {
   await auth().signInWithEmailAndPassword(email, password);
 };
 
-// TODO: move to useSession and handle separate flow if working in iframe
 export const logout = async () => {
   await auth().signOut();
 };
