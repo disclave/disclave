@@ -24,6 +24,7 @@ export {
   register,
   loginWithGoogle,
   loginWithFacebook,
+  applyActionCode,
 } from "./modules/auth";
 export type { ProfileModel, UserModel, SessionMessage } from "./modules/auth";
 

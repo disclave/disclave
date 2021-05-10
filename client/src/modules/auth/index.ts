@@ -1,6 +1,5 @@
-import firebase from "firebase";
-import auth = firebase.auth;
 import {
+  auth,
   AuthProvider,
   User,
   GoogleAuthProvider,
@@ -39,6 +38,10 @@ export const loginWithGoogle = async (emailRedirectUrl?: string) => {
 };
 export const loginWithFacebook = async (emailRedirectUrl?: string) => {
   await signInWithPopup(new FacebookAuthProvider(), emailRedirectUrl);
+};
+
+export const applyActionCode = async (code: string) => {
+  await auth().applyActionCode(code);
 };
 
 const signInWithPopup = async (
