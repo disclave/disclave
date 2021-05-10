@@ -17,7 +17,7 @@ export const WebsitePage: React.VFC<WebsitePageProps> = ({ website, comments }) 
   const registerHrefWithRedirect = registerHref(websiteHrefRaw, website);
 
   return (
-    <Layout loginHref={loginHrefWithRedirect}>
+    <Layout loginHref={loginHrefWithRedirect} registerHref={registerHrefWithRedirect}>
       <div className="mx-4 mt-4">
         <WebsiteInfo website={website} />
         <WebsiteComments
