@@ -9,8 +9,6 @@ export interface CreateProfileData {
 }
 
 export abstract class ProfileRepository<T = unknown> extends BaseRepository<T> {
-  // abstract getUser(uid: string): Promise<UserRecord>;
-
   abstract existProfileByName(name: string, transaction?: T): Promise<boolean>;
 
   abstract createProfile(
