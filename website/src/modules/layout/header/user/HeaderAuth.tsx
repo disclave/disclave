@@ -6,9 +6,10 @@ import { useSession } from '@disclave/client';
 export interface HeaderAuthProps {
   className?: string;
   loginHref?: string;
+  registerHref?: string;
 }
 
-export const HeaderAuth: React.VFC<HeaderAuthProps> = ({ className, loginHref }) => {
+export const HeaderAuth: React.VFC<HeaderAuthProps> = ({ className, loginHref, registerHref }) => {
   const {
     profile,
     actions: { logout }
@@ -21,7 +22,7 @@ export const HeaderAuth: React.VFC<HeaderAuthProps> = ({ className, loginHref })
           <Authenticated userProfile={profile} onLogout={logout} />
         </div>
       ) : (
-        <NotAuthenticated loginHref={loginHref} />
+        <NotAuthenticated loginHref={loginHref} registerHref={registerHref} />
       )}
     </div>
   );
