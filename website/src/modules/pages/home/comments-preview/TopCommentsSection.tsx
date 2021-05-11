@@ -10,7 +10,6 @@ export interface TopCommentsSectionProps {
   commentsLimit: number;
   comments: Array<CommentModel>;
   minVoteSum: number;
-  serverSideUid: string | null;
 }
 
 export const TopCommentsSection: React.VFC<TopCommentsSectionProps> = (props) => {
@@ -18,8 +17,7 @@ export const TopCommentsSection: React.VFC<TopCommentsSectionProps> = (props) =>
   const { comments, voteRemove, voteUp, voteDown } = useTopComments(
     props.comments,
     props.minVoteSum,
-    props.commentsLimit,
-    props.serverSideUid
+    props.commentsLimit
   );
 
   return (
@@ -30,7 +28,6 @@ export const TopCommentsSection: React.VFC<TopCommentsSectionProps> = (props) =>
       header={t('comment rankings.top.title')}
       href={topCommentsHref()}
       minVoteSum={props.minVoteSum}
-      serverSideUid={props.serverSideUid}
       onVoteDown={voteDown}
       onVoteRemove={voteRemove}
       onVoteUp={voteUp}

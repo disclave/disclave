@@ -11,7 +11,6 @@ export interface CommentsPreviewSectionProps {
   header: string;
   href: string;
   minVoteSum: number;
-  serverSideUid: string | null;
   onVoteDown: (commentId: string) => Promise<void>;
   onVoteRemove: (commentId: string) => Promise<void>;
   onVoteUp: (commentId: string) => Promise<void>;
@@ -19,7 +18,7 @@ export interface CommentsPreviewSectionProps {
 
 export const CommentsPreviewSection: React.VFC<CommentsPreviewSectionProps> = (props) => {
   const { t } = useTranslation(['common']);
-  const { profile } = useSession();
+  const { isAuthenticated } = useSession();
 
   return (
     <section className={props.className}>
@@ -37,7 +36,7 @@ export const CommentsPreviewSection: React.VFC<CommentsPreviewSectionProps> = (p
           onVoteRemove: props.onVoteRemove,
           onVoteUp: props.onVoteUp
         }}
-        authenticated={!!profile}
+        authenticated={isAuthenticated}
         comments={props.comments}
         hrefBuilder={websiteHrefFromMeta}
       />

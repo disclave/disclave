@@ -10,7 +10,6 @@ export interface LatestCommentsSectionProps {
   commentsLimit: number;
   comments: Array<CommentModel>;
   minVoteSum: number;
-  serverSideUid: string | null;
 }
 
 export const LatestCommentsSection: React.VFC<LatestCommentsSectionProps> = (props) => {
@@ -18,8 +17,7 @@ export const LatestCommentsSection: React.VFC<LatestCommentsSectionProps> = (pro
   const { comments, voteRemove, voteUp, voteDown } = useLatestComments(
     props.comments,
     props.minVoteSum,
-    props.commentsLimit,
-    props.serverSideUid
+    props.commentsLimit
   );
 
   return (
@@ -30,7 +28,6 @@ export const LatestCommentsSection: React.VFC<LatestCommentsSectionProps> = (pro
       header={t('comment rankings.latest.title')}
       href={latestCommentsHref()}
       minVoteSum={props.minVoteSum}
-      serverSideUid={props.serverSideUid}
       onVoteDown={voteDown}
       onVoteRemove={voteRemove}
       onVoteUp={voteUp}
