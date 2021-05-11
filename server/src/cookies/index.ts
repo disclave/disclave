@@ -12,7 +12,7 @@ export const setUserCookie = (content: UserCookieContent | null, res: any) => {
   const options = {
     httpOnly: true,
     secure: true,
-    sameSite: "lax" as boolean | "none" | "lax" | "strict",
+    sameSite: "none" as boolean | "none" | "lax" | "strict",
     path: "/",
   };
 
