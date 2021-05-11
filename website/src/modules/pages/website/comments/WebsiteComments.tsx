@@ -1,4 +1,4 @@
-import { CommentModel, logout, useSession } from '@disclave/client';
+import { CommentModel, useSession } from '@disclave/client';
 import React from 'react';
 import { PageCommentsContainer } from '@disclave/ui';
 import { useWebsiteComments } from '@/modules/comments';
@@ -8,17 +8,18 @@ export interface WebsiteCommentsProps {
   comments: Array<CommentModel>;
   loginHref: string;
   registerHref: string;
-  serverSideUid: string | null;
 }
 
 export const WebsiteComments: React.VFC<WebsiteCommentsProps> = (props) => {
-  const { profile } = useSession();
+  const {
+    profile,
+    actions: { logout }
+  } = useSession();
 
   const website = props.website;
   const { comments, addComment, voteDown, voteUp, voteRemove } = useWebsiteComments(
     props.comments,
-    website,
-    props.serverSideUid
+    website
   );
 
   return (

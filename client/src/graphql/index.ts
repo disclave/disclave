@@ -4,31 +4,25 @@ import {
   InMemoryCache,
   NormalizedCacheObject,
 } from "@apollo/client";
-import { setContext } from "@apollo/client/link/context";
-import { currentUser } from "../auth";
 import { DocumentNode } from "graphql";
 import { OperationVariables } from "@apollo/client/core/types";
+import { setContext } from "@apollo/client/link/context";
 
 let clientInstance: ApolloClient<NormalizedCacheObject> | null = null;
+
+let authToken: string | undefined = undefined;
+export const setAuthToken = (token: string | undefined) => (authToken = token);
 
 export const initApolloClient = (uri: string) => {
   const httpLink = createHttpLink({
     uri,
   });
 
-  const authLink = setContext(async (_, { headers }) => {
-    const user = await currentUser();
-    let authorization: string = undefined;
-    if (user != null) {
-      const idToken = await user.getIdToken();
-      authorization = "Bearer " + idToken;
-    }
-
+  const authLink = setContext((_, { headers }) => {
+    headers = headers || {};
+    if (authToken) headers.authorization = `Bearer ${authToken}`;
     return {
-      headers: {
-        ...headers,
-        authorization,
-      },
+      headers,
     };
   });
 
@@ -41,7 +35,6 @@ export const initApolloClient = (uri: string) => {
 export const client = () => {
   if (clientInstance == null)
     throw "Client is not initialized. Run initApolloClient first!";
-
   return clientInstance;
 };
 

@@ -10,17 +10,15 @@ export interface TopCommentsPageProps {
   comments: Array<CommentModel>;
   commentsLimit: number;
   minVoteSum: number;
-  serverSideUid: string | null;
 }
 
 export const TopCommentsPage: React.VFC<TopCommentsPageProps> = (props) => {
   const { t } = useTranslation('comments');
-  const { profile } = useSession();
+  const { isAuthenticated } = useSession();
   const { comments, voteDown, voteUp, voteRemove } = useTopComments(
     props.comments,
     props.minVoteSum,
-    props.commentsLimit,
-    props.serverSideUid
+    props.commentsLimit
   );
 
   return (
@@ -30,7 +28,7 @@ export const TopCommentsPage: React.VFC<TopCommentsPageProps> = (props) => {
           <h1 className="text-3xl pb-4">{t('top.header')}</h1>
           <PreviewCommentsList
             actionsHandler={{ onVoteDown: voteDown, onVoteRemove: voteRemove, onVoteUp: voteUp }}
-            authenticated={!!profile}
+            authenticated={isAuthenticated}
             comments={comments}
             hrefBuilder={websiteHrefFromMeta}
           />

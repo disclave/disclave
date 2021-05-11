@@ -14,18 +14,13 @@ type UseLatestComments = {
 export const useLatestComments = (
   initialState: Array<CommentModel>,
   minVoteSum: number,
-  limit: number,
-  serverSideUid: string | null
+  limit: number
 ): UseLatestComments => {
   const fetchComments = async () => {
     return await getLatestComments(minVoteSum, limit, true);
   };
 
-  const { comments, voteUp, voteDown, voteRemove } = useComments(
-    initialState,
-    fetchComments,
-    serverSideUid
-  );
+  const { comments, voteUp, voteDown, voteRemove } = useComments(initialState, fetchComments);
 
   return {
     comments: comments,

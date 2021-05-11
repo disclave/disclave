@@ -1,6 +1,6 @@
 import React from "react";
-import { UserProfileModel } from "../UserProfileModel";
-import { UserInfo } from "../user";
+import { UserProfileModel } from "@/components/auth";
+import { UserInfo } from "@/components/auth/user";
 import { ContainerWrapper } from "@/components/container";
 import { Loading } from "@/components/loading";
 import { useTranslation } from "@/i18n";

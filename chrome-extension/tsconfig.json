@@ -9,6 +9,9 @@
         "moduleResolution": "node",
         "target": "es5",
         "allowJs": true,
+        "skipLibCheck": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
         "jsx": "react",
     },
     "include": [

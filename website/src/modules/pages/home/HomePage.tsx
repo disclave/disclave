@@ -12,7 +12,6 @@ export interface HomePageProps {
   topMinVoteSum: number;
   latestComments: Array<CommentModel>;
   latestMinVoteSum: number;
-  serverSideUid: string | null;
 }
 
 export const HomePage: React.VFC<HomePageProps> = (props) => {
@@ -26,7 +25,6 @@ export const HomePage: React.VFC<HomePageProps> = (props) => {
             commentsLimit={props.commentsLimit}
             comments={props.topComments}
             minVoteSum={props.topMinVoteSum}
-            serverSideUid={props.serverSideUid}
           />
 
           <PluginsSection className="lg:w-1/2 p-4" />
@@ -38,7 +36,6 @@ export const HomePage: React.VFC<HomePageProps> = (props) => {
             commentsLimit={props.commentsLimit}
             comments={props.latestComments}
             minVoteSum={props.latestMinVoteSum}
-            serverSideUid={props.serverSideUid}
           />
 
           <ExtensionsSection className="lg:w-1/2 lg:order-1 p-4" />

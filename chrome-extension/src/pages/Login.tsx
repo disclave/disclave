@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useHistory } from "react-router-dom";
 import { LoginFormContainer } from "@disclave/ui";
-import { login, logout, useSession } from "@disclave/client";
+import { login, useSession } from "@disclave/client";
 import { homeHref } from "./Home";
 import { registerHref } from "./Register";
 import { MessageType, sendMessage } from "../messages";
@@ -11,11 +11,16 @@ export const loginHref = "/login";
 
 export const Login = () => {
   const history = useHistory();
-  const { partialProfile, profile, isCompleted } = useSession();
+  const {
+    user,
+    profile,
+    isAuthenticated,
+    actions: { logout },
+  } = useSession();
 
   useEffect(() => {
-    if (partialProfile != null && !isCompleted) history.push(registerHref);
-  }, [partialProfile?.uid, isCompleted]);
+    if (user != null && !isAuthenticated) history.push(registerHref);
+  }, [user?.uid, isAuthenticated]);
 
   const onLogin = async (email: string, password: string) => {
     await login(email, password);

@@ -115,7 +115,6 @@ const responseToModel = (data: any): CommentModel => {
     id: data.id,
     text: data.text,
     author: {
-      id: data.author.id,
       name: data.author.name,
     },
     votes: {

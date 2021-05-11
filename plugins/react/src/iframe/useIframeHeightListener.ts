@@ -8,7 +8,8 @@ export const useIframeHeightListener = (initialHeight: string): string => {
 
   const parseMessage = (ev: MessageEvent) => {
     const data = JSON.parse(ev.data);
-    if (data.type == windowHeightEventType) setIframeHeight(data.height);
+    if (data.type == windowHeightEventType && data.content)
+      setIframeHeight(data.content.height);
   };
 
   useMessageListener((ev) => parseMessage(ev));

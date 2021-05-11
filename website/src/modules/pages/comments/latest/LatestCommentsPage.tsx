@@ -10,17 +10,15 @@ export interface LatestCommentsPageProps {
   comments: Array<CommentModel>;
   commentsLimit: number;
   minVoteSum: number;
-  serverSideUid: string | null;
 }
 
 export const LatestCommentsPage: React.VFC<LatestCommentsPageProps> = (props) => {
   const { t } = useTranslation('comments');
-  const { profile } = useSession();
+  const { isAuthenticated } = useSession();
   const { comments, voteDown, voteUp, voteRemove } = useLatestComments(
     props.comments,
     props.minVoteSum,
-    props.commentsLimit,
-    props.serverSideUid
+    props.commentsLimit
   );
 
   return (
@@ -30,7 +28,7 @@ export const LatestCommentsPage: React.VFC<LatestCommentsPageProps> = (props) =>
           <h1 className="text-3xl pb-4">{t('latest.header')}</h1>
           <PreviewCommentsList
             actionsHandler={{ onVoteDown: voteDown, onVoteRemove: voteRemove, onVoteUp: voteUp }}
-            authenticated={!!profile}
+            authenticated={isAuthenticated}
             comments={comments}
             hrefBuilder={websiteHrefFromMeta}
           />

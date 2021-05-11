@@ -5,7 +5,6 @@ export type CommentActionsHandler = {
 };
 
 export interface CommentAuthor {
-  id: string;
   name: string;
 }
 

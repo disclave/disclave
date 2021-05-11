@@ -8,11 +8,16 @@ import { config } from '@fortawesome/fontawesome-svg-core';
 import { DefaultSeo } from 'next-seo';
 import { SEO } from '@/consts';
 import { AppHead } from '@/modules/head';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { swOnLoadEventListener } from '@/modules/sw';
 import { useAnalytics } from '@/modules/analytics';
+import { SessionProvider } from '@disclave/client';
 
 config.autoAddCss = false;
+
+const firebaseConfig = JSON.parse(process.env.FIREBASE_CLIENT_CONFIG);
+const domain = process.env.DOMAIN;
+init(firebaseConfig, domain + '/api/graphql', domain);
 
 setAnchorWrapper((props) => (
   <Link href={props.href}>
@@ -20,12 +25,7 @@ setAnchorWrapper((props) => (
   </Link>
 ));
 
-const firebaseConfig = JSON.parse(process.env.FIREBASE_CLIENT_CONFIG);
-const domain = process.env.DOMAIN;
-
-init(firebaseConfig, domain + '/api/graphql', true);
-
-const App = ({ Component, pageProps }) => {
+const Disclave = ({ Component, pageProps }) => {
   useEffect(() => {
     if ('serviceWorker' in navigator)
       window.addEventListener('load', () => swOnLoadEventListener());
@@ -43,9 +43,14 @@ const App = ({ Component, pageProps }) => {
 
       <DefaultSeo {...SEO} />
 
-      <Component {...pageProps} />
+      <SessionProvider
+        serverSideUid={pageProps.serverSideUid}
+        manageAuthCookie={true}
+        isIframe={pageProps.iframe}>
+        <Component {...pageProps} />
+      </SessionProvider>
     </>
   );
 };
 
-export default appWithTranslation(App);
+export default appWithTranslation(Disclave);

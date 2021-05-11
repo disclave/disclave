@@ -1,16 +1,15 @@
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { HomePage } from '@/modules/pages/home';
 import { GetServerSideProps } from 'next';
+import React from 'react';
 import { initServer } from '@/modules/server';
 import { getCommentService, getUserCookie } from '@disclave/server';
 import { CommentModel } from '@disclave/client';
-import React from 'react';
+import { HomePage } from '@/modules/pages/home';
 
 export const homeHref = () => '/';
 
 export const getServerSideProps: GetServerSideProps<HomeProps> = async (context) => {
   await initServer();
-
   const userCookie = getUserCookie(context.req);
   const service = getCommentService();
 
@@ -33,7 +32,7 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (context)
       topMinVoteSum: topMinVoteSum,
       latestComments: await latestCommentsPromise,
       latestMinVoteSum: latestMinVoteSum,
-      serverSideUid: userCookie?.uid || null,
+      serverSideUid: userCookie ? userCookie.uid : null,
       ...(await translationsPromise)
     }
   };
@@ -45,7 +44,6 @@ interface HomeProps {
   topMinVoteSum: number;
   latestComments: Array<CommentModel>;
   latestMinVoteSum: number;
-  serverSideUid: string | null;
 }
 
 const Home: React.VFC<HomeProps> = (props) => {
@@ -56,7 +54,6 @@ const Home: React.VFC<HomeProps> = (props) => {
       topMinVoteSum={props.topMinVoteSum}
       latestComments={props.latestComments}
       latestMinVoteSum={props.latestMinVoteSum}
-      serverSideUid={props.serverSideUid}
     />
   );
 };

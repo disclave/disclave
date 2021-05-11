@@ -1,5 +1,4 @@
 import React from 'react';
-import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 import { CommentModel, CommentUrlMeta, encodeUrl } from '@disclave/client';
 import { getCommentService, getUserCookie } from '@disclave/server';
@@ -15,12 +14,11 @@ export const websiteHrefRaw = '/website/';
 
 export const getServerSideProps: GetServerSideProps<WebsiteProps> = async (context) => {
   await initServer();
-  const { website } = context.query;
-
   const userCookie = getUserCookie(context.req);
   const service = getCommentService();
 
-  const commentsPromise = service.getComments(website as string, userCookie?.uid);
+  const website = context.query.website as string;
+  const commentsPromise = service.getComments(website, userCookie?.uid);
   const translationsPromise = serverSideTranslations(context.locale, [
     'common',
     'layout',
@@ -30,7 +28,8 @@ export const getServerSideProps: GetServerSideProps<WebsiteProps> = async (conte
   return {
     props: {
       comments: await commentsPromise,
-      serverSideUid: userCookie?.uid || null,
+      website: website,
+      serverSideUid: userCookie ? userCookie.uid : null,
       ...(await translationsPromise)
     }
   };
@@ -38,15 +37,10 @@ export const getServerSideProps: GetServerSideProps<WebsiteProps> = async (conte
 
 interface WebsiteProps {
   comments: Array<CommentModel>;
-  serverSideUid: string | null;
+  website: string;
 }
 
 const Website: React.FC<WebsiteProps> = (props) => {
-  const router = useRouter();
-  const website = router.query.website as string;
-
-  return (
-    <WebsitePage website={website} comments={props.comments} serverSideUid={props.serverSideUid} />
-  );
+  return <WebsitePage website={props.website} comments={props.comments} />;
 };
 export default Website;

@@ -10,7 +10,6 @@ export const latestCommentsHref = () => '/comments/latest';
 
 export const getServerSideProps: GetServerSideProps<LatestCommentsProps> = async (context) => {
   await initServer();
-
   const userCookie = getUserCookie(context.req);
   const service = getCommentService();
 
@@ -29,7 +28,7 @@ export const getServerSideProps: GetServerSideProps<LatestCommentsProps> = async
       comments: await topCommentsPromise,
       commentsLimit: commentsLimit,
       minVoteSum: minVoteSum,
-      serverSideUid: userCookie?.uid || null,
+      serverSideUid: userCookie ? userCookie.uid : null,
       ...(await translationsPromise)
     }
   };
@@ -39,7 +38,6 @@ interface LatestCommentsProps {
   comments: Array<CommentModel>;
   commentsLimit: number;
   minVoteSum: number;
-  serverSideUid: string | null;
 }
 
 const LatestComments: React.VFC<LatestCommentsProps> = (props) => {
@@ -48,7 +46,6 @@ const LatestComments: React.VFC<LatestCommentsProps> = (props) => {
       comments={props.comments}
       commentsLimit={props.commentsLimit}
       minVoteSum={props.minVoteSum}
-      serverSideUid={props.serverSideUid}
     />
   );
 };

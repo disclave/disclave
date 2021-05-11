@@ -1,5 +1,5 @@
 import React from "react";
-import { UserProfileModel } from "../UserProfileModel";
+import { UserProfileModel } from "@/components/auth";
 import { Button } from "@/components/button";
 import { useTranslation } from "@/i18n";
 
