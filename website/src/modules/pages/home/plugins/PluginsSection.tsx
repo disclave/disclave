@@ -18,7 +18,7 @@ export const PluginsSection: React.VFC<PluginsSectionProps> = (props) => {
         Use plugins
       </Button>
       <div className="pt-8">
-        <img src="/images/home/plugins/1.jpg" alt="" width={600} height={400} />
+        <img src="/images/home/plugins/1.svg" alt="" width={765} height={484} />
       </div>
     </section>
   );
