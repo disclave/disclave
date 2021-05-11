@@ -84,7 +84,7 @@ export const SessionProvider: React.FC<SessionProviderProps> = (props) => {
 
   useEffect(() => {
     onAuthStateChanged(fbUser.isLoading, fbUser.user, fbUser.idToken);
-  }, [fbUser.user?.uid, fbUser.idToken]);
+  }, [fbUser.isLoading, fbUser.user?.uid, fbUser.idToken]);
 
   const onCreateProfile = async (name: string) => {
     const result = await createSelfProfile(name);
