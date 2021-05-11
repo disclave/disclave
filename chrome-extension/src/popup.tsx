@@ -6,7 +6,7 @@ import { App } from "./App";
 import "./init";
 import { setAnchorWrapper } from "@disclave/ui";
 
-setAnchorWrapper((props) => <Link to={props.href} {...props} />);
+setAnchorWrapper((props) => <Link to={props.href} {...props as any} />);
 
 const mountNode = document.getElementById("popup");
 ReactDOM.render(<App />, mountNode);

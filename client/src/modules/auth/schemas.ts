@@ -5,3 +5,9 @@ export const UPDATE_USER_COOKIE = gql`
     updateUserCookie
   }
 `;
+
+export const SEND_VERIFICATION_EMAIL = gql`
+  mutation($redirectUrl: String) {
+    sendVerificationEmail(redirectUrl: $redirectUrl)
+  }
+`;

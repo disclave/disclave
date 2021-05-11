@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   addCommentVoteDown,
   addCommentVoteUp,
@@ -21,12 +21,11 @@ type UseComments = {
 
 export const useComments = (
   initialState: Array<CommentModel>,
-  getComments: () => Promise<Array<CommentModel>>,
-  serverSideUid: string | null
+  getComments: () => Promise<Array<CommentModel>>
 ): UseComments => {
   const [comments, setComments] = useState(initialState);
-  const { profile, isLoading } = useSession();
-  const prevUid = useRef(serverSideUid);
+  const { uid } = useSession();
+  const prevUid = useRef(uid);
 
   const fetchComments = async () => {
     const result = await getComments();
@@ -34,12 +33,10 @@ export const useComments = (
   };
 
   useEffect(() => {
-    if (isLoading) return;
+    if (uid != prevUid.current) fetchComments();
 
-    if (profile?.uid != prevUid.current) fetchComments();
-
-    prevUid.current = profile?.uid;
-  }, [profile?.uid, isLoading]);
+    prevUid.current = uid;
+  }, [uid]);
 
   const onVoteUp = async (commentId: string) => {
     await addCommentVoteUp(commentId);

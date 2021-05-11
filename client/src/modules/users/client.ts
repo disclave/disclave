@@ -30,7 +30,6 @@ export const createSelfProfile = async (
 
 const responseToModel = (data: any): UserProfileModel => {
   return {
-    uid: data.uid,
     name: data.name,
   };
 };

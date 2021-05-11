@@ -1,25 +1,26 @@
 import React, { useEffect } from 'react';
 import {
-  createSelfProfile,
   loginWithFacebook,
   loginWithGoogle,
-  logout,
+  MessageType,
   register,
+  sendMessage,
+  SessionMessage,
   useSession
 } from '@disclave/client';
 import { useRouter } from 'next/router';
 import { redirectParamsToUrl, routerQueryToRedirectParams } from '@/modules/redirect';
-import { loginHref } from '@/pages/auth/login';
 import { RegisterFormContainer } from '@disclave/ui';
 import { Layout } from '@/modules/layout';
+import { loginHref } from '@/pages/auth/login';
 
 export const RegisterPage: React.VFC = () => {
   const {
-    partialProfile,
+    user,
+    profile,
+    authToken,
     isLoading,
-    isCompleted,
-    updateProfile,
-    sendEmailVerification
+    actions: { logout, createProfile, sendVerificationEmail }
   } = useSession();
 
   const router = useRouter();
@@ -32,23 +33,29 @@ export const RegisterPage: React.VFC = () => {
   );
 
   useEffect(() => {
-    if (!isCompleted) return;
+    if (!profile) return;
 
     const checkRedirects = async () => {
       if (redirectUrl) await router.push(redirectUrl);
-      else if (window.opener) window.close();
+      else if (window.opener) {
+        const message: SessionMessage = {
+          user,
+          authToken
+        };
+        sendMessage(window.opener, MessageType.SESSION, message);
+        window.close();
+      }
     };
 
     checkRedirects();
-  }, [isCompleted]);
+  }, [profile]);
 
   const onRegisterEmailPass = async (email: string, password: string) => {
     await register(email, password, window.location.href);
   };
 
   const onCreateUsername = async (name: string) => {
-    await createSelfProfile(name);
-    await updateProfile();
+    await createProfile(name);
   };
 
   const onLogout = async () => {
@@ -64,7 +71,7 @@ export const RegisterPage: React.VFC = () => {
   };
 
   const onSendEmailVerification = async () => {
-    await sendEmailVerification(window.location.href);
+    await sendVerificationEmail(window.location.href);
   };
 
   return (
@@ -72,7 +79,7 @@ export const RegisterPage: React.VFC = () => {
       <section className="container mx-auto my-8 lg:mt-24 max-w-max">
         <RegisterFormContainer
           loading={isLoading}
-          userProfile={partialProfile}
+          user={user}
           onRegisterEmailPass={onRegisterEmailPass}
           onRegisterGoogle={onGoogleLogin}
           onRegisterFacebook={onFacebookLogin}

@@ -13,31 +13,23 @@ export interface CommentsRankingsSectionProps {
   topMinVoteSum: number;
   latestComments: Array<CommentModel>;
   latestMinVoteSum: number;
-  serverSideUid: string | null;
 }
 
 export const CommentsRankingsSection: React.VFC<CommentsRankingsSectionProps> = (props) => {
   const { t } = useTranslation(['home', 'common']);
-  const { profile } = useSession();
+  const { isAuthenticated } = useSession();
 
-  const top = useTopComments(
-    props.topComments,
-    props.topMinVoteSum,
-    props.commentsLimit,
-    props.serverSideUid
-  );
-
+  const top = useTopComments(props.topComments, props.topMinVoteSum, props.commentsLimit);
   const latest = useLatestComments(
     props.latestComments,
     props.latestMinVoteSum,
-    props.commentsLimit,
-    props.serverSideUid
+    props.commentsLimit
   );
 
   const CommentsPreviewList = ({ comments, onVoteUp, onVoteDown, onVoteRemove }) => (
     <PreviewCommentsList
       actionsHandler={{ onVoteDown, onVoteRemove, onVoteUp }}
-      authenticated={!!profile}
+      authenticated={isAuthenticated}
       comments={comments}
       hrefBuilder={websiteHrefFromMeta}
     />

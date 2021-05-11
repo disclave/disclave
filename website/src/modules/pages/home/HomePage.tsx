@@ -10,7 +10,6 @@ export interface HomePageProps {
   topMinVoteSum: number;
   latestComments: Array<CommentModel>;
   latestMinVoteSum: number;
-  serverSideUid: string | null;
 }
 
 export const HomePage: React.VFC<HomePageProps> = (props) => {
@@ -23,7 +22,6 @@ export const HomePage: React.VFC<HomePageProps> = (props) => {
         topMinVoteSum={props.topMinVoteSum}
         latestComments={props.latestComments}
         latestMinVoteSum={props.latestMinVoteSum}
-        serverSideUid={props.serverSideUid}
       />
     </Layout>
   );

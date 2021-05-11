@@ -1,13 +1,26 @@
 import React, { useEffect } from 'react';
-import { login, loginWithFacebook, loginWithGoogle, logout, useSession } from '@disclave/client';
 import { useRouter } from 'next/router';
 import { redirectParamsToUrl, routerQueryToRedirectParams } from '@/modules/redirect';
 import { registerHref } from '@/pages/auth/register';
 import { LoginFormContainer } from '@disclave/ui';
 import { Layout } from '@/modules/layout';
+import {
+  login,
+  loginWithFacebook,
+  loginWithGoogle,
+  MessageType,
+  sendMessage,
+  SessionMessage,
+  useSession
+} from '@disclave/client';
 
 export const LoginPage: React.VFC = () => {
-  const { partialProfile, profile, isCompleted } = useSession();
+  const {
+    user,
+    profile,
+    authToken,
+    actions: { logout }
+  } = useSession();
 
   const router = useRouter();
   const redirectParams = routerQueryToRedirectParams(router.query);
@@ -23,27 +36,30 @@ export const LoginPage: React.VFC = () => {
   };
 
   useEffect(() => {
-    if (partialProfile == null) return;
+    if (user == null) return;
 
     const checkRedirects = async () => {
-      if (!isCompleted) {
+      if (!profile) {
         await redirectToRegisterPage();
         return;
       }
 
       if (redirectUrl) await router.push(redirectUrl);
-      else if (window.opener) window.close();
+      else if (window.opener) {
+        const message: SessionMessage = {
+          user,
+          authToken
+        };
+        sendMessage(window.opener, MessageType.SESSION, message);
+        window.close();
+      }
     };
 
     checkRedirects();
-  }, [partialProfile?.uid, isCompleted]);
+  }, [user]);
 
   const onLogin = async (email: string, password: string) => {
     await login(email, password);
-  };
-
-  const onLogout = async () => {
-    await logout();
   };
 
   const onFacebookLogin = async () => {
@@ -58,7 +74,7 @@ export const LoginPage: React.VFC = () => {
       <section className="container mx-auto my-8 lg:mt-24 max-w-max">
         <LoginFormContainer
           onLogin={onLogin}
-          onLogout={onLogout}
+          onLogout={logout}
           onLoginFacebook={onFacebookLogin}
           onLoginGoogle={onGoogleLogin}
           registerHref={registerHrefWithRedirect}

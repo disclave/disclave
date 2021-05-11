@@ -10,7 +10,6 @@ export const topCommentsHref = () => '/comments/top';
 
 export const getServerSideProps: GetServerSideProps<TopCommentsProps> = async (context) => {
   await initServer();
-
   const userCookie = getUserCookie(context.req);
   const service = getCommentService();
 
@@ -29,7 +28,7 @@ export const getServerSideProps: GetServerSideProps<TopCommentsProps> = async (c
       comments: await topCommentsPromise,
       commentsLimit: commentsLimit,
       minVoteSum: minVoteSum,
-      serverSideUid: userCookie?.uid || null,
+      serverSideUid: userCookie ? userCookie.uid : null,
       ...(await translationsPromise)
     }
   };
@@ -39,7 +38,6 @@ interface TopCommentsProps {
   comments: Array<CommentModel>;
   commentsLimit: number;
   minVoteSum: number;
-  serverSideUid: string | null;
 }
 
 const TopComments: React.VFC<TopCommentsProps> = (props) => {
@@ -48,7 +46,6 @@ const TopComments: React.VFC<TopCommentsProps> = (props) => {
       comments={props.comments}
       commentsLimit={props.commentsLimit}
       minVoteSum={props.minVoteSum}
-      serverSideUid={props.serverSideUid}
     />
   );
 };

@@ -1,11 +1,18 @@
 import Cors from "micro-cors";
 import { ApolloServer, gql } from "apollo-server-micro";
-import { authTypeDefs } from "../auth/Schemas";
-import { authResolvers } from "../auth/Resolvers";
-import { commentsTypeDefs } from "../comments/Schemas";
-import { commentsResolvers } from "../comments/Resolvers";
-import { usersTypeDefs } from "../users/Schemas";
-import { usersResolvers } from "../users/Resolvers";
+import { commentsTypeDefs } from "@/modules/comments/Schemas";
+import { commentsResolvers } from "@/modules/comments/Resolvers";
+import { usersTypeDefs } from "@/modules/profiles/Schemas";
+import { usersResolvers } from "@/modules/profiles/Resolvers";
+import { authTypeDefs } from "@/modules/auth/Schemas";
+import { authResolvers } from "@/modules/auth/Resolvers";
+import { container } from "@/inversify.config";
+import {
+  asIdToken,
+  AuthProvider,
+  DecodedIdToken,
+  IdToken,
+} from "@/modules/auth";
 
 const cors = Cors({
   allowMethods: ["POST", "GET", "OPTIONS"],
@@ -17,6 +24,7 @@ const cors = Cors({
     "Authorization",
     "Accept",
   ],
+  // TODO: modify origin and allow only disclave and chrome extension?
   origin: "*",
 });
 
@@ -30,35 +38,45 @@ const baseTypes = gql`
   }
 `;
 
-const getIdToken = (req: any): string | null => {
+const authProvider = container.get(AuthProvider);
+type TokenWithDecoded = { idToken: IdToken; decodedToken: DecodedIdToken };
+
+const getIdToken = async (req: any): Promise<TokenWithDecoded | null> => {
   const authorization = req?.headers?.authorization || null;
-  if (authorization && authorization.startsWith("Bearer "))
-    return authorization.replace("Bearer ", "");
-  return null;
+  if (!authorization || !authorization.startsWith("Bearer ")) return null;
+
+  const idToken = asIdToken(authorization.replace("Bearer ", ""));
+  const decodedToken = await authProvider.verifyIdToken(idToken, false);
+  return { idToken, decodedToken };
 };
 
-const apolloServer = new ApolloServer({
-  typeDefs: [baseTypes, authTypeDefs, commentsTypeDefs, usersTypeDefs],
-  resolvers: [authResolvers, commentsResolvers, usersResolvers],
-  context: ({ req, res }) => {
-    const idToken = getIdToken(req);
+const createApolloHandler = (path: string) => {
+  const apolloServer = new ApolloServer({
+    typeDefs: [baseTypes, authTypeDefs, commentsTypeDefs, usersTypeDefs],
+    resolvers: [authResolvers, commentsResolvers, usersResolvers],
+    context: async ({ req, res }) => {
+      const auth = await getIdToken(req);
 
-    return {
-      req,
-      res,
-      idToken,
-    };
-  },
-});
+      return {
+        req,
+        res,
+        idToken: auth ? auth.idToken : null,
+        decodedToken: auth ? auth.decodedToken : null,
+      };
+    },
+  });
+
+  return apolloServer.createHandler({ path });
+};
 
 export const graphqlHandler = (path: string) => {
-  const handler = apolloServer.createHandler({ path });
+  const apolloHandler = createApolloHandler(path);
 
   return cors((req, res) => {
     if (req.method === "OPTIONS") {
       return res.end();
     }
 
-    return handler(req, res);
+    return apolloHandler(req, res);
   });
 };

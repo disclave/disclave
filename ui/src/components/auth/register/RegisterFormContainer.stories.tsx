@@ -6,10 +6,10 @@ import {
 } from "./RegisterFormContainer";
 import { Story } from "@storybook/react";
 import {
-  ExampleUserProfile,
-  ExampleUserProfileEmailNotVerified,
-  ExampleUserProfileWithFillPending,
-} from "@/stories/data/UserProfiles";
+  ExampleUser,
+  ExampleUserEmailNotVerified,
+  ExampleUserNoProfile,
+} from "@/stories/data/Users";
 
 export default {
   title: "Auth/Register/Container",
@@ -23,19 +23,19 @@ const Template: Story<RegisterFormContainerProps> = (args) => (
 export const Default = Template.bind({});
 Default.args = {
   loading: false,
-  userProfile: null,
+  user: null,
 };
 
 export const EmailVerification = Template.bind({});
 EmailVerification.args = {
   loading: false,
-  userProfile: ExampleUserProfileEmailNotVerified,
+  user: ExampleUserEmailNotVerified,
 };
 
 export const UserName = Template.bind({});
 UserName.args = {
   loading: false,
-  userProfile: ExampleUserProfileWithFillPending,
+  user: ExampleUserNoProfile,
 };
 
 export const Loading = Template.bind({});
@@ -46,5 +46,5 @@ Loading.args = {
 export const Authenticated = Template.bind({});
 Authenticated.args = {
   loading: false,
-  userProfile: ExampleUserProfile,
+  user: ExampleUser,
 };

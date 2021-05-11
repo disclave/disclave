@@ -2,13 +2,18 @@ import * as React from "react";
 import { PageCommentsContainer } from "@disclave/ui";
 import { useComments } from "../hooks";
 import { loginHref } from "./Login";
-import { logout, useSession } from "@disclave/client";
 import { registerHref } from "./Register";
+import { useSession } from "@disclave/client";
 
 export const homeHref = "/";
 
 export const Home = () => {
-  const { profile, isLoading } = useSession();
+  const {
+    user,
+    profile,
+    isLoading,
+    actions: { logout },
+  } = useSession();
 
   const {
     comments,
@@ -16,7 +21,7 @@ export const Home = () => {
     addVoteDown,
     removeVote,
     addVoteUp,
-  } = useComments(profile, isLoading);
+  } = useComments(user, isLoading);
 
   if (!comments) return <div>loading</div>;
 

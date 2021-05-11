@@ -3,8 +3,7 @@ import { CommentActionsHandler, CommentModel } from "./CommentModel";
 import { PageCommentsList } from "./list";
 import { CommentAddForm } from "./add";
 import { CommentAddAuth } from "./auth";
-import { UserSelfAvatar } from "@/components/auth";
-import { UserProfileModel } from "../auth/UserProfileModel";
+import { UserProfileModel, UserSelfAvatar } from "@/components/auth";
 import classNames from "classnames";
 
 export interface PageCommentsContainerProps {
@@ -14,7 +13,7 @@ export interface PageCommentsContainerProps {
   inputTop?: boolean;
   loginHref: string;
   registerHref: string;
-  userProfile?: UserProfileModel;
+  userProfile: UserProfileModel | null;
   onSubmit: (text: string) => Promise<void>;
   onLogout: () => Promise<void>;
   commentsActionsHandler: CommentActionsHandler;
@@ -31,11 +30,15 @@ export const PageCommentsContainer: React.VFC<PageCommentsContainerProps> = (
   );
 
   const stickyFooterClasses = classNames(
+    "z-30",
     props.inputTop ? "order-1" : "sticky bottom-0",
     { "py-2": authenticated }
   );
 
-  const commentsClasses = props.inputTop ? "order-2 pt-2" : "flex-1";
+  const commentsClasses = classNames(
+    "z-20",
+    props.inputTop ? "order-2 pt-2" : "flex-1"
+  );
 
   return (
     <div className={containerClasses}>
