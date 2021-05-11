@@ -1,13 +1,13 @@
-import { CommentRepository } from "../../../src/modules/comments/db";
+import { CommentRepository } from "@/modules/comments/db";
 import { CommentRepositoryMock } from "../../mocks/CommentRepositoryMock";
-import { ProfileService } from "../../../src/modules/profiles";
+import { ProfileService } from "@/modules/profiles";
 import { ProfileServiceMock } from "../../mocks/ProfileServiceMock";
-import { ParsedUrlData, UrlService } from "../../../src/modules/url";
+import { ParsedUrlData, UrlService } from "@/modules/url";
 import { Container } from "inversify";
-import { UrlServiceImpl } from "../../../src/modules/url/UrlServiceImpl";
-import { Comment, CommentService } from "../../../src/modules/comments";
-import { CommentServiceImpl } from "../../../src/modules/comments/CommentServiceImpl";
-import { asUserId } from "../../../src/modules/auth";
+import { UrlServiceImpl } from "@/modules/url/UrlServiceImpl";
+import { Comment, CommentService } from "@/modules/comments";
+import { CommentServiceImpl } from "@/modules/comments/CommentServiceImpl";
+import { asUserId } from "@/modules/auth";
 
 describe("Testing CommentService", () => {
   const container = new Container();

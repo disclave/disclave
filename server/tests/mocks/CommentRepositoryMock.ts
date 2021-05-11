@@ -3,9 +3,9 @@ import {
   CommentEntity,
   CommentRepository,
   UrlMeta,
-} from "../../src/modules/comments/db";
+} from "@/modules/comments/db";
 import { injectable } from "inversify";
-import { UserId } from "../../src/modules/auth";
+import { UserId } from "@/modules/auth";
 
 type DBPage = Array<CommentEntity>;
 type DBWebsite = Map<string, DBPage>;

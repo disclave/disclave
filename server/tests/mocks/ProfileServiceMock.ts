@@ -1,10 +1,11 @@
-import { ProfileService, Profile } from "../../src/modules/profiles";
+import { ProfileService, Profile } from "@/modules/profiles";
 import { injectable } from "inversify";
+import { asUserId } from "@/modules/auth";
 
 @injectable()
 export class ProfileServiceMock implements ProfileService {
   public static defaultUserProfile: Profile = {
-    uid: "mock-user-id",
+    uid: asUserId("mock-user-id"),
     name: "mock_user_name",
   };
 

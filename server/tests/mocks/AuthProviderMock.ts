@@ -5,7 +5,7 @@ import {
   AuthProvider,
   DecodedIdToken,
   UserCookieContent,
-} from "../../src/modules/auth";
+} from "@/modules/auth";
 
 @injectable()
 export class AuthProviderMock implements AuthProvider {

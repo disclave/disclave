@@ -2,13 +2,14 @@ import {
   CreateProfileData,
   ProfileRepository,
   ProfileEntity
-} from "../../src/modules/profiles/db";
+} from "@/modules/profiles/db";
 import { injectable } from "inversify";
+import { UserId } from "@/modules/auth";
 
 @injectable()
 export class ProfileRepositoryMock implements ProfileRepository<{}> {
 
-  public static db = new Map<string,   ProfileEntity>();
+  public static db = new Map<UserId,   ProfileEntity>();
 
   public static deleteAll() {
     this.db.clear();
@@ -27,7 +28,7 @@ export class ProfileRepositoryMock implements ProfileRepository<{}> {
   }
 
   async createProfile(
-    userId: string,
+    userId: UserId,
     profile: CreateProfileData
   ): Promise<void> {
     ProfileRepositoryMock.db.set(userId, {
@@ -36,7 +37,7 @@ export class ProfileRepositoryMock implements ProfileRepository<{}> {
     });
   }
 
-  async getProfile(uid: string): Promise<ProfileEntity | null> {
+  async getProfile(uid: UserId): Promise<ProfileEntity | null> {
     return ProfileRepositoryMock.db.get(uid);
   }
 }

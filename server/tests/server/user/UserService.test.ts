@@ -1,10 +1,10 @@
-import { ProfileService } from "../../../src/modules/profiles";
+import { ProfileService } from "@/modules/profiles";
 import { Container } from "inversify";
-import { asUserId, AuthProvider } from "../../../src/modules/auth";
+import { asUserId, AuthProvider } from "@/modules/auth";
 import { AuthProviderMock } from "../../mocks/AuthProviderMock";
-import { ProfileRepository } from "../../../src/modules/profiles/db";
+import { ProfileRepository } from "@/modules/profiles/db";
 import { ProfileRepositoryMock } from "../../mocks/ProfileRepositoryMock";
-import { ProfileServiceImpl } from "../../../src/modules/profiles/ProfileServiceImpl";
+import { ProfileServiceImpl } from "@/modules/profiles/ProfileServiceImpl";
 
 describe("Testing UserService", () => {
   const container = new Container();
