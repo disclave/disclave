@@ -1,4 +1,4 @@
-import { Comment } from "./Comment";
+import { Comment } from "./models";
 import { UserId } from "@/modules/auth";
 
 export type { Comment };
