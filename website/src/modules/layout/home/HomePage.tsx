@@ -5,6 +5,8 @@ import { CommentModel, PageModel } from '@disclave/client';
 import { LatestCommentsSection, TopCommentsSection } from '@/modules/layout/home/comments-preview';
 import { PluginsSection } from '@/modules/layout/home/plugins';
 import { ExtensionsSection } from '@/modules/layout/home/extensions';
+import { TopCommentedPagesSection } from './pages-preview';
+import { MobileSection } from './mobile';
 
 export interface HomePageProps {
   commentsLimit: number;
@@ -42,30 +44,25 @@ export const HomePage: React.VFC<HomePageProps> = (props) => {
           backgroundColor: '#f7f5f8'
         }}>
         <div className="container mx-auto py-8 flex flex-col lg:flex-row">
-          {/* <LatestCommentsSection
+          <TopCommentedPagesSection
             className="lg:w-1/2 lg:order-2 p-4"
-            commentsLimit={props.commentsLimit}
-            comments={props.latestComments}
-            minVoteSum={props.latestMinVoteSum}
-          /> */}
-
-          TODO: top commented pages
+            pages={props.topCommentedPages}
+          />
 
           <PluginsSection className="lg:w-1/2 lg:order-1 p-4" />
         </div>
       </div>
 
       <div className="container mx-auto py-8 flex flex-col lg:flex-row">
-          <LatestCommentsSection
-            className="lg:w-1/2 lg:order-2 p-4"
-            commentsLimit={props.commentsLimit}
-            comments={props.latestComments}
-            minVoteSum={props.latestMinVoteSum}
-          />
+        <LatestCommentsSection
+          className="lg:w-1/2 p-4"
+          commentsLimit={props.commentsLimit}
+          comments={props.latestComments}
+          minVoteSum={props.latestMinVoteSum}
+        />
 
-          {/* <ExtensionsSection className="lg:w-1/2 lg:order-1 p-4" /> */}
-          TODO: mobile section
-        </div>
+        <MobileSection className="lg:w-1/2 p-4" />
+      </div>
     </Layout>
   );
 };

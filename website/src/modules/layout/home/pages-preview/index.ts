@@ -1,0 +1,1 @@
+export { TopCommentedPagesSection } from './TopCommentedPagesSection';
