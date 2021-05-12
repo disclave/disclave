@@ -8,8 +8,6 @@ import { useTopCommentedPages } from '@/modules/pages';
 
 export interface TopCommentedPagesProps {
   pages: Array<PageModel>;
-  pagesLimit: number;
-  minVoteSum: number;
 }
 
 export const TopCommentedPages: React.VFC<TopCommentedPagesProps> = (props) => {
