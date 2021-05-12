@@ -3,8 +3,9 @@ import { AuthorInfo, CommentRepository, UrlMeta } from "./index";
 import { injectable } from "inversify";
 import { Timestamp, ObjectID, MongoRepository } from "@/connectors/mongodb";
 import { ClientSession } from "mongodb";
-import { commentsDbCollection, DbComment, getProjection } from "./mongo";
 import { asUserId, UserId } from "@/modules/auth";
+import { commentsDbCollection, getProjection } from "@/database/comments";
+import { DbComment } from "@/database";
 
 @injectable()
 export class CommentMongoRepository

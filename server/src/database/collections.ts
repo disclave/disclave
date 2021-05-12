@@ -1,0 +1,1 @@
+export const commentsCollection = "websites.pages.comments";
