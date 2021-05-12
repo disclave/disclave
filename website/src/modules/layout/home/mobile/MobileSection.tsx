@@ -17,8 +17,7 @@ export const MobileSection: React.VFC<MobileSectionProps> = (props) => {
       <p className="py-8">TODO</p>
       <Button href={mobileHref()} outlined>TODO</Button>
       <div className="pt-8">
-        TODO image
-        {/* <img src="/images/home/extensions/1.svg" alt="" width={1061} height={531} /> */}
+        <img src="/images/home/mobile/1.svg" alt="" width={1097} height={806} />
       </div>
     </section>
   );

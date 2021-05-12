@@ -9,11 +9,12 @@ import { TopCommentedPagesSection } from './pages-preview';
 import { MobileSection } from './mobile';
 
 export interface HomePageProps {
-  commentsLimit: number;
   topComments: Array<CommentModel>;
+  topCommentsLimit: number;
   topMinVoteSum: number;
   topCommentedPages: Array<PageModel>;
   latestComments: Array<CommentModel>;
+  latestCommentsLimit: number;
   latestMinVoteSum: number;
 }
 
@@ -30,7 +31,7 @@ export const HomePage: React.VFC<HomePageProps> = (props) => {
         <div className="container mx-auto py-8 flex flex-col lg:flex-row">
           <TopCommentsSection
             className="lg:w-1/2 p-4"
-            commentsLimit={props.commentsLimit}
+            commentsLimit={props.topCommentsLimit}
             comments={props.topComments}
             minVoteSum={props.topMinVoteSum}
           />
@@ -56,7 +57,7 @@ export const HomePage: React.VFC<HomePageProps> = (props) => {
       <div className="container mx-auto py-8 flex flex-col lg:flex-row">
         <LatestCommentsSection
           className="lg:w-1/2 p-4"
-          commentsLimit={props.commentsLimit}
+          commentsLimit={props.latestCommentsLimit}
           comments={props.latestComments}
           minVoteSum={props.latestMinVoteSum}
         />
