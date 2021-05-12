@@ -12,6 +12,7 @@ import {
   ListItemFooter,
   ListItemTimestamp,
 } from "@/components/comments/list/item";
+import { LinkBox } from "@/components/links";
 
 export interface PreviewListItemProps {
   actionsHandler: CommentActionsHandler;
@@ -51,7 +52,7 @@ export const PreviewListItem: React.VFC<PreviewListItemProps> = (props) => {
   );
 
   return (
-    <div>
+    <LinkBox href={detailsHref}>
       <CommentWebsiteInfo
         urlMeta={props.comment.urlMeta}
         hrefBuilder={props.hrefBuilder}
@@ -65,9 +66,7 @@ export const PreviewListItem: React.VFC<PreviewListItemProps> = (props) => {
       </div>
 
       <div ref={textWrapperRef} className="max-h-10 overflow-hidden">
-        <AnchorTag href={detailsHref}>
-          <ListItemContent ref={textRef} comment={props.comment} />
-        </AnchorTag>
+        <ListItemContent ref={textRef} comment={props.comment} />
       </div>
 
       {showMoreVisible ? <ShowMoreLink /> : null}
@@ -78,6 +77,6 @@ export const PreviewListItem: React.VFC<PreviewListItemProps> = (props) => {
         className="mt-1"
         comment={props.comment}
       />
-    </div>
+    </LinkBox>
   );
 };
