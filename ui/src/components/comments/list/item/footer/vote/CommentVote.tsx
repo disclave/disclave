@@ -83,12 +83,14 @@ export const CommentVote: React.VFC<CommentVoteProps> = (props) => {
     setVotedDown(true);
   };
 
-  const onClickPlus = async () => {
+  const onClickPlus = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
     if (votedUp) await clearVotes();
     else await voteUp();
   };
 
-  const onClickMinus = async () => {
+  const onClickMinus = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
     if (votedDown) await clearVotes();
     else await voteDown();
   };
