@@ -1,6 +1,6 @@
 export interface PageEntity {
   id: string;
   websiteId: string;
-  rawUrl: string;
+  pageId: string;
   commentsCount: number;
 }

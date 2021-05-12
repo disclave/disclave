@@ -23,6 +23,7 @@ const toDomain = (entity: PageEntity): Page => {
   return {
     id: entity.id,
     websiteId: entity.websiteId,
+    pageId: entity.pageId,
     commentsCount: entity.commentsCount,
   };
 };
