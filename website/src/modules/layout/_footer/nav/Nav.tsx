@@ -6,6 +6,7 @@ import { topCommentsHref } from '@/pages/comments/top';
 import { latestCommentsHref } from '@/pages/comments/latest';
 import { pluginsHref } from '@/pages/plugins';
 import { extensionsHref } from '@/pages/extensions';
+import { topCommentedPagesHref } from '@/pages/pages/top-commented';
 
 export const Nav: React.VFC = () => {
   const { t } = useTranslation('layout');
@@ -23,6 +24,7 @@ export const Nav: React.VFC = () => {
         <div>
           <ul className="space-y-2 fa-ul ml-5">
             <NavItem href={topCommentsHref()} text={t('header.main nav.top comments')} />
+            <NavItem href={topCommentedPagesHref()} text={t('header.main nav.top commented pages')} />
             <NavItem href={latestCommentsHref()} text={t('header.main nav.latest comments')} />
           </ul>
         </div>

@@ -6,7 +6,7 @@ import { PageModel } from '@disclave/client';
 import React from 'react';
 import { TopCommentedPages } from '@/modules/layout/pages/top-commented';
 
-export const topCommentsHref = () => '/pages/top-commented';
+export const topCommentedPagesHref = () => '/pages/top-commented';
 
 export const getServerSideProps: GetServerSideProps<TopCommentedProps> = async (context) => {
   await initServer();

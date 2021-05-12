@@ -3,6 +3,7 @@
     "main nav": {
       "home": "Home",
       "top comments": "Top comments",
+      "top commented pages": "Top commented pages",
       "latest comments": "Latest comments",
       "plugins": "Plugins",
       "extensions": "Extensions"
@@ -20,6 +21,7 @@
       "plugins": "Plugins",
       "extensions": "Extensions",
       "top comments": "Top comments",
+      "top commented pages": "Top commented pages",
       "latest comments": "Latest comments"
     },
     "contact": {

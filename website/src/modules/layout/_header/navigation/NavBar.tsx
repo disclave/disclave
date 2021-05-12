@@ -7,6 +7,7 @@ import { latestCommentsHref } from '@/pages/comments/latest';
 import { topCommentsHref } from '@/pages/comments/top';
 import { pluginsHref } from '@/pages/plugins';
 import { extensionsHref } from '@/pages/extensions';
+import { topCommentedPagesHref } from '@/pages/pages/top-commented';
 
 export interface NavBarProps {
   toggleState: boolean;
@@ -29,6 +30,7 @@ export const NavBar: React.VFC<NavBarProps> = ({ toggleState }) => {
       <ul className={ulClasses}>
         <NavItem href={homeHref()} text={t('header.main nav.home')} />
         <NavItem href={topCommentsHref()} text={t('header.main nav.top comments')} />
+        <NavItem href={topCommentedPagesHref()} text={t('header.main nav.top commented pages')} />
         <NavItem href={latestCommentsHref()} text={t('header.main nav.latest comments')} />
         <NavItem href={pluginsHref()} text={t('header.main nav.plugins')} />
         <NavItem href={extensionsHref()} text={t('header.main nav.extensions')} />
