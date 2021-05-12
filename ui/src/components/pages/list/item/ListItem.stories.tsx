@@ -20,6 +20,14 @@ Default.args = {
   page: ExamplePage,
 };
 
+export const MainPage = Template.bind({});
+MainPage.args = {
+  hrefBuilder: mockHrefBuilder,
+  page: buildExamplePage({
+    pageId: "%2F"
+  }),
+};
+
 export const LongDomainAndPage = Template.bind({});
 LongDomainAndPage.args = {
   hrefBuilder: mockHrefBuilder,

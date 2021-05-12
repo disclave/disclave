@@ -6,6 +6,9 @@
     "item": {
       "comments count": {
         "text": "comments"
+      },
+      "main page": {
+        "label": "(main page)"
       }
     }
   }
