@@ -14,6 +14,10 @@ import { EmailService } from "@/modules/email";
 import { MailjetEmailService } from "@/modules/email/MailjetEmailService";
 import { AuthProvider } from "@/modules/auth";
 import { FirebaseAuthProvider } from "@/modules/auth/FirebaseAuthProvider";
+import { PageRepository } from "./modules/pages/db";
+import { PageMongoRepository } from "./modules/pages/db/PageMongoRepository";
+import { PageService } from "./modules/pages";
+import { PageServiceImpl } from "./modules/pages/PageServiceImpl";
 
 const container = new Container();
 
@@ -22,9 +26,11 @@ container.bind(AuthProvider).to(FirebaseAuthProvider);
 
 container.bind(ProfileRepository).to(ProfileMongoRepository);
 container.bind(CommentRepository).to(CommentMongoRepository);
+container.bind(PageRepository).to(PageMongoRepository);
 
 container.bind(UrlService).to(UrlServiceImpl);
 container.bind(ProfileService).to(ProfileServiceImpl);
 container.bind(CommentService).to(CommentServiceImpl);
+container.bind(PageService).to(PageServiceImpl);
 
 export { container };
