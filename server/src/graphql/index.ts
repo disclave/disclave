@@ -13,6 +13,8 @@ import {
   DecodedIdToken,
   IdToken,
 } from "@/modules/auth";
+import { pagesTypeDefs } from "@/modules/pages/Schemas";
+import { pagesResolvers } from "@/modules/pages/Resolvers";
 
 const cors = Cors({
   allowMethods: ["POST", "GET", "OPTIONS"],
@@ -52,8 +54,8 @@ const getIdToken = async (req: any): Promise<TokenWithDecoded | null> => {
 
 const createApolloHandler = (path: string) => {
   const apolloServer = new ApolloServer({
-    typeDefs: [baseTypes, authTypeDefs, commentsTypeDefs, usersTypeDefs],
-    resolvers: [authResolvers, commentsResolvers, usersResolvers],
+    typeDefs: [baseTypes, authTypeDefs, commentsTypeDefs, pagesTypeDefs, usersTypeDefs],
+    resolvers: [authResolvers, commentsResolvers, pagesResolvers, usersResolvers],
     context: async ({ req, res }) => {
       const auth = await getIdToken(req);
 
