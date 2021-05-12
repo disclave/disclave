@@ -1,1 +1,0 @@
-export { CommentsRankingsSection } from './CommentsRankingsSection';
