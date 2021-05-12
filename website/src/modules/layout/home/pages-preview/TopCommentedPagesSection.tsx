@@ -12,14 +12,14 @@ export interface TopCommentedPagesSectionProps {
 }
 
 export const TopCommentedPagesSection: React.VFC<TopCommentedPagesSectionProps> = (props) => {
-  const { t } = useTranslation(['common']);
+  const { t } = useTranslation(['home', 'common']);
 
   return (
     <section className={props.className}>
-      <SectionHeader>TODO</SectionHeader>
+      <SectionHeader>{t('pages rankings.top commented.title')}</SectionHeader>
       <PagesList className="py-8" hrefBuilder={websiteHrefFromIds} pages={props.pages} />
       <Button href={topCommentedPagesHref()} outlined>
-        {t('buttons.view all')}
+        {t('common:buttons.view all')}
       </Button>
     </section>
   );
