@@ -1,0 +1,1 @@
+export { PagesList } from "./list";

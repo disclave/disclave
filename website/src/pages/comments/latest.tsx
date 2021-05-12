@@ -4,7 +4,7 @@ import { initServer } from '@/modules/server';
 import { getCommentService, getUserCookie } from '@disclave/server';
 import { CommentModel } from '@disclave/client';
 import React from 'react';
-import { LatestCommentsPage } from '@/modules/pages/comments/latest';
+import { LatestCommentsPage } from '@/modules/layout/comments/latest';
 
 export const latestCommentsHref = () => '/comments/latest';
 

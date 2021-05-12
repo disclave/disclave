@@ -1,4 +1,4 @@
-import { Comment } from "./Comment";
+import { Comment } from "./models";
 import { container } from "@/inversify.config";
 import { CommentService } from "./index";
 import { Unauthorized } from "@/exceptions/exceptions";

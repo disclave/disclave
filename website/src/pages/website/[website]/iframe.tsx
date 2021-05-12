@@ -3,7 +3,7 @@ import { GetServerSideProps } from 'next';
 import { CommentModel } from '@disclave/client';
 import { getCommentService, getUserCookie } from '@disclave/server';
 import { initServer } from '@/modules/server';
-import { WebsiteIframePage } from '@/modules/pages/website/iframe';
+import { WebsiteIframePage } from '@/modules/layout/website/iframe';
 
 export const websiteIframeHref = (url: string) => `/website/${url}/iframe/`;
 

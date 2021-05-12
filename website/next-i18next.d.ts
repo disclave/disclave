@@ -6,6 +6,7 @@ import common from './public/locales/en/common.json';
 import extensions from './public/locales/en/extensions.json';
 import home from './public/locales/en/home.json';
 import layout from './public/locales/en/layout.json';
+import pages from './public/locales/en/pages.json';
 import plugins from './public/locales/en/plugins.json';
 import website from './public/locales/en/website.json';
 
@@ -17,6 +18,7 @@ declare module 'react-i18next' {
     extensions: typeof extensions;
     home: typeof home;
     layout: typeof layout;
+    pages: typeof pages;
     plugins: typeof plugins;
     website: typeof website;
   }

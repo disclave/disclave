@@ -4,7 +4,6 @@ import {
   CommentModel,
   CommentUrlMeta,
 } from "@/components/comments/CommentModel";
-import { getAnchorWrapper } from "@/config";
 import { useTranslation } from "@/i18n";
 import {
   CommentWebsiteInfo,
@@ -12,6 +11,7 @@ import {
   ListItemFooter,
   ListItemTimestamp,
 } from "@/components/comments/list/item";
+import { LinkBox } from "@/components/links";
 
 export interface PreviewListItemProps {
   actionsHandler: CommentActionsHandler;
@@ -39,38 +39,28 @@ export const PreviewListItem: React.VFC<PreviewListItemProps> = (props) => {
     props.comment.id
   );
 
-  const AnchorTag = getAnchorWrapper() ?? "a";
-
-  const ShowMoreLink = () => (
-    <AnchorTag
-      href={detailsHref}
-      className="uppercase text-primary text-xs hover:underline"
-    >
+  const ShowMoreText = () => (
+    <span className="uppercase text-primary text-xs hover:underline">
       {t("list.item.show all")}
-    </AnchorTag>
+    </span>
   );
 
   return (
-    <div>
-      <CommentWebsiteInfo
-        urlMeta={props.comment.urlMeta}
-        hrefBuilder={props.hrefBuilder}
-      />
+    <LinkBox href={detailsHref}>
+      <CommentWebsiteInfo urlMeta={props.comment.urlMeta} />
 
       <div className="mb-0.5">
         <span className="font-semibold text-sm">
           {props.comment.author.name}
         </span>
-        <ListItemTimestamp comment={props.comment} href={detailsHref} />
+        <ListItemTimestamp comment={props.comment} />
       </div>
 
       <div ref={textWrapperRef} className="max-h-10 overflow-hidden">
-        <AnchorTag href={detailsHref}>
-          <ListItemContent ref={textRef} comment={props.comment} />
-        </AnchorTag>
+        <ListItemContent ref={textRef} comment={props.comment} />
       </div>
 
-      {showMoreVisible ? <ShowMoreLink /> : null}
+      {showMoreVisible ? <ShowMoreText /> : null}
 
       <ListItemFooter
         actionsHandler={props.actionsHandler}
@@ -78,6 +68,6 @@ export const PreviewListItem: React.VFC<PreviewListItemProps> = (props) => {
         className="mt-1"
         comment={props.comment}
       />
-    </div>
+    </LinkBox>
   );
 };

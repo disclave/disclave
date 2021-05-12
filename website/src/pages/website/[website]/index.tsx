@@ -2,10 +2,12 @@ import React from 'react';
 import { GetServerSideProps } from 'next';
 import { CommentModel, CommentUrlMeta, encodeUrl } from '@disclave/client';
 import { getCommentService, getUserCookie } from '@disclave/server';
-import { WebsitePage } from '@/modules/pages/website';
+import { WebsitePage } from '@/modules/layout/website';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { initServer } from '@/modules/server';
 
+export const websiteHrefFromIds = (websiteId: string, pageId: string) =>
+  websiteHrefFromMeta({ websiteId, pageId });
 export const websiteHrefFromMeta = (urlMeta: CommentUrlMeta, commentId?: string) =>
   websiteHref(urlMeta.websiteId + urlMeta.pageId + (commentId ? `#${commentId}` : ''), true);
 export const websiteHref = (url: string, encoded: boolean = false) =>

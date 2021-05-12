@@ -4,7 +4,7 @@ import React from 'react';
 import { initServer } from '@/modules/server';
 import { getCommentService, getUserCookie } from '@disclave/server';
 import { CommentModel } from '@disclave/client';
-import { HomePage } from '@/modules/pages/home';
+import { HomePage } from '@/modules/layout/home';
 
 export const homeHref = () => '/';
 

@@ -1,6 +1,6 @@
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import React from 'react';
-import { ExtensionsPage } from '@/modules/pages/extensions';
+import { ExtensionsPage } from '@/modules/layout/extensions';
 
 export const extensionsHref = () => '/extensions';
 

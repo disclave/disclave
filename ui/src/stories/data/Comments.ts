@@ -2,18 +2,8 @@ import {
   CommentActionsHandler,
   CommentModel,
 } from "@/components/comments/CommentModel";
+import { randomDate, randomInt } from "./helpers";
 
-const randomDate = (start: Date, end: Date): Date => {
-  return new Date(
-    start.getTime() + Math.random() * (end.getTime() - start.getTime())
-  );
-};
-
-function randomInt(min: number, max: number) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min) + min);
-}
 
 export const commentsTimestampComparator = (a: CommentModel, b: CommentModel) =>
   Date.parse(b.timestamp) - Date.parse(a.timestamp);
