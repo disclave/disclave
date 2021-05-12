@@ -1,6 +1,6 @@
 import React from 'react';
-import { Header } from './header';
-import { Footer } from './footer';
+import { Header } from './_header';
+import { Footer } from './_footer';
 
 export interface LayoutProps {
   loginHref?: string;

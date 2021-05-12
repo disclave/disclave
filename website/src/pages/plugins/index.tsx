@@ -1,6 +1,6 @@
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import React from 'react';
-import { PluginsPage } from '@/modules/pages/plugins';
+import { PluginsPage } from '@/modules/layout/plugins';
 
 export const pluginsHref = () => '/plugins';
 

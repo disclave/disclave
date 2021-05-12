@@ -4,7 +4,7 @@ import { initServer } from '@/modules/server';
 import { getCommentService, getUserCookie } from '@disclave/server';
 import { CommentModel } from '@disclave/client';
 import React from 'react';
-import { TopCommentsPage } from '@/modules/pages/comments/top';
+import { TopCommentsPage } from '@/modules/layout/comments/top';
 
 export const topCommentsHref = () => '/comments/top';
 

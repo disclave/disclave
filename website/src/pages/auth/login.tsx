@@ -1,5 +1,5 @@
 import { valuesToParamsArray } from '@/modules/redirect';
-import { LoginPage } from '@/modules/pages/auth/login';
+import { LoginPage } from '@/modules/layout/auth/login';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 export const loginHref = (redirectPath?: string, redirectPathParamToEncode?: string): string => {

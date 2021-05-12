@@ -9,7 +9,7 @@ import {
   EAHMissingActionCode,
   EAHRecoverEmailNotSupported,
   EAHResetPasswordNotSupported
-} from '@/modules/pages/auth/email-action-handler/exceptions';
+} from '@/modules/layout/auth/email-action-handler/exceptions';
 
 export const EmailActionHandlerPage: React.VFC = () => {
   const { t } = useTranslation('auth');

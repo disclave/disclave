@@ -2,9 +2,9 @@ import React from 'react';
 import { Layout } from '@/modules/layout';
 import { MainSection } from './main';
 import { CommentModel } from '@disclave/client';
-import { LatestCommentsSection, TopCommentsSection } from '@/modules/pages/home/comments-preview';
-import { PluginsSection } from '@/modules/pages/home/plugins';
-import { ExtensionsSection } from '@/modules/pages/home/extensions';
+import { LatestCommentsSection, TopCommentsSection } from '@/modules/layout/home/comments-preview';
+import { PluginsSection } from '@/modules/layout/home/plugins';
+import { ExtensionsSection } from '@/modules/layout/home/extensions';
 
 export interface HomePageProps {
   commentsLimit: number;

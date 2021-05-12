@@ -2,7 +2,7 @@ import React from 'react';
 import { GetServerSideProps } from 'next';
 import { CommentModel, CommentUrlMeta, encodeUrl } from '@disclave/client';
 import { getCommentService, getUserCookie } from '@disclave/server';
-import { WebsitePage } from '@/modules/pages/website';
+import { WebsitePage } from '@/modules/layout/website';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { initServer } from '@/modules/server';
 

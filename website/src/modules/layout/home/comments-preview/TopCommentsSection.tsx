@@ -1,20 +1,20 @@
 import React from 'react';
 import { useTranslation } from 'next-i18next';
 import { CommentModel } from '@disclave/client';
-import { useLatestComments } from '@/modules/comments';
-import { CommentsPreviewSection } from '@/modules/pages/home/comments-preview/CommentsPreviewSection';
-import { latestCommentsHref } from '@/pages/comments/latest';
+import { useTopComments } from '@/modules/comments';
+import { CommentsPreviewSection } from '@/modules/layout/home/comments-preview/CommentsPreviewSection';
+import { topCommentsHref } from '@/pages/comments/top';
 
-export interface LatestCommentsSectionProps {
+export interface TopCommentsSectionProps {
   className?: string;
   commentsLimit: number;
   comments: Array<CommentModel>;
   minVoteSum: number;
 }
 
-export const LatestCommentsSection: React.VFC<LatestCommentsSectionProps> = (props) => {
+export const TopCommentsSection: React.VFC<TopCommentsSectionProps> = (props) => {
   const { t } = useTranslation(['home']);
-  const { comments, voteRemove, voteUp, voteDown } = useLatestComments(
+  const { comments, voteRemove, voteUp, voteDown } = useTopComments(
     props.comments,
     props.minVoteSum,
     props.commentsLimit
@@ -25,8 +25,8 @@ export const LatestCommentsSection: React.VFC<LatestCommentsSectionProps> = (pro
       className={props.className}
       commentsLimit={props.commentsLimit}
       comments={comments}
-      header={t('comment rankings.latest.title')}
-      href={latestCommentsHref()}
+      header={t('comment rankings.top.title')}
+      href={topCommentsHref()}
       minVoteSum={props.minVoteSum}
       onVoteDown={voteDown}
       onVoteRemove={voteRemove}
