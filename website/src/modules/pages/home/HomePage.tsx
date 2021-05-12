@@ -18,20 +18,27 @@ export const HomePage: React.VFC<HomePageProps> = (props) => {
   return (
     <Layout>
       <MainSection />
-      <div className="container mx-auto py-8 flex flex-col lg:flex-row">
-        <TopCommentsSection
-          className="lg:w-1/2 p-4"
-          commentsLimit={props.commentsLimit}
-          comments={props.topComments}
-          minVoteSum={props.topMinVoteSum}
-        />
 
-        <PluginsSection className="lg:w-1/2 p-4" />
-      </div>
       <div
         style={{
           background: "url('/images/home/bg_1.jpg') no-repeat center top",
           backgroundSize: 'cover'
+        }}>
+        <div className="container mx-auto py-8 flex flex-col lg:flex-row">
+          <TopCommentsSection
+            className="lg:w-1/2 p-4"
+            commentsLimit={props.commentsLimit}
+            comments={props.topComments}
+            minVoteSum={props.topMinVoteSum}
+          />
+
+          <PluginsSection className="lg:w-1/2 p-4" />
+        </div>
+      </div>
+
+      <div
+        style={{
+          backgroundColor: '#f7f5f8'
         }}>
         <div className="container mx-auto py-8 flex flex-col lg:flex-row">
           <LatestCommentsSection
