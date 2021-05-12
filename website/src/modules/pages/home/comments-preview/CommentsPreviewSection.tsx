@@ -3,6 +3,7 @@ import { useTranslation } from 'next-i18next';
 import { CommentModel, useSession } from '@disclave/client';
 import { Button, PreviewCommentsList } from '@disclave/ui';
 import { websiteHrefFromMeta } from '@/pages/website/[website]';
+import { SectionHeader } from '../components';
 
 export interface CommentsPreviewSectionProps {
   className?: string;
@@ -22,15 +23,9 @@ export const CommentsPreviewSection: React.VFC<CommentsPreviewSectionProps> = (p
 
   return (
     <section className={props.className}>
-      <div className="flex flex-row justify-between items-center mb-8">
-        <h2 className="text-3xl font-semibold">{props.header}</h2>
-        <div>
-          <Button href={props.href} outlined>
-            {t('buttons.view all')}
-          </Button>
-        </div>
-      </div>
+      <SectionHeader>{props.header}</SectionHeader>
       <PreviewCommentsList
+        className="py-8"
         actionsHandler={{
           onVoteDown: props.onVoteDown,
           onVoteRemove: props.onVoteRemove,
@@ -40,6 +35,10 @@ export const CommentsPreviewSection: React.VFC<CommentsPreviewSectionProps> = (p
         comments={props.comments}
         hrefBuilder={websiteHrefFromMeta}
       />
+
+      <Button href={props.href} outlined>
+        {t('buttons.view all')}
+      </Button>
     </section>
   );
 };

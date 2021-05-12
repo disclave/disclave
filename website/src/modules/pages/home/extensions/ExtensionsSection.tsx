@@ -2,6 +2,7 @@ import React from 'react';
 import { Button } from '@disclave/ui';
 import { extensionsHref } from '@/pages/extensions';
 import { useTranslation } from 'next-i18next';
+import { SectionHeader } from '../components';
 
 export interface ExtensionsSectionProps {
   className?: string;
@@ -12,7 +13,7 @@ export const ExtensionsSection: React.VFC<ExtensionsSectionProps> = (props) => {
 
   return (
     <section className={props.className}>
-      <h2 className="text-3xl font-semibold">{t('extensions.title')}</h2>
+      <SectionHeader>{t('extensions.title')}</SectionHeader>
       <p className="py-8">{t('extensions.text')}</p>
       <Button href={extensionsHref()} outlined>{t('extensions.btn')}</Button>
       <div className="pt-8">
