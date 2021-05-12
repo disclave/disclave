@@ -45,3 +45,6 @@ export type {
   CommentAuthor,
   CommentVotes,
 } from "./modules/comments";
+
+export { getTopCommentedPages } from "./modules/pages";
+export type { PageModel } from "./modules/pages";
