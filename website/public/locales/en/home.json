@@ -18,5 +18,15 @@
     "top": {
       "title": "Top comments"
     }
+  },
+  "plugins": {
+    "title": "Promote own content",
+    "text": "Do you have your website, or are you a web developer? Display comments and allow users to interact with them without leaving your page. Install Disclave plugin and let users promote your content.",
+    "btn": "Use plugins"
+  },
+  "extensions": {
+    "title": "Stay on the website",
+    "text": "Comment on any website on the internet, directly from your browser, without leaving it or stopping reading. Quickly view the opinions of others and let them know what do you think.",
+    "btn": "Install extension"
   }
 }
