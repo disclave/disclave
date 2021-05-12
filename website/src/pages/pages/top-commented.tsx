@@ -13,8 +13,8 @@ export const getServerSideProps: GetServerSideProps<TopCommentedProps> = async (
   const userCookie = getUserCookie(context.req);
   const service = getPageService();
 
-  const commentsMinVoteSum = 1;
-  const limit = 0;
+  const commentsMinVoteSum = 0;
+  const limit = 100; // TODO: add pagination
 
   const pagesPromise = service.getTopCommentedPages(commentsMinVoteSum, limit);
   const translationsPromise = serverSideTranslations(context.locale, ['common', 'layout', 'pages']);
