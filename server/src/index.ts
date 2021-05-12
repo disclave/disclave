@@ -5,6 +5,7 @@ import { EmailTemplate, initMailjet } from "@/connectors/mailjet";
 import { EmailService } from "@/modules/email";
 import { ProfileService } from "@/modules/profiles";
 import { initFirebase } from "@/connectors/firebase/Firebase";
+import { PageService } from "./modules/pages";
 
 export interface DbConfig {
   dbUri: string;
@@ -43,3 +44,4 @@ export type { UserCookieContent } from "./modules/auth";
 export const getProfileService = () => container.get(ProfileService);
 export const getEmailService = () => container.get(EmailService);
 export const getCommentService = () => container.get(CommentService);
+export const getPageService = () => container.get(PageService);
