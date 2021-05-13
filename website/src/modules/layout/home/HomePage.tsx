@@ -9,13 +9,19 @@ import { TopCommentedPagesSection } from './pages-preview';
 import { MobileSection } from './mobile';
 
 export interface HomePageProps {
-  topComments: Array<CommentModel>;
-  topCommentsLimit: number;
-  topMinVoteSum: number;
-  topCommentedPages: Array<PageModel>;
-  latestComments: Array<CommentModel>;
-  latestCommentsLimit: number;
-  latestMinVoteSum: number;
+  topComments: {
+    comments: Array<CommentModel>;
+    limit: number;
+    minVoteSum: number;
+  };
+  topCommentedPages: {
+    pages: Array<PageModel>;
+  };
+  latestComments: {
+    comments: Array<CommentModel>;
+    limit: number;
+    minVoteSum: number;
+  };
 }
 
 export const HomePage: React.VFC<HomePageProps> = (props) => {
@@ -31,9 +37,9 @@ export const HomePage: React.VFC<HomePageProps> = (props) => {
         <div className="container mx-auto py-8 flex flex-col lg:flex-row">
           <TopCommentsSection
             className="lg:w-1/2 p-4"
-            commentsLimit={props.topCommentsLimit}
-            comments={props.topComments}
-            minVoteSum={props.topMinVoteSum}
+            commentsLimit={props.topComments.limit}
+            comments={props.topComments.comments}
+            minVoteSum={props.topComments.minVoteSum}
           />
 
           <ExtensionsSection className="lg:w-1/2 p-4" />
@@ -47,7 +53,7 @@ export const HomePage: React.VFC<HomePageProps> = (props) => {
         <div className="container mx-auto py-8 flex flex-col lg:flex-row">
           <TopCommentedPagesSection
             className="lg:w-1/2 lg:order-2 p-4"
-            pages={props.topCommentedPages}
+            pages={props.topCommentedPages.pages}
           />
 
           <PluginsSection className="lg:w-1/2 lg:order-1 p-4" />
@@ -57,9 +63,9 @@ export const HomePage: React.VFC<HomePageProps> = (props) => {
       <div className="container mx-auto py-8 flex flex-col lg:flex-row">
         <LatestCommentsSection
           className="lg:w-1/2 p-4"
-          commentsLimit={props.latestCommentsLimit}
-          comments={props.latestComments}
-          minVoteSum={props.latestMinVoteSum}
+          commentsLimit={props.latestComments.limit}
+          comments={props.latestComments.comments}
+          minVoteSum={props.latestComments.minVoteSum}
         />
 
         <MobileSection className="lg:w-1/2 p-4" />

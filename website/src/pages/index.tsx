@@ -19,7 +19,11 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (context)
   const latestMinVoteSum = 1;
   const latestCommentsLimit = 6;
 
-  const topCommentsPromise = commentService.getTopComments(topMinVoteSum, topCommentsLimit, userCookie?.uid);
+  const topCommentsPromise = commentService.getTopComments(
+    topMinVoteSum,
+    topCommentsLimit,
+    userCookie?.uid
+  );
   const latestCommentsPromise = commentService.getLatestComments(
     latestMinVoteSum,
     latestCommentsLimit,
@@ -28,19 +32,28 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (context)
 
   const topCommentedMinVoteSum = 1;
   const pagesLimit = 7;
-  const topCommentedPagesPromise = pageService.getTopCommentedPages(topCommentedMinVoteSum, pagesLimit);
+  const topCommentedPagesPromise = pageService.getTopCommentedPages(
+    topCommentedMinVoteSum,
+    pagesLimit
+  );
 
   const translationsPromise = serverSideTranslations(context.locale, ['common', 'home', 'layout']);
 
   return {
     props: {
-      topComments: await topCommentsPromise,
-      topCommentsLimit: topCommentsLimit,
-      topMinVoteSum: topMinVoteSum,
-      topCommentedPages: await topCommentedPagesPromise,
-      latestComments: await latestCommentsPromise,
-      latestCommentsLimit: latestCommentsLimit,
-      latestMinVoteSum: latestMinVoteSum,
+      topComments: {
+        comments: await topCommentsPromise,
+        limit: topCommentsLimit,
+        minVoteSum: topMinVoteSum
+      },
+      topCommentedPages: {
+        pages: await topCommentedPagesPromise
+      },
+      latestComments: {
+        comments: await latestCommentsPromise,
+        limit: latestCommentsLimit,
+        minVoteSum: latestMinVoteSum
+      },
       serverSideUid: userCookie ? userCookie.uid : null,
       ...(await translationsPromise)
     }
@@ -48,25 +61,27 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (context)
 };
 
 interface HomeProps {
-  topComments: Array<CommentModel>;
-  topCommentsLimit: number;
-  topMinVoteSum: number;
-  topCommentedPages: Array<PageModel>;
-  latestComments: Array<CommentModel>;
-  latestCommentsLimit: number;
-  latestMinVoteSum: number;
+  topComments: {
+    comments: Array<CommentModel>;
+    limit: number;
+    minVoteSum: number;
+  };
+  topCommentedPages: {
+    pages: Array<PageModel>;
+  };
+  latestComments: {
+    comments: Array<CommentModel>;
+    limit: number;
+    minVoteSum: number;
+  };
 }
 
 const Home: React.VFC<HomeProps> = (props) => {
   return (
     <HomePage
       topComments={props.topComments}
-      topCommentsLimit={props.topCommentsLimit}
-      topMinVoteSum={props.topMinVoteSum}
       topCommentedPages={props.topCommentedPages}
       latestComments={props.latestComments}
-      latestCommentsLimit={props.latestCommentsLimit}
-      latestMinVoteSum={props.latestMinVoteSum}
     />
   );
 };
