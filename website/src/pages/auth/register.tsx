@@ -1,6 +1,8 @@
 import { valuesToParamsArray } from '@/modules/redirect';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { RegisterPage } from '@/modules/layout/auth/register';
+import { NextSeo } from 'next-seo';
+import { domain } from '@/consts';
 
 export const registerHref = (redirectPath?: string, redirectPathParamToEncode?: string): string => {
   let path = '/auth/register';
@@ -12,7 +14,12 @@ export const registerHref = (redirectPath?: string, redirectPathParamToEncode?: 
 };
 
 const Register = () => {
-  return <RegisterPage />;
+  return (
+    <>
+      <NextSeo canonical={domain + registerHref()} />
+      <RegisterPage />
+    </>
+  );
 };
 export default Register;
 
