@@ -11,20 +11,22 @@ export interface RowProps {
 }
 
 export const Row: React.VFC<RowProps> = (props) => {
-  const textColClassName = classNames('flex-1 px-16', {
-    'text-right': !props.inverted,
-    'order-2': props.inverted
+  const colClassName = classNames('flex-1 pl-10 pr-2 lg:px-10 xl:px-16');
+
+  const textColClassName = classNames(colClassName, {
+    'lg:text-right': !props.inverted,
+    'lg:order-2': props.inverted
   });
 
-  const imgColClassName = classNames('flex-1 px-16 flex flex-row space-x-6', {
-    'order-1': props.inverted
+  const imgColClassName = classNames(colClassName, 'flex flex-row space-x-6', {
+    'lg:order-1': props.inverted
   });
 
   return (
-    <div className="flex flex-row justify-center relative my-20">
+    <div className="flex flex-col lg:flex-row justify-center relative my-20">
       <div className={textColClassName}>
-        <h3 className="text-xl pb-4">{props.title}</h3>
-        <p>{props.text}</p>
+        <h3 className="text-2xl pb-4">{props.title}</h3>
+        <p className="pb-8">{props.text}</p>
       </div>
       <Dot />
       <div className={imgColClassName}>

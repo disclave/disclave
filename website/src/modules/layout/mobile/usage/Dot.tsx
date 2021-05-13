@@ -6,7 +6,7 @@ export const Dot: React.VFC = () => {
     'absolute block',
     'w-8 h-8',
     'top-0',
-    'left-8 lg:left-1/2',
+    'left-3 lg:left-1/2',
     'transform -translate-x-1/2',
     'rounded-full border-8 border-white shadow',
     'bg-gradient-to-b from-primary-light to-primary-dark'

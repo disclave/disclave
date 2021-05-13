@@ -8,7 +8,7 @@ export const StoryTimeline: React.VFC = () => {
   const { t } = useTranslation('mobile');
 
   return (
-    <div className="relative my-8 pt-4">
+    <div className="relative my-8 py-1">
       <Line />
 
       <Row
