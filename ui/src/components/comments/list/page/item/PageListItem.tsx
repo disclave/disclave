@@ -17,7 +17,7 @@ export interface PageListItemProps {
 
 export const PageListItem: React.VFC<PageListItemProps> = (props) => {
   return (
-    <div>
+    <div className="px-2 py-1">
       <div className="mb-0.5">
         <span className="font-semibold text-sm">
           {props.comment.author.name}

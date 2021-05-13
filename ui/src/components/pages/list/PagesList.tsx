@@ -1,7 +1,6 @@
 import React from "react";
 import { PageModel } from "@/components/pages/PageModel";
 import { useTranslation } from "@/i18n";
-import classNames from "classnames";
 import { ListItem } from "./item";
 
 export interface PagesListProps {
@@ -21,10 +20,8 @@ export const PagesList: React.VFC<PagesListProps> = ({
     return <div className="p-4 text-gray-500">{t("list.empty.text")}</div>;
   }
 
-  const containerClasses = classNames("space-y-3", className);
-
   return (
-    <div className={containerClasses}>
+    <div className={className}>
       {pages.map((p) => (
         <ListItem key={p.id} page={p} hrefBuilder={hrefBuilder} />
       ))}

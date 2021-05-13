@@ -4,7 +4,6 @@ import {
   CommentModel,
 } from "@/components/comments/CommentModel";
 import { useTranslation } from "@/i18n";
-import classNames from "classnames";
 import { PageListItem } from "@/components/comments/list/page/item";
 
 export interface PageCommentsListProps {
@@ -26,10 +25,8 @@ export const PageCommentsList: React.VFC<PageCommentsListProps> = ({
     return <div className="p-8 text-gray-500">{t("list.empty.text")}</div>;
   }
 
-  const containerClasses = classNames("space-y-3", className);
-
   return (
-    <div className={containerClasses}>
+    <div className={className}>
       {comments.map((c) => (
         <PageListItem
           key={c.id}
