@@ -1,6 +1,10 @@
 {
   "main": {
     "header": "Disclave on your device",
-    "text": "TODO"
+    "text": "While browsing the Internet on a mobile device, you don't have to copy the website URL and manually navigate to the Disclave to view or add comments!\n\nInstall Disclave on your device and use the \"share\" menu to view opinions from other users and share your thoughts."
+  },
+  "pwa": {
+    "info": "This feature requires a browser that supports a PWA. If it is not working on your device, please let us know, and we will verify how to enable this functionality for you!",
+    "learn more": "Learn more about Progressive Web Apps"
   }
 }
