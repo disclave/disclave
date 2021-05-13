@@ -23,9 +23,6 @@ export const MobilePage: React.VFC = () => {
             <p className="pb-6">{t('usage.intro')}</p>
 
             <StoryTimeline/>
-            
-            <div>{t('usage.share')}</div>
-            <div>{t('usage.share result')}</div>
           </div>
 
           <div className="mt-16">

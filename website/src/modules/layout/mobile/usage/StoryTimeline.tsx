@@ -25,6 +25,21 @@ export const StoryTimeline: React.VFC = () => {
         imgSrc2="/images/mobile/pwa/4 - app list.jpg"
         inverted
       />
+
+      <Row
+        title={t('usage.steps.share.title')}
+        text={t('usage.steps.share.text')}
+        imgSrc1="/images/mobile/pwa/5 - share menu.jpg"
+        imgSrc2="/images/mobile/pwa/6 - share to disclave.jpg"
+      />
+
+      <Row
+        title={t('usage.steps.result.title')}
+        text={t('usage.steps.result.text')}
+        imgSrc1="/images/mobile/pwa/7 - view in disclave.jpg"
+        imgSrc2="/images/mobile/pwa/8 - quick share.jpg"
+        inverted
+      />
     </div>
   );
 };
