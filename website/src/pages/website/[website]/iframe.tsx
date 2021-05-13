@@ -4,6 +4,9 @@ import { CommentModel } from '@disclave/client';
 import { getCommentService, getUserCookie } from '@disclave/server';
 import { initServer } from '@/modules/server';
 import { WebsiteIframePage } from '@/modules/layout/website/iframe';
+import { NextSeo } from 'next-seo';
+import { domain } from '@/consts';
+import { websiteHref } from '.';
 
 export const websiteIframeHref = (url: string) => `/website/${url}/iframe/`;
 
@@ -30,7 +33,12 @@ interface IFrameProps {
   website: string;
 }
 
-const Index: React.FC<IFrameProps> = (props) => {
-  return <WebsiteIframePage website={props.website} comments={props.comments} />;
+const IFrame: React.FC<IFrameProps> = (props) => {
+  return (
+    <>
+      <NextSeo canonical={domain + websiteHref(props.website)} />
+      <WebsiteIframePage website={props.website} comments={props.comments} />
+    </>
+  );
 };
-export default Index;
+export default IFrame;
