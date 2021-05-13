@@ -3,6 +3,22 @@
     "header": "Disclave on your device",
     "text": "While browsing the Internet on a mobile device, you don't have to copy the website URL and manually navigate to the Disclave to view or add comments!\n\nInstall Disclave on your device and use the \"share\" menu to view opinions from other users and share your thoughts."
   },
+  "usage": {
+    "title": "How does it work?",
+    "intro": "Here we will show you how it works on an Android device using the Chrome web browser. It may be slightly different on a different device or with other browsers, but the overall experience should be similar.",
+    "steps": {
+      "install": {
+        "title": "Install",
+        "text": "When visiting the Disclave website, a browser may suggest adding Disclave to the Home screen. It is the fastest way to install the app, but you can also open the browser menu and manually select \"Install app\"."
+      },
+      "use app": {
+        "title": "Use",
+        "text": "After confirming installation, Disclave should be visible on your applications list, similar to other applications installed on the device. From now you will be able to quickly access our app and use it just like any other application. "
+      }
+    },
+    "share": "If you are browsing the Internet and want to view or add comments for the opened website, you can use the \"Share...\" option from the browser menu. Select the Disclave from the available applications list to navigate to the comments list.",
+    "share result": "Sharing with Disclave opens our application with the URL that you have selected. It is really easy to use! And if you are using this method frequently, your browser may start suggesting to use Disclave for sharing, making the whole process even easier!"
+  },
   "pwa": {
     "info": "This feature requires a browser that supports a PWA. If it is not working on your device, please let us know, and we will verify how to enable this functionality for you!",
     "learn more": "Learn more about Progressive Web Apps"
