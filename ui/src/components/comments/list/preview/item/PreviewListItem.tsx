@@ -46,7 +46,7 @@ export const PreviewListItem: React.VFC<PreviewListItemProps> = (props) => {
   );
 
   return (
-    <LinkBox href={detailsHref}>
+    <LinkBox className="px-2 py-1" href={detailsHref}>
       <CommentWebsiteInfo urlMeta={props.comment.urlMeta} />
 
       <div className="mb-0.5">

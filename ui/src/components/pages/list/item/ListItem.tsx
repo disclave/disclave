@@ -21,7 +21,7 @@ export const ListItem: React.VFC<ListItemProps> = ({ page, hrefBuilder }) => {
   );
 
   return (
-    <LinkBox href={href}>
+    <LinkBox className="px-2 py-1" href={href}>
       <div className="text-sm font-semibold truncate">{page.websiteId}</div>
       <div className="truncate mb-0.5">
         {decodedPath}

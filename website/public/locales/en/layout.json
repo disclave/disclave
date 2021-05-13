@@ -6,7 +6,8 @@
       "top commented pages": "Top commented pages",
       "latest comments": "Latest comments",
       "plugins": "Plugins",
-      "extensions": "Extensions"
+      "extensions": "Extensions",
+      "mobile": "Mobile"
     },
     "auth": {
       "buttons": {
@@ -20,6 +21,7 @@
       "home": "Home",
       "plugins": "Plugins",
       "extensions": "Extensions",
+      "mobile": "Mobile",
       "top comments": "Top comments",
       "top commented pages": "Top commented pages",
       "latest comments": "Latest comments"

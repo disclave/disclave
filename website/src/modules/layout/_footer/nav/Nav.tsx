@@ -7,6 +7,7 @@ import { latestCommentsHref } from '@/pages/comments/latest';
 import { pluginsHref } from '@/pages/plugins';
 import { extensionsHref } from '@/pages/extensions';
 import { topCommentedPagesHref } from '@/pages/pages/top-commented';
+import { mobileHref } from '@/pages/mobile';
 
 export const Nav: React.VFC = () => {
   const { t } = useTranslation('layout');
@@ -19,6 +20,7 @@ export const Nav: React.VFC = () => {
             <NavItem href={homeHref()} text={t('footer.nav.home')} />
             <NavItem href={pluginsHref()} text={t('footer.nav.plugins')} />
             <NavItem href={extensionsHref()} text={t('footer.nav.extensions')} />
+            <NavItem href={mobileHref()} text={t('footer.nav.mobile')} />
           </ul>
         </div>
         <div>

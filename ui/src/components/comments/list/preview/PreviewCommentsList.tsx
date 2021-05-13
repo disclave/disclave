@@ -5,7 +5,6 @@ import {
   CommentUrlMeta,
 } from "@/components/comments/CommentModel";
 import { useTranslation } from "@/i18n";
-import classNames from "classnames";
 import { PreviewListItem } from "@/components/comments/list/preview/item";
 
 export interface PreviewCommentsListProps {
@@ -29,10 +28,8 @@ export const PreviewCommentsList: React.VFC<PreviewCommentsListProps> = ({
     return <div className="p-8 text-gray-500">{t("list.empty.text")}</div>;
   }
 
-  const containerClasses = classNames("space-y-3", className);
-
   return (
-    <div className={containerClasses}>
+    <div className={className}>
       {comments.map((c) => (
         <PreviewListItem
           key={c.id}

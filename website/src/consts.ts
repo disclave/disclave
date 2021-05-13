@@ -9,6 +9,8 @@ export const reactPluginHref = 'https://www.npmjs.com/package/@disclave/react-pl
 export const chromeExtensionHref =
   'https://chrome.google.com/webstore/detail/disclave/flpmkapcnkmddagllidpplfimllamjbc';
 
+export const pwaWebsite = "https://web.dev/progressive-web-apps/";
+
 // TODO: modify to use translations
 // TODO: verify openGraph and twitter
 export const SEO = {

@@ -2,8 +2,8 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { GetServerSideProps } from 'next';
 import React from 'react';
 import { initServer } from '@/modules/server';
-import { getCommentService, getUserCookie } from '@disclave/server';
-import { CommentModel } from '@disclave/client';
+import { getCommentService, getPageService, getUserCookie } from '@disclave/server';
+import { CommentModel, PageModel } from '@disclave/client';
 import { HomePage } from '@/modules/layout/home';
 
 export const homeHref = () => '/';
@@ -11,27 +11,49 @@ export const homeHref = () => '/';
 export const getServerSideProps: GetServerSideProps<HomeProps> = async (context) => {
   await initServer();
   const userCookie = getUserCookie(context.req);
-  const service = getCommentService();
+  const commentService = getCommentService();
+  const pageService = getPageService();
 
   const topMinVoteSum = 1;
+  const topCommentsLimit = 5;
   const latestMinVoteSum = 1;
-  const commentsLimit = 5;
+  const latestCommentsLimit = 6;
 
-  const topCommentsPromise = service.getTopComments(topMinVoteSum, commentsLimit, userCookie?.uid);
-  const latestCommentsPromise = service.getLatestComments(
-    latestMinVoteSum,
-    commentsLimit,
+  const topCommentsPromise = commentService.getTopComments(
+    topMinVoteSum,
+    topCommentsLimit,
     userCookie?.uid
   );
+  const latestCommentsPromise = commentService.getLatestComments(
+    latestMinVoteSum,
+    latestCommentsLimit,
+    userCookie?.uid
+  );
+
+  const topCommentedMinVoteSum = 1;
+  const pagesLimit = 7;
+  const topCommentedPagesPromise = pageService.getTopCommentedPages(
+    topCommentedMinVoteSum,
+    pagesLimit
+  );
+
   const translationsPromise = serverSideTranslations(context.locale, ['common', 'home', 'layout']);
 
   return {
     props: {
-      commentsLimit: commentsLimit,
-      topComments: await topCommentsPromise,
-      topMinVoteSum: topMinVoteSum,
-      latestComments: await latestCommentsPromise,
-      latestMinVoteSum: latestMinVoteSum,
+      topComments: {
+        comments: await topCommentsPromise,
+        limit: topCommentsLimit,
+        minVoteSum: topMinVoteSum
+      },
+      topCommentedPages: {
+        pages: await topCommentedPagesPromise
+      },
+      latestComments: {
+        comments: await latestCommentsPromise,
+        limit: latestCommentsLimit,
+        minVoteSum: latestMinVoteSum
+      },
       serverSideUid: userCookie ? userCookie.uid : null,
       ...(await translationsPromise)
     }
@@ -39,21 +61,27 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (context)
 };
 
 interface HomeProps {
-  commentsLimit: number;
-  topComments: Array<CommentModel>;
-  topMinVoteSum: number;
-  latestComments: Array<CommentModel>;
-  latestMinVoteSum: number;
+  topComments: {
+    comments: Array<CommentModel>;
+    limit: number;
+    minVoteSum: number;
+  };
+  topCommentedPages: {
+    pages: Array<PageModel>;
+  };
+  latestComments: {
+    comments: Array<CommentModel>;
+    limit: number;
+    minVoteSum: number;
+  };
 }
 
 const Home: React.VFC<HomeProps> = (props) => {
   return (
     <HomePage
-      commentsLimit={props.commentsLimit}
       topComments={props.topComments}
-      topMinVoteSum={props.topMinVoteSum}
+      topCommentedPages={props.topCommentedPages}
       latestComments={props.latestComments}
-      latestMinVoteSum={props.latestMinVoteSum}
     />
   );
 };
