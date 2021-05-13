@@ -8,6 +8,7 @@ import { topCommentsHref } from '@/pages/comments/top';
 import { pluginsHref } from '@/pages/plugins';
 import { extensionsHref } from '@/pages/extensions';
 import { topCommentedPagesHref } from '@/pages/pages/top-commented';
+import { mobileHref } from '@/pages/mobile';
 
 export interface NavBarProps {
   toggleState: boolean;
@@ -34,6 +35,7 @@ export const NavBar: React.VFC<NavBarProps> = ({ toggleState }) => {
         <NavItem href={latestCommentsHref()} text={t('header.main nav.latest comments')} />
         <NavItem href={pluginsHref()} text={t('header.main nav.plugins')} />
         <NavItem href={extensionsHref()} text={t('header.main nav.extensions')} />
+        <NavItem href={mobileHref()} text={t('header.main nav.mobile')} />
       </ul>
     </nav>
   );
