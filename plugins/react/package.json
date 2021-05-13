@@ -1,6 +1,6 @@
 {
   "name": "@disclave/react-plugin",
-  "description": "Disclave React plugin",
+  "description": "Disclave React plugin - display and add comments directly from your website",
   "version": "0.3.0",
   "private": false,
   "main": "dist/index.cjs.js",
@@ -40,5 +40,13 @@
   "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "bugs": {
+    "url": "https://github.com/disclave/disclave/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/disclave/disclave.git",
+    "directory": "plugins/react"
   }
 }
