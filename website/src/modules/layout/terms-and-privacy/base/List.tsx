@@ -1,5 +1,11 @@
+import classNames from 'classnames';
 import React from 'react';
 
-export const List: React.FC = ({ children }) => {
-  return <ul className="list-disc pb-4">{children}</ul>;
+export interface ListProps {
+  decimal?: boolean;
+}
+
+export const List: React.FC<ListProps> = ({ children, decimal }) => {
+  const className = classNames('pb-4', decimal ? 'list-decimal' : 'list-disc');
+  return <ul className={className}>{children}</ul>;
 };
