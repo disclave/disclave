@@ -1,5 +1,5 @@
 import React from 'react';
-import { Anchor, List, ListItem, Paragraph, T1, T2, T3, T4 } from '../base';
+import { Anchor, Paragraph, T1, T2, T3 } from '../base';
 
 export const CookiePolicyText: React.VFC = () => {
   return (

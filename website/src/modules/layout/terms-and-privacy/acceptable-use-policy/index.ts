@@ -1,0 +1,1 @@
+export { AcceptableUsePolicyText } from './AcceptableUsePolicyText';
