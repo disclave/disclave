@@ -1,5 +1,5 @@
 import React from 'react';
-import { Anchor, List, ListItem, Paragraph, T1, T2, T3, T4 } from '../base';
+import { Anchor, List, ListItem, Paragraph, T1, T2 } from '../base';
 
 export const TermsOfServiceText: React.VFC = () => {
   return (
