@@ -36,6 +36,10 @@
         "reddit": "Visit Disclave on Reddit"
       }
     },
-    "copyright": "© 2021 Disclave"
+    "copyright": "© 2021 Disclave",
+    "legal": {
+      "terms of service": "Terms of Service",
+      "privacy policy": "Privacy Policy"
+    }
   }
 }
