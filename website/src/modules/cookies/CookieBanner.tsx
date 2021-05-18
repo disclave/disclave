@@ -1,19 +1,37 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation, Trans } from 'next-i18next';
 import { Button } from '@disclave/ui';
 import Link from 'next/link';
 import { cookiePolicyHref } from '@/pages/cookie-policy';
 
+const lsCookieItem = 'cookies-accepted';
+
 export const CookieBanner: React.VFC = () => {
+  const [visible, setVisible] = useState(true);
   const { t } = useTranslation('layout');
+
+  useEffect(() => {
+    if (!localStorage) {
+      setVisible(false);
+      return;
+    }
+
+    const val = localStorage.getItem(lsCookieItem);
+    if (val == 'true') setVisible(false);
+  }, []);
+
+  const onBtnClick = () => {
+    localStorage.setItem(lsCookieItem, 'true');
+    setVisible(false);
+  };
+
+  if (!visible) return null;
 
   const CookieLink: React.FC = ({ children }) => (
     <Link href={cookiePolicyHref()}>
       <a className="text-primary hover:underline">{children}</a>
     </Link>
   );
-
-  const onBtnClick = () => {};
 
   return (
     <div className="fixed bottom-0 w-screen bg-white bg-opacity-90 p-3 shadow border-t-2">
@@ -23,7 +41,7 @@ export const CookieBanner: React.VFC = () => {
             Information with <CookieLink>link</CookieLink>
           </Trans>
         </div>
-        <div className="mx-4 my-2">
+        <div className="mx-4 my-2 lg:my-0">
           <Button outlined onClick={onBtnClick}>
             {t('cookie banner.confirm btn')}
           </Button>
