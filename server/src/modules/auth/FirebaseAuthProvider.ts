@@ -20,6 +20,7 @@ export class FirebaseAuthProvider implements AuthProvider {
     return {
       uid: asUserId(token.uid),
       email: token.email ? asEmail(token.email) : null,
+      emailVerified: !!token.email_verified,
     };
   }
 

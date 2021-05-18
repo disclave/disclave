@@ -10,6 +10,7 @@ export const asEmail = (value: string) => value as Email;
 export interface DecodedIdToken {
   uid: UserId;
   email: Email | null;
+  emailVerified: boolean;
 }
 
 export interface UserCookieContent {

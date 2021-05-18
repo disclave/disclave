@@ -13,3 +13,6 @@ export const UsernameTaken = (message: string) =>
 
 export const ProfileAlreadyExists = (message: string) =>
   new ApolloError(message, "profile/already-exists");
+
+export const ProfileEmailNotVerified = (message: string) =>
+  new ApolloError(message, "profile/email-not-verified");

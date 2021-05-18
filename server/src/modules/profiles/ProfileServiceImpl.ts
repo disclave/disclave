@@ -4,24 +4,34 @@ import { ProfileRepository, ProfileEntity } from "./db";
 import { inject, injectable } from "inversify";
 import {
   ProfileAlreadyExists,
+  ProfileEmailNotVerified,
   UsernameInvalidCharacters,
   UsernameMaxLength,
   UsernameMinLength,
   UsernameNotAllowed,
   UsernameTaken,
 } from "./exceptions";
-import { UserId } from "@/modules/auth";
+import { AuthProvider, IdToken, UserId } from "@/modules/auth";
 
 @injectable()
 export class ProfileServiceImpl implements ProfileService {
   @inject(ProfileRepository)
   private repository: ProfileRepository;
 
-  public async createProfile(uid: UserId, name: string): Promise<Profile> {
+  @inject(AuthProvider)
+  private authProvider: AuthProvider;
+
+  public async createProfile(idToken: IdToken, name: string): Promise<Profile> {
     validateUserName(name);
 
+    const user = await this.authProvider.verifyIdToken(idToken, true);
+    if (!user.emailVerified)
+      throw ProfileEmailNotVerified(
+        "Email address must be verified before creating a profile."
+      );
+
     await this.repository.runTransaction(async (t) => {
-      if (await this.repository.getProfile(uid))
+      if (await this.repository.getProfile(user.uid))
         throw ProfileAlreadyExists(
           "Your profile already exists. Can not create it again."
         );
@@ -32,7 +42,7 @@ export class ProfileServiceImpl implements ProfileService {
         );
 
       await this.repository.createProfile(
-        uid,
+        user.uid,
         {
           name: name,
         },
@@ -40,7 +50,7 @@ export class ProfileServiceImpl implements ProfileService {
       );
     });
 
-    return await this.repository.getProfile(uid);
+    return await this.repository.getProfile(user.uid);
   }
 
   public async getProfile(uid: UserId): Promise<Profile | null> {
