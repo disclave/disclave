@@ -12,6 +12,12 @@ export interface FooterProps {}
 export const Footer: React.VFC<FooterProps> = (props) => {
   const { t } = useTranslation('layout');
 
+  const LegalLink: React.FC<{ href: string }> = ({ children, href }) => (
+    <Link href={href}>
+      <a className="hover:underline">{children}</a>
+    </Link>
+  );
+
   return (
     <footer className="bg-gray-900 text-white px-8">
       <div className="container mx-auto pt-20 pb-16">
@@ -25,17 +31,11 @@ export const Footer: React.VFC<FooterProps> = (props) => {
         </div>
         <div className="pt-8 text-gray-400 text-sm">{t('footer.copyright')}</div>
         <div className="text-gray-200">
-          <Link href={termsOfServiceHref()}>
-            <a className="hover:underline">{t('footer.legal.terms of service')}</a>
-          </Link>
+          <LegalLink href={termsOfServiceHref()}>{t('footer.legal.terms of service')}</LegalLink>
           <span> / </span>
-          <Link href={privacyPolicyHref()}>
-            <a className="hover:underline">{t('footer.legal.privacy policy')}</a>
-          </Link>
+          <LegalLink href={privacyPolicyHref()}>{t('footer.legal.privacy policy')}</LegalLink>
           <span> / </span>
-          <Link href={cookiePolicyHref()}>
-            <a className="hover:underline">{t('footer.legal.cookie policy')}</a>
-          </Link>
+          <LegalLink href={cookiePolicyHref()}>{t('footer.legal.cookie policy')}</LegalLink>
         </div>
       </div>
     </footer>
