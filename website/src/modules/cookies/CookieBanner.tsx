@@ -7,12 +7,17 @@ import { useSession } from '@disclave/client';
 
 const lsCookieItem = 'cookies-accepted';
 
-export const CookieBanner: React.VFC = () => {
+export interface CookieBannerProps {
+  hidden?: boolean;
+}
+
+export const CookieBanner: React.VFC<CookieBannerProps> = ({ hidden }) => {
   const { isAuthenticated, isLoading } = useSession();
   const [visible, setVisible] = useState(false);
   const { t } = useTranslation('layout');
 
   useEffect(() => {
+    if (hidden) return;
     if (isLoading) return;
     if (isAuthenticated || !localStorage) return;
 
@@ -34,7 +39,7 @@ export const CookieBanner: React.VFC = () => {
   );
 
   return (
-    <div className="fixed bottom-0 w-screen bg-white bg-opacity-90 p-3 shadow border-t-2">
+    <div className="fixed bottom-0 w-screen bg-white bg-opacity-90 p-3 shadow border-t-2 z-50">
       <div className="mx-auto w-max max-w-full flex flex-col lg:flex-row items-center">
         <div>
           <Trans t={t} i18nKey="cookie banner.information with link">

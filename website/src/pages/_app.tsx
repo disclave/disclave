@@ -50,7 +50,7 @@ const Disclave = ({ Component, pageProps }) => {
         isIframe={pageProps.iframe}>
         <Component {...pageProps} />
 
-        <CookieBanner />
+        <CookieBanner hidden={pageProps.iframe} />
       </SessionProvider>
     </>
   );
