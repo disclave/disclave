@@ -3,22 +3,22 @@ import { useTranslation, Trans } from 'next-i18next';
 import { Button } from '@disclave/ui';
 import Link from 'next/link';
 import { cookiePolicyHref } from '@/pages/cookie-policy';
+import { useSession } from '@disclave/client';
 
 const lsCookieItem = 'cookies-accepted';
 
 export const CookieBanner: React.VFC = () => {
-  const [visible, setVisible] = useState(true);
+  const { isAuthenticated, isLoading } = useSession();
+  const [visible, setVisible] = useState(false);
   const { t } = useTranslation('layout');
 
   useEffect(() => {
-    if (!localStorage) {
-      setVisible(false);
-      return;
-    }
+    if (isLoading) return;
+    if (isAuthenticated || !localStorage) return;
 
     const val = localStorage.getItem(lsCookieItem);
-    if (val == 'true') setVisible(false);
-  }, []);
+    if (val != 'true') setVisible(true);
+  }, [isAuthenticated, isLoading]);
 
   const onBtnClick = () => {
     localStorage.setItem(lsCookieItem, 'true');
