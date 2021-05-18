@@ -16,12 +16,12 @@ export const pwaWebsite = "https://web.dev/progressive-web-apps/";
 // TODO: modify to use translations
 // TODO: verify openGraph and twitter
 export const SEO = {
-  title: 'Disclave',
-  description: 'Use Disclave to comment on any website on the internet!',
+  title: 'Disclave - discuss any content on the internet',
+  description: 'Disclave is a platform that allows you to comment on any content on the internet. Share your opinion, browse popular websites, share your favorite content, build the community.',
   openGraph: {
     url: 'https://disclave.com/',
-    title: 'Disclave',
-    description: 'Use Disclave to comment on any website on the internet!',
+    title: 'Disclave - discuss any content on the internet',
+    description: 'Disclave is a platform that allows you to comment on any content on the internet. Share your opinion, browse popular websites, share your favorite content, build the community.',
     images: [
       {
         url: 'https://disclave.com/logo/base_logo_white_3125x1875.png',

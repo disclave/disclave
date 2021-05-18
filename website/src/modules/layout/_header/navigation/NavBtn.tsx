@@ -14,7 +14,7 @@ export const NavBtn: React.VFC<NavBtnProps> = ({ className, navExtended, onClick
 
   return (
     <button onClick={onClick} className={classes}>
-      <FontAwesomeIcon icon={navExtended ? faTimes : faBars} />
+      <FontAwesomeIcon icon={navExtended ? faTimes : faBars} title="Toggle navigation" />
     </button>
   );
 };
