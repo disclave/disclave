@@ -1,12 +1,16 @@
 import { ProfileService } from "@/modules/profiles";
 import { Container } from "inversify";
-import { asUserId, AuthProvider } from "@/modules/auth";
-import { AuthProviderMock } from "../../mocks/AuthProviderMock";
+import { asUserId, asIdToken, AuthProvider } from "@/modules/auth";
+import {
+  AuthProviderMock,
+  emailNotVerifiedIdToken,
+  revokedIdToken,
+} from "../../mocks/AuthProviderMock";
 import { ProfileRepository } from "@/modules/profiles/db";
 import { ProfileRepositoryMock } from "../../mocks/ProfileRepositoryMock";
 import { ProfileServiceImpl } from "@/modules/profiles/ProfileServiceImpl";
 
-describe("Testing UserService", () => {
+describe("Testing ProfileService", () => {
   const container = new Container();
 
   container.bind(AuthProvider).to(AuthProviderMock);
@@ -20,10 +24,11 @@ describe("Testing UserService", () => {
   });
 
   test("should create new user profile", async () => {
+    const idToken = asIdToken("user-id");
     const userId = asUserId("user-id");
     const name = "User_Name";
 
-    const insertResult = await service.createProfile(userId, name);
+    const insertResult = await service.createProfile(idToken, name);
     const findResult = await service.getProfile(userId);
 
     expect(insertResult.name).toEqual(name);
@@ -31,43 +36,61 @@ describe("Testing UserService", () => {
   });
 
   test("should not create user profile if already exists", async () => {
-    const userId = asUserId("user-id");
+    const idToken = asIdToken("user-id");
     const name = "User_Name";
 
-    await service.createProfile(userId, name);
+    await service.createProfile(idToken, name);
 
     await expect(async () => {
-      await service.createProfile(userId, name);
+      await service.createProfile(idToken, name);
+    }).rejects.toThrow();
+  });
+
+  test("should not create user profile if id token revoked", async () => {
+    const idToken = revokedIdToken;
+    const name = "User_Name";
+
+    expect(async () => {
+      await service.createProfile(idToken, name);
+    }).rejects.toBeTruthy();
+  });
+
+  test("should not create user profile if email not verified", async () => {
+    const idToken = emailNotVerifiedIdToken;
+    const name = "User_Name";
+
+    await expect(async () => {
+      await service.createProfile(idToken, name);
     }).rejects.toThrow();
   });
 
   test("should not create user profile with duplicated names", async () => {
-    const userId1 = asUserId("user-id-1");
-    const userId2 = asUserId("user-id-2");
+    const idToken1 = asIdToken("user-id-1");
+    const idToken2 = asIdToken("user-id-2");
 
     const name1 = "User_Name";
     const name2 = "useR_naMe";
 
-    await service.createProfile(userId1, name1);
+    await service.createProfile(idToken1, name1);
 
     await expect(async () => {
-      await service.createProfile(userId2, name2);
+      await service.createProfile(idToken2, name2);
     }).rejects.toThrow();
   });
 
   test("should not create user profile with white space", async () => {
-    const userId = asUserId("user-id");
+    const idToken = asIdToken("user-id");
     const wsNames = [" User_Name", "User Name", "User_Name "];
 
     for (let name in wsNames) {
       await expect(async () => {
-        await service.createProfile(userId, name);
+        await service.createProfile(idToken, name);
       }).rejects.toThrow();
     }
   });
 
   test("should not create user profile with special characters", async () => {
-    const userId = asUserId("user-id");
+    const idToken = asIdToken("user-id");
     const sc = [
       "~",
       "`",
@@ -104,13 +127,13 @@ describe("Testing UserService", () => {
 
     for (let c in sc) {
       await expect(async () => {
-        await service.createProfile(userId, "N" + c);
+        await service.createProfile(idToken, "N" + c);
       }).rejects.toThrow();
     }
   });
 
   test("should not create user profile with forbidden word in name", async () => {
-    const userId = asUserId("user-id");
+    const idToken = asIdToken("user-id");
     const forbiddenNames = [
       "userAdmiName",
       "ThisIsDisclave",
@@ -121,7 +144,7 @@ describe("Testing UserService", () => {
 
     for (let name in forbiddenNames) {
       await expect(async () => {
-        await service.createProfile(userId, name);
+        await service.createProfile(idToken, name);
       }).rejects.toThrow();
     }
   });
