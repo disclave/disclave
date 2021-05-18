@@ -3,12 +3,15 @@ import { GoogleBtn } from "@/components/auth/social";
 import { RegisterEmailPassForm } from "./form";
 import { useTranslation } from "@/i18n";
 import { FacebookBtn } from "@/components/auth/social/FacebookBtn";
+import { PolicyInfo } from "../policy";
 
 export interface RegisterMethodSelectProps {
   onRegisterEmailPass: (email: string, password: string) => Promise<void>;
   onRegisterFacebook: () => Promise<void>;
   onRegisterGoogle: () => Promise<void>;
   loginHref: string;
+  usePolicyHref: string;
+  privacyPolicyHref: string;
 }
 
 export const RegisterMethodSelect: React.VFC<RegisterMethodSelectProps> = (
@@ -18,6 +21,10 @@ export const RegisterMethodSelect: React.VFC<RegisterMethodSelectProps> = (
 
   return (
     <div>
+      <PolicyInfo
+        privacyPolicyHref={props.privacyPolicyHref}
+        usePolicyHref={props.usePolicyHref}
+      />
       <div className="flex flex-row justify-center space-x-2">
         <GoogleBtn onClick={props.onRegisterGoogle} />
         <FacebookBtn onClick={props.onRegisterFacebook} />

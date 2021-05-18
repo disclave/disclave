@@ -19,6 +19,8 @@ const Template: Story<LoginFormContainerProps> = (args) => (
 export const Default = Template.bind({});
 Default.args = {
   userProfile: null,
+  usePolicyHref: 'https://disclave.com/acceptable-use-policy',
+  privacyPolicyHref: 'https://disclave.com/privacy-policy'
 };
 
 export const Loading = Template.bind({});

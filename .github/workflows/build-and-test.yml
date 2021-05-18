@@ -35,5 +35,7 @@ jobs:
         MJ_API_KEY: mjapikey
         MJ_API_SECRET: mjapisecret
         MJ_TEMPLATE_EMAIL_VERIFICATION: 0
+        PRIVACY_POLICY: http://example.com/privacy-policy
+        ACCEPTABLE_USE_POLICY: http://example.com/acceptable-use-policy
     - run: yarn test
 

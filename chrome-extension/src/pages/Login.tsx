@@ -6,6 +6,7 @@ import { homeHref } from "./Home";
 import { registerHref } from "./Register";
 import { MessageType, sendMessage } from "../messages";
 import { useEffect } from "react";
+import { acceptableUsePolicy, privacyPolicy } from "../config";
 
 export const loginHref = "/login";
 
@@ -47,6 +48,8 @@ export const Login = () => {
         onLoginFacebook={onFacebookLogin}
         onLoginGoogle={onGoogleLogin}
         registerHref={registerHref}
+        privacyPolicyHref={privacyPolicy}
+        usePolicyHref={acceptableUsePolicy}
         userProfile={profile}
       />
     </div>

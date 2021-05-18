@@ -5,6 +5,7 @@ import { register, useSession } from "@disclave/client";
 import { homeHref } from "./Home";
 import { loginHref } from "./Login";
 import { MessageType, sendMessage } from "../messages";
+import { privacyPolicy, acceptableUsePolicy } from "../config";
 
 export const registerHref = "/register";
 
@@ -52,6 +53,8 @@ export const Register = () => {
         onCreateUsername={onCreateUsername}
         onLogout={onLogout}
         loginHref={loginHref}
+        privacyPolicyHref={privacyPolicy}
+        usePolicyHref={acceptableUsePolicy}
         onSendEmailVerification={onSendEmailVerification}
       />
     </div>

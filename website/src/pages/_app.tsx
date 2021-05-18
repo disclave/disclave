@@ -12,6 +12,7 @@ import React, { useEffect } from 'react';
 import { swOnLoadEventListener } from '@/modules/sw';
 import { useAnalytics } from '@/modules/analytics';
 import { SessionProvider } from '@disclave/client';
+import { CookieBanner } from '@/modules/cookies';
 
 config.autoAddCss = false;
 
@@ -48,6 +49,8 @@ const Disclave = ({ Component, pageProps }) => {
         manageAuthCookie={true}
         isIframe={pageProps.iframe}>
         <Component {...pageProps} />
+
+        <CookieBanner hidden={pageProps.iframe} />
       </SessionProvider>
     </>
   );

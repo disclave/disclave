@@ -12,6 +12,8 @@ export interface LoginFormContainerProps {
   onLoginFacebook: () => Promise<void>;
   onLoginGoogle: () => Promise<void>;
   registerHref: string;
+  usePolicyHref: string;
+  privacyPolicyHref: string;
   userProfile?: UserProfileModel | null;
 }
 
@@ -32,6 +34,8 @@ export const LoginFormContainer: React.VFC<LoginFormContainerProps> = (
             onLoginFacebook={props.onLoginFacebook}
             onLoginGoogle={props.onLoginGoogle}
             registerHref={props.registerHref}
+            privacyPolicyHref={props.privacyPolicyHref}
+            usePolicyHref={props.usePolicyHref}
           />
         );
       case State.USER_INFO:

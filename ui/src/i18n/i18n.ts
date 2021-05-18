@@ -23,3 +23,5 @@ i18n.init((err) => {
 
 export const changeLanguage = (locale: string) => i18n.changeLanguage(locale);
 export const getLanguage = (): string => i18n.language;
+
+export { Trans } from "react-i18next";

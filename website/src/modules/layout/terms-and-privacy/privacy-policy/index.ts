@@ -1,0 +1,1 @@
+export {PrivacyPolicyText} from "./PrivacyPolicyText"

@@ -13,6 +13,8 @@ import { redirectParamsToUrl, routerQueryToRedirectParams } from '@/modules/redi
 import { RegisterFormContainer } from '@disclave/ui';
 import { Layout } from '@/modules/layout';
 import { loginHref } from '@/pages/auth/login';
+import { privacyPolicyHref } from '@/pages/privacy-policy';
+import { acceptableUsePolicyHref } from '@/pages/acceptable-use-policy';
 
 export const RegisterPage: React.VFC = () => {
   const {
@@ -86,6 +88,8 @@ export const RegisterPage: React.VFC = () => {
           onCreateUsername={onCreateUsername}
           onLogout={onLogout}
           loginHref={loginHrefWithRedirect}
+          privacyPolicyHref={privacyPolicyHref()}
+          usePolicyHref={acceptableUsePolicyHref()}
           onSendEmailVerification={onSendEmailVerification}
         />
       </section>

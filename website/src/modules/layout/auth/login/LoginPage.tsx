@@ -13,6 +13,8 @@ import {
   SessionMessage,
   useSession
 } from '@disclave/client';
+import { privacyPolicyHref } from '@/pages/privacy-policy';
+import { acceptableUsePolicyHref } from '@/pages/acceptable-use-policy';
 
 export const LoginPage: React.VFC = () => {
   const {
@@ -78,6 +80,8 @@ export const LoginPage: React.VFC = () => {
           onLoginFacebook={onFacebookLogin}
           onLoginGoogle={onGoogleLogin}
           registerHref={registerHrefWithRedirect}
+          privacyPolicyHref={privacyPolicyHref()}
+          usePolicyHref={acceptableUsePolicyHref()}
           userProfile={profile}
         />
       </section>

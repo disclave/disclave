@@ -18,6 +18,8 @@ export interface RegisterFormContainerProps {
   onCreateUsername: (name: string) => Promise<void>;
   onLogout: () => Promise<void>;
   loginHref: string;
+  usePolicyHref: string;
+  privacyPolicyHref: string;
 }
 
 export const RegisterFormContainer: React.VFC<RegisterFormContainerProps> = (
@@ -44,6 +46,8 @@ export const RegisterFormContainer: React.VFC<RegisterFormContainerProps> = (
             onRegisterFacebook={props.onRegisterFacebook}
             onRegisterGoogle={props.onRegisterGoogle}
             loginHref={props.loginHref}
+            privacyPolicyHref={props.privacyPolicyHref}
+            usePolicyHref={props.usePolicyHref}
           />
         );
       case State.EMAIL_VERIFICATION:
