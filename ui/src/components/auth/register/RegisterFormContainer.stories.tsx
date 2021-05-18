@@ -24,6 +24,8 @@ export const Default = Template.bind({});
 Default.args = {
   loading: false,
   user: null,
+  usePolicyHref: 'https://disclave.com/acceptable-use-policy',
+  privacyPolicyHref: 'https://disclave.com/privacy-policy'
 };
 
 export const EmailVerification = Template.bind({});

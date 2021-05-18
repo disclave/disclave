@@ -3,12 +3,15 @@ import { GoogleBtn } from "@/components/auth/social";
 import { LoginForm } from "@/components/auth/login/form";
 import { useTranslation } from "@/i18n";
 import { FacebookBtn } from "@/components/auth/social/FacebookBtn";
+import { PolicyInfo } from "../policy";
 
 export interface LoginMethodSelectProps {
   onLogin: (email: string, password: string) => Promise<void>;
   onLoginFacebook: () => Promise<void>;
   onLoginGoogle: () => Promise<void>;
   registerHref: string;
+  usePolicyHref: string;
+  privacyPolicyHref: string;
 }
 
 export const LoginMethodSelect: React.VFC<LoginMethodSelectProps> = (props) => {
@@ -16,6 +19,10 @@ export const LoginMethodSelect: React.VFC<LoginMethodSelectProps> = (props) => {
 
   return (
     <div>
+      <PolicyInfo
+        privacyPolicyHref={props.privacyPolicyHref}
+        usePolicyHref={props.usePolicyHref}
+      />
       <div className="flex flex-row justify-center space-x-2">
         <GoogleBtn onClick={props.onLoginGoogle} />
         <FacebookBtn onClick={props.onLoginFacebook} />
