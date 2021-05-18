@@ -10,7 +10,7 @@ export interface FacebookBtnProps {
 export const FacebookBtn: React.VFC<FacebookBtnProps> = (props) => {
   return (
     <Button icon flat disabled={props.disabled} onClick={props.onClick}>
-      <img src={facebookIcon} alt="" className="w-12 h-12 p-1" />
+      <img src={facebookIcon} alt="Sign in with Facebook" className="w-12 h-12 p-1" />
     </Button>
   );
 };

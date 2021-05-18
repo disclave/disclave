@@ -10,7 +10,7 @@ export interface GoogleBtnProps {
 export const GoogleBtn: React.VFC<GoogleBtnProps> = (props) => {
   return (
     <Button icon flat disabled={props.disabled} onClick={props.onClick}>
-      <img src={btnNormal} alt="" className="w-12 h-12" />
+      <img src={btnNormal} alt="Sign in with Google" className="w-12 h-12" />
     </Button>
   );
 };
