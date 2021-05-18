@@ -12,7 +12,7 @@ import React, { useEffect } from 'react';
 import { swOnLoadEventListener } from '@/modules/sw';
 import { useAnalytics } from '@/modules/analytics';
 import { SessionProvider } from '@disclave/client';
-import { CookieBanner } from '@/modules/cookies/CookieBanner';
+import { CookieBanner } from '@/modules/cookies';
 
 config.autoAddCss = false;
 
