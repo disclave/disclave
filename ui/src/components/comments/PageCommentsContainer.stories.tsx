@@ -21,7 +21,7 @@ const exampleComments = RandomCommentsList(50).sort(
 );
 
 export default {
-  title: "Comments",
+  title: "Comments/Comments container",
   component: PageCommentsContainer,
 };
 
@@ -78,3 +78,14 @@ Empty.args = {
   className: "max-h-56",
   commentsActionsHandler: EmptyActionHandler,
 };
+
+
+export const InputTopEmpty = Template.bind({});
+InputTopEmpty.args = {
+  userProfile: ExampleUserProfile,
+  comments: [],
+  inputTop: true,
+  className: "max-h-56",
+  commentsActionsHandler: EmptyActionHandler,
+};
+

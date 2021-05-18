@@ -17,3 +17,22 @@ export const Default = Template.bind({});
 Default.args = {
   userProfile: ExampleUserProfile,
 };
+
+export const Top = Template.bind({});
+Top.args = {
+  userProfile: ExampleUserProfile,
+  top: true,
+};
+
+export const Left = Template.bind({});
+Left.args = {
+  userProfile: ExampleUserProfile,
+  left: true,
+};
+
+export const TopLeft = Template.bind({});
+TopLeft.args = {
+  userProfile: ExampleUserProfile,
+  top: true,
+  left: true,
+};

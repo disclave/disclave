@@ -22,7 +22,11 @@ export const PageCommentsList: React.VFC<PageCommentsListProps> = ({
   const { t } = useTranslation("comments");
 
   if (!comments.length) {
-    return <div className="p-8 text-gray-500">{t("list.empty.text")}</div>;
+    return (
+      <div className={className}>
+        <div className="p-8 text-gray-500">{t("list.empty.text")}</div>
+      </div>
+    );
   }
 
   return (
