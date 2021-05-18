@@ -16,6 +16,5 @@ export const ProfileAlreadyExists = (message: string) =>
 export const ProfileEmailNotVerified = (message: string) =>
   new ApolloError(message, "profile/email-not-verified");
 
-  export const ProfileUserAccountDisabled = (message: string) =>
+export const ProfileUserAccountDisabled = (message: string) =>
   new ApolloError(message, "profile/user-account-disabled");
-
