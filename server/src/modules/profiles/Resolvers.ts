@@ -24,7 +24,11 @@ export const usersResolvers = {
     createSelfProfile: async (_, args, { idToken }: { idToken: IdToken }) => {
       if (!idToken)
         throw Unauthorized("You have to be authorized to create self profile.");
-      const profile = await service.createProfile(idToken, args.profile.name);
+      const decodedToken = await authProvider.verifyIdToken(idToken, true); // check if not revoked
+      const profile = await service.createProfile(
+        decodedToken.uid,
+        args.profile.name
+      );
 
       return profileToResponse(profile);
     },

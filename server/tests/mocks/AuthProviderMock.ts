@@ -3,6 +3,8 @@ import {
   asEmail,
   asUserId,
   asIdToken,
+  User,
+  UserId,
   IdToken,
   AuthProvider,
   DecodedIdToken,
@@ -14,6 +16,9 @@ export const emailNotVerifiedIdToken = asIdToken(
   "mock-email-not-verified-id-token"
 );
 
+export const disabledUserId = asUserId("disabled-user-id");
+export const emailNotVerifiedUserId = asUserId("email-not-verified-user-id");
+
 const mockDecodedIdToken = (idToken: IdToken): DecodedIdToken => {
   return {
     uid: asUserId(idToken),
@@ -21,15 +26,44 @@ const mockDecodedIdToken = (idToken: IdToken): DecodedIdToken => {
     emailVerified: true,
   };
 };
+const mockUser = (uid: UserId): User => {
+  return {
+    uid: uid,
+    email: asEmail("example@domain.com"),
+    disabled: false,
+    emailVerified: true,
+  };
+};
+
+const mockDisabledUser: User = {
+  uid: disabledUserId,
+  email: asEmail("example@domain.com"),
+  disabled: true,
+  emailVerified: true,
+};
 
 const mockDecodedEmailNotVerifiedIdToken: DecodedIdToken = {
   uid: asUserId(emailNotVerifiedIdToken),
   email: asEmail("example@domain.com"),
   emailVerified: false,
 };
+const mockEmailNotVerifiedUser: User = {
+  uid: emailNotVerifiedUserId,
+  email: asEmail("example@domain.com"),
+  disabled: false,
+  emailVerified: false,
+};
 
 @injectable()
 export class AuthProviderMock implements AuthProvider {
+  async getUser(uid: UserId): Promise<User> {
+    if (uid == disabledUserId) return mockDisabledUser;
+
+    if (uid == emailNotVerifiedUserId) return mockEmailNotVerifiedUser;
+
+    return mockUser(uid);
+  }
+
   generateEmailVerificationLink(
     email: string,
     redirectUrl?: string

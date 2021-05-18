@@ -5,13 +5,14 @@ import { inject, injectable } from "inversify";
 import {
   ProfileAlreadyExists,
   ProfileEmailNotVerified,
+  ProfileUserAccountDisabled,
   UsernameInvalidCharacters,
   UsernameMaxLength,
   UsernameMinLength,
   UsernameNotAllowed,
   UsernameTaken,
 } from "./exceptions";
-import { AuthProvider, IdToken, UserId } from "@/modules/auth";
+import { AuthProvider, UserId } from "@/modules/auth";
 
 @injectable()
 export class ProfileServiceImpl implements ProfileService {
@@ -21,14 +22,17 @@ export class ProfileServiceImpl implements ProfileService {
   @inject(AuthProvider)
   private authProvider: AuthProvider;
 
-  public async createProfile(idToken: IdToken, name: string): Promise<Profile> {
+  public async createProfile(uid: UserId, name: string): Promise<Profile> {
     validateUserName(name);
 
-    const user = await this.authProvider.verifyIdToken(idToken, true);
+    const user = await this.authProvider.getUser(uid);
     if (!user.emailVerified)
       throw ProfileEmailNotVerified(
         "Email address must be verified before creating a profile."
       );
+
+    if (user.disabled)
+      throw ProfileUserAccountDisabled("Your account is disabled");
 
     await this.repository.runTransaction(async (t) => {
       if (await this.repository.getProfile(user.uid))

@@ -4,13 +4,25 @@ import {
   AuthProvider,
   DecodedIdToken,
   IdToken,
+  User,
   UserCookieContent,
+  UserId,
 } from "./index";
 import { auth } from "@/connectors/firebase";
 import { injectable } from "inversify";
 
 @injectable()
 export class FirebaseAuthProvider implements AuthProvider {
+  async getUser(uid: UserId): Promise<User> {
+    const user = await auth().getUser(uid);
+    return {
+      uid: uid,
+      email: user.email,
+      emailVerified: !!user.emailVerified,
+      disabled: user.disabled,
+    };
+  }
+
   async verifyIdToken(
     idToken: IdToken,
     checkIfRevoked: boolean
