@@ -5,6 +5,7 @@ import { Nav } from './nav';
 import Link from 'next/link';
 import { termsOfServiceHref } from '@/pages/terms-of-service';
 import { privacyPolicyHref } from '@/pages/privacy-policy';
+import { cookiePolicyHref } from '@/pages/cookie-policy';
 
 export interface FooterProps {}
 
@@ -30,6 +31,10 @@ export const Footer: React.VFC<FooterProps> = (props) => {
           <span> / </span>
           <Link href={privacyPolicyHref()}>
             <a className="hover:underline">{t('footer.legal.privacy policy')}</a>
+          </Link>
+          <span> / </span>
+          <Link href={cookiePolicyHref()}>
+            <a className="hover:underline">{t('footer.legal.cookie policy')}</a>
           </Link>
         </div>
       </div>

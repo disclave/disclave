@@ -38,8 +38,9 @@
     },
     "copyright": "© 2021 Disclave",
     "legal": {
-      "terms of service": "Terms of Service",
-      "privacy policy": "Privacy Policy"
+      "terms of service": "Terms",
+      "privacy policy": "Privacy",
+      "cookie policy": "Cookies"
     }
   }
 }
