@@ -10,6 +10,14 @@ export const asEmail = (value: string) => value as Email;
 export interface DecodedIdToken {
   uid: UserId;
   email: Email | null;
+  emailVerified: boolean;
+}
+
+export interface User {
+  uid: UserId;
+  email: string;
+  emailVerified: boolean;
+  disabled: boolean;
 }
 
 export interface UserCookieContent {
@@ -17,6 +25,8 @@ export interface UserCookieContent {
 }
 
 export abstract class AuthProvider {
+  abstract getUser(uid: UserId): Promise<User>;
+
   abstract verifyIdToken(
     idToken: IdToken,
     checkIfRevoked: boolean

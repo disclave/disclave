@@ -1,12 +1,16 @@
 import { ProfileService } from "@/modules/profiles";
 import { Container } from "inversify";
-import { asUserId, AuthProvider } from "@/modules/auth";
-import { AuthProviderMock } from "../../mocks/AuthProviderMock";
+import { asUserId, asIdToken, AuthProvider } from "@/modules/auth";
+import {
+  AuthProviderMock,
+  disabledUserId,
+  emailNotVerifiedUserId,
+} from "../../mocks/AuthProviderMock";
 import { ProfileRepository } from "@/modules/profiles/db";
 import { ProfileRepositoryMock } from "../../mocks/ProfileRepositoryMock";
 import { ProfileServiceImpl } from "@/modules/profiles/ProfileServiceImpl";
 
-describe("Testing UserService", () => {
+describe("Testing ProfileService", () => {
   const container = new Container();
 
   container.bind(AuthProvider).to(AuthProviderMock);
@@ -35,6 +39,24 @@ describe("Testing UserService", () => {
     const name = "User_Name";
 
     await service.createProfile(userId, name);
+
+    await expect(async () => {
+      await service.createProfile(userId, name);
+    }).rejects.toThrow();
+  });
+
+  test("should not create user profile if user disabled", async () => {
+    const userId = disabledUserId;
+    const name = "User_Name";
+
+    expect(async () => {
+      await service.createProfile(userId, name);
+    }).rejects.toBeTruthy();
+  });
+
+  test("should not create user profile if email not verified", async () => {
+    const userId = emailNotVerifiedUserId;
+    const name = "User_Name";
 
     await expect(async () => {
       await service.createProfile(userId, name);
