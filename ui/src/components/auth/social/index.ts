@@ -1,1 +1,1 @@
-export { GoogleBtn } from "./GoogleBtn";
+export { SocialAuth } from "./SocialAuth";
