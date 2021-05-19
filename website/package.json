@@ -1,6 +1,6 @@
 {
   "name": "@disclave/website",
-  "version": "0.3.2",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -11,10 +11,10 @@
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
   },
   "dependencies": {
-    "@disclave/client": "^0.3.2",
-    "@disclave/react-plugin": "^0.3.1",
-    "@disclave/server": "^0.3.2",
-    "@disclave/ui": "^0.3.2",
+    "@disclave/client": "^1.0.0",
+    "@disclave/react-plugin": "^1.0.0",
+    "@disclave/server": "^1.0.0",
+    "@disclave/ui": "^1.0.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
     "@fortawesome/free-brands-svg-icons": "^5.15.3",
     "@fortawesome/free-regular-svg-icons": "^5.15.3",
