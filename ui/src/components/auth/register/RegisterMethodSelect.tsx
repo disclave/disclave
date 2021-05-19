@@ -1,8 +1,7 @@
 import React from "react";
-import { GoogleBtn } from "@/components/auth/social";
+import { SocialAuth } from "@/components/auth/social";
 import { RegisterEmailPassForm } from "./form";
 import { useTranslation } from "@/i18n";
-import { FacebookBtn } from "@/components/auth/social/FacebookBtn";
 import { PolicyInfo } from "../policy";
 
 export interface RegisterMethodSelectProps {
@@ -25,10 +24,10 @@ export const RegisterMethodSelect: React.VFC<RegisterMethodSelectProps> = (
         privacyPolicyHref={props.privacyPolicyHref}
         usePolicyHref={props.usePolicyHref}
       />
-      <div className="flex flex-row justify-center space-x-2">
-        <GoogleBtn onClick={props.onRegisterGoogle} />
-        <FacebookBtn onClick={props.onRegisterFacebook} />
-      </div>
+      <SocialAuth
+        onAuthFacebook={props.onRegisterFacebook}
+        onAuthGoogle={props.onRegisterGoogle}
+      />
       <div className="flex flex-row mt-2 mb-4 uppercase text-gray-400 font-semibold items-center">
         <hr className="flex-grow mx-3" />
         <div>{t("or")}</div>
