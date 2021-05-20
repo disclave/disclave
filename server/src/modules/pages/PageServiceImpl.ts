@@ -35,8 +35,8 @@ export class PageServiceImpl implements PageService {
       url: parsedUrl.normalized,
       pageId: parsedUrl.pageId,
       websiteId: parsedUrl.websiteId,
-      icon: metadata.logo,
-      title: metadata.title,
+      icon: metadata?.logo,
+      title: metadata?.title,
     };
   }
 }

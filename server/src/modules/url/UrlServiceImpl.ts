@@ -5,7 +5,6 @@ import metascraper from "metascraper";
 import msTitle from "metascraper-title";
 import msLogo from "metascraper-logo";
 import msLogoFavicon from "metascraper-logo-favicon";
-import got from "got/dist/source";
 
 const gotOptions = { timeout: 3000 };
 const urlScrapper = metascraper([
@@ -31,8 +30,8 @@ export class UrlServiceImpl implements UrlService {
     try {
       const { html, url } = await fetchHtml(targetUrl);
       return await scrapHtml(html, url);
-    } catch {
-      // can not reach this website - it may not exist
+    } catch (e) {
+      console.warn('scrapUrl', e);
     }
     return null;
   }
@@ -48,10 +47,11 @@ const encodeURI = (str: string): string => {
 const fetchHtml = async (
   targetUrl: string
 ): Promise<{ html: string; url: string }> => {
-  const { body: html, url } = await got(targetUrl, gotOptions);
+  const response = await fetch(targetUrl);
+  const html = await response.text();
   return {
     html,
-    url,
+    url: response.url,
   };
 };
 
