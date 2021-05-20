@@ -37,7 +37,7 @@ const pageDetailsToResponse = (details: PageDetails) => {
     url: details.url,
     pageId: details.pageId,
     websiteId: details.websiteId,
-    icon: details.icon,
+    logo: details.logo,
     title: details.title,
   };
 };

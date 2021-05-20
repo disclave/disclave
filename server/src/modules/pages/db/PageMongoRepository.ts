@@ -1,9 +1,16 @@
 import { PageEntity } from "./PageEntity";
-import { PageRepository } from "./index";
+import {
+  PageDetailsData,
+  PageDetailsEntity,
+  PageRepository,
+  UrlMeta,
+} from "./index";
 import { injectable } from "inversify";
 import { MongoRepository } from "@/connectors/mongodb";
 import { ClientSession } from "mongodb";
 import { commentsDbCollection } from "@/database/comments";
+import { pagesDbCollection } from "@/database/pages";
+import { DbPageDetails } from "@/database";
 
 interface TopCommentedPagesAggregation {
   _id: {
@@ -36,6 +43,22 @@ export class PageMongoRepository
 
     return await cursor.map(aggCursorDocToEntity).toArray();
   }
+
+  public async findPageDetails(
+    url: UrlMeta
+  ): Promise<PageDetailsEntity | null> {
+    const collection = await pagesDbCollection();
+    const doc = await collection.findOne({
+      pageId: url.pageId,
+      websiteId: url.websiteId,
+    });
+    if (!doc) return null;
+    return cursorDocToEntity(doc);
+  }
+
+  public async savePageDetails(url: UrlMeta, data: PageDetailsData) {
+    // TODO:
+  }
 }
 
 const aggCursorDocToEntity = (
@@ -48,3 +71,10 @@ const aggCursorDocToEntity = (
     commentsCount: doc.commentsCount,
   };
 };
+
+const cursorDocToEntity = (doc: DbPageDetails): PageDetailsEntity => ({
+  pageId: doc.pageId,
+  websiteId: doc.websiteId,
+  logo: doc.logo,
+  title: doc.title,
+});

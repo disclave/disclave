@@ -1,8 +1,6 @@
-export interface PageDetails {
+export interface PageDetailsEntity {
   websiteId: string;
   pageId: string;
-  url: string;
-  refreshRequired: boolean;
   title: string | null;
   logo: string | null;
 }

@@ -1,7 +1,7 @@
-import { PageEntity, PageRepository } from "./db";
+import { PageDetailsEntity, PageEntity, PageRepository } from "./db";
 import { PageService, Page, PageDetails } from "./index";
 import { inject, injectable } from "inversify";
-import { UrlService } from "@/modules/url";
+import { ParsedUrlData, UrlMetaData, UrlService } from "@/modules/url";
 
 @injectable()
 export class PageServiceImpl implements PageService {
@@ -25,19 +25,24 @@ export class PageServiceImpl implements PageService {
   public async getPageDetails(
     url: string,
     fetchIfNoCache: boolean
-  ): Promise<PageDetails | null> {
+  ): Promise<PageDetails> {
     const parsedUrl = this.urlService.parseUrl(url);
 
-    // TODO: first check DB - then, if not present in DB and fetchIfNoCache=true, scrap and save to DB
-    const metadata = await this.urlService.scrapUrl(parsedUrl.normalized);
-
-    return {
-      url: parsedUrl.normalized,
+    const savedPageDetails = await this.repository.findPageDetails({
       pageId: parsedUrl.pageId,
       websiteId: parsedUrl.websiteId,
-      icon: metadata?.logo,
-      title: metadata?.title,
-    };
+    });
+
+    if (!!savedPageDetails || !fetchIfNoCache)
+      return detailsToDomain(savedPageDetails, parsedUrl);
+
+    const metadata = await this.urlService.scrapUrl(parsedUrl.normalized);
+    await this.repository.savePageDetails(
+      { pageId: parsedUrl.pageId, websiteId: parsedUrl.websiteId },
+      { logo: metadata.logo, title: metadata.title }
+    );
+
+    return urlMetadataToDomain(metadata, parsedUrl);
   }
 }
 
@@ -47,5 +52,33 @@ const toDomain = (entity: PageEntity): Page => {
     websiteId: entity.websiteId,
     pageId: entity.pageId,
     commentsCount: entity.commentsCount,
+  };
+};
+
+const detailsToDomain = (
+  entity: PageDetailsEntity | null,
+  url: ParsedUrlData
+): PageDetails => {
+  return {
+    url: url.normalized,
+    pageId: url.pageId,
+    websiteId: url.websiteId,
+    refreshRequired: !entity,
+    logo: entity?.logo,
+    title: entity?.title,
+  };
+};
+
+const urlMetadataToDomain = (
+  meta: UrlMetaData | null,
+  url: ParsedUrlData
+): PageDetails => {
+  return {
+    url: url.normalized,
+    pageId: url.pageId,
+    websiteId: url.websiteId,
+    refreshRequired: !meta,
+    logo: meta?.logo,
+    title: meta?.title,
   };
 };

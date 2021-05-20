@@ -11,5 +11,5 @@ export abstract class PageService {
   abstract getPageDetails(
     url: string,
     fetchIfNoCache: boolean
-  ): Promise<PageDetails | null>;
+  ): Promise<PageDetails>;
 }

@@ -12,7 +12,7 @@ export const pagesTypeDefs = gql`
     url: String!
     pageId: String!
     websiteId: String!
-    icon: String
+    logo: String
     title: String
   }
 
