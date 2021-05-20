@@ -1,2 +1,2 @@
-export const pagesCollection = "website.pages";
+export const pagesCollection = "websites.pages";
 export const commentsCollection = "websites.pages.comments";
