@@ -37,10 +37,13 @@ export class PageServiceImpl implements PageService {
       return detailsToDomain(savedPageDetails, parsedUrl);
 
     const metadata = await this.urlService.scrapUrl(parsedUrl.normalized);
-    await this.repository.savePageDetails(
-      { pageId: parsedUrl.pageId, websiteId: parsedUrl.websiteId },
-      { logo: metadata.logo, title: metadata.title }
-    );
+
+    if (metadata) {
+      await this.repository.savePageDetails(
+        { pageId: parsedUrl.pageId, websiteId: parsedUrl.websiteId },
+        { logo: metadata.logo, title: metadata.title }
+      );
+    }
 
     return urlMetadataToDomain(metadata, parsedUrl);
   }
