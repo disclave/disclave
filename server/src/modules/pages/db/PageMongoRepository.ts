@@ -6,8 +6,8 @@ import {
   UrlMeta,
 } from "./index";
 import { injectable } from "inversify";
-import { MongoRepository } from "@/connectors/mongodb";
-import { ClientSession } from "mongodb";
+import { MongoRepository, timestampNow } from "@/connectors/mongodb";
+import { ClientSession } from "@/connectors/mongodb";
 import { commentsDbCollection } from "@/database/comments";
 import { pagesDbCollection } from "@/database/pages";
 import { DbPageDetails } from "@/database";
@@ -48,18 +48,38 @@ export class PageMongoRepository
     url: UrlMeta
   ): Promise<PageDetailsEntity | null> {
     const collection = await pagesDbCollection();
-    const doc = await collection.findOne({
-      pageId: url.pageId,
-      websiteId: url.websiteId,
-    });
+    const doc = await collection.findOne(urlMetaToFilter(url));
     if (!doc) return null;
     return cursorDocToEntity(doc);
   }
 
   public async savePageDetails(url: UrlMeta, data: PageDetailsData) {
-    // TODO:
+    const collection = await pagesDbCollection();
+    await collection.replaceOne(
+      urlMetaToFilter(url),
+      toDbPageDetails(url, data),
+      { upsert: true }
+    );
   }
 }
+
+const urlMetaToFilter = (url: UrlMeta) => {
+  return {
+    pageId: url.pageId,
+    websiteId: url.websiteId,
+  };
+};
+
+const toDbPageDetails = (
+  url: UrlMeta,
+  data: PageDetailsData
+): DbPageDetails => ({
+  pageId: url.pageId,
+  websiteId: url.websiteId,
+  logo: data.logo,
+  title: data.title,
+  timestamp: timestampNow(),
+});
 
 const aggCursorDocToEntity = (
   doc: TopCommentedPagesAggregation

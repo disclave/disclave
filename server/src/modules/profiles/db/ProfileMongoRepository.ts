@@ -6,6 +6,7 @@ import {
   db,
   Timestamp,
   MongoRepository,
+  timestampNow,
 } from "@/connectors/mongodb";
 import { asUserId, UserId } from "@/modules/auth";
 
@@ -59,7 +60,7 @@ const toDbProfile = (uid: UserId, name: string): DbProfile => ({
   _id: uid,
   name: name,
   normalizedName: name.toLowerCase(),
-  createdTs: new Timestamp(0, Math.floor(new Date().getTime() / 1000)),
+  createdTs: timestampNow(),
 });
 
 const cursorDocToEntity = (doc: DbProfile): ProfileEntity => ({

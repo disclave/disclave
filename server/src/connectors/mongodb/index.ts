@@ -14,6 +14,8 @@ let _db: Db | null = null;
 
 export { Timestamp, ObjectID };
 
+export const timestampNow = () => new Timestamp(0, Math.floor(new Date().getTime() / 1000));
+
 export const initDatabase = async (uri: string, dbName: string) => {
   if (_db && _client) return;
 
