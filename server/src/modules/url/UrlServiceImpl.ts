@@ -21,6 +21,7 @@ export class UrlServiceImpl implements UrlService {
     const url = new URL(normalized);
     return {
       raw,
+      normalized,
       websiteId: encodeURI(url.hostname),
       pageId: encodeURI(url.pathname),
     };

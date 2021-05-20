@@ -1,5 +1,6 @@
 export interface ParsedUrlData {
   raw: string;
+  normalized: string;
   websiteId: string;
   pageId: string;
 }
