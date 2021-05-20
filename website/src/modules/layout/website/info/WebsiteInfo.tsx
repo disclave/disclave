@@ -1,15 +1,16 @@
 import React from 'react';
 import { stringToUrl } from '@disclave/client';
 import { useTranslation } from 'next-i18next';
+import { PageDetails } from './PageDetails';
 
 export interface WebsiteInfoProps {
-  website: string;
+  pageDetails: PageDetails;
 }
 
-export const WebsiteInfo: React.VFC<WebsiteInfoProps> = (props) => {
+export const WebsiteInfo: React.VFC<WebsiteInfoProps> = ({ pageDetails }) => {
   const { t } = useTranslation('website');
 
-  const websiteURL = stringToUrl(props.website);
+  const websiteURL = stringToUrl(pageDetails.url);
   const url = new URL(websiteURL);
 
   return (
