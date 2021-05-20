@@ -22,10 +22,7 @@ export class PageServiceImpl implements PageService {
     return pages.map(toDomain);
   }
 
-  public async getPageDetails(
-    url: string,
-    fetchIfNoCache: boolean
-  ): Promise<PageDetails> {
+  public async getPageDetails(url: string): Promise<PageDetails> {
     const parsedUrl = this.urlService.parseUrl(url);
 
     const savedPageDetails = await this.repository.findPageDetails({
@@ -33,8 +30,7 @@ export class PageServiceImpl implements PageService {
       websiteId: parsedUrl.websiteId,
     });
 
-    if (!!savedPageDetails || !fetchIfNoCache)
-      return detailsToDomain(savedPageDetails, parsedUrl);
+    if (!!savedPageDetails) return detailsToDomain(savedPageDetails, parsedUrl);
 
     const metadata = await this.urlService.scrapUrl(parsedUrl.normalized);
 
@@ -66,7 +62,6 @@ const detailsToDomain = (
     url: url.normalized,
     pageId: url.pageId,
     websiteId: url.websiteId,
-    refreshRequired: !entity,
     logo: entity?.logo,
     title: entity?.title,
   };
@@ -80,7 +75,6 @@ const urlMetadataToDomain = (
     url: url.normalized,
     pageId: url.pageId,
     websiteId: url.websiteId,
-    refreshRequired: !meta,
     logo: meta?.logo,
     title: meta?.title,
   };

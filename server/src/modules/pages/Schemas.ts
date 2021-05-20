@@ -18,6 +18,6 @@ export const pagesTypeDefs = gql`
 
   extend type Query {
     topCommentedPages(minCommentsVoteSum: Int!, limit: Int!): [Page]
-    pageDetails(url: String, fetchIfNoCache: Boolean!): PageDetails
+    pageDetails(url: String!): PageDetails
   }
 `;

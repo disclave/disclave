@@ -8,8 +8,5 @@ export abstract class PageService {
     limit: number
   ): Promise<Array<Page>>;
 
-  abstract getPageDetails(
-    url: string,
-    fetchIfNoCache: boolean
-  ): Promise<PageDetails>;
+  abstract getPageDetails(url: string): Promise<PageDetails>;
 }

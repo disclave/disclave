@@ -14,10 +14,7 @@ export const pagesResolvers = {
       return pages.map(pageToResponse);
     },
     pageDetails: async (_, args) => {
-      const pageDetails = await service.getPageDetails(
-        args.url,
-        args.fetchIfNoCache
-      );
+      const pageDetails = await service.getPageDetails(args.url);
       return pageDetailsToResponse(pageDetails);
     },
   },
