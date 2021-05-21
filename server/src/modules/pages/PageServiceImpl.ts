@@ -2,6 +2,7 @@ import { PageDetailsEntity, PageEntity, PageRepository } from "./db";
 import { PageService, Page, PageDetails } from "./index";
 import { inject, injectable } from "inversify";
 import { ParsedUrlData, UrlMetaData, UrlService } from "@/modules/url";
+import { uploadFlie } from "@/connectors/aws";
 
 @injectable()
 export class PageServiceImpl implements PageService {
@@ -45,6 +46,12 @@ export class PageServiceImpl implements PageService {
   ): Promise<UrlMetaData | null> {
     const metadata = await this.urlService.scrapUrl(url.normalized);
     if (!metadata) return null;
+
+    if (metadata.logo != null) {
+      const response = await fetch(metadata.logo);
+      const blob = await response.blob();
+      uploadFlie(url.websiteId + url.pageId + 'logo', blob);
+    }
 
     await this.repository.savePageDetails(
       { pageId: url.pageId, websiteId: url.websiteId },

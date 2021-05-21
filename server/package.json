@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "apollo-server-micro": "^2.22.2",
+    "aws-sdk": "^2.911.0",
     "cookie": "^0.4.1",
     "escape-html": "^1.0.3",
     "firebase-admin": "^9.7.0",
