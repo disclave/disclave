@@ -18,6 +18,8 @@ import { PageRepository } from "./modules/pages/db";
 import { PageMongoRepository } from "./modules/pages/db/PageMongoRepository";
 import { PageService } from "./modules/pages";
 import { PageServiceImpl } from "./modules/pages/PageServiceImpl";
+import { ImageService } from "./modules/image";
+import { ImageServiceImpl } from "./modules/image/ImageServiceImpl";
 
 const container = new Container();
 
@@ -29,6 +31,7 @@ container.bind(CommentRepository).to(CommentMongoRepository);
 container.bind(PageRepository).to(PageMongoRepository);
 
 container.bind(UrlService).to(UrlServiceImpl);
+container.bind(ImageService).to(ImageServiceImpl);
 container.bind(ProfileService).to(ProfileServiceImpl);
 container.bind(CommentService).to(CommentServiceImpl);
 container.bind(PageService).to(PageServiceImpl);
