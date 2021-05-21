@@ -9,8 +9,6 @@ export interface WebsiteInfoProps {
 export const WebsiteInfo: React.VFC<WebsiteInfoProps> = ({ pageDetails }) => {
   const { t } = useTranslation('website');
 
-  console.log(pageDetails);
-
   const url = new URL(pageDetails.url);
 
   return (
