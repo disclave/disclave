@@ -1,11 +1,11 @@
 import React from 'react';
 import { GetServerSideProps } from 'next';
-import { CommentModel, CommentUrlMeta, encodeUrl } from '@disclave/client';
+import { CommentModel, CommentUrlMeta, encodeUrl, PageDetailsModel } from '@disclave/client';
 import { getCommentService, getUserCookie, getPageService } from '@disclave/server';
 import { WebsitePage } from '@/modules/layout/website';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { initServer } from '@/modules/server';
-import { PageDetails } from '@/modules/layout/website/info/PageDetails';
+import { usePageDetails } from '@/modules/pages';
 
 export const websiteHrefFromIds = (websiteId: string, pageId: string) =>
   websiteHrefFromMeta({ websiteId, pageId });
@@ -22,7 +22,7 @@ export const getServerSideProps: GetServerSideProps<WebsiteProps> = async (conte
   const pageService = getPageService();
 
   const website = context.query.website as string;
-  const pageDetailsPromise = pageService.getPageDetails(website);
+  const pageDetailsPromise = pageService.getPageDetails(website, false);
   const commentsPromise = commentService.getComments(website, userCookie?.uid);
   const translationsPromise = serverSideTranslations(context.locale, [
     'common',
@@ -43,17 +43,15 @@ export const getServerSideProps: GetServerSideProps<WebsiteProps> = async (conte
 
 interface WebsiteProps {
   comments: Array<CommentModel>;
-  pageDetails: PageDetails;
+  pageDetails: PageDetailsModel;
   website: string;
 }
 
 const Website: React.FC<WebsiteProps> = (props) => {
+  const { pageDetails } = usePageDetails(props.pageDetails);
+
   return (
-    <WebsitePage
-      website={props.website}
-      pageDetails={props.pageDetails}
-      comments={props.comments}
-    />
+    <WebsitePage website={props.website} pageDetails={pageDetails} comments={props.comments} />
   );
 };
 export default Website;

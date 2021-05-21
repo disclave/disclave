@@ -1,16 +1,15 @@
 import React from 'react';
 import { Layout } from '@/modules/layout';
-import { CommentModel } from '@disclave/client';
+import { CommentModel, PageDetailsModel } from '@disclave/client';
 import { WebsiteInfo } from './info';
 import { WebsiteComments } from './comments';
 import { loginHref } from '@/pages/auth/login';
 import { websiteHrefRaw } from '@/pages/website/[website]';
 import { registerHref } from '@/pages/auth/register';
-import { PageDetails } from './info/PageDetails';
 
 export interface WebsitePageProps {
   website: string;
-  pageDetails: PageDetails;
+  pageDetails: PageDetailsModel;
   comments: Array<CommentModel>;
 }
 

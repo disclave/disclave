@@ -1,17 +1,17 @@
 import React from 'react';
-import { stringToUrl } from '@disclave/client';
+import { PageDetailsModel, stringToUrl } from '@disclave/client';
 import { useTranslation } from 'next-i18next';
-import { PageDetails } from './PageDetails';
 
 export interface WebsiteInfoProps {
-  pageDetails: PageDetails;
+  pageDetails: PageDetailsModel;
 }
 
 export const WebsiteInfo: React.VFC<WebsiteInfoProps> = ({ pageDetails }) => {
   const { t } = useTranslation('website');
 
-  const websiteURL = stringToUrl(pageDetails.url);
-  const url = new URL(websiteURL);
+  console.log(pageDetails);
+
+  const url = new URL(pageDetails.url);
 
   return (
     <section className="container mx-auto">
@@ -20,11 +20,11 @@ export const WebsiteInfo: React.VFC<WebsiteInfoProps> = ({ pageDetails }) => {
         <div className="text-lg font-semibold break-words">{url.pathname}</div>
         <div className="mt-2">
           <a
-            href={websiteURL}
+            href={pageDetails.url}
             className="text-primary text-xs hover:text-primary-dark hover:underline break-words"
             target="_blank"
             rel="nofollow noopener">
-            {t('info.visit', { url: websiteURL })}
+            {t('info.visit', { url: pageDetails.url })}
           </a>
         </div>
       </div>
