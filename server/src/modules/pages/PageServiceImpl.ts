@@ -22,7 +22,10 @@ export class PageServiceImpl implements PageService {
     return pages.map(toDomain);
   }
 
-  public async getPageDetails(url: string): Promise<PageDetails> {
+  public async getPageDetails(
+    url: string,
+    fetchMetaIfNoCache: boolean
+  ): Promise<PageDetails> {
     const parsedUrl = this.urlService.parseUrl(url);
 
     const savedPageDetails = await this.repository.findPageDetails({
@@ -30,10 +33,10 @@ export class PageServiceImpl implements PageService {
       websiteId: parsedUrl.websiteId,
     });
 
-    if (!!savedPageDetails) return detailsToDomain(savedPageDetails, parsedUrl);
+    if (!!savedPageDetails || !fetchMetaIfNoCache)
+      return detailsToDomain(savedPageDetails, parsedUrl);
 
     const metadata = await this.urlService.scrapUrl(parsedUrl.normalized);
-
     if (metadata) {
       await this.repository.savePageDetails(
         { pageId: parsedUrl.pageId, websiteId: parsedUrl.websiteId },
