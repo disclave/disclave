@@ -62,8 +62,12 @@ const detailsToDomain = (
     url: url.normalized,
     pageId: url.pageId,
     websiteId: url.websiteId,
-    logo: entity?.logo ?? null,
-    title: entity?.title ?? null,
+    meta: entity
+      ? {
+          logo: entity.meta.logo,
+          title: entity.meta.title,
+        }
+      : null,
   };
 };
 
@@ -75,7 +79,11 @@ const urlMetadataToDomain = (
     url: url.normalized,
     pageId: url.pageId,
     websiteId: url.websiteId,
-    logo: meta?.logo ?? null,
-    title: meta?.title ?? null,
+    meta: meta
+      ? {
+          logo: meta.logo ?? null,
+          title: meta.title ?? null,
+        }
+      : null,
   };
 };

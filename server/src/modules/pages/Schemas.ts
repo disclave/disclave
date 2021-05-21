@@ -8,12 +8,16 @@ export const pagesTypeDefs = gql`
     commentsCount: String!
   }
 
+  type PageMeta {
+    logo: String
+    title: String
+  }
+
   type PageDetails {
     url: String!
     pageId: String!
     websiteId: String!
-    logo: String
-    title: String
+    meta: PageMeta
   }
 
   extend type Query {

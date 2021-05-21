@@ -1,9 +1,13 @@
 import { Timestamp } from "@/connectors/mongodb";
 
 export interface DbPageDetails {
-  websiteId: string;
-  pageId: string;
-  title: string | null;
-  logo: string | null;
+  _id: {
+    pageId: string;
+    websiteId: string;
+  };
+  meta: {
+    logo: string | null;
+    title: string | null;
+  };
   timestamp: Timestamp;
 }

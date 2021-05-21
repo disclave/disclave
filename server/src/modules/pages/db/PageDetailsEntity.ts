@@ -1,6 +1,8 @@
 export interface PageDetailsEntity {
-  websiteId: string;
   pageId: string;
-  title: string | null;
-  logo: string | null;
+  websiteId: string;
+  meta: {
+    logo: string | null;
+    title: string | null;
+  };
 }

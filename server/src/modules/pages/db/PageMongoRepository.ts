@@ -48,7 +48,7 @@ export class PageMongoRepository
     url: UrlMeta
   ): Promise<PageDetailsEntity | null> {
     const collection = await pagesDbCollection();
-    const doc = await collection.findOne(urlMetaToFilter(url));
+    const doc = await collection.findOne(urlMetaToIdFilter(url));
     if (!doc) return null;
     return cursorDocToEntity(doc);
   }
@@ -56,28 +56,32 @@ export class PageMongoRepository
   public async savePageDetails(url: UrlMeta, data: PageDetailsData) {
     const collection = await pagesDbCollection();
     await collection.replaceOne(
-      urlMetaToFilter(url),
+      urlMetaToIdFilter(url),
       toDbPageDetails(url, data),
       { upsert: true }
     );
   }
 }
 
-const urlMetaToFilter = (url: UrlMeta) => {
-  return {
+const urlMetaToIdFilter = (url: UrlMeta) => ({
+  _id: {
     pageId: url.pageId,
     websiteId: url.websiteId,
-  };
-};
+  },
+});
 
 const toDbPageDetails = (
   url: UrlMeta,
   data: PageDetailsData
 ): DbPageDetails => ({
-  pageId: url.pageId,
-  websiteId: url.websiteId,
-  logo: data.logo,
-  title: data.title,
+  _id: {
+    pageId: url.pageId,
+    websiteId: url.websiteId,
+  },
+  meta: {
+    logo: data.logo,
+    title: data.title,
+  },
   timestamp: timestampNow(),
 });
 
@@ -93,8 +97,10 @@ const aggCursorDocToEntity = (
 };
 
 const cursorDocToEntity = (doc: DbPageDetails): PageDetailsEntity => ({
-  pageId: doc.pageId,
-  websiteId: doc.websiteId,
-  logo: doc.logo,
-  title: doc.title,
+  pageId: doc._id.pageId,
+  websiteId: doc._id.websiteId,
+  meta: {
+    logo: doc.meta.logo,
+    title: doc.meta.title,
+  },
 });
