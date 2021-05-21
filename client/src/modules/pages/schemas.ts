@@ -10,3 +10,18 @@ export const GET_TOP_COMMENTED_PAGES = gql`
     }
   }
 `;
+
+export const GET_PAGE_DETAILS = gql`
+  query($url: String!, $fetchMetaIfNoCache: Boolean!) {
+    pageDetails(url: $url, fetchMetaIfNoCache: $fetchMetaIfNoCache) {
+      url
+      pageId
+      websiteId
+      meta {
+        logo
+        title
+      }
+    }
+  }
+`;
+

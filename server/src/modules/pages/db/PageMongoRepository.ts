@@ -1,9 +1,16 @@
 import { PageEntity } from "./PageEntity";
-import { PageRepository } from "./index";
+import {
+  PageDetailsData,
+  PageDetailsEntity,
+  PageRepository,
+  UrlMeta,
+} from "./index";
 import { injectable } from "inversify";
-import { MongoRepository } from "@/connectors/mongodb";
-import { ClientSession } from "mongodb";
+import { MongoRepository, timestampNow } from "@/connectors/mongodb";
+import { ClientSession } from "@/connectors/mongodb";
 import { commentsDbCollection } from "@/database/comments";
+import { pagesDbCollection } from "@/database/pages";
+import { DbPageDetails } from "@/database";
 
 interface TopCommentedPagesAggregation {
   _id: {
@@ -36,7 +43,47 @@ export class PageMongoRepository
 
     return await cursor.map(aggCursorDocToEntity).toArray();
   }
+
+  public async findPageDetails(
+    url: UrlMeta
+  ): Promise<PageDetailsEntity | null> {
+    const collection = await pagesDbCollection();
+    const doc = await collection.findOne(urlMetaToIdFilter(url));
+    if (!doc) return null;
+    return cursorDocToEntity(doc);
+  }
+
+  public async savePageDetails(url: UrlMeta, data: PageDetailsData) {
+    const collection = await pagesDbCollection();
+    await collection.replaceOne(
+      urlMetaToIdFilter(url),
+      toDbPageDetails(url, data),
+      { upsert: true }
+    );
+  }
 }
+
+const urlMetaToIdFilter = (url: UrlMeta) => ({
+  _id: {
+    pageId: url.pageId,
+    websiteId: url.websiteId,
+  },
+});
+
+const toDbPageDetails = (
+  url: UrlMeta,
+  data: PageDetailsData
+): DbPageDetails => ({
+  _id: {
+    pageId: url.pageId,
+    websiteId: url.websiteId,
+  },
+  meta: {
+    logo: data.logo,
+    title: data.title,
+  },
+  timestamp: timestampNow(),
+});
 
 const aggCursorDocToEntity = (
   doc: TopCommentedPagesAggregation
@@ -48,3 +95,12 @@ const aggCursorDocToEntity = (
     commentsCount: doc.commentsCount,
   };
 };
+
+const cursorDocToEntity = (doc: DbPageDetails): PageDetailsEntity => ({
+  pageId: doc._id.pageId,
+  websiteId: doc._id.websiteId,
+  meta: {
+    logo: doc.meta.logo,
+    title: doc.meta.title,
+  },
+});

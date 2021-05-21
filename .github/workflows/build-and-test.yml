@@ -37,5 +37,8 @@ jobs:
         MJ_TEMPLATE_EMAIL_VERIFICATION: 0
         PRIVACY_POLICY: http://example.com/privacy-policy
         ACCEPTABLE_USE_POLICY: http://example.com/acceptable-use-policy
+        AWS_ACCESS_KEY: AwsAccessKey
+        AWS_SECRET_ACCESS_KEY: AwsSecreyKey
+        AWS_BUCKET_NAME_PAGES: pages-bucket-name
     - run: yarn test
 

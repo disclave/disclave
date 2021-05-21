@@ -1,1 +1,1 @@
-export {useTopCommentedPages} from "./hooks"
+export { usePageDetails, useTopCommentedPages } from './hooks';

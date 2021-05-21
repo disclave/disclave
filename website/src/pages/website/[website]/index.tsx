@@ -1,10 +1,11 @@
 import React from 'react';
 import { GetServerSideProps } from 'next';
-import { CommentModel, CommentUrlMeta, encodeUrl } from '@disclave/client';
-import { getCommentService, getUserCookie } from '@disclave/server';
+import { CommentModel, CommentUrlMeta, encodeUrl, PageDetailsModel } from '@disclave/client';
+import { getCommentService, getUserCookie, getPageService } from '@disclave/server';
 import { WebsitePage } from '@/modules/layout/website';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { initServer } from '@/modules/server';
+import { usePageDetails } from '@/modules/pages';
 
 export const websiteHrefFromIds = (websiteId: string, pageId: string) =>
   websiteHrefFromMeta({ websiteId, pageId });
@@ -17,10 +18,12 @@ export const websiteHrefRaw = '/website/';
 export const getServerSideProps: GetServerSideProps<WebsiteProps> = async (context) => {
   await initServer();
   const userCookie = getUserCookie(context.req);
-  const service = getCommentService();
+  const commentService = getCommentService();
+  const pageService = getPageService();
 
   const website = context.query.website as string;
-  const commentsPromise = service.getComments(website, userCookie?.uid);
+  const pageDetailsPromise = pageService.getPageDetails(website, false);
+  const commentsPromise = commentService.getComments(website, userCookie?.uid);
   const translationsPromise = serverSideTranslations(context.locale, [
     'common',
     'layout',
@@ -30,6 +33,7 @@ export const getServerSideProps: GetServerSideProps<WebsiteProps> = async (conte
   return {
     props: {
       comments: await commentsPromise,
+      pageDetails: await pageDetailsPromise,
       website: website,
       serverSideUid: userCookie ? userCookie.uid : null,
       ...(await translationsPromise)
@@ -39,10 +43,15 @@ export const getServerSideProps: GetServerSideProps<WebsiteProps> = async (conte
 
 interface WebsiteProps {
   comments: Array<CommentModel>;
+  pageDetails: PageDetailsModel;
   website: string;
 }
 
 const Website: React.FC<WebsiteProps> = (props) => {
-  return <WebsitePage website={props.website} comments={props.comments} />;
+  const { pageDetails } = usePageDetails(props.pageDetails);
+
+  return (
+    <WebsitePage website={props.website} pageDetails={pageDetails} comments={props.comments} />
+  );
 };
 export default Website;

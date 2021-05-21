@@ -10,13 +10,20 @@ To run the project locally, you will need to add some `.env*` files with the cor
 Running website requires `.env.local` file in `./website/` folder. The file should look like this:
 ```
 DOMAIN=http://localhost:3000
+
 FIREBASE_CERT={"type":"TYPE", ...other values}
 FIREBASE_CLIENT_CONFIG={"apiKey":"API_KEY","authDomain":"AUTH_DOMAIN","projectId":"PROJECT_ID","appId":"APP_ID","measurementId":"MEASUREMENT_ID"}
+
 DB_URI=MONGO_DB_URI
 DB_NAME=MONGO_DB_NAME
+
 MJ_API_KEY=MAILJET_API_KEY
 MJ_API_SECRET=MAILJET_API_SECRET
 MJ_TEMPLATE_EMAIL_VERIFICATION=MAILJET_TEMPLATE_ID_FOR_EMAIL_VERIFICATION
+
+AWS_ACCESS_KEY=AWS_ACCESS_KEY
+AWS_SECRET_ACCESS_KEY=AWS_SECRET_ACCESS_KEY/Y1XvcBJx5
+AWS_BUCKET_NAME_PAGES=AWS_BUCKET_NAME_PAGES
 ```
 **Those are mocked values (except localhost domain) - replace them with correct values from the Firebase and Mongo!!!**
 
