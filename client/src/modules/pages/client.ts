@@ -1,8 +1,6 @@
 import { runQuery } from "../../graphql";
-import { PageModel } from "./";
-import {
-  GET_TOP_COMMENTED_PAGES,
-} from "./schemas";
+import { PageDetailsModel, PageModel } from "./models";
+import { GET_PAGE_DETAILS, GET_TOP_COMMENTED_PAGES } from "./schemas";
 
 export const getTopCommentedPages = async (
   minCommentsVoteSum: number,
@@ -21,11 +19,38 @@ export const getTopCommentedPages = async (
   return result.map(responseToModel);
 };
 
-const responseToModel = (data: any): PageModel => {
-  return {
-    id: data.id,
-    websiteId: data.websiteId,
-    pageId: data.pageId,
-    commentsCount: data.commentsCount
-  };
+export const getPageDetails = async (
+  url: string,
+  fetchMetaIfNoCache: boolean,
+  noCache: boolean = false
+): Promise<PageDetailsModel> => {
+  const result = await runQuery<PageDetailsModel>(
+    GET_PAGE_DETAILS,
+    {
+      url,
+      fetchMetaIfNoCache,
+    },
+    "pageDetails",
+    noCache
+  );
+  return responseToDetailsModel(result);
 };
+
+const responseToModel = (data: any): PageModel => ({
+  id: data.id,
+  websiteId: data.websiteId,
+  pageId: data.pageId,
+  commentsCount: data.commentsCount,
+});
+
+const responseToDetailsModel = (data: any): PageDetailsModel => ({
+  url: data.url,
+  pageId: data.pageId,
+  websiteId: data.websiteId,
+  meta: data.meta
+    ? {
+        logo: data.meta.logo,
+        title: data.meta.title,
+      }
+    : null,
+});
