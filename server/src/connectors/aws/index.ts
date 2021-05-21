@@ -1,1 +1,1 @@
-export { initAWS, uploadFlie } from "./AWS";
+export { initAWS, uploadFlie, Bucket } from "./AWS";

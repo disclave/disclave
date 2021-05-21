@@ -2,7 +2,7 @@ import { PageDetailsEntity, PageEntity, PageRepository } from "./db";
 import { PageService, Page, PageDetails } from "./index";
 import { inject, injectable } from "inversify";
 import { ParsedUrlData, UrlMetaData, UrlService } from "@/modules/url";
-import { uploadFlie } from "@/connectors/aws";
+import { Bucket, uploadFlie } from "@/connectors/aws";
 
 @injectable()
 export class PageServiceImpl implements PageService {
@@ -47,19 +47,39 @@ export class PageServiceImpl implements PageService {
     const metadata = await this.urlService.scrapUrl(url.normalized);
     if (!metadata) return null;
 
-    if (metadata.logo != null) {
-      const response = await fetch(metadata.logo);
-      const blob = await response.blob();
-      uploadFlie(url.websiteId + url.pageId + 'logo', blob);
-    }
+    const title = metadata.title;
+    const logo = await savePageLogo(url, metadata.logo);
 
     await this.repository.savePageDetails(
       { pageId: url.pageId, websiteId: url.websiteId },
-      { logo: metadata.logo, title: metadata.title }
+      { logo, title }
     );
-    return metadata;
+    return {
+      logo,
+      title,
+    };
   }
 }
+
+const savePageLogo = async (
+  url: ParsedUrlData,
+  logo: string | null
+): Promise<string | null> => {
+  if (!url) return null;
+  try {
+    const response = await fetch(logo);
+    const buffer = await response.arrayBuffer();
+    return await uploadFlie(
+      Bucket.PAGES_BUCKET,
+      "logo/" + url.websiteId + url.pageId + ".jpeg",
+      "image/jpeg",
+      buffer
+    );
+  } catch (e) {
+    console.warn(savePageLogo, e);
+  }
+  return null;
+};
 
 const toDomain = (entity: PageEntity): Page => {
   return {

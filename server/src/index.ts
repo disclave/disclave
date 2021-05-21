@@ -6,7 +6,7 @@ import { EmailService } from "@/modules/email";
 import { ProfileService } from "@/modules/profiles";
 import { initFirebase } from "@/connectors/firebase/Firebase";
 import { PageService } from "./modules/pages";
-import { initAWS } from "./connectors/aws";
+import { Bucket, initAWS } from "./connectors/aws";
 
 export interface DbConfig {
   dbUri: string;
@@ -24,7 +24,9 @@ export interface MailjetConfig {
 export interface AwsConfig {
   accessKeyId: string;
   secretAccessKey: string;
-  bucketName: string;
+  buckets: {
+    pages: string;
+  };
 }
 
 export const init = async (
@@ -39,7 +41,10 @@ export const init = async (
     Number(mjConfig.templates.emailVerification)
   );
 
-  initAWS(awsConfig.accessKeyId, awsConfig.secretAccessKey, awsConfig.bucketName);
+  const buckets = new Map<Bucket, string>();
+  buckets.set(Bucket.PAGES_BUCKET, awsConfig.buckets.pages);
+
+  initAWS(awsConfig.accessKeyId, awsConfig.secretAccessKey, buckets);
   initMailjet(mjConfig.apiKey, mjConfig.apiSecret, emailTemplates);
   initFirebase(firebaseServiceAccountObject);
   await initDatabase(dbConfig.dbUri, dbConfig.dbName);

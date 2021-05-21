@@ -1,14 +1,18 @@
 import S3 from "aws-sdk/clients/s3";
 
 let _s3Client: S3 | null = null;
-let _bucketName: string;
+let _buckets: Map<Bucket, string>;
+
+export enum Bucket {
+  PAGES_BUCKET,
+}
 
 export const initAWS = (
   accessKeyId: string,
   secretAccessKey: string,
-  bucketName: string
+  buckets: Map<Bucket, string>
 ) => {
-  _bucketName = bucketName;
+  _buckets = buckets;
 
   _s3Client = new S3({
     credentials: {
@@ -19,15 +23,19 @@ export const initAWS = (
 };
 
 export const uploadFlie = async (
+  bucket: Bucket,
   key: string,
-  body: Buffer | Uint8Array | Blob | string
+  contentType: string,
+  arrayBuffer: ArrayBuffer
 ): Promise<string> => {
   if (!_s3Client) throw "AWS not initialized";
 
   const upload = _s3Client.upload({
-    Bucket: _bucketName,
+    Bucket: _buckets.get(bucket),
     Key: key,
-    Body: body,
+    Body: toBuffer(arrayBuffer),
+    ContentType: contentType,
+    ACL: 'public-read'
   });
 
   return new Promise((resolve, reject) => {
@@ -40,4 +48,11 @@ export const uploadFlie = async (
       resolve(data.Location);
     });
   });
+};
+
+const toBuffer = (ab: ArrayBuffer): Buffer => {
+  const buf = Buffer.alloc(ab.byteLength);
+  const view = new Uint8Array(ab);
+  for (let i = 0; i < buf.length; ++i) buf[i] = view[i];
+  return buf;
 };

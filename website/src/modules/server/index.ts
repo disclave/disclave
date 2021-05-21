@@ -16,5 +16,13 @@ export const initServer = async () => {
     }
   };
 
-  await init(firebaseCert, dbConfig, mailjetConfig);
+  const awsConfig = {
+    accessKeyId: process.env.AWS_ACCESS_KEY,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    buckets: {
+      pages: process.env.AWS_BUCKET_NAME_PAGES
+    }
+  };
+
+  await init(firebaseCert, dbConfig, mailjetConfig, awsConfig);
 };
