@@ -19,6 +19,7 @@
     "firebase-admin": "^9.7.0",
     "got": "^11.8.2",
     "graphql": "^15.5.0",
+    "ico-to-png": "^0.2.1",
     "inversify": "^5.0.5",
     "metascraper": "^5.21.7",
     "metascraper-logo": "^5.21.7",
@@ -43,6 +44,7 @@
     "@types/micro-cors": "^0.1.1",
     "@types/mongodb": "3.6.12",
     "@types/node-mailjet": "^3.3.4",
+    "@types/sharp": "^0.28.1",
     "jest": "^26.6.3",
     "ts-jest": "^26.5.4",
     "typescript": "^4.2.3"

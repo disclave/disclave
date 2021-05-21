@@ -1283,6 +1283,11 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
+"@canvas/image-data@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@canvas/image-data/-/image-data-1.0.0.tgz#3bd2cd856e13fc9e2c25feff360a4056857b0367"
+  integrity sha512-BxOqI5LgsIQP1odU5KMwV9yoijleOPzHL18/YvNqF9KFSGF2K/DLlYAbDQsWqd/1nbaFuSkYD/191dpMtNh4vw==
+
 "@cnakazawa/watch@^1.0.3":
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/@cnakazawa/watch/-/watch-1.0.4.tgz#f864ae85004d0fcab6f50be9141c4da368d1656a"
@@ -4593,6 +4598,13 @@
   integrity sha512-ZFqF6qa48XsPdjXV5Gsz0Zqmux2PerNd3a/ktL45mHpa19cuMi/cL8tcxdAx497yRh+QtYPuofjT9oWw9P7nkA==
   dependencies:
     "@types/mime" "^1"
+    "@types/node" "*"
+
+"@types/sharp@^0.28.1":
+  version "0.28.1"
+  resolved "https://registry.yarnpkg.com/@types/sharp/-/sharp-0.28.1.tgz#dbd702bd6a8d42576b8faffe1c2ec06fdffaaaff"
+  integrity sha512-Jn9NHCjT3KXjxTpbtaxBI4iL+st5o9pWhMGVpHF+Cs+t/31lohLNXSW9PT9RSl7Ct7yBT2XFu7R/xfo0Y8HH2Q==
+  dependencies:
     "@types/node" "*"
 
 "@types/source-list-map@*":
@@ -7943,6 +7955,23 @@ decimal.js@^10.2.1:
   resolved "https://registry.yarnpkg.com/decimal.js/-/decimal.js-10.2.1.tgz#238ae7b0f0c793d3e3cea410108b35a2c01426a3"
   integrity sha512-KaL7+6Fw6i5A2XSnsbhm/6B+NuEA7TZ4vqxnd5tXz9sbKtrN9Srj8ab4vKVdK8YAqZO9P1kg45Y6YLoduPf+kw==
 
+decode-bmp@^0.2.0:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/decode-bmp/-/decode-bmp-0.2.1.tgz#cec3e0197ec3b6c60f02220f50e8757030ff2427"
+  integrity sha512-NiOaGe+GN0KJqi2STf24hfMkFitDUaIoUU3eKvP/wAbLe8o6FuW5n/x7MHPR0HKvBokp6MQY/j7w8lewEeVCIA==
+  dependencies:
+    "@canvas/image-data" "^1.0.0"
+    to-data-view "^1.1.0"
+
+decode-ico@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/decode-ico/-/decode-ico-0.4.0.tgz#ce89e75af3f4d0db85946236aaf817182d6fa89f"
+  integrity sha512-QEYWYYsfpch201aR9UlLwHYFgtBIfm+BHpkJHznOkl1n3xMyr+s6SJF48fxUQKzRwfp9pnSWnv+EG4ArVjDP+A==
+  dependencies:
+    "@canvas/image-data" "^1.0.0"
+    decode-bmp "^0.2.0"
+    to-data-view "^1.1.0"
+
 decode-uri-component@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/decode-uri-component/-/decode-uri-component-0.2.0.tgz#eb3913333458775cb84cd1a1fae062106bb87545"
@@ -10876,6 +10905,15 @@ i18next@^20.1.0:
   dependencies:
     "@babel/runtime" "^7.12.0"
 
+ico-to-png@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/ico-to-png/-/ico-to-png-0.2.1.tgz#d159356bbd9cc042670cf6eae80f45fcc729fd75"
+  integrity sha512-wP2Jmsj9ZMxi5fIv3VrcQ9w7vmUu4r6ocfMgeDwoHkzG50sY/LYsZcXEZypaD4FkMdjGQU9klNVzxQMMF6rYBw==
+  dependencies:
+    decode-ico "^0.4.0"
+    lodepng "^2.0.0"
+    resize-image-data "^0.3.0"
+
 iconv-lite@0.4.19:
   version "0.4.19"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.19.tgz#f7468f60135f5e5dad3399c0a81be9a1603a082b"
@@ -12859,6 +12897,13 @@ lodash@4.x, lodash@^4.17.11, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, 
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
+
+lodepng@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/lodepng/-/lodepng-2.0.0.tgz#95825ec1d36660f4dc3c683f107d235035f8c28e"
+  integrity sha512-XaRw+WyrhF+6BWz9fG38lz5MTIzmsl7gt3K6kU2Y4QERDQ1w9yAd/QMitniNU6r4+e9V2YHBoaAIwn/laE3H0g==
+  dependencies:
+    "@canvas/image-data" "^1.0.0"
 
 loglevel@^1.6.7, loglevel@^1.6.8:
   version "1.7.1"
@@ -16748,6 +16793,13 @@ reserved-words@^0.1.2:
   resolved "https://registry.yarnpkg.com/reserved-words/-/reserved-words-0.1.2.tgz#00a0940f98cd501aeaaac316411d9adc52b31ab1"
   integrity sha1-AKCUD5jNUBrqqsMWQR2a3FKzGrE=
 
+resize-image-data@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/resize-image-data/-/resize-image-data-0.3.0.tgz#3ea27bce9d0be176d2388f895267d4f30cc41569"
+  integrity sha512-ytyUCrus2cXCOHib/KLek/fh+msjnj3RnFZWxmcPnkEX8WHexWTOc1b7Uey8tfeFcqNLfQvjw8UBWQGK6asMFA==
+  dependencies:
+    "@canvas/image-data" "^1.0.0"
+
 resolve-alpn@^1.0.0:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/resolve-alpn/-/resolve-alpn-1.1.2.tgz#30b60cfbb0c0b8dc897940fe13fe255afcdd4d28"
@@ -18570,6 +18622,11 @@ to-arraybuffer@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/to-arraybuffer/-/to-arraybuffer-1.0.1.tgz#7d229b1fcc637e466ca081180836a7aabff83f43"
   integrity sha1-fSKbH8xjfkZsoIEYCDanqr/4P0M=
+
+to-data-view@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/to-data-view/-/to-data-view-1.1.0.tgz#08d6492b0b8deb9b29bdf1f61c23eadfa8994d00"
+  integrity sha512-1eAdufMg6mwgmlojAx3QeMnzB/BTVp7Tbndi3U7ftcT2zCZadjxkkmLmd97zmaxWi+sgGcgWrokmpEoy0Dn0vQ==
 
 to-fast-properties@^2.0.0:
   version "2.0.0"

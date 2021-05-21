@@ -12,7 +12,7 @@ export class PageServiceImpl implements PageService {
   @inject(UrlService)
   private urlService: UrlService;
 
-  @inject(UrlService)
+  @inject(ImageService)
   private imageService: ImageService;
 
   public async getTopCommentedPages(

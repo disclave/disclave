@@ -26,16 +26,16 @@ export const uploadFlie = async (
   bucket: Bucket,
   key: string,
   contentType: string,
-  arrayBuffer: ArrayBuffer
+  buffer: Buffer
 ): Promise<string> => {
   if (!_s3Client) throw "AWS not initialized";
 
   const upload = _s3Client.upload({
     Bucket: _buckets.get(bucket),
     Key: key,
-    Body: toBuffer(arrayBuffer),
+    Body: buffer,
     ContentType: contentType,
-    ACL: 'public-read'
+    ACL: "public-read",
   });
 
   return new Promise((resolve, reject) => {
@@ -48,11 +48,4 @@ export const uploadFlie = async (
       resolve(data.Location);
     });
   });
-};
-
-const toBuffer = (ab: ArrayBuffer): Buffer => {
-  const buf = Buffer.alloc(ab.byteLength);
-  const view = new Uint8Array(ab);
-  for (let i = 0; i < buf.length; ++i) buf[i] = view[i];
-  return buf;
 };
