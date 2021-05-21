@@ -36,15 +36,21 @@ export class PageServiceImpl implements PageService {
     if (!!savedPageDetails || !fetchMetaIfNoCache)
       return detailsToDomain(savedPageDetails, parsedUrl);
 
-    const metadata = await this.urlService.scrapUrl(parsedUrl.normalized);
-    if (metadata) {
-      await this.repository.savePageDetails(
-        { pageId: parsedUrl.pageId, websiteId: parsedUrl.websiteId },
-        { logo: metadata.logo, title: metadata.title }
-      );
-    }
-
+    const metadata = await this.scapAndSavePageDetails(parsedUrl);
     return urlMetadataToDomain(metadata, parsedUrl);
+  }
+
+  private async scapAndSavePageDetails(
+    url: ParsedUrlData
+  ): Promise<UrlMetaData | null> {
+    const metadata = await this.urlService.scrapUrl(url.normalized);
+    if (!metadata) return null;
+
+    await this.repository.savePageDetails(
+      { pageId: url.pageId, websiteId: url.websiteId },
+      { logo: metadata.logo, title: metadata.title }
+    );
+    return metadata;
   }
 }
 
