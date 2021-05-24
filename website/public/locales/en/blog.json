@@ -1,5 +1,8 @@
 {
   "main section": {
     "header": "Disclave blog"
+  },
+  "seo": {
+    "title": "Disclave - blog"
   }
 }
