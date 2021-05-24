@@ -3,6 +3,8 @@ import { BlogPage } from '@/modules/layout/blog';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import React from 'react';
 
+export const blogHref = () => '/blog';
+
 interface BlogProps {
   postsPreview: Array<PostPreview>;
 }

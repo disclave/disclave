@@ -1,13 +1,16 @@
 import { getPost, getPostIds, Post } from '@/modules/blog';
+import { BlogPostPage } from '@/modules/layout/blog/post';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import React from 'react';
+
+export const blogPostHref = (id: string) => `/blog/${id}`;
 
 interface BlogPostProps {
   post: Post;
 }
 
 const BlogPost: React.VFC<BlogPostProps> = (props) => {
-  return <div>test</div>;
+  return <BlogPostPage post={props.post} />;
 };
 export default BlogPost;
 
