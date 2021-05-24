@@ -1,20 +1,25 @@
 import { getSortedPostsPreview, PostPreview } from '@/modules/blog';
+import { BlogPage } from '@/modules/layout/blog';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import React from 'react';
 
 interface BlogProps {
-  postsPreview: PostPreview[];
+  postsPreview: Array<PostPreview>;
 }
 
 const Blog: React.VFC<BlogProps> = (props) => {
-  return <div>test</div>;
+  return <BlogPage posts={props.postsPreview} />;
 };
 export default Blog;
 
-export async function getStaticProps() {
-  const postsPreview: PostPreview[] = getSortedPostsPreview();
+export const getStaticProps = async ({ locale }) => {
+  const postsPreview: Array<PostPreview> = getSortedPostsPreview();
+  const translationsPromise = serverSideTranslations(locale, ['common', 'layout']);
+
   return {
     props: {
-      postsPreview
+      postsPreview,
+      ...(await translationsPromise)
     }
   };
-}
+};

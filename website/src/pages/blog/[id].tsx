@@ -1,4 +1,5 @@
 import { getPost, getPostIds, Post } from '@/modules/blog';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import React from 'react';
 
 interface BlogPostProps {
@@ -10,19 +11,22 @@ const BlogPost: React.VFC<BlogPostProps> = (props) => {
 };
 export default BlogPost;
 
-export async function getStaticPaths() {
+export const getStaticPaths = async () => {
   const paths = getPostIds();
   return {
     paths,
     fallback: false
   };
-}
+};
 
-export async function getStaticProps({ params }) {
-  const post: Post = await getPost(params.id);
+export const getStaticProps = async ({ params, locale }) => {
+  const postPromise = getPost(params.id);
+  const translationsPromise = serverSideTranslations(locale, ['common', 'layout']);
+
   return {
     props: {
-      post
+      post: await postPromise,
+      ...(await translationsPromise)
     }
   };
-}
+};
