@@ -16,7 +16,7 @@ export default Blog;
 
 export const getStaticProps = async ({ locale }) => {
   const postsPreview: Array<PostPreview> = getSortedPostsPreview();
-  const translationsPromise = serverSideTranslations(locale, ['common', 'layout']);
+  const translationsPromise = serverSideTranslations(locale, ['blog', 'common', 'layout']);
 
   return {
     props: {
