@@ -9,8 +9,8 @@ export interface BlogPostPreviewProps {
 export const BlogPostPreview: React.VFC<BlogPostPreviewProps> = ({ post }) => {
   return (
     <div className="border rounded shadow hover:shadow-lg">
-      <img src={post.imageSrc} alt={post.title} className="rounded" />
-      <div className="p-4">
+      <img src={post.imageSrc} alt={post.title} className="rounded-t" />
+      <div className="px-4 pb-3 pt-2">
         <DateTimePreview className="text-xs text-gray-400" hideTime iso={post.date} />
         <h2 className="text-2xl font-semibold">{post.title}</h2>
       </div>
