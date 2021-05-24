@@ -13,7 +13,8 @@ export const getSortedPostsPreview = () => {
       (p: RawPost): PostPreview => ({
         id: p.id,
         title: p.title,
-        date: p.date
+        date: p.date,
+        imageSrc: p.imageSrc
       })
     )
     .sort((a: PostPreview, b: PostPreview) => comparator(a.date, b.date));

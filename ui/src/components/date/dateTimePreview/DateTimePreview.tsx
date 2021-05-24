@@ -5,12 +5,14 @@ export interface DateTimePreviewProps {
   className?: string;
   iso: string;
   locales?: string | string[];
+  hideTime?: boolean;
 }
 
 export const DateTimePreview: React.VFC<DateTimePreviewProps> = ({
   className,
   iso,
   locales,
+  hideTime,
 }) => {
   const dateLocales = locales ?? getLanguage();
 
@@ -24,8 +26,12 @@ export const DateTimePreview: React.VFC<DateTimePreviewProps> = ({
   });
 
   return (
-    <time className={className} dateTime={iso} title={dateTimeStr}>
-      {dateStr} {timeStr}
+    <time
+      className={className}
+      dateTime={iso}
+      title={hideTime ? dateStr : dateTimeStr}
+    >
+      {dateStr} {hideTime ? null : timeStr}
     </time>
   );
 };
