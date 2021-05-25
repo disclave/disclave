@@ -3,7 +3,7 @@ import { PageService, Page, PageDetails } from "./index";
 import { inject, injectable } from "inversify";
 import { ParsedUrlData, UrlMetaData, UrlService } from "@/modules/url";
 import { ImageService } from "@/modules/image";
-import { UserId } from "../auth";
+import { UserId } from "@/modules/auth";
 
 @injectable()
 export class PageServiceImpl implements PageService {
