@@ -21,10 +21,10 @@ export abstract class PageRepository<T = unknown> extends BaseRepository<T> {
     limit: number
   ): Promise<Array<PageEntity>>;
 
-  abstract findPageDetails(
+  abstract findOrCreatePageDetails(
     url: UrlMeta,
     uid: UserId | null
-  ): Promise<PageDetailsEntity | null>;
+  ): Promise<PageDetailsEntity>;
 
   abstract savePageDetails(url: UrlMeta, data: PageDetailsData): Promise<void>;
 

@@ -27,7 +27,6 @@ export class PageServiceImpl implements PageService {
     return pages.map(toDomain);
   }
 
-    // TODO: return voting data with page details
   public async getPageDetails(
     url: string,
     fetchMetaIfNoCache: boolean,
@@ -35,7 +34,7 @@ export class PageServiceImpl implements PageService {
   ): Promise<PageDetails> {
     const parsedUrl = this.urlService.parseUrl(url);
 
-    const savedPageDetails = await this.repository.findPageDetails(
+    const savedPageDetails = await this.repository.findOrCreatePageDetails(
       {
         pageId: parsedUrl.pageId,
         websiteId: parsedUrl.websiteId,
@@ -43,9 +42,7 @@ export class PageServiceImpl implements PageService {
       userId
     );
 
-    // TODO: save basic page details if not exists (with meta null)
-
-    if (!!savedPageDetails || !fetchMetaIfNoCache)
+    if (!!savedPageDetails.meta || !fetchMetaIfNoCache)
       return detailsToDomain(savedPageDetails, parsedUrl);
 
     const metadata = await this.scapAndSavePageDetails(parsedUrl);
@@ -54,7 +51,6 @@ export class PageServiceImpl implements PageService {
 
   public async setVoteUp(url: string, userId: UserId): Promise<boolean> {
     const parsedUrl = this.urlService.parseUrl(url);
-    // TODO: validate if page details saved
     return await this.repository.setVoteUp(
       { pageId: parsedUrl.pageId, websiteId: parsedUrl.websiteId },
       userId
@@ -63,7 +59,6 @@ export class PageServiceImpl implements PageService {
 
   public async setVoteDown(url: string, userId: UserId): Promise<boolean> {
     const parsedUrl = this.urlService.parseUrl(url);
-    // TODO: validate if page details saved
     return await this.repository.setVoteDown(
       { pageId: parsedUrl.pageId, websiteId: parsedUrl.websiteId },
       userId
@@ -72,7 +67,6 @@ export class PageServiceImpl implements PageService {
 
   public async removeVote(url: string, userId: UserId): Promise<boolean> {
     const parsedUrl = this.urlService.parseUrl(url);
-    // TODO: validate if page details saved
     return await this.repository.removeVote(
       { pageId: parsedUrl.pageId, websiteId: parsedUrl.websiteId },
       userId
@@ -108,14 +102,14 @@ const toDomain = (entity: PageEntity): Page => {
 };
 
 const detailsToDomain = (
-  entity: PageDetailsEntity | null,
+  entity: PageDetailsEntity,
   url: ParsedUrlData
 ): PageDetails => {
   return {
     url: url.normalized,
     pageId: url.pageId,
     websiteId: url.websiteId,
-    meta: entity?.meta
+    meta: entity.meta
       ? {
           logo: entity.meta.logo,
           title: entity.meta.title,
