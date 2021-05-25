@@ -50,7 +50,6 @@ export class PageMongoRepository
     uid: UserId | null
   ): Promise<PageDetailsEntity> {
     const collection = await pagesDbCollection();
-
     const result = await collection.findOneAndUpdate(
       urlMetaToIdFilter(url),
       {
@@ -62,17 +61,30 @@ export class PageMongoRepository
         projection: getProjection(uid),
       }
     );
-
     return cursorDocToEntity(result.value);
   }
 
-  public async savePageDetails(url: UrlMeta, data: PageDetailsData) {
+  public async updatePageDetails(
+    url: UrlMeta,
+    data: PageDetailsData,
+    uid: UserId | null
+  ) {
     const collection = await pagesDbCollection();
-    await collection.replaceOne(
+    const result = await collection.findOneAndUpdate(
       urlMetaToIdFilter(url),
-      toDbPageDetails(url, data),
-      { upsert: true }
+      {
+        $setOnInsert: toDbPageDetails(url, data),
+        $set: {
+          meta: metaToDbPageDetailsMeta(data),
+        },
+      },
+      {
+        upsert: true,
+        returnOriginal: false,
+        projection: getProjection(uid),
+      }
     );
+    return cursorDocToEntity(result.value);
   }
 
   public async setVoteUp(url: UrlMeta, uid: UserId): Promise<boolean> {
@@ -157,14 +169,17 @@ const toDbPageDetails = (
   votesUp: [],
   votesDown: [],
   votesSum: 0,
-  meta: data
-    ? {
-        logo: data.logo,
-        title: data.title,
-      }
-    : null,
+  meta: metaToDbPageDetailsMeta(data),
   timestamp: timestampNow(),
 });
+
+const metaToDbPageDetailsMeta = (data: PageDetailsData | null) => {
+  if (!data) return null;
+  return {
+    logo: data.logo,
+    title: data.title,
+  };
+};
 
 const aggCursorDocToEntity = (
   doc: TopCommentedPagesAggregation
