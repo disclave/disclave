@@ -6,5 +6,6 @@
     "up": "Vote up",
     "down": "Vote down",
     "remove": "Remove vote"
-  }
+  },
+  "auth required": "Sign up or log in to vote"
 }

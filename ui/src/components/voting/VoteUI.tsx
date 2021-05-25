@@ -26,28 +26,26 @@ export const VoteUI: React.VFC<VoteUIProps> = ({
 
   const wrapperClasses = classNames(
     "flex items-center max-w-max",
-    vertical ? "flex-col" : "flex-row",
-    {
-      "space-x-2": enabled && !vertical,
-      "space-y-1.5": enabled && vertical,
-    }
+    vertical ? "flex-col space-y-1.5" : "flex-row space-x-2"
   );
 
   const defaultBtnClasses = classNames(
     "rounded bg-gray-200 focus:outline-none text-xs w-5 h-5",
-    { hidden: !enabled }
+    {
+      "text-gray-400": !enabled,
+    }
   );
 
   const btnIconClasses = "w-5 h-5";
 
   const upBtnClasses = classNames(defaultBtnClasses, {
-    "text-green-600 hover:text-white hover:bg-green-600": !votedUp,
-    "text-white bg-green-600": votedUp,
+    "text-green-600 hover:text-white hover:bg-green-600": !votedUp && enabled,
+    "text-white bg-green-600": votedUp && enabled,
   });
 
   const downBtnClasses = classNames(defaultBtnClasses, {
-    "text-red-600 hover:text-white hover:bg-red-600": !votedDown,
-    "text-white bg-red-600": votedDown,
+    "text-red-600 hover:text-white hover:bg-red-600": !votedDown && enabled,
+    "text-white bg-red-600": votedDown && enabled,
   });
 
   const sumClasses = classNames("font-semibold text-sm", {
@@ -70,12 +68,28 @@ export const VoteUI: React.VFC<VoteUIProps> = ({
     await props.onClickMinus();
   };
 
+  const disabledTitle = t("auth required");
+  const removeTitle = t("vote.remove");
+
+  const upBtnTitle = !enabled
+    ? disabledTitle
+    : votedUp
+    ? removeTitle
+    : t("vote.up");
+
+  const downBtnTitle = !enabled
+    ? disabledTitle
+    : votedDown
+    ? removeTitle
+    : t("vote.down");
+
   return (
     <div className={wrapperClasses}>
       <button
         className={upBtnClasses}
         onClick={onClickPlus}
-        title={votedUp ? t("vote.remove") : t("vote.up")}
+        disabled={!enabled}
+        title={upBtnTitle}
       >
         <FontAwesomeIcon icon={faPlus} className={btnIconClasses} />
       </button>
@@ -86,7 +100,8 @@ export const VoteUI: React.VFC<VoteUIProps> = ({
       <button
         className={downBtnClasses}
         onClick={onClickMinus}
-        title={votedDown ? t("vote.remove") : t("vote.down")}
+        disabled={!enabled}
+        title={downBtnTitle}
       >
         <FontAwesomeIcon icon={faMinus} className={btnIconClasses} />
       </button>
