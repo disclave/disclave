@@ -109,7 +109,7 @@ const detailsToDomain = (
     url: url.normalized,
     pageId: url.pageId,
     websiteId: url.websiteId,
-    meta: entity
+    meta: entity?.meta
       ? {
           logo: entity.meta.logo,
           title: entity.meta.title,
