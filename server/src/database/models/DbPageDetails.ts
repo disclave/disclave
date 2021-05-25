@@ -5,7 +5,10 @@ export interface DbPageDetails {
     pageId: string;
     websiteId: string;
   };
-  meta: {
+  votesUp: string[];
+  votesDown: string[];
+  votesSum: number;
+  meta: null | {
     logo: string | null;
     title: string | null;
   };

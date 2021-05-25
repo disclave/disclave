@@ -3,6 +3,7 @@ import { PageService, Page, PageDetails } from "./index";
 import { inject, injectable } from "inversify";
 import { ParsedUrlData, UrlMetaData, UrlService } from "@/modules/url";
 import { ImageService } from "@/modules/image";
+import { UserId } from "../auth";
 
 @injectable()
 export class PageServiceImpl implements PageService {
@@ -28,20 +29,48 @@ export class PageServiceImpl implements PageService {
 
   public async getPageDetails(
     url: string,
-    fetchMetaIfNoCache: boolean
+    fetchMetaIfNoCache: boolean,
+    userId: UserId | null
   ): Promise<PageDetails> {
     const parsedUrl = this.urlService.parseUrl(url);
 
-    const savedPageDetails = await this.repository.findPageDetails({
-      pageId: parsedUrl.pageId,
-      websiteId: parsedUrl.websiteId,
-    });
+    const savedPageDetails = await this.repository.findPageDetails(
+      {
+        pageId: parsedUrl.pageId,
+        websiteId: parsedUrl.websiteId,
+      },
+      userId
+    );
 
     if (!!savedPageDetails || !fetchMetaIfNoCache)
       return detailsToDomain(savedPageDetails, parsedUrl);
 
     const metadata = await this.scapAndSavePageDetails(parsedUrl);
     return urlMetadataToDomain(metadata, parsedUrl);
+  }
+
+  public async setVoteUp(url: string, userId: UserId): Promise<boolean> {
+    const parsedUrl = this.urlService.parseUrl(url);
+    return await this.repository.setVoteUp(
+      { pageId: parsedUrl.pageId, websiteId: parsedUrl.websiteId },
+      userId
+    );
+  }
+
+  public async setVoteDown(url: string, userId: UserId): Promise<boolean> {
+    const parsedUrl = this.urlService.parseUrl(url);
+    return await this.repository.setVoteDown(
+      { pageId: parsedUrl.pageId, websiteId: parsedUrl.websiteId },
+      userId
+    );
+  }
+
+  public async removeVote(url: string, userId: UserId): Promise<boolean> {
+    const parsedUrl = this.urlService.parseUrl(url);
+    return await this.repository.removeVote(
+      { pageId: parsedUrl.pageId, websiteId: parsedUrl.websiteId },
+      userId
+    );
   }
 
   private async scapAndSavePageDetails(
