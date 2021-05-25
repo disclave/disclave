@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { VoteUI } from "./VoteUI";
 
 export interface VoteProps {
-  itemId: string;
   enabled: boolean;
   votes: {
     sum: number;
@@ -10,9 +9,9 @@ export interface VoteProps {
     votedDown: boolean;
   };
   vertical: boolean;
-  onVoteUp: (itemId: string) => Promise<void>;
-  onVoteDown: (itemId: string) => Promise<void>;
-  onVoteRemove: (itemId: string) => Promise<void>;
+  onVoteUp: () => Promise<void>;
+  onVoteDown: () => Promise<void>;
+  onVoteRemove: () => Promise<void>;
 }
 
 export const Vote: React.VFC<VoteProps> = (props) => {
@@ -33,18 +32,18 @@ export const Vote: React.VFC<VoteProps> = (props) => {
   };
 
   const clearVotes = async () => {
-    await props.onVoteRemove(props.itemId);
+    await props.onVoteRemove();
     const newSum = sum + (votedDown ? 1 : 0) - (votedUp ? 1 : 0);
     setState(newSum, false, false);
   };
 
   const voteUp = async () => {
-    await props.onVoteUp(props.itemId);
+    await props.onVoteUp();
     setState(sum + (votedDown ? 2 : 1), true, false);
   };
 
   const voteDown = async () => {
-    await props.onVoteDown(props.itemId);
+    await props.onVoteDown();
     setState(sum - (votedUp ? 2 : 1), false, true);
   };
 
