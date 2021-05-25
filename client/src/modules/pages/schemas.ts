@@ -17,7 +17,7 @@ export const GET_PAGE_DETAILS = gql`
       url
       pageId
       websiteId
-      votest {
+      votes {
         sum
         votedUp
         votedDown
