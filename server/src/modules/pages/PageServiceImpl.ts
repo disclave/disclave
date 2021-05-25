@@ -27,6 +27,7 @@ export class PageServiceImpl implements PageService {
     return pages.map(toDomain);
   }
 
+    // TODO: return voting data with page details
   public async getPageDetails(
     url: string,
     fetchMetaIfNoCache: boolean,
@@ -42,6 +43,8 @@ export class PageServiceImpl implements PageService {
       userId
     );
 
+    // TODO: save basic page details if not exists (with meta null)
+
     if (!!savedPageDetails || !fetchMetaIfNoCache)
       return detailsToDomain(savedPageDetails, parsedUrl);
 
@@ -51,6 +54,7 @@ export class PageServiceImpl implements PageService {
 
   public async setVoteUp(url: string, userId: UserId): Promise<boolean> {
     const parsedUrl = this.urlService.parseUrl(url);
+    // TODO: validate if page details saved
     return await this.repository.setVoteUp(
       { pageId: parsedUrl.pageId, websiteId: parsedUrl.websiteId },
       userId
@@ -59,6 +63,7 @@ export class PageServiceImpl implements PageService {
 
   public async setVoteDown(url: string, userId: UserId): Promise<boolean> {
     const parsedUrl = this.urlService.parseUrl(url);
+    // TODO: validate if page details saved
     return await this.repository.setVoteDown(
       { pageId: parsedUrl.pageId, websiteId: parsedUrl.websiteId },
       userId
@@ -67,6 +72,7 @@ export class PageServiceImpl implements PageService {
 
   public async removeVote(url: string, userId: UserId): Promise<boolean> {
     const parsedUrl = this.urlService.parseUrl(url);
+    // TODO: validate if page details saved
     return await this.repository.removeVote(
       { pageId: parsedUrl.pageId, websiteId: parsedUrl.websiteId },
       userId

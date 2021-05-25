@@ -1,5 +1,6 @@
 import { gql } from "apollo-server-micro";
 
+// TODO: add voting schemas
 export const pagesTypeDefs = gql`
   type Page {
     id: ID!
