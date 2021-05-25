@@ -30,12 +30,17 @@ export interface AwsConfig {
   };
 }
 
+let _initExecuted = false;
 export const init = async (
   firebaseServiceAccountObject: Object,
   dbConfig: DbConfig,
   mjConfig: MailjetConfig,
-  awsConfig: AwsConfig
+  awsConfig: AwsConfig,
+  skipMigrations: boolean
 ) => {
+  if (_initExecuted) return;
+  _initExecuted = true;
+
   console.info("Initializing server");
 
   const emailTemplates = new Map<EmailTemplate, number>();
@@ -59,8 +64,12 @@ export const init = async (
   console.info("Initializing Database");
   await initDatabase(dbConfig.dbUri, dbConfig.dbName);
 
-  console.info("Cheking migrations");
-  await runAllMigrations();
+  if (!skipMigrations) {
+    console.info("Cheking migrations");
+    await runAllMigrations();
+  } else {
+    console.info("Migrations skipped");
+  }
 };
 
 export { graphqlHandler } from "./graphql";

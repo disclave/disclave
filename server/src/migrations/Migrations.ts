@@ -9,7 +9,9 @@ export const runMigrations = async (jobs: Array<Job>) => {
 
 const checkAndExecute = async (job: Job) => {
   console.info(`Verifying migration job ${job.id}`);
-  if (!shouldRunJob(job)) {
+
+  const shouldExecute = await shouldRunJob(job);
+  if (!shouldExecute) {
     console.info(`Skipping migration job ${job.id}`);
     return;
   }
@@ -27,7 +29,7 @@ const checkAndExecute = async (job: Job) => {
 
 const shouldRunJob = async (job: Job): Promise<boolean> => {
   const collection = await migrationsDbCollection();
-  const doc = collection.findOne({ _id: job.id });
+  const doc = await collection.findOne({ _id: job.id });
   return !doc;
 };
 

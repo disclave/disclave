@@ -9,7 +9,7 @@ import { HomePage } from '@/modules/layout/home';
 export const homeHref = () => '/';
 
 export const getServerSideProps: GetServerSideProps<HomeProps> = async (context) => {
-  await initServer();
+  await initServer(false);
   const userCookie = getUserCookie(context.req);
   const commentService = getCommentService();
   const pageService = getPageService();
