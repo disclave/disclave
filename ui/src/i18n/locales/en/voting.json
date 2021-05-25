@@ -1,0 +1,10 @@
+{
+  "total": {
+    "hint": "Total votes sum: {{sum}}"
+  },
+  "vote": {
+    "up": "Vote up",
+    "down": "Vote down",
+    "remove": "Remove vote"
+  }
+}
