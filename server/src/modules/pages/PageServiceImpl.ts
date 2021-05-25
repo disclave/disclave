@@ -3,6 +3,7 @@ import { PageService, Page, PageDetails } from "./index";
 import { inject, injectable } from "inversify";
 import { ParsedUrlData, UrlMetaData, UrlService } from "@/modules/url";
 import { ImageService } from "@/modules/image";
+import { UserId } from "@/modules/auth";
 
 @injectable()
 export class PageServiceImpl implements PageService {
@@ -26,22 +27,56 @@ export class PageServiceImpl implements PageService {
     return pages.map(toDomain);
   }
 
+    // TODO: return voting data with page details
   public async getPageDetails(
     url: string,
-    fetchMetaIfNoCache: boolean
+    fetchMetaIfNoCache: boolean,
+    userId: UserId | null
   ): Promise<PageDetails> {
     const parsedUrl = this.urlService.parseUrl(url);
 
-    const savedPageDetails = await this.repository.findPageDetails({
-      pageId: parsedUrl.pageId,
-      websiteId: parsedUrl.websiteId,
-    });
+    const savedPageDetails = await this.repository.findPageDetails(
+      {
+        pageId: parsedUrl.pageId,
+        websiteId: parsedUrl.websiteId,
+      },
+      userId
+    );
+
+    // TODO: save basic page details if not exists (with meta null)
 
     if (!!savedPageDetails || !fetchMetaIfNoCache)
       return detailsToDomain(savedPageDetails, parsedUrl);
 
     const metadata = await this.scapAndSavePageDetails(parsedUrl);
     return urlMetadataToDomain(metadata, parsedUrl);
+  }
+
+  public async setVoteUp(url: string, userId: UserId): Promise<boolean> {
+    const parsedUrl = this.urlService.parseUrl(url);
+    // TODO: validate if page details saved
+    return await this.repository.setVoteUp(
+      { pageId: parsedUrl.pageId, websiteId: parsedUrl.websiteId },
+      userId
+    );
+  }
+
+  public async setVoteDown(url: string, userId: UserId): Promise<boolean> {
+    const parsedUrl = this.urlService.parseUrl(url);
+    // TODO: validate if page details saved
+    return await this.repository.setVoteDown(
+      { pageId: parsedUrl.pageId, websiteId: parsedUrl.websiteId },
+      userId
+    );
+  }
+
+  public async removeVote(url: string, userId: UserId): Promise<boolean> {
+    const parsedUrl = this.urlService.parseUrl(url);
+    // TODO: validate if page details saved
+    return await this.repository.removeVote(
+      { pageId: parsedUrl.pageId, websiteId: parsedUrl.websiteId },
+      userId
+    );
   }
 
   private async scapAndSavePageDetails(
@@ -80,7 +115,7 @@ const detailsToDomain = (
     url: url.normalized,
     pageId: url.pageId,
     websiteId: url.websiteId,
-    meta: entity
+    meta: entity?.meta
       ? {
           logo: entity.meta.logo,
           title: entity.meta.title,

@@ -9,8 +9,9 @@ import { injectable } from "inversify";
 import { MongoRepository, timestampNow } from "@/connectors/mongodb";
 import { ClientSession } from "@/connectors/mongodb";
 import { commentsDbCollection } from "@/database/comments";
-import { pagesDbCollection } from "@/database/pages";
+import { getProjection, pagesDbCollection } from "@/database/pages";
 import { DbPageDetails } from "@/database";
+import { UserId } from "@/modules/auth";
 
 interface TopCommentedPagesAggregation {
   _id: {
@@ -45,10 +46,13 @@ export class PageMongoRepository
   }
 
   public async findPageDetails(
-    url: UrlMeta
+    url: UrlMeta,
+    uid: UserId | null
   ): Promise<PageDetailsEntity | null> {
     const collection = await pagesDbCollection();
-    const doc = await collection.findOne(urlMetaToIdFilter(url));
+    const doc = await collection.findOne(urlMetaToIdFilter(url), {
+      projection: getProjection(uid),
+    });
     if (!doc) return null;
     return cursorDocToEntity(doc);
   }
@@ -61,7 +65,67 @@ export class PageMongoRepository
       { upsert: true }
     );
   }
+
+  public async setVoteUp(url: UrlMeta, uid: UserId): Promise<boolean> {
+    const collection = await pagesDbCollection();
+
+    const bulk = collection.initializeOrderedBulkOp();
+    bulk.find(urlMetaToIdFilter(url)).updateOne({
+      $pull: {
+        votesDown: uid,
+      },
+      $addToSet: {
+        votesUp: uid,
+      },
+    });
+    bulk.find(urlMetaToIdFilter(url)).updateOne([updateVotesSumAggregation]);
+
+    const result = await bulk.execute();
+    return result.nModified > 0;
+  }
+
+  public async setVoteDown(url: UrlMeta, uid: UserId): Promise<boolean> {
+    const collection = await pagesDbCollection();
+
+    const bulk = collection.initializeOrderedBulkOp();
+    bulk.find(urlMetaToIdFilter(url)).updateOne({
+      $pull: {
+        votesUp: uid,
+      },
+      $addToSet: {
+        votesDown: uid,
+      },
+    });
+    bulk.find(urlMetaToIdFilter(url)).updateOne([updateVotesSumAggregation]);
+
+    const result = await bulk.execute();
+    return result.nModified > 0;
+  }
+
+  public async removeVote(url: UrlMeta, uid: UserId): Promise<boolean> {
+    const collection = await pagesDbCollection();
+
+    const bulk = collection.initializeOrderedBulkOp();
+    bulk.find(urlMetaToIdFilter(url)).updateOne({
+      $pull: {
+        votesUp: uid,
+        votesDown: uid,
+      },
+    });
+    bulk.find(urlMetaToIdFilter(url)).updateOne([updateVotesSumAggregation]);
+
+    const result = await bulk.execute();
+    return result.nModified > 0;
+  }
 }
+
+const updateVotesSumAggregation = {
+  $set: {
+    votesSum: {
+      $subtract: [{ $size: "$votesUp" }, { $size: "$votesDown" }],
+    },
+  },
+};
 
 const urlMetaToIdFilter = (url: UrlMeta) => ({
   _id: {
@@ -72,16 +136,21 @@ const urlMetaToIdFilter = (url: UrlMeta) => ({
 
 const toDbPageDetails = (
   url: UrlMeta,
-  data: PageDetailsData
+  data: PageDetailsData | null
 ): DbPageDetails => ({
   _id: {
     pageId: url.pageId,
     websiteId: url.websiteId,
   },
-  meta: {
-    logo: data.logo,
-    title: data.title,
-  },
+  votesUp: [],
+  votesDown: [],
+  votesSum: 0,
+  meta: data
+    ? {
+        logo: data.logo,
+        title: data.title,
+      }
+    : null,
   timestamp: timestampNow(),
 });
 
@@ -99,6 +168,11 @@ const aggCursorDocToEntity = (
 const cursorDocToEntity = (doc: DbPageDetails): PageDetailsEntity => ({
   pageId: doc._id.pageId,
   websiteId: doc._id.websiteId,
+  votes: {
+    sum: doc.votesSum,
+    votedUp: doc.votesUp?.length > 0,
+    votedDown: doc.votesDown?.length > 0,
+  },
   meta: {
     logo: doc.meta.logo,
     title: doc.meta.title,

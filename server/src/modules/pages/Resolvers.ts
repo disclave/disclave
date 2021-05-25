@@ -1,6 +1,7 @@
 import { Page, PageDetails } from "./models";
 import { container } from "@/inversify.config";
 import { PageService } from "./index";
+import { DecodedIdToken } from "@/modules/auth";
 
 const service = container.get(PageService);
 
@@ -13,10 +14,15 @@ export const pagesResolvers = {
       );
       return pages.map(pageToResponse);
     },
-    pageDetails: async (_, args) => {
+    pageDetails: async (
+      _,
+      args,
+      { decodedToken }: { decodedToken: DecodedIdToken }
+    ) => {
       const pageDetails = await service.getPageDetails(
         args.url,
-        args.fetchMetaIfNoCache
+        args.fetchMetaIfNoCache,
+        decodedToken?.uid
       );
       return pageDetailsToResponse(pageDetails);
     },

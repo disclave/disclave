@@ -22,7 +22,7 @@ export const getServerSideProps: GetServerSideProps<WebsiteProps> = async (conte
   const pageService = getPageService();
 
   const website = context.query.website as string;
-  const pageDetailsPromise = pageService.getPageDetails(website, false);
+  const pageDetailsPromise = pageService.getPageDetails(website, false, userCookie?.uid);
   const commentsPromise = commentService.getComments(website, userCookie?.uid);
   const translationsPromise = serverSideTranslations(context.locale, [
     'common',
