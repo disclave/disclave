@@ -1,6 +1,7 @@
 import React from 'react';
-import { PageDetailsModel, stringToUrl } from '@disclave/client';
+import { PageDetailsModel, useSession } from '@disclave/client';
 import { useTranslation } from 'next-i18next';
+import { PageVotes } from './votes';
 
 export interface WebsiteInfoProps {
   pageDetails: PageDetailsModel;
@@ -14,7 +15,10 @@ export const WebsiteInfo: React.VFC<WebsiteInfoProps> = ({ pageDetails }) => {
   const title = pageDetails.meta?.title ?? null;
 
   return (
-    <section className="container mx-auto">
+    <section className="container mx-auto flex flex-row">
+      <div className="pr-4 py-2">
+        <PageVotes pageDetails={pageDetails} />
+      </div>
       <div>
         <div className="flex flex-row items-center">
           {logo ? (
@@ -27,7 +31,9 @@ export const WebsiteInfo: React.VFC<WebsiteInfoProps> = ({ pageDetails }) => {
         {title ? <h2 className="text-2xl break-words">{title}</h2> : null}
         <h3 className="text-lg font-semibold break-words">
           {url.pathname}
-          {url.pathname === '/' ? <span className="text-gray-400"> {t('info.main page')}</span> : null}
+          {url.pathname === '/' ? (
+            <span className="text-gray-400"> {t('info.main page')}</span>
+          ) : null}
         </h3>
         <div className="mt-2">
           <a
