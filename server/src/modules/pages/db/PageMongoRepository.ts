@@ -73,7 +73,7 @@ export class PageMongoRepository
     const result = await collection.findOneAndUpdate(
       urlMetaToIdFilter(url),
       {
-        $setOnInsert: toDbPageDetails(url, data),
+        $setOnInsert: toPartialDbPageDetails(url),
         $set: {
           meta: metaToDbPageDetailsMeta(data),
         },
@@ -158,10 +158,7 @@ const urlMetaToIdFilter = (url: UrlMeta) => ({
   },
 });
 
-const toDbPageDetails = (
-  url: UrlMeta,
-  data: PageDetailsData | null
-): DbPageDetails => ({
+const toPartialDbPageDetails = (url: UrlMeta) => ({
   _id: {
     pageId: url.pageId,
     websiteId: url.websiteId,
@@ -169,8 +166,15 @@ const toDbPageDetails = (
   votesUp: [],
   votesDown: [],
   votesSum: 0,
-  meta: metaToDbPageDetailsMeta(data),
   timestamp: timestampNow(),
+});
+
+const toDbPageDetails = (
+  url: UrlMeta,
+  data: PageDetailsData | null
+): DbPageDetails => ({
+  ...toPartialDbPageDetails(url),
+  meta: metaToDbPageDetailsMeta(data),
 });
 
 const metaToDbPageDetailsMeta = (data: PageDetailsData | null) => {
@@ -200,8 +204,10 @@ const cursorDocToEntity = (doc: DbPageDetails): PageDetailsEntity => ({
     votedUp: doc.votesUp?.length > 0,
     votedDown: doc.votesDown?.length > 0,
   },
-  meta: {
-    logo: doc.meta.logo,
-    title: doc.meta.title,
-  },
+  meta: doc.meta
+    ? {
+        logo: doc.meta.logo,
+        title: doc.meta.title,
+      }
+    : null,
 });
