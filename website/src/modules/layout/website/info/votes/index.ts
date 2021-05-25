@@ -1,0 +1,1 @@
+export { PageVotes } from './PageVotes';

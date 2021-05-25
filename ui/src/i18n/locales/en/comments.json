@@ -20,12 +20,7 @@
       "text": "There are no comments. Be first to say something!"
     },
     "item": {
-      "show all": "Show all",
-      "vote": {
-        "up": "Vote up",
-        "down": "Vote down",
-        "remove": "Remove vote"
-      }
+      "show all": "Show all"
     }
   }
 }

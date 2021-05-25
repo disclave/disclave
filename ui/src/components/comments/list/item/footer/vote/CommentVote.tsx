@@ -1,9 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { CommentVotes } from "@/components/comments/CommentModel";
-import classNames from "classnames";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
-import { useTranslation } from "@/i18n";
+import { Vote } from "@/components/voting";
 
 export interface CommentVoteProps {
   commentId: string;
@@ -15,108 +12,30 @@ export interface CommentVoteProps {
 }
 
 export const CommentVote: React.VFC<CommentVoteProps> = (props) => {
-  const { t } = useTranslation("comments");
-
-  const [sum, setSum] = useState(props.votes.sum);
-  const [votedUp, setVotedUp] = useState(props.votes.votedUp);
-  const [votedDown, setVotedDown] = useState(props.votes.votedDown);
-
-  useEffect(() => {
-    setSum(props.votes.sum);
-    setVotedUp(props.votes.votedUp);
-    setVotedDown(props.votes.votedDown);
-  }, [props.votes]);
-
-  const wrapperClasses = classNames("flex flex-row items-center", {
-    "space-x-2": props.enabled,
-  });
-
-  const defaultBtnClasses = classNames(
-    "rounded bg-gray-200 focus:outline-none w-5 h-5 text-xs",
-    { hidden: !props.enabled }
-  );
-
-  const btnIconClasses = "w-5 h-5";
-
-  const upBtnClasses = classNames(defaultBtnClasses, {
-    "text-green-600 hover:text-white hover:bg-green-600": !votedUp,
-    "text-white bg-green-600": votedUp,
-  });
-
-  const downBtnClasses = classNames(defaultBtnClasses, {
-    "text-red-600 hover:text-white hover:bg-red-600": !votedDown,
-    "text-white bg-red-600": votedDown,
-  });
-
-  const sumClasses = classNames("font-semibold text-sm", {
-    "font-bold": votedDown || votedUp,
-    "text-green-600": sum > 0,
-    "text-red-600": sum < 0,
-  });
-
   const clearVotes = async () => {
     await props.onVoteRemove(props.commentId);
-
-    if (votedUp) setSum(sum - 1);
-    if (votedDown) setSum(sum + 1);
-    setVotedUp(false);
-    setVotedDown(false);
   };
 
   const voteUp = async () => {
     await props.onVoteUp(props.commentId);
-
-    if (votedDown) setSum(sum + 2);
-    else setSum(sum + 1);
-
-    setVotedDown(false);
-    setVotedUp(true);
   };
 
   const voteDown = async () => {
     await props.onVoteDown(props.commentId);
-
-    if (votedUp) setSum(sum - 2);
-    else setSum(sum - 1);
-
-    setVotedUp(false);
-    setVotedDown(true);
-  };
-
-  const onClickPlus = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.preventDefault();
-    if (votedUp) await clearVotes();
-    else await voteUp();
-  };
-
-  const onClickMinus = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.preventDefault();
-    if (votedDown) await clearVotes();
-    else await voteDown();
   };
 
   return (
-    <div className={wrapperClasses}>
-      <button
-        className={upBtnClasses}
-        onClick={onClickPlus}
-        title={votedUp ? t("list.item.vote.remove") : t("list.item.vote.up")}
-      >
-        <FontAwesomeIcon icon={faPlus} className={btnIconClasses} />
-      </button>
-      <div className={sumClasses}>
-        {sum > 0 ? "+" : ""}
-        {sum}
-      </div>
-      <button
-        className={downBtnClasses}
-        onClick={onClickMinus}
-        title={
-          votedDown ? t("list.item.vote.remove") : t("list.item.vote.down")
-        }
-      >
-        <FontAwesomeIcon icon={faMinus} className={btnIconClasses} />
-      </button>
-    </div>
+    <Vote
+      enabled={props.enabled}
+      votes={{
+        sum: props.votes.sum,
+        votedDown: props.votes.votedDown,
+        votedUp: props.votes.votedUp,
+      }}
+      vertical={false}
+      onVoteDown={voteDown}
+      onVoteRemove={clearVotes}
+      onVoteUp={voteUp}
+    />
   );
 };

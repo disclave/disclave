@@ -17,6 +17,11 @@ export const GET_PAGE_DETAILS = gql`
       url
       pageId
       websiteId
+      votes {
+        sum
+        votedUp
+        votedDown
+      }
       meta {
         logo
         title
@@ -25,3 +30,20 @@ export const GET_PAGE_DETAILS = gql`
   }
 `;
 
+export const REMOVE_PAGE_VOTE = gql`
+  mutation($url: String!) {
+    removePageVote(url: $url)
+  }
+`;
+
+export const ADD_PAGE_VOTE_UP = gql`
+  mutation($url: String!) {
+    addPageVoteUp(url: $url)
+  }
+`;
+
+export const ADD_PAGE_VOTE_DOWN = gql`
+  mutation($url: String!) {
+    addPageVoteDown(url: $url)
+  }
+`;
