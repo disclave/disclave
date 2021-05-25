@@ -1,8 +1,10 @@
 import { Page, PageDetails } from "./models";
 import { container } from "@/inversify.config";
 import { PageService } from "./index";
-import { DecodedIdToken } from "@/modules/auth";
+import { AuthProvider, DecodedIdToken, IdToken } from "@/modules/auth";
+import { Unauthorized } from "@/exceptions/exceptions";
 
+const authProvider = container.get(AuthProvider);
 const service = container.get(PageService);
 
 export const pagesResolvers = {
@@ -27,6 +29,23 @@ export const pagesResolvers = {
       return pageDetailsToResponse(pageDetails);
     },
   },
+  Mutation: {
+    removePageVote: async (_, args, { idToken }: { idToken: IdToken }) => {
+      if (!idToken) throw Unauthorized("You have to be authorized to vote.");
+      const decodedToken = await authProvider.verifyIdToken(idToken, true);
+      return await service.removeVote(args.url, decodedToken.uid);
+    },
+    addPageVoteUp: async (_, args, { idToken }: { idToken: IdToken }) => {
+      if (!idToken) throw Unauthorized("You have to be authorized to vote.");
+      const decodedToken = await authProvider.verifyIdToken(idToken, true);
+      return await service.setVoteUp(args.url, decodedToken.uid);
+    },
+    addPageVoteDown: async (_, args, { idToken }: { idToken: IdToken }) => {
+      if (!idToken) throw Unauthorized("You have to be authorized to vote.");
+      const decodedToken = await authProvider.verifyIdToken(idToken, true);
+      return await service.setVoteDown(args.url, decodedToken.uid);
+    },
+  },
 };
 
 const pageToResponse = (page: Page) => {
@@ -43,6 +62,11 @@ const pageDetailsToResponse = (details: PageDetails) => {
     url: details.url,
     pageId: details.pageId,
     websiteId: details.websiteId,
+    votes: {
+      sum: details.votes.sum,
+      votedUp: details.votes.votedUp,
+      votedDown: details.votes.votedDown,
+    },
     meta: details.meta
       ? {
           logo: details.meta.logo,
