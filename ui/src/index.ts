@@ -17,7 +17,7 @@ export {
   TextField,
   TextArea,
 } from "./components/forms";
-
+export { Vote } from "./components/voting";
 export {
   LoginFormContainer,
   RegisterFormContainer,
