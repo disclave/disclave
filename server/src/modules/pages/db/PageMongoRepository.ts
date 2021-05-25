@@ -45,30 +45,52 @@ export class PageMongoRepository
     return await cursor.map(aggCursorDocToEntity).toArray();
   }
 
-  public async findPageDetails(
+  public async findOrCreatePageDetails(
     url: UrlMeta,
     uid: UserId | null
-  ): Promise<PageDetailsEntity | null> {
+  ): Promise<PageDetailsEntity> {
     const collection = await pagesDbCollection();
-    const doc = await collection.findOne(urlMetaToIdFilter(url), {
-      projection: getProjection(uid),
-    });
-    if (!doc) return null;
-    return cursorDocToEntity(doc);
+    const result = await collection.findOneAndUpdate(
+      urlMetaToIdFilter(url),
+      {
+        $setOnInsert: toDbPageDetails(url, null),
+      },
+      {
+        upsert: true,
+        returnOriginal: false,
+        projection: getProjection(uid),
+      }
+    );
+    return cursorDocToEntity(result.value);
   }
 
-  public async savePageDetails(url: UrlMeta, data: PageDetailsData) {
+  public async updatePageDetails(
+    url: UrlMeta,
+    data: PageDetailsData,
+    uid: UserId | null
+  ) {
     const collection = await pagesDbCollection();
-    await collection.replaceOne(
+    const result = await collection.findOneAndUpdate(
       urlMetaToIdFilter(url),
-      toDbPageDetails(url, data),
-      { upsert: true }
+      {
+        $setOnInsert: toPartialDbPageDetails(url),
+        $set: {
+          meta: metaToDbPageDetailsMeta(data),
+        },
+      },
+      {
+        upsert: true,
+        returnOriginal: false,
+        projection: getProjection(uid),
+      }
     );
+    return cursorDocToEntity(result.value);
   }
 
   public async setVoteUp(url: UrlMeta, uid: UserId): Promise<boolean> {
-    const collection = await pagesDbCollection();
+    this.findOrCreatePageDetails(url, null); // save default page data to db, if not exists
 
+    const collection = await pagesDbCollection();
     const bulk = collection.initializeOrderedBulkOp();
     bulk.find(urlMetaToIdFilter(url)).updateOne({
       $pull: {
@@ -85,8 +107,9 @@ export class PageMongoRepository
   }
 
   public async setVoteDown(url: UrlMeta, uid: UserId): Promise<boolean> {
-    const collection = await pagesDbCollection();
+    this.findOrCreatePageDetails(url, null); // save default page data to db, if not exists
 
+    const collection = await pagesDbCollection();
     const bulk = collection.initializeOrderedBulkOp();
     bulk.find(urlMetaToIdFilter(url)).updateOne({
       $pull: {
@@ -103,8 +126,9 @@ export class PageMongoRepository
   }
 
   public async removeVote(url: UrlMeta, uid: UserId): Promise<boolean> {
-    const collection = await pagesDbCollection();
+    this.findOrCreatePageDetails(url, null); // save default page data to db, if not exists
 
+    const collection = await pagesDbCollection();
     const bulk = collection.initializeOrderedBulkOp();
     bulk.find(urlMetaToIdFilter(url)).updateOne({
       $pull: {
@@ -134,10 +158,7 @@ const urlMetaToIdFilter = (url: UrlMeta) => ({
   },
 });
 
-const toDbPageDetails = (
-  url: UrlMeta,
-  data: PageDetailsData | null
-): DbPageDetails => ({
+const toPartialDbPageDetails = (url: UrlMeta) => ({
   _id: {
     pageId: url.pageId,
     websiteId: url.websiteId,
@@ -145,14 +166,24 @@ const toDbPageDetails = (
   votesUp: [],
   votesDown: [],
   votesSum: 0,
-  meta: data
-    ? {
-        logo: data.logo,
-        title: data.title,
-      }
-    : null,
   timestamp: timestampNow(),
 });
+
+const toDbPageDetails = (
+  url: UrlMeta,
+  data: PageDetailsData | null
+): DbPageDetails => ({
+  ...toPartialDbPageDetails(url),
+  meta: metaToDbPageDetailsMeta(data),
+});
+
+const metaToDbPageDetailsMeta = (data: PageDetailsData | null) => {
+  if (!data) return null;
+  return {
+    logo: data.logo,
+    title: data.title,
+  };
+};
 
 const aggCursorDocToEntity = (
   doc: TopCommentedPagesAggregation
@@ -173,8 +204,10 @@ const cursorDocToEntity = (doc: DbPageDetails): PageDetailsEntity => ({
     votedUp: doc.votesUp?.length > 0,
     votedDown: doc.votesDown?.length > 0,
   },
-  meta: {
-    logo: doc.meta.logo,
-    title: doc.meta.title,
-  },
+  meta: doc.meta
+    ? {
+        logo: doc.meta.logo,
+        title: doc.meta.title,
+      }
+    : null,
 });

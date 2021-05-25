@@ -1,7 +1,7 @@
 import { PageDetailsEntity, PageEntity, PageRepository } from "./db";
 import { PageService, Page, PageDetails } from "./index";
 import { inject, injectable } from "inversify";
-import { ParsedUrlData, UrlMetaData, UrlService } from "@/modules/url";
+import { ParsedUrlData, UrlService } from "@/modules/url";
 import { ImageService } from "@/modules/image";
 import { UserId } from "@/modules/auth";
 
@@ -27,15 +27,13 @@ export class PageServiceImpl implements PageService {
     return pages.map(toDomain);
   }
 
-    // TODO: return voting data with page details
   public async getPageDetails(
     url: string,
     fetchMetaIfNoCache: boolean,
     userId: UserId | null
   ): Promise<PageDetails> {
     const parsedUrl = this.urlService.parseUrl(url);
-
-    const savedPageDetails = await this.repository.findPageDetails(
+    const savedPageDetails = await this.repository.findOrCreatePageDetails(
       {
         pageId: parsedUrl.pageId,
         websiteId: parsedUrl.websiteId,
@@ -43,18 +41,21 @@ export class PageServiceImpl implements PageService {
       userId
     );
 
-    // TODO: save basic page details if not exists (with meta null)
-
-    if (!!savedPageDetails || !fetchMetaIfNoCache)
+    if (!!savedPageDetails.meta || !fetchMetaIfNoCache)
       return detailsToDomain(savedPageDetails, parsedUrl);
 
-    const metadata = await this.scapAndSavePageDetails(parsedUrl);
-    return urlMetadataToDomain(metadata, parsedUrl);
+    const updatedPageDetails = await this.scrapAndSavePageDetails(
+      parsedUrl,
+      userId
+    );
+
+    if (!updatedPageDetails)
+      return detailsToDomain(savedPageDetails, parsedUrl);
+    else return detailsToDomain(updatedPageDetails, parsedUrl);
   }
 
   public async setVoteUp(url: string, userId: UserId): Promise<boolean> {
     const parsedUrl = this.urlService.parseUrl(url);
-    // TODO: validate if page details saved
     return await this.repository.setVoteUp(
       { pageId: parsedUrl.pageId, websiteId: parsedUrl.websiteId },
       userId
@@ -63,7 +64,6 @@ export class PageServiceImpl implements PageService {
 
   public async setVoteDown(url: string, userId: UserId): Promise<boolean> {
     const parsedUrl = this.urlService.parseUrl(url);
-    // TODO: validate if page details saved
     return await this.repository.setVoteDown(
       { pageId: parsedUrl.pageId, websiteId: parsedUrl.websiteId },
       userId
@@ -72,30 +72,27 @@ export class PageServiceImpl implements PageService {
 
   public async removeVote(url: string, userId: UserId): Promise<boolean> {
     const parsedUrl = this.urlService.parseUrl(url);
-    // TODO: validate if page details saved
     return await this.repository.removeVote(
       { pageId: parsedUrl.pageId, websiteId: parsedUrl.websiteId },
       userId
     );
   }
 
-  private async scapAndSavePageDetails(
-    url: ParsedUrlData
-  ): Promise<UrlMetaData | null> {
+  private async scrapAndSavePageDetails(
+    url: ParsedUrlData,
+    userId: UserId | null
+  ): Promise<PageDetailsEntity | null> {
     const metadata = await this.urlService.scrapUrl(url.normalized);
     if (!metadata) return null;
 
     const title = metadata.title;
     const logo = await this.imageService.savePageLogo(url, metadata.logo);
 
-    await this.repository.savePageDetails(
+    return await this.repository.updatePageDetails(
       { pageId: url.pageId, websiteId: url.websiteId },
-      { logo, title }
+      { logo, title },
+      userId
     );
-    return {
-      logo,
-      title,
-    };
   }
 }
 const toDomain = (entity: PageEntity): Page => {
@@ -108,34 +105,22 @@ const toDomain = (entity: PageEntity): Page => {
 };
 
 const detailsToDomain = (
-  entity: PageDetailsEntity | null,
+  entity: PageDetailsEntity,
   url: ParsedUrlData
 ): PageDetails => {
   return {
     url: url.normalized,
     pageId: url.pageId,
     websiteId: url.websiteId,
-    meta: entity?.meta
+    votes: {
+      sum: entity.votes.sum,
+      votedDown: entity.votes.votedDown,
+      votedUp: entity.votes.votedUp,
+    },
+    meta: entity.meta
       ? {
           logo: entity.meta.logo,
           title: entity.meta.title,
-        }
-      : null,
-  };
-};
-
-const urlMetadataToDomain = (
-  meta: UrlMetaData | null,
-  url: ParsedUrlData
-): PageDetails => {
-  return {
-    url: url.normalized,
-    pageId: url.pageId,
-    websiteId: url.websiteId,
-    meta: meta
-      ? {
-          logo: meta.logo ?? null,
-          title: meta.title ?? null,
         }
       : null,
   };
