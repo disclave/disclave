@@ -39,12 +39,14 @@ export const VoteUI: React.VFC<VoteUIProps> = ({
   const btnIconClasses = "w-5 h-5";
 
   const upBtnClasses = classNames(defaultBtnClasses, {
-    "text-green-600 hover:text-white hover:bg-green-600": !votedUp && enabled,
+    "text-green-600 hover-hover:hover:text-white hover-hover:hover:bg-green-600":
+      !votedUp && enabled,
     "text-white bg-green-600": votedUp && enabled,
   });
 
   const downBtnClasses = classNames(defaultBtnClasses, {
-    "text-red-600 hover:text-white hover:bg-red-600": !votedDown && enabled,
+    "text-red-600 hover-hover:hover:text-white hover-hover:hover:bg-red-600":
+      !votedDown && enabled,
     "text-white bg-red-600": votedDown && enabled,
   });
 
