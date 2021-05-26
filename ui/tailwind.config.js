@@ -10,6 +10,9 @@ module.exports = {
           dark: "#00747e",
         },
       },
+      screens: {
+        "hover-hover": { raw: "(hover: hover)" },
+      },
     },
   },
   variants: {
