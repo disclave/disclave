@@ -21,6 +21,12 @@ export abstract class PageRepository<T = unknown> extends BaseRepository<T> {
     limit: number
   ): Promise<Array<PageEntity>>;
 
+  abstract findTopRatedPages(
+    minVoteSum: number,
+    limit: number,
+    uid: UserId | null
+  ): Promise<Array<PageDetailsEntity>>;
+
   abstract findOrCreatePageDetails(
     url: UrlMeta,
     uid: UserId | null

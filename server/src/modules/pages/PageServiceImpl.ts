@@ -27,6 +27,20 @@ export class PageServiceImpl implements PageService {
     return pages.map(toDomain);
   }
 
+  public async getTopRatedPages(
+    minVoteSum: number,
+    limit: number,
+    userId: UserId | null
+  ): Promise<Array<PageDetails>> {
+    const pages = await this.repository.findTopRatedPages(
+      minVoteSum,
+      limit,
+      userId
+    );
+    // FIXME
+    return pages.map(detailsToDomain);
+  }
+
   public async getPageDetails(
     url: string,
     fetchMetaIfNoCache: boolean,

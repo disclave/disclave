@@ -45,6 +45,27 @@ export class PageMongoRepository
     return await cursor.map(aggCursorDocToEntity).toArray();
   }
 
+  public async findTopRatedPages(
+    minVoteSum: number,
+    limit: number,
+    uid: UserId | null
+  ): Promise<Array<PageDetailsEntity>> {
+    const collection = await pagesDbCollection();
+    const cursor = collection
+      .find(
+        {
+          votesSum: { $gte: minVoteSum },
+        },
+        {
+          projection: getProjection(uid),
+        }
+      )
+      .sort({ votesSum: -1 })
+      .limit(limit);
+
+    return await cursor.map(cursorDocToEntity).toArray();
+  }
+
   public async findOrCreatePageDetails(
     url: UrlMeta,
     uid: UserId | null
