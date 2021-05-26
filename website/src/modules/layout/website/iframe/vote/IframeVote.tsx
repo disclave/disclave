@@ -1,21 +1,43 @@
-import { PageDetailsModel } from '@disclave/client';
-import { PageVotes } from '@/modules/pages/votes';
+import {
+  addPageVoteDown,
+  addPageVoteUp,
+  PageDetailsModel,
+  removePageVote,
+  useSession
+} from '@disclave/client';
 import React from 'react';
-import { useTranslation } from 'next-i18next';
+import { PageVoting } from '@disclave/ui';
 
 export interface IframeVoteProps {
   pageDetails: PageDetailsModel;
 }
 
-export const IframeVote: React.VFC<IframeVoteProps> = (props) => {
-  const { t } = useTranslation('iframe');
+export const IframeVote: React.VFC<IframeVoteProps> = ({ pageDetails }) => {
+  const { uid } = useSession();
+
+  const onVoteDown = async () => {
+    await addPageVoteDown(pageDetails.url);
+  };
+
+  const onVoteUp = async () => {
+    await addPageVoteUp(pageDetails.url);
+  };
+
+  const onVoteRemove = async () => {
+    await removePageVote(pageDetails.url);
+  };
 
   return (
-    <div className="mx-auto max-w-max">
-      <span className="text-sm">{t('vote.do you like it')}</span>
-      <div className="my-2 mx-auto max-w-max">
-        <PageVotes pageDetails={props.pageDetails} horizontal />
-      </div>
-    </div>
+    <PageVoting
+      enabled={!!uid}
+      votes={{
+        sum: pageDetails.votes.sum,
+        votedDown: pageDetails.votes.votedDown,
+        votedUp: pageDetails.votes.votedUp
+      }}
+      onVoteDown={onVoteDown}
+      onVoteRemove={onVoteRemove}
+      onVoteUp={onVoteUp}
+    />
   );
 };

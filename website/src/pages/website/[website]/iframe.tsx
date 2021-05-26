@@ -7,7 +7,6 @@ import { WebsiteIframePage } from '@/modules/layout/website/iframe';
 import { NextSeo } from 'next-seo';
 import { domain } from '@/consts';
 import { websiteHref } from '.';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 export const websiteIframeHref = (url: string) => `/website/${url}/iframe/`;
 
@@ -20,7 +19,6 @@ export const getServerSideProps: GetServerSideProps<IFrameProps> = async (contex
   const website = context.query.website as string;
   const pageDetailsPromise = pageService.getPageDetails(website, false, userCookie?.uid);
   const commentsPromise = commentService.getComments(website, userCookie?.uid);
-  const translationsPromise = serverSideTranslations(context.locale, ['iframe']);
 
   const hideVotes = context.query.hideVotes !== undefined;
 
@@ -31,8 +29,7 @@ export const getServerSideProps: GetServerSideProps<IFrameProps> = async (contex
       website: website,
       hideVotes,
       serverSideUid: userCookie ? userCookie.uid : null,
-      iframe: true,
-      ...(await translationsPromise)
+      iframe: true
     }
   };
 };
