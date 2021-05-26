@@ -1,7 +1,7 @@
 import React from 'react';
 import { PageDetailsModel, useSession } from '@disclave/client';
 import { useTranslation } from 'next-i18next';
-import { PageVotes } from './votes';
+import { PageVotes } from '@/modules/pages/votes';
 
 export interface WebsiteInfoProps {
   pageDetails: PageDetailsModel;

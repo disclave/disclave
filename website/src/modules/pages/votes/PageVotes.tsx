@@ -10,9 +10,10 @@ import { Vote } from '@disclave/ui';
 
 export interface PageVotesProps {
   pageDetails: PageDetailsModel;
+  horizontal?: boolean;
 }
 
-export const PageVotes: React.VFC<PageVotesProps> = ({ pageDetails }) => {
+export const PageVotes: React.VFC<PageVotesProps> = ({ pageDetails, horizontal = false }) => {
   const { uid } = useSession();
 
   const onVoteDown = async () => {
@@ -35,7 +36,7 @@ export const PageVotes: React.VFC<PageVotesProps> = ({ pageDetails }) => {
         votedDown: pageDetails.votes.votedDown,
         votedUp: pageDetails.votes.votedUp
       }}
-      vertical={true}
+      vertical={!horizontal}
       onVoteDown={onVoteDown}
       onVoteUp={onVoteUp}
       onVoteRemove={onVoteRemove}
