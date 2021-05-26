@@ -5,7 +5,6 @@ import { PageCommentsContainer } from '@disclave/ui';
 import { useWebsiteComments } from '@/modules/comments';
 import { useContainerHeightMessage } from '@/modules/iframe';
 import { registerHref } from '@/pages/auth/register';
-import { PageVotes } from '@/modules/pages/votes';
 import { IframeVote } from './vote';
 
 export interface WebsiteIframePageProps {

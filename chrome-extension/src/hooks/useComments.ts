@@ -17,10 +17,12 @@ type AddVoteDown = (commentId: string) => Promise<void>;
 type RemoveVote = (commentId: string) => Promise<void>;
 type UseComments = {
   comments: CommentsState;
-  addComment: AddComment;
-  addVoteUp: AddVoteUp;
-  addVoteDown: AddVoteDown;
-  removeVote: RemoveVote;
+  commentsActions: {
+    addComment: AddComment;
+    addVoteUp: AddVoteUp;
+    addVoteDown: AddVoteDown;
+    removeVote: RemoveVote;
+  };
 };
 
 export const useComments = (
@@ -72,9 +74,11 @@ export const useComments = (
 
   return {
     comments: comments,
-    addComment: addComment,
-    addVoteUp: addVoteUp,
-    addVoteDown: addVoteDown,
-    removeVote: removeVote,
+    commentsActions: {
+      addComment: addComment,
+      addVoteUp: addVoteUp,
+      addVoteDown: addVoteDown,
+      removeVote: removeVote,
+    },
   };
 };
