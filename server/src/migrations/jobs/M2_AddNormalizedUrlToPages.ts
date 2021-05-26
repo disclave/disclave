@@ -18,7 +18,7 @@ export const M2_AddNormalizedUrlToPages: Job = {
 
     let count = 0;
     await cursor.forEach(async (page) => {
-      const normalizedUrl = `http://${decodeURI(page._id.websiteId)}${decodeURI(
+      const normalizedUrl = `http://${decodeURIComponent(page._id.websiteId)}${decodeURIComponent(
         page._id.pageId
       )}`;
       console.info(
