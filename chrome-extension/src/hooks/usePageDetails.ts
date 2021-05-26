@@ -14,9 +14,11 @@ type AddVoteDown = () => Promise<void>;
 type RemoveVote = () => Promise<void>;
 type UsePageDetails = {
   pageDetails: PageDetailsModel | undefined;
-  addVoteUp: AddVoteUp;
-  addVoteDown: AddVoteDown;
-  removeVote: RemoveVote;
+  pageActions: {
+    addVoteUp: AddVoteUp;
+    addVoteDown: AddVoteDown;
+    removeVote: RemoveVote;
+  };
 };
 
 export const usePageDetails = (
@@ -61,8 +63,10 @@ export const usePageDetails = (
 
   return {
     pageDetails: pageDetails,
-    addVoteUp: addVoteUp,
-    addVoteDown: addVoteDown,
-    removeVote: removeVote,
+    pageActions: {
+      addVoteUp: addVoteUp,
+      addVoteDown: addVoteDown,
+      removeVote: removeVote,
+    },
   };
 };
