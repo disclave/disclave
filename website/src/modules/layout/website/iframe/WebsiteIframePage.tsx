@@ -12,6 +12,7 @@ export interface WebsiteIframePageProps {
   website: string;
   pageDetails: PageDetailsModel;
   comments: Array<CommentModel>;
+  hideVotes: boolean;
 }
 
 export const WebsiteIframePage: React.VFC<WebsiteIframePageProps> = (props) => {
@@ -33,7 +34,7 @@ export const WebsiteIframePage: React.VFC<WebsiteIframePageProps> = (props) => {
 
   return (
     <div ref={containerRef} className="w-full p-3">
-      <IframeVote pageDetails={props.pageDetails} />
+      {!props.hideVotes ? <IframeVote pageDetails={props.pageDetails} /> : null}
       <PageCommentsContainer
         userProfile={profile}
         comments={comments}

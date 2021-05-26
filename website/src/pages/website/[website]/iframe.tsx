@@ -22,11 +22,14 @@ export const getServerSideProps: GetServerSideProps<IFrameProps> = async (contex
   const commentsPromise = commentService.getComments(website, userCookie?.uid);
   const translationsPromise = serverSideTranslations(context.locale, ['iframe']);
 
+  const hideVotes = context.query.hideVotes !== undefined;
+
   return {
     props: {
       comments: await commentsPromise,
       pageDetails: await pageDetailsPromise,
       website: website,
+      hideVotes,
       serverSideUid: userCookie ? userCookie.uid : null,
       iframe: true,
       ...(await translationsPromise)
@@ -38,6 +41,7 @@ interface IFrameProps {
   comments: Array<CommentModel>;
   pageDetails: PageDetailsModel;
   website: string;
+  hideVotes: boolean;
 }
 
 const IFrame: React.FC<IFrameProps> = (props) => {
@@ -48,6 +52,7 @@ const IFrame: React.FC<IFrameProps> = (props) => {
         website={props.website}
         pageDetails={props.pageDetails}
         comments={props.comments}
+        hideVotes={props.hideVotes}
       />
     </>
   );
