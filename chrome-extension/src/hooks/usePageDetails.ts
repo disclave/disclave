@@ -43,14 +43,17 @@ export const usePageDetails = (
 
   const addVoteUp = async () => {
     await addPageVoteUp(url());
+    fetchPageDetails(true);
   };
 
   const addVoteDown = async () => {
     await addPageVoteDown(url());
+    fetchPageDetails(true);
   };
 
   const removeVote = async () => {
     await removePageVote(url());
+    fetchPageDetails(true);
   };
 
   useEffect(() => {
