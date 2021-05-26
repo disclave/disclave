@@ -30,7 +30,7 @@ export const PluginsPage: React.VFC = () => {
           <div>
             <h3 className="text-xl py-4">{t('example.header')}</h3>
             <p>{t('example.text')}</p>
-            <div>
+            <div className="mt-4">
               <DisclaveComments />
             </div>
           </div>

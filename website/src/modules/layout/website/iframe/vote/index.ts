@@ -1,0 +1,1 @@
+export { IframeVote } from './IframeVote';
