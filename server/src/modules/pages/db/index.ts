@@ -8,6 +8,7 @@ export type { PageEntity, PageDetailsEntity };
 export interface UrlMeta {
   websiteId: string;
   pageId: string;
+  normalized: string;
 }
 
 export interface PageDetailsData {

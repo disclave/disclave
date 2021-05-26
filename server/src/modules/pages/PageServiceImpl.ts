@@ -37,7 +37,6 @@ export class PageServiceImpl implements PageService {
       limit,
       userId
     );
-    // FIXME
     return pages.map(detailsToDomain);
   }
 
@@ -51,12 +50,13 @@ export class PageServiceImpl implements PageService {
       {
         pageId: parsedUrl.pageId,
         websiteId: parsedUrl.websiteId,
+        normalized: parsedUrl.normalized,
       },
       userId
     );
 
     if (!!savedPageDetails.meta || !fetchMetaIfNoCache)
-      return detailsToDomain(savedPageDetails, parsedUrl);
+      return detailsToDomain(savedPageDetails);
 
     const updatedPageDetails = await this.scrapAndSavePageDetails(
       parsedUrl,
@@ -64,14 +64,18 @@ export class PageServiceImpl implements PageService {
     );
 
     if (!updatedPageDetails)
-      return detailsToDomain(savedPageDetails, parsedUrl);
-    else return detailsToDomain(updatedPageDetails, parsedUrl);
+      return detailsToDomain(savedPageDetails);
+    else return detailsToDomain(updatedPageDetails);
   }
 
   public async setVoteUp(url: string, userId: UserId): Promise<boolean> {
     const parsedUrl = this.urlService.parseUrl(url);
     return await this.repository.setVoteUp(
-      { pageId: parsedUrl.pageId, websiteId: parsedUrl.websiteId },
+      {
+        pageId: parsedUrl.pageId,
+        websiteId: parsedUrl.websiteId,
+        normalized: parsedUrl.normalized,
+      },
       userId
     );
   }
@@ -79,7 +83,11 @@ export class PageServiceImpl implements PageService {
   public async setVoteDown(url: string, userId: UserId): Promise<boolean> {
     const parsedUrl = this.urlService.parseUrl(url);
     return await this.repository.setVoteDown(
-      { pageId: parsedUrl.pageId, websiteId: parsedUrl.websiteId },
+      {
+        pageId: parsedUrl.pageId,
+        websiteId: parsedUrl.websiteId,
+        normalized: parsedUrl.normalized,
+      },
       userId
     );
   }
@@ -87,7 +95,11 @@ export class PageServiceImpl implements PageService {
   public async removeVote(url: string, userId: UserId): Promise<boolean> {
     const parsedUrl = this.urlService.parseUrl(url);
     return await this.repository.removeVote(
-      { pageId: parsedUrl.pageId, websiteId: parsedUrl.websiteId },
+      {
+        pageId: parsedUrl.pageId,
+        websiteId: parsedUrl.websiteId,
+        normalized: parsedUrl.normalized,
+      },
       userId
     );
   }
@@ -103,7 +115,11 @@ export class PageServiceImpl implements PageService {
     const logo = await this.imageService.savePageLogo(url, metadata.logo);
 
     return await this.repository.updatePageDetails(
-      { pageId: url.pageId, websiteId: url.websiteId },
+      {
+        pageId: url.pageId,
+        websiteId: url.websiteId,
+        normalized: url.normalized,
+      },
       { logo, title },
       userId
     );
@@ -118,14 +134,11 @@ const toDomain = (entity: PageEntity): Page => {
   };
 };
 
-const detailsToDomain = (
-  entity: PageDetailsEntity,
-  url: ParsedUrlData
-): PageDetails => {
+const detailsToDomain = (entity: PageDetailsEntity): PageDetails => {
   return {
-    url: url.normalized,
-    pageId: url.pageId,
-    websiteId: url.websiteId,
+    url: entity.url,
+    pageId: entity.pageId,
+    websiteId: entity.websiteId,
     votes: {
       sum: entity.votes.sum,
       votedDown: entity.votes.votedDown,

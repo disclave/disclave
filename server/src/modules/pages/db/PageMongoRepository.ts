@@ -184,6 +184,7 @@ const toPartialDbPageDetails = (url: UrlMeta) => ({
     pageId: url.pageId,
     websiteId: url.websiteId,
   },
+  normalizedUrl: url.normalized,
   votesUp: [],
   votesDown: [],
   votesSum: 0,
@@ -220,6 +221,7 @@ const aggCursorDocToEntity = (
 const cursorDocToEntity = (doc: DbPageDetails): PageDetailsEntity => ({
   pageId: doc._id.pageId,
   websiteId: doc._id.websiteId,
+  url: doc.normalizedUrl,
   votes: {
     sum: doc.votesSum,
     votedUp: doc.votesUp?.length > 0,

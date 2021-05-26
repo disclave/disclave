@@ -7,6 +7,7 @@ interface Votes {
 export interface PageDetailsEntity {
   pageId: string;
   websiteId: string;
+  url: string;
   meta: null | {
     logo: string | null;
     title: string | null;

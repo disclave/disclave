@@ -5,6 +5,7 @@ export interface DbPageDetails {
     pageId: string;
     websiteId: string;
   };
+  normalizedUrl: string;
   votesUp: string[];
   votesDown: string[];
   votesSum: number;
