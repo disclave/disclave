@@ -4,6 +4,7 @@ import { DbPageDetails } from "../models";
 import { UserId } from "@/modules/auth";
 
 export const getProjection = (uid: UserId | null) => ({
+  normalizedUrl: 1,
   votesUp: uid ? { $elemMatch: { $eq: uid } } : undefined,
   votesDown: uid ? { $elemMatch: { $eq: uid } } : undefined,
   votesSum: 1,

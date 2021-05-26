@@ -8,6 +8,7 @@ export type { PageEntity, PageDetailsEntity };
 export interface UrlMeta {
   websiteId: string;
   pageId: string;
+  normalized: string;
 }
 
 export interface PageDetailsData {
@@ -20,6 +21,12 @@ export abstract class PageRepository<T = unknown> extends BaseRepository<T> {
     commentsMinVoteSum: number,
     limit: number
   ): Promise<Array<PageEntity>>;
+
+  abstract findTopRatedPages(
+    minVoteSum: number,
+    limit: number,
+    uid: UserId | null
+  ): Promise<Array<PageDetailsEntity>>;
 
   abstract findOrCreatePageDetails(
     url: UrlMeta,

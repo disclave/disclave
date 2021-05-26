@@ -9,6 +9,12 @@ export abstract class PageService {
     limit: number
   ): Promise<Array<Page>>;
 
+  abstract getTopRatedPages(
+    minVoteSum: number,
+    limit: number,
+    userId: UserId | null
+  ): Promise<Array<PageDetails>>;
+
   abstract getPageDetails(
     url: string,
     fetchMetaIfNoCache: boolean,
