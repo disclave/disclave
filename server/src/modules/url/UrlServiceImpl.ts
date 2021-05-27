@@ -13,10 +13,18 @@ const urlScrapper = metascraper([
   msLogoFavicon({ gotOpts: gotOptions }),
 ]);
 
+const normalizationConfig: normalizeUrl.Options = {
+  defaultProtocol: "https:",
+  stripAuthentication: true,
+  stripHash: true,
+  stripTextFragment: true,
+  removeQueryParameters: [/[\s\S]*/],
+};
+
 @injectable()
 export class UrlServiceImpl implements UrlService {
   public parseUrl(raw: string): ParsedUrlData {
-    const normalized = normalizeUrl(raw);
+    const normalized = normalizeUrl(raw, normalizationConfig);
     const url = new URL(normalized);
     return {
       raw,
@@ -31,7 +39,7 @@ export class UrlServiceImpl implements UrlService {
       const { html, url } = await fetchHtml(targetUrl);
       return await scrapHtml(html, url);
     } catch (e) {
-      console.warn('scrapUrl', e);
+      console.warn("scrapUrl", e);
     }
     return null;
   }
