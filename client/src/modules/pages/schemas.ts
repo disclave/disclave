@@ -7,6 +7,16 @@ export const GET_TOP_COMMENTED_PAGES = gql`
       websiteId
       pageId
       commentsCount
+      url
+      meta {
+        logo
+        title
+      }
+      votes {
+        sum
+        votedUp
+        votedDown
+      }
     }
   }
 `;
