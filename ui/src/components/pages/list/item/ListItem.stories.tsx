@@ -2,7 +2,15 @@ import React from "react";
 
 import { ListItem, ListItemProps } from "./ListItem";
 import { Story } from "@storybook/react";
-import { buildExamplePage, ExamplePage } from "@/stories/data/Pages";
+import {
+  buildExamplePage,
+  ExamplePage,
+  ExamplePageVotedDown,
+  ExamplePageVotedUp,
+  ExamplePageWithoutLogo,
+  ExamplePageWithoutMeta,
+  ExamplePageWithoutTitle,
+} from "@/stories/data/Pages";
 
 const mockHrefBuilder = (websiteId: string, pageId: string) =>
   websiteId + decodeURIComponent(pageId);
@@ -20,11 +28,41 @@ Default.args = {
   page: ExamplePage,
 };
 
+export const WithoutLogo = Template.bind({});
+WithoutLogo.args = {
+  hrefBuilder: mockHrefBuilder,
+  page: ExamplePageWithoutLogo,
+};
+
+export const WithoutTitle = Template.bind({});
+WithoutTitle.args = {
+  hrefBuilder: mockHrefBuilder,
+  page: ExamplePageWithoutTitle,
+};
+
+export const WithoutMeta = Template.bind({});
+WithoutMeta.args = {
+  hrefBuilder: mockHrefBuilder,
+  page: ExamplePageWithoutMeta,
+};
+
+export const VotedDown = Template.bind({});
+VotedDown.args = {
+  hrefBuilder: mockHrefBuilder,
+  page: ExamplePageVotedDown,
+};
+
+export const VotedUp = Template.bind({});
+VotedUp.args = {
+  hrefBuilder: mockHrefBuilder,
+  page: ExamplePageVotedUp,
+};
+
 export const MainPage = Template.bind({});
 MainPage.args = {
   hrefBuilder: mockHrefBuilder,
   page: buildExamplePage({
-    pageId: "%2F"
+    pageId: "%2F",
   }),
 };
 

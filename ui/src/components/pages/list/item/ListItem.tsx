@@ -11,22 +11,27 @@ export interface ListItemProps {
 export const ListItem: React.VFC<ListItemProps> = ({ page, hrefBuilder }) => {
   const { t } = useTranslation("pages");
 
-  const href = hrefBuilder(page.websiteId, page.pageId);
+  const logo = page.meta?.logo ?? null;
+  const title = page.meta?.title ?? null;
 
   const decodedPath = decodeURIComponent(page.pageId);
-  const isMainPage = decodedPath === "/";
-
-  const MainPageLabel = () => (
-    <span className="text-gray-400"> {t("list.item.main page.label")}</span>
-  );
 
   return (
-    <LinkBox className="px-2 py-1" href={href}>
-      <div className="text-sm font-semibold truncate">{page.websiteId}</div>
-      <div className="truncate mb-0.5">
-        {decodedPath}
-        {isMainPage ? <MainPageLabel /> : ""}
+    <LinkBox className="px-2 py-1" href={page.url}>
+      <div className="text-sm truncate" title={page.url}>
+        {logo ? (
+          <img
+            src={logo}
+            alt={page.websiteId}
+            width={16}
+            height={16}
+            className="mr-1 inline"
+          />
+        ) : null}
+        <span className="font-semibold ">{page.websiteId}</span>
+        <span>{decodedPath}</span>
       </div>
+      {title ? <div className="truncate" title={title}>{title}</div> : null}
       <div>
         <span className="font-bold text-primary">{page.commentsCount}</span>
         <span> {t("list.item.comments count.text")}</span>
