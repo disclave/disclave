@@ -77,6 +77,18 @@ const responseToModel = (data: any): PageModel => ({
   websiteId: data.websiteId,
   pageId: data.pageId,
   commentsCount: data.commentsCount,
+  url: data.url,
+  meta: data.meta
+    ? {
+        logo: data.meta.logo,
+        title: data.meta.title,
+      }
+    : null,
+  votes: {
+    sum: data.votes.sum,
+    votedUp: data.votes.votedUp,
+    votedDown: data.votes.votedDown,
+  },
 });
 
 const responseToDetailsModel = (data: any): PageDetailsModel => ({

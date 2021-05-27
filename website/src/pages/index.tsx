@@ -30,11 +30,20 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (context)
     userCookie?.uid
   );
 
-  const topCommentedMinVoteSum = 1;
-  const pagesLimit = 7;
+  const topCommentedPagesCommentsMinVoteSum = 1;
+  const topCommentedPagesLimit = 7;
   const topCommentedPagesPromise = pageService.getTopCommentedPages(
-    topCommentedMinVoteSum,
-    pagesLimit
+    topCommentedPagesCommentsMinVoteSum,
+    topCommentedPagesLimit,
+    userCookie?.uid
+  );
+
+  const topRatedPagesMinVoteSum = 0;
+  const topRatedPagesLimit = 7;
+  const topRatedPagesPromise = pageService.getTopRatedPages(
+    topRatedPagesMinVoteSum,
+    topRatedPagesLimit,
+    userCookie?.uid
   );
 
   const translationsPromise = serverSideTranslations(context.locale, ['common', 'home', 'layout']);
@@ -47,7 +56,12 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (context)
         minVoteSum: topMinVoteSum
       },
       topCommentedPages: {
-        pages: await topCommentedPagesPromise
+        pages: await topCommentedPagesPromise,
+        limit: topCommentedPagesLimit,
+        minCommentsVoteSum: topCommentedPagesCommentsMinVoteSum
+      },
+      topRatedPages: {
+        pages: await topRatedPagesPromise
       },
       latestComments: {
         comments: await latestCommentsPromise,
@@ -67,6 +81,11 @@ interface HomeProps {
     minVoteSum: number;
   };
   topCommentedPages: {
+    pages: Array<PageModel>;
+    limit: number;
+    minCommentsVoteSum: number;
+  };
+  topRatedPages: {
     pages: Array<PageModel>;
   };
   latestComments: {

@@ -19,14 +19,15 @@ export interface PageDetailsData {
 export abstract class PageRepository<T = unknown> extends BaseRepository<T> {
   abstract findTopCommentedPages(
     commentsMinVoteSum: number,
-    limit: number
+    limit: number,
+    userId: UserId | null
   ): Promise<Array<PageEntity>>;
 
   abstract findTopRatedPages(
     minVoteSum: number,
     limit: number,
     uid: UserId | null
-  ): Promise<Array<PageDetailsEntity>>;
+  ): Promise<Array<PageEntity>>;
 
   abstract findOrCreatePageDetails(
     url: UrlMeta,

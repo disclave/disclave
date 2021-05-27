@@ -9,10 +9,15 @@ const service = container.get(PageService);
 
 export const pagesResolvers = {
   Query: {
-    topCommentedPages: async (_, args) => {
+    topCommentedPages: async (
+      _,
+      args,
+      { decodedToken }: { decodedToken: DecodedIdToken }
+    ) => {
       const pages = await service.getTopCommentedPages(
         args.minCommentsVoteSum,
-        args.limit
+        args.limit,
+        decodedToken?.uid
       );
       return pages.map(pageToResponse);
     },
@@ -54,6 +59,18 @@ const pageToResponse = (page: Page) => {
     websiteId: page.websiteId,
     pageId: page.pageId,
     commentsCount: page.commentsCount,
+    url: page.url,
+    meta: page.meta
+      ? {
+          logo: page.meta.logo,
+          title: page.meta.title,
+        }
+      : null,
+    votes: {
+      sum: page.votes.sum,
+      votedDown: page.votes.votedDown,
+      votedUp: page.votes.votedUp,
+    },
   };
 };
 

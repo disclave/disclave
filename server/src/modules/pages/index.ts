@@ -6,14 +6,15 @@ export type { Page, PageDetails };
 export abstract class PageService {
   abstract getTopCommentedPages(
     commentsMinVoteSum: number,
-    limit: number
+    limit: number,
+    userId: UserId | null
   ): Promise<Array<Page>>;
 
   abstract getTopRatedPages(
     minVoteSum: number,
     limit: number,
     userId: UserId | null
-  ): Promise<Array<PageDetails>>;
+  ): Promise<Array<Page>>;
 
   abstract getPageDetails(
     url: string,
