@@ -30,10 +30,10 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (context)
     userCookie?.uid
   );
 
-  const topCommentedMinVoteSum = 1;
+  const topCommentedPagesCommentsMinVoteSum = 1;
   const topCommentedPagesLimit = 7;
   const topCommentedPagesPromise = pageService.getTopCommentedPages(
-    topCommentedMinVoteSum,
+    topCommentedPagesCommentsMinVoteSum,
     topCommentedPagesLimit,
     userCookie?.uid
   );
@@ -56,7 +56,9 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (context)
         minVoteSum: topMinVoteSum
       },
       topCommentedPages: {
-        pages: await topCommentedPagesPromise
+        pages: await topCommentedPagesPromise,
+        limit: topCommentedPagesLimit,
+        minCommentsVoteSum: topCommentedPagesCommentsMinVoteSum
       },
       topRatedPages: {
         pages: await topRatedPagesPromise
@@ -80,6 +82,8 @@ interface HomeProps {
   };
   topCommentedPages: {
     pages: Array<PageModel>;
+    limit: number;
+    minCommentsVoteSum: number;
   };
   topRatedPages: {
     pages: Array<PageModel>;
