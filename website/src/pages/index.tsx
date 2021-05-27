@@ -31,10 +31,18 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (context)
   );
 
   const topCommentedMinVoteSum = 1;
-  const pagesLimit = 7;
+  const topCommentedPagesLimit = 7;
   const topCommentedPagesPromise = pageService.getTopCommentedPages(
     topCommentedMinVoteSum,
-    pagesLimit,
+    topCommentedPagesLimit,
+    userCookie?.uid
+  );
+
+  const topRatedPagesMinVoteSum = 0;
+  const topRatedPagesLimit = 7;
+  const topRatedPagesPromise = pageService.getTopRatedPages(
+    topRatedPagesMinVoteSum,
+    topRatedPagesLimit,
     userCookie?.uid
   );
 
@@ -49,6 +57,9 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (context)
       },
       topCommentedPages: {
         pages: await topCommentedPagesPromise
+      },
+      topRatedPages: {
+        pages: await topRatedPagesPromise
       },
       latestComments: {
         comments: await latestCommentsPromise,
@@ -68,6 +79,9 @@ interface HomeProps {
     minVoteSum: number;
   };
   topCommentedPages: {
+    pages: Array<PageModel>;
+  };
+  topRatedPages: {
     pages: Array<PageModel>;
   };
   latestComments: {
