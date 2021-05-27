@@ -34,7 +34,8 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (context)
   const pagesLimit = 7;
   const topCommentedPagesPromise = pageService.getTopCommentedPages(
     topCommentedMinVoteSum,
-    pagesLimit
+    pagesLimit,
+    userCookie?.uid
   );
 
   const translationsPromise = serverSideTranslations(context.locale, ['common', 'home', 'layout']);

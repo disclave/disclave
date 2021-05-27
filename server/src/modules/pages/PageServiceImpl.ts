@@ -18,11 +18,13 @@ export class PageServiceImpl implements PageService {
 
   public async getTopCommentedPages(
     commentsMinVoteSum: number,
-    limit: number
+    limit: number,
+    userId: UserId | null
   ): Promise<Array<Page>> {
     const pages = await this.repository.findTopCommentedPages(
       commentsMinVoteSum,
-      limit
+      limit,
+      userId
     );
     return pages.map(toDomain);
   }
@@ -63,8 +65,7 @@ export class PageServiceImpl implements PageService {
       userId
     );
 
-    if (!updatedPageDetails)
-      return detailsToDomain(savedPageDetails);
+    if (!updatedPageDetails) return detailsToDomain(savedPageDetails);
     else return detailsToDomain(updatedPageDetails);
   }
 
@@ -131,6 +132,18 @@ const toDomain = (entity: PageEntity): Page => {
     websiteId: entity.websiteId,
     pageId: entity.pageId,
     commentsCount: entity.commentsCount,
+    url: entity.url,
+    meta: entity.meta
+      ? {
+          logo: entity.meta.logo,
+          title: entity.meta.title,
+        }
+      : null,
+    votes: {
+      sum: entity.votes.sum,
+      votedDown: entity.votes.votedDown,
+      votedUp: entity.votes.votedUp,
+    },
   };
 };
 

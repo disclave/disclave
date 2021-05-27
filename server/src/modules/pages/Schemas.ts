@@ -1,13 +1,6 @@
 import { gql } from "apollo-server-micro";
 
 export const pagesTypeDefs = gql`
-  type Page {
-    id: ID!
-    websiteId: String!
-    pageId: String!
-    commentsCount: String!
-  }
-
   type PageVotes {
     sum: Int!
     votedUp: Boolean!
@@ -17,6 +10,16 @@ export const pagesTypeDefs = gql`
   type PageMeta {
     logo: String
     title: String
+  }
+
+  type Page {
+    id: ID!
+    websiteId: String!
+    pageId: String!
+    commentsCount: String!
+    url: String!
+    meta: PageMeta
+    votes: PageVotes!
   }
 
   type PageDetails {

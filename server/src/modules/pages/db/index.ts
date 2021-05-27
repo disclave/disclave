@@ -19,7 +19,8 @@ export interface PageDetailsData {
 export abstract class PageRepository<T = unknown> extends BaseRepository<T> {
   abstract findTopCommentedPages(
     commentsMinVoteSum: number,
-    limit: number
+    limit: number,
+    userId: UserId | null
   ): Promise<Array<PageEntity>>;
 
   abstract findTopRatedPages(

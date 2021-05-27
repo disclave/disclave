@@ -10,7 +10,7 @@ import { MongoRepository, timestampNow } from "@/connectors/mongodb";
 import { ClientSession } from "@/connectors/mongodb";
 import { commentsDbCollection } from "@/database/comments";
 import { getProjection, pagesDbCollection } from "@/database/pages";
-import { DbPageDetails } from "@/database";
+import { DbPageDetails, pagesCollection } from "@/database";
 import { UserId } from "@/modules/auth";
 
 interface TopCommentedPagesAggregation {
@@ -19,6 +19,18 @@ interface TopCommentedPagesAggregation {
     pageId: string;
   };
   commentsCount: number;
+  page: [
+    {
+      meta: null | {
+        logo: string | null;
+        title: string | null;
+      };
+      votesSum: number;
+      votesUp: string[] | null;
+      votesDown: string[] | null;
+      normalizedUrl: string;
+    }
+  ];
 }
 
 @injectable()
@@ -27,7 +39,8 @@ export class PageMongoRepository
   implements PageRepository<ClientSession> {
   public async findTopCommentedPages(
     commentsMinVoteSum: number,
-    limit: number
+    limit: number,
+    uid: UserId | null
   ): Promise<Array<PageEntity>> {
     const collection = await commentsDbCollection();
     const cursor = collection.aggregate<TopCommentedPagesAggregation>([
@@ -40,9 +53,56 @@ export class PageMongoRepository
       },
       { $sort: { commentsCount: -1 } },
       { $limit: limit },
+      {
+        $lookup: {
+          from: pagesCollection,
+          let: { websiteId: "$_id.websiteId", pageId: "$_id.pageId" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ["$_id.websiteId", "$$websiteId"] },
+                    { $eq: ["$_id.pageId", "$$pageId"] },
+                  ],
+                },
+              },
+            },
+            {
+              $project: {
+                votesUp: uid
+                  ? {
+                      $filter: {
+                        input: "$votesUp",
+                        as: "voteUp",
+                        cond: { $eq: ["$$voteUp", uid] },
+                      },
+                    }
+                  : undefined,
+                votesDown: uid
+                  ? {
+                      $filter: {
+                        input: "$votesDown",
+                        as: "voteDown",
+                        cond: { $eq: ["$$voteDown", uid] },
+                      },
+                    }
+                  : undefined,
+                votesSum: 1,
+                meta: {
+                  logo: 1,
+                  title: 1,
+                },
+                normalizedUrl: 1,
+              },
+            },
+          ],
+          as: "page",
+        },
+      },
     ]);
 
-    return await cursor.map(aggCursorDocToEntity).toArray();
+    return await cursor.map(topCommentedAggCursorDocToEntity).toArray();
   }
 
   public async findTopRatedPages(
@@ -207,14 +267,28 @@ const metaToDbPageDetailsMeta = (data: PageDetailsData | null) => {
   };
 };
 
-const aggCursorDocToEntity = (
+const topCommentedAggCursorDocToEntity = (
   doc: TopCommentedPagesAggregation
 ): PageEntity => {
+  const docPage = doc.page[0]; // TODO: what if not exists?
+
   return {
     id: doc._id.websiteId + doc._id.pageId,
     pageId: doc._id.pageId,
     websiteId: doc._id.websiteId,
     commentsCount: doc.commentsCount,
+    url: docPage.normalizedUrl,
+    meta: docPage.meta
+      ? {
+          logo: docPage.meta.logo,
+          title: docPage.meta.title,
+        }
+      : null,
+    votes: {
+      sum: docPage.votesSum,
+      votedUp: docPage.votesUp?.length > 0,
+      votedDown: docPage.votesDown?.length > 0,
+    },
   };
 };
 

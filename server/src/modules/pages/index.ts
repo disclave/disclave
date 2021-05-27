@@ -6,7 +6,8 @@ export type { Page, PageDetails };
 export abstract class PageService {
   abstract getTopCommentedPages(
     commentsMinVoteSum: number,
-    limit: number
+    limit: number,
+    userId: UserId | null
   ): Promise<Array<Page>>;
 
   abstract getTopRatedPages(
