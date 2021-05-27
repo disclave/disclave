@@ -93,6 +93,7 @@ export class PageMongoRepository
           as: "page",
         },
       },
+      { $match: { page: { $exists: true, $size: 1 } } },
     ]);
 
     return await cursor.map(topCommentedAggCursorDocToEntity).toArray();
@@ -278,7 +279,7 @@ const metaToDbPageDetailsMeta = (data: PageDetailsData | null) => {
 const topCommentedAggCursorDocToEntity = (
   doc: TopCommentedPagesAggregation
 ): PageEntity => {
-  const docPage = doc.page[0]; // TODO: what if not exists?
+  const docPage = doc.page[0]; // should always have one element, because of the aggregation filter
 
   return {
     id: doc._id.websiteId + doc._id.pageId,
