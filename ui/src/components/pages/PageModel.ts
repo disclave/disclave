@@ -1,3 +1,9 @@
+export type PageActionsHandler = {
+  onVoteDown: (url: string) => Promise<void>;
+  onVoteRemove: (url: string) => Promise<void>;
+  onVoteUp: (url: string) => Promise<void>;
+};
+
 export interface PageModel {
   id: string;
   websiteId: string;

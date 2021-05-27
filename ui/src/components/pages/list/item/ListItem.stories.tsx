@@ -12,8 +12,7 @@ import {
   ExamplePageWithoutTitle,
 } from "@/stories/data/Pages";
 
-const mockHrefBuilder = (websiteId: string, pageId: string) =>
-  websiteId + decodeURIComponent(pageId);
+const mockHrefBuilder = (url: string) => url;
 
 export default {
   title: "Pages/List/Item/Pages List Item",
@@ -25,36 +24,42 @@ const Template: Story<ListItemProps> = (args) => <ListItem {...args} />;
 export const Default = Template.bind({});
 Default.args = {
   hrefBuilder: mockHrefBuilder,
+  authenticated: true,
   page: ExamplePage,
 };
 
 export const WithoutLogo = Template.bind({});
 WithoutLogo.args = {
   hrefBuilder: mockHrefBuilder,
+  authenticated: true,
   page: ExamplePageWithoutLogo,
 };
 
 export const WithoutTitle = Template.bind({});
 WithoutTitle.args = {
   hrefBuilder: mockHrefBuilder,
+  authenticated: true,
   page: ExamplePageWithoutTitle,
 };
 
 export const WithoutMeta = Template.bind({});
 WithoutMeta.args = {
   hrefBuilder: mockHrefBuilder,
+  authenticated: true,
   page: ExamplePageWithoutMeta,
 };
 
 export const VotedDown = Template.bind({});
 VotedDown.args = {
   hrefBuilder: mockHrefBuilder,
+  authenticated: true,
   page: ExamplePageVotedDown,
 };
 
 export const VotedUp = Template.bind({});
 VotedUp.args = {
   hrefBuilder: mockHrefBuilder,
+  authenticated: true,
   page: ExamplePageVotedUp,
 };
 
