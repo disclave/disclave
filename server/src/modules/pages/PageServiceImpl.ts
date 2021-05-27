@@ -33,13 +33,13 @@ export class PageServiceImpl implements PageService {
     minVoteSum: number,
     limit: number,
     userId: UserId | null
-  ): Promise<Array<PageDetails>> {
+  ): Promise<Array<Page>> {
     const pages = await this.repository.findTopRatedPages(
       minVoteSum,
       limit,
       userId
     );
-    return pages.map(detailsToDomain);
+    return pages.map(toDomain);
   }
 
   public async getPageDetails(

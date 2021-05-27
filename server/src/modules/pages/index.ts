@@ -14,7 +14,7 @@ export abstract class PageService {
     minVoteSum: number,
     limit: number,
     userId: UserId | null
-  ): Promise<Array<PageDetails>>;
+  ): Promise<Array<Page>>;
 
   abstract getPageDetails(
     url: string,
