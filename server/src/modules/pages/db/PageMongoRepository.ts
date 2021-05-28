@@ -23,18 +23,16 @@ interface TopCommentedPagesAggregation {
     pageId: string;
   };
   commentsCount: number;
-  page: [
-    {
-      meta: null | {
-        logo: string | null;
-        title: string | null;
-      };
-      votesSum: number;
-      votesUp: string[] | null;
-      votesDown: string[] | null;
-      normalizedUrl: string;
-    }
-  ];
+  page: {
+    meta: null | {
+      logo: string | null;
+      title: string | null;
+    };
+    votesSum: number;
+    votesUp: string[] | null;
+    votesDown: string[] | null;
+    normalizedUrl: string;
+  };
 }
 
 interface TopRatedPagesAggregation {
@@ -50,7 +48,9 @@ interface TopRatedPagesAggregation {
     logo: string | null;
     title: string | null;
   };
-  comments: [{ count: number }];
+  comments: {
+    count: number;
+  };
 }
 
 @injectable()
@@ -94,6 +94,8 @@ export class PageMongoRepository
         },
       },
       { $match: { page: { $exists: true, $size: 1 } } },
+      { $unwind: "$page" },
+      { $sort: { commentsCount: -1, "page.votesSum": -1 } },
     ]);
 
     return await cursor.map(topCommentedAggCursorDocToEntity).toArray();
@@ -130,6 +132,9 @@ export class PageMongoRepository
           as: "comments",
         },
       },
+      { $match: { comments: { $exists: true, $size: 1 } } },
+      { $unwind: "$comments" },
+      { $sort: { votesSum: -1, "comments.count": -1 } },
     ]);
 
     return await cursor.map(topRatedAggCursorDocToEntity).toArray();
@@ -278,51 +283,45 @@ const metaToDbPageDetailsMeta = (data: PageDetailsData | null) => {
 
 const topCommentedAggCursorDocToEntity = (
   doc: TopCommentedPagesAggregation
-): PageEntity => {
-  const docPage = doc.page[0]; // should always have one element, because of the aggregation filter
-
-  return {
-    id: doc._id.websiteId + doc._id.pageId,
-    pageId: doc._id.pageId,
-    websiteId: doc._id.websiteId,
-    commentsCount: doc.commentsCount,
-    url: docPage.normalizedUrl,
-    meta: docPage.meta
-      ? {
-          logo: docPage.meta.logo,
-          title: docPage.meta.title,
-        }
-      : null,
-    votes: {
-      sum: docPage.votesSum,
-      votedUp: docPage.votesUp?.length > 0,
-      votedDown: docPage.votesDown?.length > 0,
-    },
-  };
-};
+): PageEntity => ({
+  id: doc._id.websiteId + doc._id.pageId,
+  pageId: doc._id.pageId,
+  websiteId: doc._id.websiteId,
+  commentsCount: doc.commentsCount,
+  url: doc.page.normalizedUrl,
+  meta: doc.page.meta
+    ? {
+        logo: doc.page.meta.logo,
+        title: doc.page.meta.title,
+      }
+    : null,
+  votes: {
+    sum: doc.page.votesSum,
+    votedUp: doc.page.votesUp?.length > 0,
+    votedDown: doc.page.votesDown?.length > 0,
+  },
+});
 
 const topRatedAggCursorDocToEntity = (
   doc: TopRatedPagesAggregation
-): PageEntity => {
-  return {
-    id: doc._id.websiteId + doc._id.pageId,
-    pageId: doc._id.pageId,
-    websiteId: doc._id.websiteId,
-    commentsCount: doc.comments.length ? doc.comments[0].count : 0,
-    url: doc.normalizedUrl,
-    meta: doc.meta
-      ? {
-          logo: doc.meta.logo,
-          title: doc.meta.title,
-        }
-      : null,
-    votes: {
-      sum: doc.votesSum,
-      votedUp: doc.votesUp?.length > 0,
-      votedDown: doc.votesDown?.length > 0,
-    },
-  };
-};
+): PageEntity => ({
+  id: doc._id.websiteId + doc._id.pageId,
+  pageId: doc._id.pageId,
+  websiteId: doc._id.websiteId,
+  commentsCount: doc.comments.count,
+  url: doc.normalizedUrl,
+  meta: doc.meta
+    ? {
+        logo: doc.meta.logo,
+        title: doc.meta.title,
+      }
+    : null,
+  votes: {
+    sum: doc.votesSum,
+    votedUp: doc.votesUp?.length > 0,
+    votedDown: doc.votesDown?.length > 0,
+  },
+});
 
 const cursorDocToEntity = (doc: DbPageDetails): PageDetailsEntity => ({
   pageId: doc._id.pageId,
