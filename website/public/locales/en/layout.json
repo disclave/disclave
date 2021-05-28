@@ -26,8 +26,10 @@
       "plugins": "Plugins",
       "extensions": "Extensions",
       "mobile": "Mobile",
+      "blog": "Blog",
       "top comments": "Top comments",
       "top commented pages": "Top commented pages",
+      "top rated pages": "Top rated pages",
       "latest comments": "Latest comments"
     },
     "contact": {
