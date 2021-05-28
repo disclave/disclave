@@ -1,6 +1,7 @@
 import 'react-i18next';
 
 import auth from './public/locales/en/auth.json';
+import blog from './public/locales/en/blog.json';
 import comments from './public/locales/en/comments.json';
 import common from './public/locales/en/common.json';
 import extensions from './public/locales/en/extensions.json';
@@ -15,6 +16,7 @@ import website from './public/locales/en/website.json';
 declare module 'react-i18next' {
   interface Resources {
     auth: typeof auth;
+    blog: typeof blog;
     comments: typeof comments;
     common: typeof common;
     extensions: typeof extensions;
