@@ -1,5 +1,5 @@
-import { PageEntity } from "./PageEntity";
 import {
+  PageEntity,
   PageDetailsData,
   PageDetailsEntity,
   PageRepository,
