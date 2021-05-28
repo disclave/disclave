@@ -6,9 +6,22 @@
   "header": {
     "main nav": {
       "home": "Home",
-      "top comments": "Top comments",
+      "comments": {
+        "label": "Comments",
+        "items": {
+          "top": "Top comments",
+          "latest": "Latest comments"
+        }
+      },
+      "pages": {
+        "label": "Pages",
+        "items": {
+          "top commented": "Top commented",
+          "top rated": "Top rated"
+        }
+      },
       "top commented pages": "Top commented pages",
-      "latest comments": "Latest comments",
+      "blog": "Blog",
       "plugins": "Plugins",
       "extensions": "Extensions",
       "mobile": "Mobile"
@@ -26,8 +39,10 @@
       "plugins": "Plugins",
       "extensions": "Extensions",
       "mobile": "Mobile",
+      "blog": "Blog",
       "top comments": "Top comments",
       "top commented pages": "Top commented pages",
+      "top rated pages": "Top rated pages",
       "latest comments": "Latest comments"
     },
     "contact": {

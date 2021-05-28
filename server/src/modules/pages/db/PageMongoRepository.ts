@@ -22,7 +22,7 @@ interface TopCommentedPagesAggregation {
     websiteId: string;
     pageId: string;
   };
-  commentsCount: number;
+  commentsCount?: number;
   page: {
     meta: null | {
       logo: string | null;
@@ -132,8 +132,15 @@ export class PageMongoRepository
           as: "comments",
         },
       },
-      { $match: { comments: { $exists: true, $size: 1 } } },
-      { $unwind: "$comments" },
+      {
+        $match: {
+          $or: [
+            { comments: { $exists: true, $size: 0 } },
+            { comments: { $exists: true, $size: 1 } },
+          ],
+        },
+      },
+      { $unwind: { path: "$comments", preserveNullAndEmptyArrays: true } },
       { $sort: { votesSum: -1, "comments.count": -1 } },
     ]);
 
@@ -308,7 +315,7 @@ const topRatedAggCursorDocToEntity = (
   id: doc._id.websiteId + doc._id.pageId,
   pageId: doc._id.pageId,
   websiteId: doc._id.websiteId,
-  commentsCount: doc.comments.count,
+  commentsCount: doc.comments?.count || 0,
   url: doc.normalizedUrl,
   meta: doc.meta
     ? {
