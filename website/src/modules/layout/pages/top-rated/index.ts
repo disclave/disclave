@@ -1,0 +1,1 @@
+export { TopRatedPages } from './TopRatedPages';

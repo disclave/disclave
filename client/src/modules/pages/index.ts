@@ -1,5 +1,6 @@
 export {
   getTopCommentedPages,
+  getTopRatedPages,
   getPageDetails,
   removePageVote,
   addPageVoteDown,

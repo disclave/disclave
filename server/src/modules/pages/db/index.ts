@@ -1,5 +1,4 @@
-import { PageEntity } from "./PageEntity";
-import { PageDetailsEntity } from "./PageDetailsEntity";
+import { PageEntity, PageDetailsEntity } from "./entity";
 import { BaseRepository } from "@/repository";
 import { UserId } from "@/modules/auth";
 
