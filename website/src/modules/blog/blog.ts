@@ -26,7 +26,7 @@ export const getPost = async (id: string): Promise<Post> => {
   const contentHtml = await markdownToHtml(rawPost.content);
 
   const contentText = contentHtml.replace(/<[^>]*>?/gm, '');
-  const seoDescription = `${contentText.substr(0, 130)}...`;
+  const seoDescription = `${contentText.substr(0, 160)}...`;
 
   return {
     id,
