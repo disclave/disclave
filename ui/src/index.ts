@@ -18,7 +18,7 @@ export {
   TextField,
   TextArea,
 } from "./components/forms";
-
+export { Vote } from "./components/voting";
 export {
   LoginFormContainer,
   RegisterFormContainer,
@@ -29,4 +29,4 @@ export {
   PageCommentsList,
   PageCommentsContainer,
 } from "./components/comments";
-export { PagesList } from "./components/pages";
+export { PagesList, PageVoting } from "./components/pages";

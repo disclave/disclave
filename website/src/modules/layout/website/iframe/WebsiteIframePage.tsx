@@ -1,14 +1,17 @@
 import React, { useRef } from 'react';
-import { CommentModel, useSession } from '@disclave/client';
+import { CommentModel, PageDetailsModel, useSession } from '@disclave/client';
 import { loginHref } from '@/pages/auth/login';
 import { PageCommentsContainer } from '@disclave/ui';
 import { useWebsiteComments } from '@/modules/comments';
 import { useContainerHeightMessage } from '@/modules/iframe';
 import { registerHref } from '@/pages/auth/register';
+import { IframeVote } from './vote';
 
 export interface WebsiteIframePageProps {
   website: string;
+  pageDetails: PageDetailsModel;
   comments: Array<CommentModel>;
+  hideVotes: boolean;
 }
 
 export const WebsiteIframePage: React.VFC<WebsiteIframePageProps> = (props) => {
@@ -30,6 +33,7 @@ export const WebsiteIframePage: React.VFC<WebsiteIframePageProps> = (props) => {
 
   return (
     <div ref={containerRef} className="w-full p-3">
+      {!props.hideVotes ? <IframeVote pageDetails={props.pageDetails} /> : null}
       <PageCommentsContainer
         userProfile={profile}
         comments={comments}

@@ -16,12 +16,14 @@ export const getServerSideProps: GetServerSideProps<TopCommentedProps> = async (
   const commentsMinVoteSum = 0;
   const limit = 100; // TODO: add pagination
 
-  const pagesPromise = service.getTopCommentedPages(commentsMinVoteSum, limit);
+  const pagesPromise = service.getTopCommentedPages(commentsMinVoteSum, limit, userCookie?.uid);
   const translationsPromise = serverSideTranslations(context.locale, ['common', 'layout', 'pages']);
 
   return {
     props: {
       pages: await pagesPromise,
+      limit,
+      commentsMinVoteSum,
       serverSideUid: userCookie ? userCookie.uid : null,
       ...(await translationsPromise)
     }
@@ -30,9 +32,17 @@ export const getServerSideProps: GetServerSideProps<TopCommentedProps> = async (
 
 interface TopCommentedProps {
   pages: Array<PageModel>;
+  limit: number;
+  commentsMinVoteSum: number;
 }
 
 const TopCommented: React.VFC<TopCommentedProps> = (props) => {
-  return <TopCommentedPages pages={props.pages} />;
+  return (
+    <TopCommentedPages
+      pages={props.pages}
+      pagesLimit={props.limit}
+      minCommentsVoteSum={props.commentsMinVoteSum}
+    />
+  );
 };
 export default TopCommented;

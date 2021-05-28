@@ -1,3 +1,7 @@
-export { commentsCollection, pagesCollection } from "./collections";
+export {
+  migrationsCollection,
+  commentsCollection,
+  pagesCollection,
+} from "./collections";
 
-export type { DbComment, DbPageDetails } from "./models";
+export type { DbMigration, DbComment, DbPageDetails } from "./models";

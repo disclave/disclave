@@ -1,0 +1,14 @@
+{
+  "total": {
+    "hint": "Total votes sum: {{sum}}"
+  },
+  "vote": {
+    "up": "Vote up",
+    "down": "Vote down",
+    "remove": "Remove vote"
+  },
+  "auth required": "Sign up or log in to vote",
+  "page": {
+    "do you like it": "Do you like this website?"
+  }
+}

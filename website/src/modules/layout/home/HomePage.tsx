@@ -16,6 +16,8 @@ export interface HomePageProps {
   };
   topCommentedPages: {
     pages: Array<PageModel>;
+    limit: number;
+    minCommentsVoteSum: number;
   };
   latestComments: {
     comments: Array<CommentModel>;
@@ -54,6 +56,8 @@ export const HomePage: React.VFC<HomePageProps> = (props) => {
           <TopCommentedPagesSection
             className="lg:w-1/2 lg:order-2 p-4"
             pages={props.topCommentedPages.pages}
+            pagesLimit={props.topCommentedPages.limit}
+            minCommentsVoteSum={props.topCommentedPages.minCommentsVoteSum}
           />
 
           <PluginsSection className="lg:w-1/2 lg:order-1 p-4" />

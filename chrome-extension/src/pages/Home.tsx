@@ -1,6 +1,6 @@
 import * as React from "react";
-import { PageCommentsContainer } from "@disclave/ui";
-import { useComments } from "../hooks";
+import { PageCommentsContainer, PageVoting } from "@disclave/ui";
+import { useComments, usePageDetails } from "../hooks";
 import { loginHref } from "./Login";
 import { registerHref } from "./Register";
 import { useSession } from "@disclave/client";
@@ -15,30 +15,40 @@ export const Home = () => {
     actions: { logout },
   } = useSession();
 
-  const {
-    comments,
-    addComment,
-    addVoteDown,
-    removeVote,
-    addVoteUp,
-  } = useComments(user, isLoading);
+  const { comments, commentsActions } = useComments(user, isLoading);
 
-  if (!comments) return <div>loading</div>;
+  const { pageDetails, pageActions } = usePageDetails(user, isLoading);
+
+  // TODO: update loading component
+  if (!comments || !pageDetails) return <div>loading</div>;
 
   return (
-    <PageCommentsContainer
-      className="max-h-96"
-      userProfile={profile}
-      comments={comments}
-      loginHref={loginHref}
-      registerHref={registerHref}
-      onSubmit={addComment}
-      onLogout={logout}
-      commentsActionsHandler={{
-        onVoteDown: addVoteDown,
-        onVoteRemove: removeVote,
-        onVoteUp: addVoteUp,
-      }}
-    />
+    <>
+      <PageVoting
+        enabled={!!profile}
+        votes={{
+          sum: pageDetails.votes.sum,
+          votedDown: pageDetails.votes.votedDown,
+          votedUp: pageDetails.votes.votedUp,
+        }}
+        onVoteDown={pageActions.addVoteDown}
+        onVoteRemove={pageActions.removeVote}
+        onVoteUp={pageActions.addVoteUp}
+      />
+      <PageCommentsContainer
+        className="max-h-96"
+        userProfile={profile}
+        comments={comments}
+        loginHref={loginHref}
+        registerHref={registerHref}
+        onSubmit={commentsActions.addComment}
+        onLogout={logout}
+        commentsActionsHandler={{
+          onVoteDown: commentsActions.addVoteDown,
+          onVoteRemove: commentsActions.removeVote,
+          onVoteUp: commentsActions.addVoteUp,
+        }}
+      />
+    </>
   );
 };

@@ -3,6 +3,7 @@ import comments from "./comments.json";
 import common from "./common.json";
 import form from "./form.json";
 import pages from "./pages.json";
+import voting from "./voting.json";
 
 export const en = {
   auth,
@@ -10,4 +11,5 @@ export const en = {
   common,
   form,
   pages,
+  voting,
 } as const;
