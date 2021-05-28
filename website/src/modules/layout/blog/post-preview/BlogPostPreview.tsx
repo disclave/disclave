@@ -3,6 +3,7 @@ import React from 'react';
 import { DateTimePreview } from '@disclave/ui';
 import Link from 'next/link';
 import { blogPostHref } from '@/pages/blog/[id]';
+import { blogPostsImg } from '@/consts';
 
 export interface BlogPostPreviewProps {
   post: PostPreview;
@@ -17,8 +18,8 @@ export const BlogPostPreview: React.VFC<BlogPostPreviewProps> = ({ post }) => {
             src={post.imageSrc}
             alt={post.title}
             className="rounded-t"
-            width={1200}
-            height={600}
+            width={blogPostsImg.widht}
+            height={blogPostsImg.height}
           />
           <div className="px-4 pb-3 pt-2">
             <DateTimePreview className="text-xs text-gray-400" hideTime iso={post.date} />
