@@ -24,7 +24,7 @@ export const BlogPostPage: React.VFC<BlogPostPageProps> = ({ post }) => {
             src={post.imageSrc}
             alt={post.title}
             className="rounded"
-            width={blogPostsImg.widht}
+            width={blogPostsImg.width}
             height={blogPostsImg.height}
           />
           <div

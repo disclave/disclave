@@ -18,7 +18,7 @@ export const BlogPostPreview: React.VFC<BlogPostPreviewProps> = ({ post }) => {
             src={post.imageSrc}
             alt={post.title}
             className="rounded-t"
-            width={blogPostsImg.widht}
+            width={blogPostsImg.width}
             height={blogPostsImg.height}
           />
           <div className="px-4 pb-3 pt-2">

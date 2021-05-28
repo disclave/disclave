@@ -1,4 +1,4 @@
-import { domain } from '@/consts';
+import { blogPostsImg, domain } from '@/consts';
 import { getPost, getPostIds, Post } from '@/modules/blog';
 import { BlogPostPage } from '@/modules/layout/blog/post';
 import { useTranslation } from 'next-i18next';
@@ -30,7 +30,10 @@ const BlogPost: React.VFC<BlogPostProps> = (props) => {
           description: seoDescription,
           images: [
             {
-              url: seoImg
+              url: seoImg,
+              width: blogPostsImg.width,
+              height: blogPostsImg.height,
+              alt: seoTitle
             }
           ]
         }}

@@ -20,30 +20,10 @@ export const SEO = {
   description:
     'Disclave is a platform that allows you to comment on any content on the internet. Share your opinion, browse popular websites, share your favorite content, build the community.',
   openGraph: {
-    url: 'https://disclave.com/',
+    type: 'website',
     title: 'Disclave - discuss any content on the internet',
     description:
       'Disclave is a platform that allows you to comment on any content on the internet. Share your opinion, browse popular websites, share your favorite content, build the community.',
-    images: [
-      {
-        url: 'https://disclave.com/logo/base_logo_white_3125x1875.png',
-        width: 3125,
-        height: 1875,
-        alt: 'Disclave'
-      },
-      {
-        url: 'https://disclave.com/logo/base_logo_white_1200x720.png',
-        width: 1200,
-        height: 720,
-        alt: 'Disclave'
-      },
-      {
-        url: 'https://disclave.com/logo/base_logo_white_800x480.png',
-        width: 800,
-        height: 480,
-        alt: 'Disclave'
-      }
-    ]
   },
   twitter: {
     handle: 'disclave_',
@@ -52,6 +32,6 @@ export const SEO = {
 };
 
 export const blogPostsImg = {
-  widht: 1200,
+  width: 1200,
   height: 630
 };
