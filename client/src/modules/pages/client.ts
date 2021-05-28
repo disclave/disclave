@@ -5,6 +5,7 @@ import {
   ADD_PAGE_VOTE_UP,
   GET_PAGE_DETAILS,
   GET_TOP_COMMENTED_PAGES,
+  GET_TOP_RATED_PAGES,
   REMOVE_PAGE_VOTE,
 } from "./schemas";
 
@@ -20,6 +21,23 @@ export const getTopCommentedPages = async (
       limit,
     },
     "topCommentedPages",
+    noCache
+  );
+  return result.map(responseToModel);
+};
+
+export const getTopRatedPages = async (
+  minVoteSum: number,
+  limit: number,
+  noCache: boolean = false
+): Promise<Array<PageModel>> => {
+  const result = await runQuery<Array<PageModel>>(
+    GET_TOP_RATED_PAGES,
+    {
+      minVoteSum,
+      limit,
+    },
+    "topRatedPages",
     noCache
   );
   return result.map(responseToModel);

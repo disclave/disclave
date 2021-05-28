@@ -48,6 +48,7 @@ export type {
 
 export {
   getTopCommentedPages,
+  getTopRatedPages,
   getPageDetails,
   removePageVote,
   addPageVoteUp,
