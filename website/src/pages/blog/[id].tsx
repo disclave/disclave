@@ -15,8 +15,8 @@ interface BlogPostProps {
 const BlogPost: React.VFC<BlogPostProps> = (props) => {
   const { t } = useTranslation('blog');
 
-  const seoTitle = t('seo.title');
-  const seoDescription = props.post.title;
+  const seoTitle = `${props.post.title} - ${t('seo.title')}`;
+  const seoDescription = props.post.seoDescription;
   const seoImg = domain + props.post.imageSrc;
 
   return (

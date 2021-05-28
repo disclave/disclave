@@ -9,6 +9,7 @@ export interface BlogPostPageProps {
 }
 
 export const BlogPostPage: React.VFC<BlogPostPageProps> = ({ post }) => {
+  console.log(post.contentHtml);
   return (
     <Layout>
       <section className="container mx-auto my-6 px-3">
@@ -16,7 +17,7 @@ export const BlogPostPage: React.VFC<BlogPostPageProps> = ({ post }) => {
           <DateTimePreview className="text-sm text-gray-400" hideTime iso={post.date} />
           <h1 className="text-3xl font-semibold mb-6">{post.title}</h1>
           <img src={post.imageSrc} alt={post.title} className="rounded" width={1200} height={600} />
-          <p className="my-6" dangerouslySetInnerHTML={{ __html: post.contentHtml }} />
+          <div className="my-6" dangerouslySetInnerHTML={{ __html: post.contentHtml }} />
           <div>
             <DisclaveComments />
           </div>

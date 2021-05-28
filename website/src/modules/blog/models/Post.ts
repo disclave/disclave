@@ -4,4 +4,5 @@ export interface Post {
   date: string;
   imageSrc: string;
   contentHtml: string;
+  seoDescription: string;
 }

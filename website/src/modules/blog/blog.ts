@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import remark from 'remark';
+import html from 'remark-html';
 import { Post, PostPreview, RawPost } from './models';
 
 const postsDirectory = path.join(process.cwd(), 'src/blog-posts');
@@ -24,12 +25,16 @@ export const getPost = async (id: string): Promise<Post> => {
   const rawPost = readRawPostFile(id);
   const contentHtml = await markdownToHtml(rawPost.content);
 
+  const contentText = contentHtml.replace(/<[^>]*>?/gm, '');
+  const seoDescription = `${contentText.substr(0, 130)}...`;
+
   return {
     id,
     title: rawPost.title,
     date: rawPost.date,
     imageSrc: rawPost.imageSrc,
-    contentHtml: contentHtml
+    contentHtml: contentHtml,
+    seoDescription: seoDescription
   };
 };
 
@@ -73,7 +78,7 @@ const matterResultToRawPost = (
 };
 
 const markdownToHtml = async (markdown: string): Promise<string> => {
-  const processed = await remark().process(markdown);
+  const processed = await remark().use(html).process(markdown);
   return processed.toString();
 };
 
