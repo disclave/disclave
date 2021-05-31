@@ -7,8 +7,13 @@ import { PluginsSection } from '@/modules/layout/home/plugins';
 import { ExtensionsSection } from '@/modules/layout/home/extensions';
 import { TopCommentedPagesSection, TopRatedPagesSection } from './pages-preview';
 import { MobileSection } from './mobile';
+import { PostPreview } from '@/modules/blog';
+import { BlogPreviewSection } from './blog-preview';
 
 export interface HomePageProps {
+  blog: {
+    latestPosts: Array<PostPreview>;
+  };
   topComments: {
     comments: Array<CommentModel>;
     limit: number;
@@ -49,7 +54,7 @@ export const HomePage: React.VFC<HomePageProps> = (props) => {
             minVoteSum={props.topComments.minVoteSum}
           />
 
-          <div className="lg:w-1/2 p-4">Blog preview</div>
+          <BlogPreviewSection className="lg:w-1/2 p-4" posts={props.blog.latestPosts} />
         </div>
       </div>
 

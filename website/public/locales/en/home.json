@@ -27,6 +27,9 @@
       "title": "Top rated pages"
     }
   },
+  "blog": {
+    "title": "Blog"
+  },
   "plugins": {
     "title": "Promote own content",
     "text": "Do you have your website, or are you a web developer? Display comments and allow users to interact with them without leaving your page. Install Disclave plugin and let users promote your content.",

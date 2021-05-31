@@ -119,6 +119,7 @@ interface HomeProps {
 const Home: React.VFC<HomeProps> = (props) => {
   return (
     <HomePage
+      blog={props.blog}
       topComments={props.topComments}
       topCommentedPages={props.topCommentedPages}
       topRatedPages={props.topRatedPages}
