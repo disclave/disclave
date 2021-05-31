@@ -32,7 +32,7 @@ export const MainPreview: React.VFC<MainPreviewProps> = ({ post }) => {
             />
             <div className={textWrapperClassNames}>
               <DateTimePreview className="text-sm text-gray-500" hideTime iso={post.date} />
-              <h2 className="text-xl">{post.title}</h2>
+              <h2 className="text-md sm:text-lg">{post.title}</h2>
             </div>
           </div>
         </a>
