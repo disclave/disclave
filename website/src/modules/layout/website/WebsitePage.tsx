@@ -19,7 +19,7 @@ export const WebsitePage: React.VFC<WebsitePageProps> = ({ website, pageDetails,
 
   return (
     <Layout loginHref={loginHrefWithRedirect} registerHref={registerHrefWithRedirect}>
-      <div className="mx-4 mt-4">
+      <div className="container mx-auto max-w-3xl py-8 px-4">
         <WebsiteInfo pageDetails={pageDetails} />
         <WebsiteComments
           website={website}

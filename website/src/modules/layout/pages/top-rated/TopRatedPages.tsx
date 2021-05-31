@@ -23,20 +23,18 @@ export const TopRatedPages: React.VFC<TopRatedPagesProps> = (props) => {
 
   return (
     <Layout>
-      <section className="container mx-auto py-8">
-        <div className="mx-4">
-          <h1 className="text-3xl pb-4">{t('top rated.header')}</h1>
-          <PagesList
-            authenticated={isAuthenticated}
-            actionHandler={{
-              onVoteDown: voteDown,
-              onVoteUp: voteUp,
-              onVoteRemove: voteRemove
-            }}
-            hrefBuilder={websiteHref}
-            pages={pages}
-          />
-        </div>
+      <section className="container mx-auto max-w-3xl py-8 px-4">
+        <h1 className="text-3xl pb-4">{t('top rated.header')}</h1>
+        <PagesList
+          authenticated={isAuthenticated}
+          actionHandler={{
+            onVoteDown: voteDown,
+            onVoteUp: voteUp,
+            onVoteRemove: voteRemove
+          }}
+          hrefBuilder={websiteHref}
+          pages={pages}
+        />
       </section>
     </Layout>
   );

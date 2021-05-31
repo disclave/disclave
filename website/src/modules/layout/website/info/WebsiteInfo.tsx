@@ -47,7 +47,7 @@ export const WebsiteInfo: React.VFC<WebsiteInfoProps> = ({ pageDetails }) => {
   );
 
   return (
-    <section className="container mx-auto">
+    <section>
       <div className="flex flex-row overflow-auto">
         <div className="pr-4 my-2">
           <PageVotes pageDetails={pageDetails} />
