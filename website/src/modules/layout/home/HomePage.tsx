@@ -19,6 +19,11 @@ export interface HomePageProps {
     limit: number;
     minCommentsVoteSum: number;
   };
+  topRatedPages: {
+    pages: Array<PageModel>;
+    limit: number;
+    minVoteSum: number;
+  };
   latestComments: {
     comments: Array<CommentModel>;
     limit: number;

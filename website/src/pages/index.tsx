@@ -112,6 +112,7 @@ const Home: React.VFC<HomeProps> = (props) => {
     <HomePage
       topComments={props.topComments}
       topCommentedPages={props.topCommentedPages}
+      topRatedPages={props.topRatedPages}
       latestComments={props.latestComments}
     />
   );
