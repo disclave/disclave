@@ -5,7 +5,7 @@ import { CommentModel, PageModel } from '@disclave/client';
 import { LatestCommentsSection, TopCommentsSection } from '@/modules/layout/home/comments-preview';
 import { PluginsSection } from '@/modules/layout/home/plugins';
 import { ExtensionsSection } from '@/modules/layout/home/extensions';
-import { TopCommentedPagesSection } from './pages-preview';
+import { TopCommentedPagesSection, TopRatedPagesSection } from './pages-preview';
 import { MobileSection } from './mobile';
 
 export interface HomePageProps {
@@ -74,7 +74,12 @@ export const HomePage: React.VFC<HomePageProps> = (props) => {
           background: "url('/images/home/bg-2.svg') no-repeat center bottom"
         }}>
         <div className="container mx-auto py-8 flex flex-col lg:flex-row">
-          <div className="lg:w-1/2 p-4">Top rated pages</div>
+          <TopRatedPagesSection
+            className="lg:w-1/2 p-4"
+            pages={props.topRatedPages.pages}
+            pagesLimit={props.topRatedPages.limit}
+            minVoteSum={props.topRatedPages.minVoteSum}
+          />
 
           <PluginsSection className="lg:w-1/2 p-4" />
         </div>
@@ -87,7 +92,7 @@ export const HomePage: React.VFC<HomePageProps> = (props) => {
           comments={props.latestComments.comments}
           minVoteSum={props.latestComments.minVoteSum}
         />
-        
+
         <MobileSection className="lg:w-1/2 lg:order-1 p-4" />
       </div>
     </Layout>

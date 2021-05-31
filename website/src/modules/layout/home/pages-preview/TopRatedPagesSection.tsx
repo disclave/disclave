@@ -1,22 +1,22 @@
 import React from 'react';
 import { useTranslation } from 'next-i18next';
 import { PageModel } from '@disclave/client';
-import { topCommentedPagesHref } from '@/pages/pages/top-commented';
-import { useTopCommentedPages } from '@/modules/pages';
+import { useTopRatedPages } from '@/modules/pages';
 import { PagesPreviewSection } from './PagesPreviewSection';
+import { topRatedPagesHref } from '@/pages/pages/top-rated';
 
-export interface TopCommentedPagesSectionProps {
+export interface TopRatedPagesSectionProps {
   className?: string;
   pages: Array<PageModel>;
   pagesLimit: number;
-  minCommentsVoteSum: number;
+  minVoteSum: number;
 }
 
-export const TopCommentedPagesSection: React.VFC<TopCommentedPagesSectionProps> = (props) => {
+export const TopRatedPagesSection: React.VFC<TopRatedPagesSectionProps> = (props) => {
   const { t } = useTranslation(['home']);
-  const { pages, voteRemove, voteUp, voteDown } = useTopCommentedPages(
+  const { pages, voteRemove, voteUp, voteDown } = useTopRatedPages(
     props.pages,
-    props.minCommentsVoteSum,
+    props.minVoteSum,
     props.pagesLimit
   );
 
@@ -24,8 +24,8 @@ export const TopCommentedPagesSection: React.VFC<TopCommentedPagesSectionProps> 
     <PagesPreviewSection
       className={props.className}
       pages={pages}
-      header={t('pages rankings.top commented.title')}
-      href={topCommentedPagesHref()}
+      header={t('pages rankings.top rated.title')}
+      href={topRatedPagesHref()}
       onVoteDown={voteDown}
       onVoteRemove={voteRemove}
       onVoteUp={voteUp}
