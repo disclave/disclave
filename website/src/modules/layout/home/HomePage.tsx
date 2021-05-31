@@ -44,7 +44,7 @@ export const HomePage: React.VFC<HomePageProps> = (props) => {
             minVoteSum={props.topComments.minVoteSum}
           />
 
-          <ExtensionsSection className="lg:w-1/2 p-4" />
+          <div className="lg:w-1/2 p-4">Blog preview</div>
         </div>
       </div>
 
@@ -60,19 +60,30 @@ export const HomePage: React.VFC<HomePageProps> = (props) => {
             minCommentsVoteSum={props.topCommentedPages.minCommentsVoteSum}
           />
 
-          <PluginsSection className="lg:w-1/2 lg:order-1 p-4" />
+          <ExtensionsSection className="lg:w-1/2 lg:order-1 p-4" />
+        </div>
+      </div>
+
+      <div
+        style={{
+          background: "url('/images/home/bg-2.svg') no-repeat center bottom"
+        }}>
+        <div className="container mx-auto py-8 flex flex-col lg:flex-row">
+          <div className="lg:w-1/2 p-4">Top rated pages</div>
+
+          <PluginsSection className="lg:w-1/2 p-4" />
         </div>
       </div>
 
       <div className="container mx-auto py-8 flex flex-col lg:flex-row">
         <LatestCommentsSection
-          className="lg:w-1/2 p-4"
+          className="lg:w-1/2 lg:order-2 p-4"
           commentsLimit={props.latestComments.limit}
           comments={props.latestComments.comments}
           minVoteSum={props.latestComments.minVoteSum}
         />
-
-        <MobileSection className="lg:w-1/2 p-4" />
+        
+        <MobileSection className="lg:w-1/2 lg:order-1 p-4" />
       </div>
     </Layout>
   );

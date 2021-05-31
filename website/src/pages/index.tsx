@@ -25,7 +25,7 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (context)
   );
 
   const latestCommentsConfig = {
-    limit: 6,
+    limit: 5,
     minVoteSum: 1
   };
   const latestCommentsPromise = commentService.getLatestComments(
@@ -35,7 +35,7 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (context)
   );
 
   const topCommentedPagesConfig = {
-    limit: 7,
+    limit: 6,
     commentsMinVoteSum: 1
   };
   const topCommentedPagesPromise = pageService.getTopCommentedPages(
