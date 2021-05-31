@@ -46,7 +46,7 @@ export const HomePage: React.VFC<HomePageProps> = (props) => {
           background: "url('/images/home/bg_1.jpg') no-repeat center top",
           backgroundSize: 'cover'
         }}>
-        <div className="container mx-auto py-8 flex flex-col lg:flex-row">
+        <div className="container mx-auto pt-8 flex flex-col lg:flex-row">
           <TopCommentsSection
             className="lg:w-1/2 p-4"
             commentsLimit={props.topComments.limit}
@@ -62,7 +62,7 @@ export const HomePage: React.VFC<HomePageProps> = (props) => {
         style={{
           backgroundColor: '#f7f5f8'
         }}>
-        <div className="container mx-auto py-8 flex flex-col lg:flex-row">
+        <div className="container mx-auto pt-8 flex flex-col lg:flex-row">
           <TopCommentedPagesSection
             className="lg:w-1/2 lg:order-2 p-4"
             pages={props.topCommentedPages.pages}
@@ -78,7 +78,7 @@ export const HomePage: React.VFC<HomePageProps> = (props) => {
         style={{
           background: "url('/images/home/bg-2.svg') no-repeat center bottom"
         }}>
-        <div className="container mx-auto py-8 flex flex-col lg:flex-row">
+        <div className="container mx-auto pt-8 flex flex-col lg:flex-row">
           <TopRatedPagesSection
             className="lg:w-1/2 p-4"
             pages={props.topRatedPages.pages}
