@@ -10,7 +10,7 @@ export const MobilePage: React.VFC = () => {
 
   return (
     <Layout>
-      <section className="container py-8 px-4">
+      <section className="container mx-auto py-8 px-4">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-3xl pb-4">{t('main.header')}</h1>
           <p className="whitespace-pre-line">{t('main.text')}</p>
