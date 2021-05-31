@@ -14,35 +14,43 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (context)
   const commentService = getCommentService();
   const pageService = getPageService();
 
-  const topMinVoteSum = 1;
-  const topCommentsLimit = 5;
-  const latestMinVoteSum = 1;
-  const latestCommentsLimit = 6;
-
+  const topCommentsConfig = {
+    limit: 5,
+    minVoteSum: 1
+  };
   const topCommentsPromise = commentService.getTopComments(
-    topMinVoteSum,
-    topCommentsLimit,
+    topCommentsConfig.minVoteSum,
+    topCommentsConfig.limit,
     userCookie?.uid
   );
+
+  const latestCommentsConfig = {
+    limit: 6,
+    minVoteSum: 1
+  };
   const latestCommentsPromise = commentService.getLatestComments(
-    latestMinVoteSum,
-    latestCommentsLimit,
+    latestCommentsConfig.minVoteSum,
+    latestCommentsConfig.limit,
     userCookie?.uid
   );
 
-  const topCommentedPagesCommentsMinVoteSum = 1;
-  const topCommentedPagesLimit = 7;
+  const topCommentedPagesConfig = {
+    limit: 7,
+    commentsMinVoteSum: 1
+  };
   const topCommentedPagesPromise = pageService.getTopCommentedPages(
-    topCommentedPagesCommentsMinVoteSum,
-    topCommentedPagesLimit,
+    topCommentedPagesConfig.commentsMinVoteSum,
+    topCommentedPagesConfig.limit,
     userCookie?.uid
   );
 
-  const topRatedPagesMinVoteSum = 0;
-  const topRatedPagesLimit = 7;
+  const topRatedPagesConfig = {
+    limit: 7,
+    minVoteSum: 0
+  };
   const topRatedPagesPromise = pageService.getTopRatedPages(
-    topRatedPagesMinVoteSum,
-    topRatedPagesLimit,
+    topRatedPagesConfig.minVoteSum,
+    topRatedPagesConfig.limit,
     userCookie?.uid
   );
 
@@ -52,21 +60,23 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (context)
     props: {
       topComments: {
         comments: await topCommentsPromise,
-        limit: topCommentsLimit,
-        minVoteSum: topMinVoteSum
+        limit: topCommentsConfig.limit,
+        minVoteSum: topCommentsConfig.minVoteSum
       },
       topCommentedPages: {
         pages: await topCommentedPagesPromise,
-        limit: topCommentedPagesLimit,
-        minCommentsVoteSum: topCommentedPagesCommentsMinVoteSum
+        limit: topCommentedPagesConfig.limit,
+        minCommentsVoteSum: topCommentedPagesConfig.commentsMinVoteSum
       },
       topRatedPages: {
-        pages: await topRatedPagesPromise
+        pages: await topRatedPagesPromise,
+        limit: topRatedPagesConfig.limit,
+        minVoteSum: topRatedPagesConfig.minVoteSum
       },
       latestComments: {
         comments: await latestCommentsPromise,
-        limit: latestCommentsLimit,
-        minVoteSum: latestMinVoteSum
+        limit: latestCommentsConfig.limit,
+        minVoteSum: latestCommentsConfig.minVoteSum
       },
       serverSideUid: userCookie ? userCookie.uid : null,
       ...(await translationsPromise)
@@ -87,6 +97,8 @@ interface HomeProps {
   };
   topRatedPages: {
     pages: Array<PageModel>;
+    limit: number;
+    minVoteSum: number;
   };
   latestComments: {
     comments: Array<CommentModel>;
