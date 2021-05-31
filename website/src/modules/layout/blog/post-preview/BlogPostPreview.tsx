@@ -21,7 +21,7 @@ export const BlogPostPreview: React.VFC<BlogPostPreviewProps> = ({ post }) => {
             width={blogPostsImg.width}
             height={blogPostsImg.height}
           />
-          <div className="px-4 pb-3 pt-2">
+          <div className="px-4 pb-4 pt-2">
             <DateTimePreview className="text-xs text-gray-400" hideTime iso={post.date} />
             <h2 className="text-2xl font-semibold">{post.title}</h2>
           </div>
