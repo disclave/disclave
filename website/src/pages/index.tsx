@@ -5,6 +5,7 @@ import { initServer } from '@/modules/server';
 import { getCommentService, getPageService, getUserCookie } from '@disclave/server';
 import { CommentModel, PageModel } from '@disclave/client';
 import { HomePage } from '@/modules/layout/home';
+import { getSortedPostsPreview, PostPreview } from '@/modules/blog';
 
 export const homeHref = () => '/';
 
@@ -13,6 +14,8 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (context)
   const userCookie = getUserCookie(context.req);
   const commentService = getCommentService();
   const pageService = getPageService();
+
+  const lastestBlogPosts = getSortedPostsPreview(3);
 
   const topCommentsConfig = {
     limit: 5,
@@ -58,6 +61,9 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (context)
 
   return {
     props: {
+      blog: {
+        latestPosts: lastestBlogPosts
+      },
       topComments: {
         comments: await topCommentsPromise,
         limit: topCommentsConfig.limit,
@@ -85,6 +91,9 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (context)
 };
 
 interface HomeProps {
+  blog: {
+    latestPosts: Array<PostPreview>;
+  };
   topComments: {
     comments: Array<CommentModel>;
     limit: number;
