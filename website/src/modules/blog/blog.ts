@@ -7,9 +7,9 @@ import { Post, PostPreview, RawPost } from './models';
 
 const postsDirectory = path.join(process.cwd(), 'src/blog-posts');
 
-export const getSortedPostsPreview = () => {
+export const getSortedPostsPreview = (limit?: number) => {
   const rawPosts = readRawPosts();
-  return rawPosts
+  const sorted = rawPosts
     .map(
       (p: RawPost): PostPreview => ({
         id: p.id,
@@ -19,6 +19,9 @@ export const getSortedPostsPreview = () => {
       })
     )
     .sort((a: PostPreview, b: PostPreview) => comparator(a.date, b.date));
+
+  if (!!limit) return sorted.slice(0, limit);
+  else return sorted;
 };
 
 export const getPost = async (id: string): Promise<Post> => {
