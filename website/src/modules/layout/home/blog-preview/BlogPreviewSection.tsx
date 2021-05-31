@@ -27,7 +27,7 @@ export const BlogPreviewSection: React.VFC<BlogPreviewSectionProps> = (props) =>
 
       <div className="my-8">
         {otherPosts.map((post) => (
-          <SecondaryPreview post={post} />
+          <SecondaryPreview key={post.id} post={post} />
         ))}
       </div>
 
