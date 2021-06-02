@@ -26,6 +26,10 @@ export abstract class PageRepository<T = unknown> extends BaseRepository<T> {
     uid: UserId | null
   ): Promise<Array<PageEntity>>;
 
+  abstract findPageDetails(
+    normalizedUrl: string
+  ): Promise<PageDetailsEntity | null>;
+
   abstract findOrCreatePageDetails(
     url: UrlMeta,
     uid: UserId | null
@@ -41,4 +45,3 @@ export abstract class PageRepository<T = unknown> extends BaseRepository<T> {
   abstract setVoteDown(url: UrlMeta, uid: UserId): Promise<boolean>;
   abstract removeVote(url: UrlMeta, uid: UserId): Promise<boolean>;
 }
-

@@ -147,6 +147,22 @@ export class PageMongoRepository
     return await cursor.map(topRatedAggCursorDocToEntity).toArray();
   }
 
+  public async findPageDetails(
+    normalizedUrl: string
+  ): Promise<PageDetailsEntity | null> {
+    const collection = await pagesDbCollection();
+    const doc = await collection.findOne(
+      {
+        matchingUrls: normalizedUrl,
+      },
+      {
+        projection: getProjection(null),
+      }
+    );
+    if (!doc) return null;
+    return cursorDocToEntity(doc);
+  }
+
   public async findOrCreatePageDetails(
     url: UrlMeta,
     uid: UserId | null
