@@ -1,6 +1,6 @@
-import { toRule, url } from "@metascraper/helpers";
+const helpers = require("@metascraper/helpers");
 
-const toUrl = toRule(url);
+const toUrl = helpers.toRule(helpers.url);
 
 export const canonicalUrl = () => ({
   canonical: [

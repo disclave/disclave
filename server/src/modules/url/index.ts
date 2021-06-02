@@ -11,6 +11,11 @@ export interface UrlMetaData {
   logo: string | null;
 }
 export abstract class UrlService {
+  abstract normalizeUrl(
+    url: string,
+    preserveQueryParams: boolean | Array<string | RegExp>
+  ): string;
+
   abstract parseUrl(raw: String, removeQueryParams: boolean): ParsedUrlData;
 
   abstract scrapUrl(url: String): Promise<UrlMetaData | null>;

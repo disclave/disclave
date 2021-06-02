@@ -17,7 +17,7 @@ const urlScrapper = metascraper([
 ]);
 
 const normalizationConfig = (
-  removeQueryParams: boolean
+  removeQueryParams: Array<RegExp | string> = [/^utm_\w+/i]
 ): normalizeUrl.Options => ({
   defaultProtocol: "https:",
   stripAuthentication: true,
@@ -29,10 +29,21 @@ const normalizationConfig = (
 
 @injectable()
 export class UrlServiceImpl implements UrlService {
+  public normalizeUrl(
+    url: string,
+    removeQueryParams: boolean | Array<string | RegExp>
+  ): string {
+    if (removeQueryParams === true) removeQueryParams = [/[\s\S]*/];
+    else if (removeQueryParams === false) removeQueryParams = [/^utm_\w+/i];
+
+    const config = normalizationConfig(removeQueryParams);
+    return normalizeUrl(url, config);
+  }
+
   public parseUrl(raw: string, removeQueryParams: boolean): ParsedUrlData {
     const normalized = normalizeUrl(
       raw,
-      normalizationConfig(removeQueryParams)
+      normalizationConfig(removeQueryParams ? [/[\s\S]*/] : [/^utm_\w+/i])
     );
     const url = new URL(normalized);
     return {
