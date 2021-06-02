@@ -266,6 +266,7 @@ const toPartialDbPageDetails = (url: UrlMeta) => ({
     websiteId: url.websiteId,
   },
   normalizedUrl: url.normalized,
+  matchingUrls: [url.normalized],
   votesUp: [],
   votesDown: [],
   votesSum: 0,
