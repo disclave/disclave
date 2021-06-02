@@ -163,6 +163,32 @@ export class PageMongoRepository
     return cursorDocToEntity(doc);
   }
 
+  public async saveOrUpdatePageDetails(
+    urlMeta: UrlMeta,
+    alternativeUrl: string | null,
+    data: PageDetailsData
+  ): Promise<void> {
+    const matchingUrls = [urlMeta.normalized];
+    if (alternativeUrl != null) matchingUrls.push(alternativeUrl);
+
+    const collection = await pagesDbCollection();
+    await collection.updateOne(
+      { $or: [matchingUrls.map((u) => ({ matchingUrls: u }))] },
+      {
+        $setOnInsert: toPartialDbPageDetails(urlMeta, alternativeUrl),
+        $set: {
+          meta: metaToDbPageDetailsMeta(data),
+        },
+        $addToSet: {
+          matchingUrls: { $each: matchingUrls },
+        },
+      },
+      {
+        upsert: true,
+      }
+    );
+  }
+
   public async findOrCreatePageDetails(
     url: UrlMeta,
     uid: UserId | null
@@ -171,7 +197,7 @@ export class PageMongoRepository
     const result = await collection.findOneAndUpdate(
       urlMetaToIdFilter(url),
       {
-        $setOnInsert: toDbPageDetails(url, null),
+        $setOnInsert: toDbPageDetails(url, null, null),
       },
       {
         upsert: true,
@@ -191,7 +217,7 @@ export class PageMongoRepository
     const result = await collection.findOneAndUpdate(
       urlMetaToIdFilter(url),
       {
-        $setOnInsert: toPartialDbPageDetails(url),
+        $setOnInsert: toPartialDbPageDetails(url, null),
         $set: {
           meta: metaToDbPageDetailsMeta(data),
         },
@@ -276,13 +302,18 @@ const urlMetaToIdFilter = (url: UrlMeta) => ({
   },
 });
 
-const toPartialDbPageDetails = (url: UrlMeta) => ({
+const toPartialDbPageDetails = (
+  url: UrlMeta,
+  alternativeUrl: string | null
+) => ({
   _id: {
     pageId: url.pageId,
     websiteId: url.websiteId,
   },
   normalizedUrl: url.normalized,
-  matchingUrls: [url.normalized],
+  matchingUrls: alternativeUrl
+    ? [url.normalized, alternativeUrl]
+    : [url.normalized],
   votesUp: [],
   votesDown: [],
   votesSum: 0,
@@ -291,9 +322,10 @@ const toPartialDbPageDetails = (url: UrlMeta) => ({
 
 const toDbPageDetails = (
   url: UrlMeta,
-  data: PageDetailsData | null
+  data: PageDetailsData | null,
+  alternativeUrl: string | null
 ): DbPageDetails => ({
-  ...toPartialDbPageDetails(url),
+  ...toPartialDbPageDetails(url, alternativeUrl),
   meta: metaToDbPageDetailsMeta(data),
 });
 

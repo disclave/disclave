@@ -30,6 +30,12 @@ export abstract class PageRepository<T = unknown> extends BaseRepository<T> {
     normalizedUrl: string
   ): Promise<PageDetailsEntity | null>;
 
+  abstract saveOrUpdatePageDetails(
+    urlMeta: UrlMeta,
+    alternativeUrl: string | null,
+    data: PageDetailsData
+  ): Promise<void>;
+
   abstract findOrCreatePageDetails(
     url: UrlMeta,
     uid: UserId | null
