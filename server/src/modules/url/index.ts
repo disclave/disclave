@@ -1,6 +1,4 @@
 export interface ParsedUrlData {
-  raw: string;
-  normalized: string;
   websiteId: string;
   pageId: string;
 }
@@ -16,7 +14,7 @@ export abstract class UrlService {
     preserveQueryParams: boolean | Array<string | RegExp>
   ): string;
 
-  abstract parseUrl(raw: String, removeQueryParams: boolean): ParsedUrlData;
+  abstract parseUrl(normalizedUrl: string): ParsedUrlData;
 
-  abstract scrapUrl(url: String): Promise<UrlMetaData | null>;
+  abstract scrapUrl(url: string): Promise<UrlMetaData | null>;
 }

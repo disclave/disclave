@@ -40,17 +40,11 @@ export class UrlServiceImpl implements UrlService {
     return normalizeUrl(url, config);
   }
 
-  public parseUrl(raw: string, removeQueryParams: boolean): ParsedUrlData {
-    const normalized = normalizeUrl(
-      raw,
-      normalizationConfig(removeQueryParams ? [/[\s\S]*/] : [/^utm_\w+/i])
-    );
-    const url = new URL(normalized);
+  public parseUrl(normalizedURL: string): ParsedUrlData {
+    const url = new URL(normalizedURL);
     return {
-      raw,
-      normalized,
       websiteId: encodeURI(url.hostname),
-      pageId: encodeURI(url.pathname),
+      pageId: encodeURI(url.pathname + url.search),
     };
   }
 
