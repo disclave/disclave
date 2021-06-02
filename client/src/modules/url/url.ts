@@ -18,7 +18,7 @@ export const stringToUrl = (str: string): string => normalizeUrl(str);
 
 export const encodeUrl = (url: string): string => {
   return encodeURIComponent(url).replace(
-    /[!'()*]/g,
+    /[\!\'\(\)\*]/g,
     (c) => "%" + c.charCodeAt(0).toString(16)
   );
 };
