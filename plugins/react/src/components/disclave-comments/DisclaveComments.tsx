@@ -4,18 +4,22 @@ import styles from "./DisclaveComments.module.css";
 import { useIframeHeightListener } from "../../iframe";
 
 export const DisclaveComments: React.VFC = () => {
+  console.info("DisclaveComments");
   const [url, setUrl] = useState<string | null>(null);
   const iframeHeight = useIframeHeightListener("200");
 
+  console.info(url, iframeHeight);
+
   useEffect(() => {
     const locationHref = window?.location?.href;
+    console.info("locationHref", locationHref);
     if (!locationHref) return;
 
     try {
       const iframeUrl = getIframeUrl(locationHref);
       setUrl(iframeUrl);
     } catch (e) {
-      console.error(e);
+      console.error("DisclaveComments - set url error.", e);
     }
   });
 
