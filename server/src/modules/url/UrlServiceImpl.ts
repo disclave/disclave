@@ -2,13 +2,16 @@ import { UrlService, ParsedUrlData, UrlMetaData } from "./index";
 import { injectable } from "inversify";
 import normalizeUrl from "normalize-url";
 import metascraper from "metascraper";
+import { canonicalUrl } from "./metascraper";
 import msTitle from "metascraper-title";
 import msLogo from "metascraper-logo";
 import msLogoFavicon from "metascraper-logo-favicon";
+import fetch from "node-fetch";
 
 const gotOptions = { timeout: 3000 };
 const urlScrapper = metascraper([
   msTitle(),
+  (canonicalUrl as any)(),
   msLogo(),
   msLogoFavicon({ gotOpts: gotOptions }),
 ]);
@@ -66,6 +69,7 @@ const fetchHtml = async (
 const scrapHtml = async (html: string, url: string): Promise<UrlMetaData> => {
   const data = await urlScrapper({ html, url });
   return {
+    canonical: (data as any).canonical || null,
     title: data.title || null,
     logo: (data as any).logo || null,
   };

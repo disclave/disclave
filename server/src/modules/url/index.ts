@@ -6,6 +6,7 @@ export interface ParsedUrlData {
 }
 
 export interface UrlMetaData {
+  canonical: string | null;
   title: string | null;
   logo: string | null;
 }
