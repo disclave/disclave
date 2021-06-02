@@ -47,7 +47,7 @@ export class PageServiceImpl implements PageService {
     fetchMetaIfNoCache: boolean,
     userId: UserId | null
   ): Promise<PageDetails> {
-    const parsedUrl = this.urlService.parseUrl(url);
+    const parsedUrl = await this.normalizeUrl(url);
     const savedPageDetails = await this.repository.findOrCreatePageDetails(
       {
         pageId: parsedUrl.pageId,
@@ -70,7 +70,7 @@ export class PageServiceImpl implements PageService {
   }
 
   public async setVoteUp(url: string, userId: UserId): Promise<boolean> {
-    const parsedUrl = this.urlService.parseUrl(url);
+    const parsedUrl = await this.normalizeUrl(url);
     return await this.repository.setVoteUp(
       {
         pageId: parsedUrl.pageId,
@@ -82,7 +82,7 @@ export class PageServiceImpl implements PageService {
   }
 
   public async setVoteDown(url: string, userId: UserId): Promise<boolean> {
-    const parsedUrl = this.urlService.parseUrl(url);
+    const parsedUrl = await this.normalizeUrl(url);
     return await this.repository.setVoteDown(
       {
         pageId: parsedUrl.pageId,
@@ -94,7 +94,7 @@ export class PageServiceImpl implements PageService {
   }
 
   public async removeVote(url: string, userId: UserId): Promise<boolean> {
-    const parsedUrl = this.urlService.parseUrl(url);
+    const parsedUrl = await this.normalizeUrl(url);
     return await this.repository.removeVote(
       {
         pageId: parsedUrl.pageId,
@@ -103,6 +103,10 @@ export class PageServiceImpl implements PageService {
       },
       userId
     );
+  }
+
+  private async normalizeUrl(url: string): Promise<ParsedUrlData> {
+    return this.urlService.parseUrl(url, true);
   }
 
   private async scrapAndSavePageDetails(

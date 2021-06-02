@@ -11,7 +11,7 @@ export interface UrlMetaData {
   logo: string | null;
 }
 export abstract class UrlService {
-  abstract parseUrl(raw: String): ParsedUrlData;
+  abstract parseUrl(raw: String, removeQueryParams: boolean): ParsedUrlData;
 
   abstract scrapUrl(url: String): Promise<UrlMetaData | null>;
 }

@@ -16,18 +16,24 @@ const urlScrapper = metascraper([
   msLogoFavicon({ gotOpts: gotOptions }),
 ]);
 
-const normalizationConfig: normalizeUrl.Options = {
+const normalizationConfig = (
+  removeQueryParams: boolean
+): normalizeUrl.Options => ({
   defaultProtocol: "https:",
   stripAuthentication: true,
   stripHash: true,
   stripTextFragment: true,
-  removeQueryParameters: [/[\s\S]*/],
-};
+  removeQueryParameters: removeQueryParams ? [/[\s\S]*/] : [/^utm_\w+/i],
+  sortQueryParameters: true,
+});
 
 @injectable()
 export class UrlServiceImpl implements UrlService {
-  public parseUrl(raw: string): ParsedUrlData {
-    const normalized = normalizeUrl(raw, normalizationConfig);
+  public parseUrl(raw: string, removeQueryParams: boolean): ParsedUrlData {
+    const normalized = normalizeUrl(
+      raw,
+      normalizationConfig(removeQueryParams)
+    );
     const url = new URL(normalized);
     return {
       raw,
