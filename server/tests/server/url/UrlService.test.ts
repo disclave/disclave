@@ -55,11 +55,11 @@ test("should escape special characters in pageId", () => {
     "=",
     "+",
     "$",
-    "!",
-    "'",
-    "(",
-    ")",
-    "*",
+    // "!", // TODO: temporary removed char because of the iOS problems
+    // "'",
+    // "(",
+    // ")",
+    // "*",
   ];
   const shouldNotEscape = ["-", "_", ".", "~", "A", "Z", "a", "z", "1", "0"];
 

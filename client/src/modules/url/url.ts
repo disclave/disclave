@@ -24,8 +24,10 @@ export const stringToUrl = (str: string): string =>
   normalizeUrl(str, normalizationConfig);
 
 export const encodeUrl = (url: string): string => {
-  return encodeURIComponent(url).replace(
-    /[!'()*]/g,
-    (c) => "%" + c.charCodeAt(0).toString(16)
-  );
+  // TODO: currently simplified because of the iOS problems - verify and update later
+  return encodeURIComponent(url);
+  // return encodeURIComponent(url).replace(
+  //   /[!'()*]/g,
+  //   (c) => "%" + c.charCodeAt(0).toString(16)
+  // );
 };
