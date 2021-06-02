@@ -4,7 +4,7 @@ import {
   PageDetailsEntity,
   PageRepository,
   UrlMeta,
-} from "./index";
+} from "@/modules/pages/db";
 import { injectable } from "inversify";
 import { MongoRepository, timestampNow } from "@/connectors/mongodb";
 import { ClientSession } from "@/connectors/mongodb";
