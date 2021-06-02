@@ -38,10 +38,13 @@ export class UrlServiceImpl implements UrlService {
 }
 
 const encodeURI = (str: string): string => {
-  return encodeURIComponent(str).replace(
-    /[!'()*]/g,
-    (c) => "%" + c.charCodeAt(0).toString(16)
-  );
+  // TODO: currently simplified because of the iOS problems - verify and update later
+  // should not be a problem here (this is backend) but changed also for the consistency
+  return encodeURIComponent(str);
+  // return encodeURIComponent(str).replace(
+  //   /[!'()*]/g,
+  //   (c) => "%" + c.charCodeAt(0).toString(16)
+  // );
 };
 
 const fetchHtml = async (
