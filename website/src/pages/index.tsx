@@ -5,54 +5,84 @@ import { initServer } from '@/modules/server';
 import { getCommentService, getPageService, getUserCookie } from '@disclave/server';
 import { CommentModel, PageModel } from '@disclave/client';
 import { HomePage } from '@/modules/layout/home';
+import { getSortedPostsPreview, PostPreview } from '@/modules/blog';
 
 export const homeHref = () => '/';
 
 export const getServerSideProps: GetServerSideProps<HomeProps> = async (context) => {
-  await initServer();
+  await initServer(false);
   const userCookie = getUserCookie(context.req);
   const commentService = getCommentService();
   const pageService = getPageService();
 
-  const topMinVoteSum = 1;
-  const topCommentsLimit = 5;
-  const latestMinVoteSum = 1;
-  const latestCommentsLimit = 6;
+  const lastestBlogPosts = getSortedPostsPreview(3);
 
+  const topCommentsConfig = {
+    limit: 5,
+    minVoteSum: 1
+  };
   const topCommentsPromise = commentService.getTopComments(
-    topMinVoteSum,
-    topCommentsLimit,
-    userCookie?.uid
-  );
-  const latestCommentsPromise = commentService.getLatestComments(
-    latestMinVoteSum,
-    latestCommentsLimit,
+    topCommentsConfig.minVoteSum,
+    topCommentsConfig.limit,
     userCookie?.uid
   );
 
-  const topCommentedMinVoteSum = 1;
-  const pagesLimit = 7;
+  const latestCommentsConfig = {
+    limit: 5,
+    minVoteSum: 1
+  };
+  const latestCommentsPromise = commentService.getLatestComments(
+    latestCommentsConfig.minVoteSum,
+    latestCommentsConfig.limit,
+    userCookie?.uid
+  );
+
+  const topCommentedPagesConfig = {
+    limit: 6,
+    commentsMinVoteSum: 1
+  };
   const topCommentedPagesPromise = pageService.getTopCommentedPages(
-    topCommentedMinVoteSum,
-    pagesLimit
+    topCommentedPagesConfig.commentsMinVoteSum,
+    topCommentedPagesConfig.limit,
+    userCookie?.uid
+  );
+
+  const topRatedPagesConfig = {
+    limit: 7,
+    minVoteSum: 0
+  };
+  const topRatedPagesPromise = pageService.getTopRatedPages(
+    topRatedPagesConfig.minVoteSum,
+    topRatedPagesConfig.limit,
+    userCookie?.uid
   );
 
   const translationsPromise = serverSideTranslations(context.locale, ['common', 'home', 'layout']);
 
   return {
     props: {
+      blog: {
+        latestPosts: lastestBlogPosts
+      },
       topComments: {
         comments: await topCommentsPromise,
-        limit: topCommentsLimit,
-        minVoteSum: topMinVoteSum
+        limit: topCommentsConfig.limit,
+        minVoteSum: topCommentsConfig.minVoteSum
       },
       topCommentedPages: {
-        pages: await topCommentedPagesPromise
+        pages: await topCommentedPagesPromise,
+        limit: topCommentedPagesConfig.limit,
+        minCommentsVoteSum: topCommentedPagesConfig.commentsMinVoteSum
+      },
+      topRatedPages: {
+        pages: await topRatedPagesPromise,
+        limit: topRatedPagesConfig.limit,
+        minVoteSum: topRatedPagesConfig.minVoteSum
       },
       latestComments: {
         comments: await latestCommentsPromise,
-        limit: latestCommentsLimit,
-        minVoteSum: latestMinVoteSum
+        limit: latestCommentsConfig.limit,
+        minVoteSum: latestCommentsConfig.minVoteSum
       },
       serverSideUid: userCookie ? userCookie.uid : null,
       ...(await translationsPromise)
@@ -61,6 +91,9 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (context)
 };
 
 interface HomeProps {
+  blog: {
+    latestPosts: Array<PostPreview>;
+  };
   topComments: {
     comments: Array<CommentModel>;
     limit: number;
@@ -68,6 +101,13 @@ interface HomeProps {
   };
   topCommentedPages: {
     pages: Array<PageModel>;
+    limit: number;
+    minCommentsVoteSum: number;
+  };
+  topRatedPages: {
+    pages: Array<PageModel>;
+    limit: number;
+    minVoteSum: number;
   };
   latestComments: {
     comments: Array<CommentModel>;
@@ -79,8 +119,10 @@ interface HomeProps {
 const Home: React.VFC<HomeProps> = (props) => {
   return (
     <HomePage
+      blog={props.blog}
       topComments={props.topComments}
       topCommentedPages={props.topCommentedPages}
+      topRatedPages={props.topRatedPages}
       latestComments={props.latestComments}
     />
   );

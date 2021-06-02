@@ -1,6 +1,12 @@
-export const getIframeUrl = (href: string): string => {
-  const url = process.env.IFRAME_URL as string;
-  return url.replace("{{url}}", encodeURI(href));
+export interface IframeConfig {
+  hideVotes: boolean;
+}
+
+export const getIframeUrl = (href: string, config: IframeConfig): string => {
+  const iframeUrl = process.env.IFRAME_URL as string;
+  let url = iframeUrl.replace("{{url}}", encodeURI(href));
+  if (config.hideVotes) url += "?hideVotes";
+  return url;
 };
 
 const encodeURI = (str: string): string => {

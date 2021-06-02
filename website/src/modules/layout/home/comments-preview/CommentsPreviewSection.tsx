@@ -7,11 +7,9 @@ import { SectionHeader } from '../components';
 
 export interface CommentsPreviewSectionProps {
   className?: string;
-  commentsLimit: number;
   comments: Array<CommentModel>;
   header: string;
   href: string;
-  minVoteSum: number;
   onVoteDown: (commentId: string) => Promise<void>;
   onVoteRemove: (commentId: string) => Promise<void>;
   onVoteUp: (commentId: string) => Promise<void>;

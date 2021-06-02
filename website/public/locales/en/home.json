@@ -22,7 +22,13 @@
   "pages rankings": {
     "top commented": {
       "title": "Top commented pages"
+    },
+    "top rated": {
+      "title": "Top rated pages"
     }
+  },
+  "blog": {
+    "title": "Blog"
   },
   "plugins": {
     "title": "Promote own content",

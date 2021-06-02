@@ -23,7 +23,7 @@ export const WebsiteComments: React.VFC<WebsiteCommentsProps> = (props) => {
   );
 
   return (
-    <section className="container mx-auto my-4">
+    <section className="my-4">
       <PageCommentsContainer
         userProfile={profile}
         comments={comments}

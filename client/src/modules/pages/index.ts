@@ -1,2 +1,9 @@
-export { getTopCommentedPages, getPageDetails } from "./client";
+export {
+  getTopCommentedPages,
+  getTopRatedPages,
+  getPageDetails,
+  removePageVote,
+  addPageVoteDown,
+  addPageVoteUp,
+} from "./client";
 export type { PageDetailsModel, PageModel } from "./models";

@@ -23,11 +23,9 @@ export const LatestCommentsSection: React.VFC<LatestCommentsSectionProps> = (pro
   return (
     <CommentsPreviewSection
       className={props.className}
-      commentsLimit={props.commentsLimit}
       comments={comments}
       header={t('comment rankings.latest.title')}
       href={latestCommentsHref()}
-      minVoteSum={props.minVoteSum}
       onVoteDown={voteDown}
       onVoteRemove={voteRemove}
       onVoteUp={voteUp}

@@ -1,5 +1,8 @@
 {
   "top commented": {
     "header": "Top commented pages"
+  },
+  "top rated": {
+    "header": "Top rated pages"
   }
 }

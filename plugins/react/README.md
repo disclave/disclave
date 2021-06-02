@@ -25,3 +25,13 @@ Add a component in the place where you want to display Disclave comments:
 ```
 
 And that is all!
+
+## Configuration
+
+### Hiding the votes
+
+If you want to hide the voting section, you can use the `hideVotes` parameter. If set, Disclave will show only the comments, without total vote sum and voting buttons.
+
+```
+<DisclaveComments hideVotes />
+```

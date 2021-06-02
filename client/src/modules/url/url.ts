@@ -1,5 +1,11 @@
 import normalizeUrl from "normalize-url";
 
+const normalizationConfig: normalizeUrl.Options = {
+  defaultProtocol: "https:",
+  stripAuthentication: true,
+  stripTextFragment: true,
+};
+
 const urlPattern = new RegExp(
   "^(https?:\\/\\/)?" + // protocol
     "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
@@ -14,7 +20,8 @@ export const isUrl = (str: string | undefined): boolean => {
   return !!str && !!urlPattern.test(str);
 };
 
-export const stringToUrl = (str: string): string => normalizeUrl(str);
+export const stringToUrl = (str: string): string =>
+  normalizeUrl(str, normalizationConfig);
 
 export const encodeUrl = (url: string): string => {
   // TODO: currently simplified because of the iOS problems - verify and update later
