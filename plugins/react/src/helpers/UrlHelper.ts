@@ -5,7 +5,7 @@ export const getIframeUrl = (href: string): string => {
 
 const encodeURI = (str: string): string => {
   return encodeURIComponent(str).replace(
-    /[!'()*]/g,
+    /[\!\'\(\)\*]/g,
     (c) => "%" + c.charCodeAt(0).toString(16)
   );
 };
