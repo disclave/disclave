@@ -1,14 +1,22 @@
-import { PageDetailsEntity, PageEntity, PageRepository } from "./db";
-import { PageService, Page, PageDetails } from "./index";
+import {
+  PageConfigRepository,
+  PageDetailsEntity,
+  PageEntity,
+  PageRepository,
+} from "./db";
+import { PageService, Page, PageDetails, PageData } from "./index";
 import { inject, injectable } from "inversify";
-import { ParsedUrlData, UrlService } from "@/modules/url";
+import { ParsedUrlData, UrlMetaData, UrlService } from "@/modules/url";
 import { ImageService } from "@/modules/image";
 import { UserId } from "@/modules/auth";
 
 @injectable()
 export class PageServiceImpl implements PageService {
   @inject(PageRepository)
-  private repository: PageRepository;
+  private pageRepository: PageRepository;
+
+  @inject(PageConfigRepository)
+  private pageConfigRepository: PageConfigRepository;
 
   @inject(UrlService)
   private urlService: UrlService;
@@ -16,17 +24,92 @@ export class PageServiceImpl implements PageService {
   @inject(ImageService)
   private imageService: ImageService;
 
+  public async getPageData(url: string): Promise<PageData> {
+    let normalizedURL = this.urlService.normalizeUrl(url, true);
+    const pageConfig = await this.pageConfigRepository.findPageConfig(
+      normalizedURL
+    );
+
+    if (pageConfig != null && pageConfig.preserveQueryParams.length > 0) {
+      const preserved = pageConfig.preserveQueryParams.join("|");
+      const matchAllExceptPreserved = `\b(?!${preserved})\b\S+`;
+      const regex = new RegExp(matchAllExceptPreserved, "g");
+      normalizedURL = this.urlService.normalizeUrl(url, [regex]);
+    }
+
+    const pageDetails = await this.pageRepository.findPageDetails(
+      normalizedURL
+    );
+    if (pageDetails != null)
+      return {
+        websiteId: pageDetails.websiteId,
+        pageId: pageDetails.pageId,
+        url: normalizedURL,
+        meta: pageDetails.meta // TODO: handle case when details found but meta is null (scrapping error) - maybe add scrap retry?
+          ? {
+              logo: pageDetails.meta.logo,
+              title: pageDetails.meta.title,
+            }
+          : null,
+      };
+
+    // TODO: handle case when scrapping failed
+    // maybe re-run later and merge if new canonical URL found
+    const metaData = await this.urlService.scrapUrl(normalizedURL);
+
+    let normalizedAlternativeUrl = null;
+    if (!!metaData && metaData.canonical != null) {
+      normalizedAlternativeUrl = normalizedURL;
+      normalizedURL = this.urlService.normalizeUrl(metaData.canonical, false);
+    }
+
+    const parsedUrl = this.urlService.parseUrl(normalizedURL);
+    if (!!metaData && !!metaData.logo)
+      metaData.logo = await this.imageService.savePageLogo(
+        parsedUrl,
+        metaData.logo
+      );
+
+    await this.pageRepository.saveOrUpdatePageDetails(
+      {
+        websiteId: parsedUrl.websiteId,
+        pageId: parsedUrl.pageId,
+        normalized: normalizedURL,
+      },
+      normalizedAlternativeUrl,
+      metaData
+        ? {
+            logo: metaData.logo,
+            title: metaData.title,
+          }
+        : null
+    );
+
+    return {
+      websiteId: parsedUrl.websiteId,
+      pageId: parsedUrl.pageId,
+      url: normalizedURL,
+      meta: metaData
+        ? {
+            logo: metaData.logo,
+            title: metaData.title,
+          }
+        : null,
+    };
+  }
+
   public async getTopCommentedPages(
     commentsMinVoteSum: number,
     limit: number,
     userId: UserId | null
   ): Promise<Array<Page>> {
-    const pages = await this.repository.findTopCommentedPages(
-      commentsMinVoteSum,
-      limit,
-      userId
-    );
-    return pages.map(toDomain);
+    throw "FIXME";
+    // const pages = await this.repository.findTopCommentedPages(
+    //   commentsMinVoteSum,
+    //   limit,
+    //   userId
+    // );
+    // return pages.map(toDomain);
   }
 
   public async getTopRatedPages(
@@ -34,12 +117,13 @@ export class PageServiceImpl implements PageService {
     limit: number,
     userId: UserId | null
   ): Promise<Array<Page>> {
-    const pages = await this.repository.findTopRatedPages(
-      minVoteSum,
-      limit,
-      userId
-    );
-    return pages.map(toDomain);
+    throw "FIXME";
+    // const pages = await this.repository.findTopRatedPages(
+    //   minVoteSum,
+    //   limit,
+    //   userId
+    // );
+    // return pages.map(toDomain);
   }
 
   public async getPageDetails(
@@ -47,89 +131,87 @@ export class PageServiceImpl implements PageService {
     fetchMetaIfNoCache: boolean,
     userId: UserId | null
   ): Promise<PageDetails> {
-    const parsedUrl = await this.normalizeUrl(url);
-    const savedPageDetails = await this.repository.findOrCreatePageDetails(
-      {
-        pageId: parsedUrl.pageId,
-        websiteId: parsedUrl.websiteId,
-        normalized: parsedUrl.normalized,
-      },
-      userId
-    );
+    throw "FIXME";
+    // const parsedUrl = await this.getPageData(url);
+    // const savedPageDetails = await this.repository.findOrCreatePageDetails(
+    //   {
+    //     pageId: parsedUrl.pageId,
+    //     websiteId: parsedUrl.websiteId,
+    //     normalized: parsedUrl.url.normalized,
+    //   },
+    //   userId
+    // );
 
-    if (!!savedPageDetails.meta || !fetchMetaIfNoCache)
-      return detailsToDomain(savedPageDetails);
+    // if (!!savedPageDetails.meta || !fetchMetaIfNoCache)
+    //   return detailsToDomain(savedPageDetails);
 
-    const updatedPageDetails = await this.scrapAndSavePageDetails(
-      parsedUrl,
-      userId
-    );
+    // const updatedPageDetails = await this.scrapAndSavePageDetails(
+    //   parsedUrl, // FIXME
+    //   userId
+    // );
 
-    if (!updatedPageDetails) return detailsToDomain(savedPageDetails);
-    else return detailsToDomain(updatedPageDetails);
+    // if (!updatedPageDetails) return detailsToDomain(savedPageDetails);
+    // else return detailsToDomain(updatedPageDetails);
   }
 
   public async setVoteUp(url: string, userId: UserId): Promise<boolean> {
-    const parsedUrl = await this.normalizeUrl(url);
-    return await this.repository.setVoteUp(
-      {
-        pageId: parsedUrl.pageId,
-        websiteId: parsedUrl.websiteId,
-        normalized: parsedUrl.normalized,
-      },
-      userId
-    );
+    throw "FIXME";
+    // const pageData = await this.getPageData(url);
+    // return await this.repository.setVoteUp(
+    //   {
+    //     pageId: pageData.pageId,
+    //     websiteId: pageData.websiteId,
+    //     normalized: pageData.url.normalized,
+    //   },
+    //   userId
+    // );
   }
 
   public async setVoteDown(url: string, userId: UserId): Promise<boolean> {
-    const parsedUrl = await this.normalizeUrl(url);
-    return await this.repository.setVoteDown(
-      {
-        pageId: parsedUrl.pageId,
-        websiteId: parsedUrl.websiteId,
-        normalized: parsedUrl.normalized,
-      },
-      userId
-    );
+    throw "FIXME";
+    // const pageData = await this.getPageData(url);
+    // return await this.repository.setVoteDown(
+    //   {
+    //     pageId: pageData.pageId,
+    //     websiteId: pageData.websiteId,
+    //     normalized: pageData.url.normalized,
+    //   },
+    //   userId
+    // );
   }
 
   public async removeVote(url: string, userId: UserId): Promise<boolean> {
-    const parsedUrl = await this.normalizeUrl(url);
-    return await this.repository.removeVote(
-      {
-        pageId: parsedUrl.pageId,
-        websiteId: parsedUrl.websiteId,
-        normalized: parsedUrl.normalized,
-      },
-      userId
-    );
-  }
-
-  private async normalizeUrl(url: string): Promise<ParsedUrlData> {
-    return this.urlService.parseUrl(url, true);
+    throw "FIXME";
+    // const pageData = await this.getPageData(url);
+    // return await this.repository.removeVote(
+    //   {
+    //     pageId: pageData.pageId,
+    //     websiteId: pageData.websiteId,
+    //     normalized: pageData.url.normalized,
+    //   },
+    //   userId
+    // );
   }
 
   private async scrapAndSavePageDetails(
     url: ParsedUrlData,
     userId: UserId | null
   ): Promise<PageDetailsEntity | null> {
-    const metadata = await this.urlService.scrapUrl(url.normalized);
-    if (!metadata) return null;
+    throw "FIXME";
+    // const metaData = await this.scrapPageMeta(url.normalized);
 
-    const title = metadata.title;
-    const logo = await this.imageService.savePageLogo(url, metadata.logo);
-
-    return await this.repository.updatePageDetails(
-      {
-        pageId: url.pageId,
-        websiteId: url.websiteId,
-        normalized: url.normalized,
-      },
-      { logo, title },
-      userId
-    );
+    // return await this.repository.updatePageDetails(
+    //   {
+    //     pageId: url.pageId,
+    //     websiteId: url.websiteId,
+    //     normalized: url.normalized,
+    //   },
+    //   { logo: metaData.logo, title: metaData.title },
+    //   userId
+    // );
   }
 }
+
 const toDomain = (entity: PageEntity): Page => {
   return {
     id: entity.id,

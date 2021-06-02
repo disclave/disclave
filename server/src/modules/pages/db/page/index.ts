@@ -33,7 +33,7 @@ export abstract class PageRepository<T = unknown> extends BaseRepository<T> {
   abstract saveOrUpdatePageDetails(
     urlMeta: UrlMeta,
     alternativeUrl: string | null,
-    data: PageDetailsData
+    data: PageDetailsData | null
   ): Promise<void>;
 
   abstract findOrCreatePageDetails(

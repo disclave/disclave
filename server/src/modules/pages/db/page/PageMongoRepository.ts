@@ -166,7 +166,7 @@ export class PageMongoRepository
   public async saveOrUpdatePageDetails(
     urlMeta: UrlMeta,
     alternativeUrl: string | null,
-    data: PageDetailsData
+    data: PageDetailsData | null
   ): Promise<void> {
     const matchingUrls = [urlMeta.normalized];
     if (alternativeUrl != null) matchingUrls.push(alternativeUrl);

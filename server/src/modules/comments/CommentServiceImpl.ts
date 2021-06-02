@@ -1,16 +1,16 @@
 import { CommentEntity, CommentRepository } from "./db";
-import { UrlService } from "@/modules/url";
 import { ProfileService } from "@/modules/profiles";
 import { CommentService, Comment } from "./index";
 import { inject, injectable } from "inversify";
 import escapeHtml from "escape-html";
 import { CommentTextMaxLength, CommentTextMinLength } from "./exceptions";
 import { UserId } from "@/modules/auth";
+import { PageService } from "@/modules/pages";
 
 @injectable()
 export class CommentServiceImpl implements CommentService {
-  @inject(UrlService)
-  private urlService: UrlService;
+  @inject(PageService)
+  private pageService: PageService;
 
   @inject(ProfileService)
   private profileService: ProfileService;
@@ -22,9 +22,10 @@ export class CommentServiceImpl implements CommentService {
     url: string,
     userId: UserId | null
   ): Promise<Array<Comment>> {
-    const parsedUrl = this.urlService.parseUrl(url);
-    const comments = await this.repository.findComments(parsedUrl, userId);
-    return comments.map(toDomain);
+    throw "FIXME";
+    // const pageData = await this.pageService.getPageData(url);
+    // const comments = await this.repository.findComments(parsedUrl, userId); // FIXME
+    // return comments.map(toDomain);
   }
 
   public async getLatestComments(
@@ -54,8 +55,9 @@ export class CommentServiceImpl implements CommentService {
   }
 
   public async countComments(url: string): Promise<number> {
-    const parsedUrl = this.urlService.parseUrl(url);
-    return await this.repository.countComments(parsedUrl);
+    throw "FIXME";
+    // const pageData = await this.pageService.getPageData(url);
+    // return await this.repository.countComments(parsedUrl); // FIXME
   }
 
   public async addComment(
@@ -63,15 +65,16 @@ export class CommentServiceImpl implements CommentService {
     text: string,
     url: string
   ): Promise<Comment> {
-    const author = await this.profileService.getProfile(uid);
-    const parsedUrl = this.urlService.parseUrl(url);
-    const escapedText = validateAndParseCommentText(text);
-    const result = await this.repository.addComment(
-      author,
-      escapedText,
-      parsedUrl
-    );
-    return toDomain(result);
+    throw "FIXME";
+    // const author = await this.profileService.getProfile(uid);
+    // const pageData = await this.pageService.getPageData(url);
+    // const escapedText = validateAndParseCommentText(text);
+    // const result = await this.repository.addComment(
+    //   author,
+    //   escapedText,
+    //   parsedUrl // FIXME
+    // );
+    // return toDomain(result);
   }
 
   public async removeVote(commentId: string, userId: UserId): Promise<boolean> {

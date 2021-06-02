@@ -6,10 +6,7 @@ export type { Page, PageDetails };
 export interface PageData {
   websiteId: string;
   pageId: string;
-  url: {
-    raw: string;
-    normalized: string;
-  };
+  url: string;
   meta: {
     logo: string | null;
     title: string | null;
