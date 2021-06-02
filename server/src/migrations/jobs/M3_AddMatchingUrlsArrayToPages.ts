@@ -8,19 +8,32 @@ export const M3_AddMatchingUrlsArrayToPages: Job = {
     console.info("Migrating pages matching URLs.");
 
     const collection = await pagesDbCollection();
-    const result = await collection.updateMany(
-      {
-        matchingUrls: { $exists: false },
-      },
-      {
-        $push: {
-          matchingUrls: "$normalizedUrl",
-        },
-      }
-    );
+    const cursor = await collection.find({
+      matchingUrls: { $exists: false },
+    });
 
     console.info(
-      `Pages matching URLs migration modified ${result.modifiedCount} documents.`
+      "Migrating pages matching URLs - data loaded - starting updates"
     );
+
+    let count = 0;
+    await cursor.forEach(async (page) => {
+      const normalizedUrl = page.normalizedUrl;
+      console.info(
+        `Pages matching URLs migration - updating ${page._id.websiteId}/${page._id.pageId} with url ${normalizedUrl}`
+      );
+      await collection.updateOne(
+        { _id: page._id },
+        {
+          $set: {
+            matchingUrls: [normalizedUrl],
+          },
+        }
+      );
+
+      count++;
+    });
+
+    console.info(`Pages matching URLs migration modified ${count} documents.`);
   },
 };

@@ -6,7 +6,7 @@ import {
 } from "./db";
 import { PageService, Page, PageDetails, PageData } from "./index";
 import { inject, injectable } from "inversify";
-import { ParsedUrlData, UrlMetaData, UrlService } from "@/modules/url";
+import { ParsedUrlData, UrlService } from "@/modules/url";
 import { ImageService } from "@/modules/image";
 import { UserId } from "@/modules/auth";
 

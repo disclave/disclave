@@ -6,7 +6,6 @@ import { canonicalUrl } from "./metascraper";
 import msTitle from "metascraper-title";
 import msLogo from "metascraper-logo";
 import msLogoFavicon from "metascraper-logo-favicon";
-import fetch from "node-fetch";
 
 const gotOptions = { timeout: 3000 };
 const urlScrapper = metascraper([
