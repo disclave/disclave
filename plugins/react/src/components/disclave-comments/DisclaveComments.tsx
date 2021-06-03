@@ -10,15 +10,11 @@ export interface DisclaveCommentsProps {
 export const DisclaveComments: React.VFC<DisclaveCommentsProps> = ({
   hideVotes = false,
 }) => {
-  console.info("DisclaveComments");
   const [url, setUrl] = useState<string | null>(null);
   const iframeHeight = useIframeHeightListener(hideVotes ? "200" : "250");
 
-  console.info(url, iframeHeight);
-
   useEffect(() => {
     const locationHref = window?.location?.href;
-    console.info("locationHref", locationHref);
     if (!locationHref) return;
 
     try {
@@ -27,7 +23,7 @@ export const DisclaveComments: React.VFC<DisclaveCommentsProps> = ({
       });
       setUrl(iframeUrl);
     } catch (e) {
-      console.error("DisclaveComments - set url error.", e);
+      console.error("DisclaveComments - set URL error.", e);
     }
   });
 
