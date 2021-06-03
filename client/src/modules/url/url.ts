@@ -3,7 +3,6 @@ import normalizeUrl from "normalize-url";
 const normalizationConfig: normalizeUrl.Options = {
   defaultProtocol: "https:",
   stripAuthentication: true,
-  stripTextFragment: true,
 };
 
 const urlPattern = new RegExp(
