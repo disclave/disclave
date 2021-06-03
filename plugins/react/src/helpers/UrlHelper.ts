@@ -10,10 +10,8 @@ export const getIframeUrl = (href: string, config: IframeConfig): string => {
 };
 
 const encodeURI = (str: string): string => {
-  // TODO: currently simplified because of the iOS problems - verify and update later
-  return encodeURIComponent(str);
-  // return encodeURIComponent(str).replace(
-  //   /[!'()*]/g,
-  //   (c) => "%" + c.charCodeAt(0).toString(16)
-  // );
+  return encodeURIComponent(str).replace(
+    /[!'()*]/g,
+    (c) => "%" + c.charCodeAt(0).toString(16)
+  );
 };
