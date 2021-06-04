@@ -168,17 +168,43 @@ export class PageMongoRepository
     alternativeUrl: string | null,
     data: PageDetailsData | null
   ): Promise<void> {
+    console.log(urlMeta, alternativeUrl, data);
+
     const matchingUrls = [urlMeta.normalized];
     if (alternativeUrl != null) matchingUrls.push(alternativeUrl);
 
     const collection = await pagesDbCollection();
     await collection.updateOne(
-      { $or: [matchingUrls.map((u) => ({ matchingUrls: u }))] },
       {
-        $setOnInsert: toPartialDbPageDetails(urlMeta, alternativeUrl),
-        $set: {
-          meta: metaToDbPageDetailsMeta(data),
+        _id: {
+          pageId: urlMeta.pageId,
+          websiteId: urlMeta.websiteId,
         },
+      },
+      {
+        $setOnInsert: {
+          _id: {
+            pageId: urlMeta.pageId,
+            websiteId: urlMeta.websiteId,
+          },
+          normalizedUrl: urlMeta.normalized,
+          votesUp: [],
+          votesDown: [],
+          votesSum: 0,
+          timestamp: timestampNow(),
+          meta: data
+            ? {
+                logo: data.logo,
+                title: data.title,
+              }
+            : null,
+        },
+        // $set: {
+        //   meta: {
+        //     logo: data.logo,
+        //     title: data.title,
+        //   },
+        // },
         $addToSet: {
           matchingUrls: { $each: matchingUrls },
         },
@@ -197,7 +223,7 @@ export class PageMongoRepository
     const result = await collection.findOneAndUpdate(
       urlMetaToIdFilter(url),
       {
-        $setOnInsert: toDbPageDetails(url, null, null),
+        $setOnInsert: toDbPageDetails(url, null),
       },
       {
         upsert: true,
@@ -217,7 +243,7 @@ export class PageMongoRepository
     const result = await collection.findOneAndUpdate(
       urlMetaToIdFilter(url),
       {
-        $setOnInsert: toPartialDbPageDetails(url, null),
+        $setOnInsert: toPartialDbPageDetails(url),
         $set: {
           meta: metaToDbPageDetailsMeta(data),
         },
@@ -302,18 +328,13 @@ const urlMetaToIdFilter = (url: UrlMeta) => ({
   },
 });
 
-const toPartialDbPageDetails = (
-  url: UrlMeta,
-  alternativeUrl: string | null
-) => ({
+const toPartialDbPageDetails = (url: UrlMeta) => ({
   _id: {
     pageId: url.pageId,
     websiteId: url.websiteId,
   },
   normalizedUrl: url.normalized,
-  matchingUrls: alternativeUrl
-    ? [url.normalized, alternativeUrl]
-    : [url.normalized],
+  matchingUrls: [url.normalized],
   votesUp: [],
   votesDown: [],
   votesSum: 0,
@@ -322,10 +343,9 @@ const toPartialDbPageDetails = (
 
 const toDbPageDetails = (
   url: UrlMeta,
-  data: PageDetailsData | null,
-  alternativeUrl: string | null
+  data: PageDetailsData | null
 ): DbPageDetails => ({
-  ...toPartialDbPageDetails(url, alternativeUrl),
+  ...toPartialDbPageDetails(url),
   meta: metaToDbPageDetailsMeta(data),
 });
 

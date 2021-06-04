@@ -1,1 +1,0 @@
-export { canonicalUrl } from "./CanonicalUrl";

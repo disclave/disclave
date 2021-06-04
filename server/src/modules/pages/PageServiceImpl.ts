@@ -6,9 +6,14 @@ import {
 } from "./db";
 import { PageService, Page, PageDetails, PageData } from "./index";
 import { inject, injectable } from "inversify";
-import { ParsedUrlData, UrlService } from "@/modules/url";
+import { ParsedUrlData, UrlMetaData, UrlService } from "@/modules/url";
 import { ImageService } from "@/modules/image";
 import { UserId } from "@/modules/auth";
+
+interface NormalizedWithCanonicalCandidate {
+  full: string;
+  canonicalCandidate: string;
+}
 
 @injectable()
 export class PageServiceImpl implements PageService {
@@ -24,51 +29,98 @@ export class PageServiceImpl implements PageService {
   @inject(ImageService)
   private imageService: ImageService;
 
-  public async getPageData(url: string): Promise<PageData> {
-    let normalizedURL = this.urlService.normalizeUrl(url, true);
+  private async normalizeUrl(
+    url: string
+  ): Promise<NormalizedWithCanonicalCandidate> {
+    let normalizedURLNoQP = this.urlService.normalizeUrl(url, true);
     const pageConfig = await this.pageConfigRepository.findPageConfig(
-      normalizedURL
+      normalizedURLNoQP
     );
 
-    if (pageConfig != null && pageConfig.preserveQueryParams.length > 0) {
-      const preserved = pageConfig.preserveQueryParams.join("|");
-      const matchAllExceptPreserved = `\b(?!${preserved})\b\S+`;
-      const regex = new RegExp(matchAllExceptPreserved, "g");
-      normalizedURL = this.urlService.normalizeUrl(url, [regex]);
+    if (pageConfig == null || !pageConfig.preserveQueryParams.length) {
+      const normalizedAllQP = this.urlService.normalizeUrl(url, false);
+      return {
+        full: normalizedAllQP,
+        canonicalCandidate: normalizedURLNoQP,
+      };
     }
 
-    const pageDetails = await this.pageRepository.findPageDetails(
-      normalizedURL
-    );
-    if (pageDetails != null)
+    const preserved = pageConfig.preserveQueryParams
+      .map((s) => `${s}$`)
+      .join("|");
+    const matchAllExceptPreserved = `^(?!${preserved})`;
+    const regex = new RegExp(matchAllExceptPreserved, "i");
+    const normalizedDefaultQP = this.urlService.normalizeUrl(url, [regex]);
+    return {
+      full: normalizedDefaultQP,
+      canonicalCandidate: normalizedDefaultQP,
+    };
+  }
+
+  private selectDefaultAndAlternativeUrl(
+    normalized: NormalizedWithCanonicalCandidate,
+    metaData: UrlMetaData | null
+  ): {
+    default: string;
+    alternative: string | null;
+  } {
+    if (metaData == null || metaData.canonical == null)
       return {
-        websiteId: pageDetails.websiteId,
-        pageId: pageDetails.pageId,
-        url: normalizedURL,
-        meta: pageDetails.meta // TODO: handle case when details found but meta is null (scrapping error) - maybe add scrap retry?
-          ? {
-              logo: pageDetails.meta.logo,
-              title: pageDetails.meta.title,
-            }
-          : null,
+        default: normalized.canonicalCandidate,
+        alternative: null,
       };
 
+    const normalizedURL = this.urlService.normalizeUrl(
+      metaData.canonical,
+      false
+    );
+    return {
+      default: normalizedURL,
+      alternative: normalizedURL === normalized.full ? null : normalized.full,
+    };
+  }
+
+  public async getPageData(url: string): Promise<PageData> {
+    console.log("url", url);
+    let normalized = await this.normalizeUrl(url);
+    console.log("normalized", normalized);
+
+    const pageDetails = await this.pageRepository.findPageDetails(
+      normalized.full
+    );
+    console.log("pageDetails", pageDetails);
+    // if (pageDetails != null)
+    //   return {
+    //     websiteId: pageDetails.websiteId,
+    //     pageId: pageDetails.pageId,
+    //     url: normalized.full,
+    //     meta: pageDetails.meta // TODO: handle case when details found but meta is null (scrapping error) - maybe add scrap retry?
+    //       ? {
+    //           logo: pageDetails.meta.logo,
+    //           title: pageDetails.meta.title,
+    //         }
+    //       : null,
+    //   };
+
     // TODO: handle case when scrapping failed
-    // maybe re-run later and merge if new canonical URL found
-    const metaData = await this.urlService.scrapUrl(normalizedURL);
+    // maybe re-run later and merge if new canonical URL found?
+    const metaData = await this.urlService.scrapUrl(url);
+    console.log("metaData", metaData);
 
-    let normalizedAlternativeUrl = null;
-    if (!!metaData && metaData.canonical != null) {
-      normalizedAlternativeUrl = normalizedURL;
-      normalizedURL = this.urlService.normalizeUrl(metaData.canonical, false);
-    }
+    const finalURLs = this.selectDefaultAndAlternativeUrl(normalized, metaData);
+    console.log("finalURLs", finalURLs);
 
-    const parsedUrl = this.urlService.parseUrl(normalizedURL);
+    const parsedUrl = this.urlService.parseUrl(finalURLs.default);
+    console.log("parsedUrl", parsedUrl);
+
+    throw "OOPS!";
+
     if (!!metaData && !!metaData.logo)
       metaData.logo = await this.imageService.savePageLogo(
         parsedUrl,
         metaData.logo
       );
+    console.log("metaData", metaData);
 
     await this.pageRepository.saveOrUpdatePageDetails(
       {
