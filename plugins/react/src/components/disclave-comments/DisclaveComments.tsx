@@ -23,7 +23,7 @@ export const DisclaveComments: React.VFC<DisclaveCommentsProps> = ({
       });
       setUrl(iframeUrl);
     } catch (e) {
-      console.error(e);
+      console.error("DisclaveComments - set URL error.", e);
     }
   });
 
