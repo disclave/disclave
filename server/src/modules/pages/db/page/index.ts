@@ -1,8 +1,4 @@
-import {
-  PageEntity,
-  PageDetailsEntity,
-  UrlPageIdEntity,
-} from "@/modules/pages/db/entity";
+import { PageDetailsEntity } from "@/modules/pages/db/entity";
 import { BaseRepository } from "@/repository";
 import { UserId } from "@/modules/auth";
 
@@ -18,22 +14,15 @@ export interface PageDetailsData {
 }
 
 export abstract class PageRepository<T = unknown> extends BaseRepository<T> {
-  abstract findPageId(normalizedUrl: string): Promise<UrlPageIdEntity | null>;
+  abstract findPageDetails(
+    normalizedUrl: string,
+    uid: UserId | null
+  ): Promise<PageDetailsEntity | null>;
 
-  abstract saveOrUpdatePageId(
+  abstract createOrUpdatePageDetails(
     urlMeta: UrlMeta,
     alternativeUrl: string | null,
-    data: PageDetailsData | null
-  ): Promise<UrlPageIdEntity>;
-
-  abstract findOrCreatePageDetails(
-    url: UrlMeta,
-    uid: UserId | null
-  ): Promise<PageDetailsEntity>;
-
-  abstract updatePageDetails(
-    url: UrlMeta,
-    data: PageDetailsData,
+    data: PageDetailsData | null,
     uid: UserId | null
   ): Promise<PageDetailsEntity>;
 }
