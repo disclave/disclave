@@ -3,18 +3,13 @@ import { UserId } from "@/modules/auth";
 
 export type { Page, PageDetails };
 
-export interface PageData {
+export interface UrlPageId {
   websiteId: string;
   pageId: string;
-  url: string;
-  meta: {
-    logo: string | null;
-    title: string | null;
-  };
 }
 
 export abstract class PageService {
-  abstract getPageData(url: string): Promise<PageData>;
+  abstract getPageData(url: string): Promise<UrlPageId>;
 
   abstract getTopCommentedPages(
     commentsMinVoteSum: number,

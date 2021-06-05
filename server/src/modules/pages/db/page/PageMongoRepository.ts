@@ -1,166 +1,37 @@
 import {
-  PageEntity,
   PageDetailsData,
   PageDetailsEntity,
+  UrlPageIdEntity,
   PageRepository,
   UrlMeta,
 } from "@/modules/pages/db";
 import { injectable } from "inversify";
 import { MongoRepository, timestampNow } from "@/connectors/mongodb";
 import { ClientSession } from "@/connectors/mongodb";
-import { commentsDbCollection } from "@/database/comments";
-import {
-  getAggregationProjection,
-  getProjection,
-  pagesDbCollection,
-} from "@/database/pages";
-import { commentsCollection, DbPageDetails, pagesCollection } from "@/database";
+import { getProjection, pagesDbCollection } from "@/database/pages";
+import { DbPageDetails } from "@/database";
 import { UserId } from "@/modules/auth";
-
-interface TopCommentedPagesAggregation {
-  _id: {
-    websiteId: string;
-    pageId: string;
-  };
-  commentsCount?: number;
-  page: {
-    meta: null | {
-      logo: string | null;
-      title: string | null;
-    };
-    votesSum: number;
-    votesUp: string[] | null;
-    votesDown: string[] | null;
-    normalizedUrl: string;
-  };
-}
-
-interface TopRatedPagesAggregation {
-  _id: {
-    websiteId: string;
-    pageId: string;
-  };
-  normalizedUrl: string;
-  votesSum: number;
-  votesUp: string[] | null;
-  votesDown: string[] | null;
-  meta: null | {
-    logo: string | null;
-    title: string | null;
-  };
-  comments: {
-    count: number;
-  };
-}
 
 @injectable()
 export class PageMongoRepository
   extends MongoRepository
   implements PageRepository<ClientSession> {
-  public async findTopCommentedPages(
-    commentsMinVoteSum: number,
-    limit: number,
-    uid: UserId | null
-  ): Promise<Array<PageEntity>> {
-    const collection = await commentsDbCollection();
-    const cursor = collection.aggregate<TopCommentedPagesAggregation>([
-      { $match: { votesSum: { $gte: commentsMinVoteSum } } },
-      {
-        $group: {
-          _id: { websiteId: "$url.websiteId", pageId: "$url.pageId" },
-          commentsCount: { $sum: 1 },
-        },
-      },
-      { $sort: { commentsCount: -1 } },
-      { $limit: limit },
-      {
-        $lookup: {
-          from: pagesCollection,
-          let: { websiteId: "$_id.websiteId", pageId: "$_id.pageId" },
-          pipeline: [
-            {
-              $match: {
-                $expr: {
-                  $and: [
-                    { $eq: ["$_id.websiteId", "$$websiteId"] },
-                    { $eq: ["$_id.pageId", "$$pageId"] },
-                  ],
-                },
-              },
-            },
-            { $project: getAggregationProjection(uid) },
-          ],
-          as: "page",
-        },
-      },
-      { $match: { page: { $exists: true, $size: 1 } } },
-      { $unwind: "$page" },
-      { $sort: { commentsCount: -1, "page.votesSum": -1 } },
-    ]);
-
-    return await cursor.map(topCommentedAggCursorDocToEntity).toArray();
-  }
-
-  public async findTopRatedPages(
-    minVoteSum: number,
-    limit: number,
-    uid: UserId | null
-  ): Promise<Array<PageEntity>> {
-    const collection = await pagesDbCollection();
-    const cursor = collection.aggregate<TopRatedPagesAggregation>([
-      { $match: { votesSum: { $gte: minVoteSum } } },
-      { $sort: { votesSum: -1 } },
-      { $limit: limit },
-      { $project: getAggregationProjection(uid) },
-      {
-        $lookup: {
-          from: commentsCollection,
-          let: { websiteId: "$_id.websiteId", pageId: "$_id.pageId" },
-          pipeline: [
-            {
-              $match: {
-                $expr: {
-                  $and: [
-                    { $eq: ["$url.websiteId", "$$websiteId"] },
-                    { $eq: ["$url.pageId", "$$pageId"] },
-                  ],
-                },
-              },
-            },
-            { $count: "count" },
-          ],
-          as: "comments",
-        },
-      },
-      {
-        $match: {
-          $or: [
-            { comments: { $exists: true, $size: 0 } },
-            { comments: { $exists: true, $size: 1 } },
-          ],
-        },
-      },
-      { $unwind: { path: "$comments", preserveNullAndEmptyArrays: true } },
-      { $sort: { votesSum: -1, "comments.count": -1 } },
-    ]);
-
-    return await cursor.map(topRatedAggCursorDocToEntity).toArray();
-  }
-
-  public async findPageDetails(
+  public async findPageId(
     normalizedUrl: string
-  ): Promise<PageDetailsEntity | null> {
+  ): Promise<UrlPageIdEntity | null> {
     const collection = await pagesDbCollection();
     const doc = await collection.findOne(
       {
         matchingUrls: normalizedUrl,
       },
       {
-        projection: getProjection(null),
+        projection: {
+          _id: 1,
+        },
       }
     );
     if (!doc) return null;
-    return cursorDocToEntity(doc);
+    return cursorDocToPageIdEntity(doc);
   }
 
   public async saveOrUpdatePageDetails(
@@ -357,48 +228,6 @@ const metaToDbPageDetailsMeta = (data: PageDetailsData | null) => {
   };
 };
 
-const topCommentedAggCursorDocToEntity = (
-  doc: TopCommentedPagesAggregation
-): PageEntity => ({
-  id: doc._id.websiteId + doc._id.pageId,
-  pageId: doc._id.pageId,
-  websiteId: doc._id.websiteId,
-  commentsCount: doc.commentsCount,
-  url: doc.page.normalizedUrl,
-  meta: doc.page.meta
-    ? {
-        logo: doc.page.meta.logo,
-        title: doc.page.meta.title,
-      }
-    : null,
-  votes: {
-    sum: doc.page.votesSum,
-    votedUp: doc.page.votesUp?.length > 0,
-    votedDown: doc.page.votesDown?.length > 0,
-  },
-});
-
-const topRatedAggCursorDocToEntity = (
-  doc: TopRatedPagesAggregation
-): PageEntity => ({
-  id: doc._id.websiteId + doc._id.pageId,
-  pageId: doc._id.pageId,
-  websiteId: doc._id.websiteId,
-  commentsCount: doc.comments?.count || 0,
-  url: doc.normalizedUrl,
-  meta: doc.meta
-    ? {
-        logo: doc.meta.logo,
-        title: doc.meta.title,
-      }
-    : null,
-  votes: {
-    sum: doc.votesSum,
-    votedUp: doc.votesUp?.length > 0,
-    votedDown: doc.votesDown?.length > 0,
-  },
-});
-
 const cursorDocToEntity = (doc: DbPageDetails): PageDetailsEntity => ({
   pageId: doc._id.pageId,
   websiteId: doc._id.websiteId,
@@ -414,4 +243,9 @@ const cursorDocToEntity = (doc: DbPageDetails): PageDetailsEntity => ({
         title: doc.meta.title,
       }
     : null,
+});
+
+const cursorDocToPageIdEntity = (doc: DbPageDetails): UrlPageIdEntity => ({
+  pageId: doc._id.pageId,
+  websiteId: doc._id.websiteId,
 });

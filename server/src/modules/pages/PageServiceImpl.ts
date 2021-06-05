@@ -4,7 +4,7 @@ import {
   PageEntity,
   PageRepository,
 } from "./db";
-import { PageService, Page, PageDetails, PageData } from "./index";
+import { PageService, Page, PageDetails, UrlPageId } from "./index";
 import { inject, injectable } from "inversify";
 import { ParsedUrlData, UrlMetaData, UrlService } from "@/modules/url";
 import { ImageService } from "@/modules/image";
@@ -13,6 +13,11 @@ import { UserId } from "@/modules/auth";
 interface NormalizedWithCanonicalCandidate {
   full: string;
   canonicalCandidate: string;
+}
+
+interface DefaultAndAltUrl {
+  default: string;
+  alternative: string | null;
 }
 
 @injectable()
@@ -29,78 +34,16 @@ export class PageServiceImpl implements PageService {
   @inject(ImageService)
   private imageService: ImageService;
 
-  private async normalizeUrl(
-    url: string
-  ): Promise<NormalizedWithCanonicalCandidate> {
-    let normalizedURLNoQP = this.urlService.normalizeUrl(url, true);
-    const pageConfig = await this.pageConfigRepository.findPageConfig(
-      normalizedURLNoQP
-    );
-
-    if (pageConfig == null || !pageConfig.preserveQueryParams.length) {
-      const normalizedAllQP = this.urlService.normalizeUrl(url, false);
-      return {
-        full: normalizedAllQP,
-        canonicalCandidate: normalizedURLNoQP,
-      };
-    }
-
-    const preserved = pageConfig.preserveQueryParams
-      .map((s) => `${s}$`)
-      .join("|");
-    const matchAllExceptPreserved = `^(?!${preserved})`;
-    const regex = new RegExp(matchAllExceptPreserved, "i");
-    const normalizedDefaultQP = this.urlService.normalizeUrl(url, [regex]);
-    return {
-      full: normalizedDefaultQP,
-      canonicalCandidate: normalizedDefaultQP,
-    };
-  }
-
-  private selectDefaultAndAlternativeUrl(
-    normalized: NormalizedWithCanonicalCandidate,
-    metaData: UrlMetaData | null
-  ): {
-    default: string;
-    alternative: string | null;
-  } {
-    if (metaData == null || metaData.canonical == null)
-      return {
-        default: normalized.canonicalCandidate,
-        alternative: null,
-      };
-
-    const normalizedURL = this.urlService.normalizeUrl(
-      metaData.canonical,
-      false
-    );
-    return {
-      default: normalizedURL,
-      alternative: normalizedURL === normalized.full ? null : normalized.full,
-    };
-  }
-
-  public async getPageData(url: string): Promise<PageData> {
-    console.log("url", url);
-    let normalized = await this.normalizeUrl(url);
-    console.log("normalized", normalized);
-
+  public async getPageData(url: string): Promise<UrlPageId> {
+    const normalized = await this.normalizeUrl(url);
     const pageDetails = await this.pageRepository.findPageDetails(
       normalized.full
     );
-    console.log("pageDetails", pageDetails);
-    // if (pageDetails != null)
-    //   return {
-    //     websiteId: pageDetails.websiteId,
-    //     pageId: pageDetails.pageId,
-    //     url: normalized.full,
-    //     meta: pageDetails.meta // TODO: handle case when details found but meta is null (scrapping error) - maybe add scrap retry?
-    //       ? {
-    //           logo: pageDetails.meta.logo,
-    //           title: pageDetails.meta.title,
-    //         }
-    //       : null,
-    //   };
+    if (pageDetails != null)
+      return {
+        websiteId: pageDetails.websiteId,
+        pageId: pageDetails.pageId,
+      };
 
     // TODO: handle case when scrapping failed
     // maybe re-run later and merge if new canonical URL found?
@@ -243,6 +186,54 @@ export class PageServiceImpl implements PageService {
     //   },
     //   userId
     // );
+  }
+
+  private async normalizeUrl(
+    url: string
+  ): Promise<NormalizedWithCanonicalCandidate> {
+    const normalizedURLNoQP = this.urlService.normalizeUrl(url, true);
+    const pageConfig = await this.pageConfigRepository.findPageConfig(
+      normalizedURLNoQP
+    );
+
+    if (pageConfig == null || !pageConfig.preserveQueryParams.length) {
+      const normalizedAllQP = this.urlService.normalizeUrl(url, false);
+      return {
+        full: normalizedAllQP,
+        canonicalCandidate: normalizedURLNoQP,
+      };
+    }
+
+    const preserved = pageConfig.preserveQueryParams
+      .map((s) => `${s}$`)
+      .join("|");
+    const matchAllExceptPreserved = `^(?!${preserved})`;
+    const regex = new RegExp(matchAllExceptPreserved, "i");
+    const normalizedDefaultQP = this.urlService.normalizeUrl(url, [regex]);
+    return {
+      full: normalizedDefaultQP,
+      canonicalCandidate: normalizedDefaultQP,
+    };
+  }
+
+  private selectDefaultAndAlternativeUrl(
+    normalized: NormalizedWithCanonicalCandidate,
+    metaData: UrlMetaData | null
+  ): DefaultAndAltUrl {
+    if (metaData == null || metaData.canonical == null)
+      return {
+        default: normalized.canonicalCandidate,
+        alternative: null,
+      };
+
+    const normalizedURL = this.urlService.normalizeUrl(
+      metaData.canonical,
+      false
+    );
+    return {
+      default: normalizedURL,
+      alternative: normalizedURL === normalized.full ? null : normalized.full,
+    };
   }
 
   private async scrapAndSavePageDetails(

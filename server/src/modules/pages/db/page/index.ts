@@ -1,4 +1,8 @@
-import { PageEntity, PageDetailsEntity } from "@/modules/pages/db/entity";
+import {
+  PageEntity,
+  PageDetailsEntity,
+  UrlPageIdEntity,
+} from "@/modules/pages/db/entity";
 import { BaseRepository } from "@/repository";
 import { UserId } from "@/modules/auth";
 
@@ -14,27 +18,13 @@ export interface PageDetailsData {
 }
 
 export abstract class PageRepository<T = unknown> extends BaseRepository<T> {
-  abstract findTopCommentedPages(
-    commentsMinVoteSum: number,
-    limit: number,
-    userId: UserId | null
-  ): Promise<Array<PageEntity>>;
+  abstract findPageId(normalizedUrl: string): Promise<UrlPageIdEntity | null>;
 
-  abstract findTopRatedPages(
-    minVoteSum: number,
-    limit: number,
-    uid: UserId | null
-  ): Promise<Array<PageEntity>>;
-
-  abstract findPageDetails(
-    normalizedUrl: string
-  ): Promise<PageDetailsEntity | null>;
-
-  abstract saveOrUpdatePageDetails(
+  abstract saveOrUpdatePageId(
     urlMeta: UrlMeta,
     alternativeUrl: string | null,
     data: PageDetailsData | null
-  ): Promise<void>;
+  ): Promise<UrlPageIdEntity>;
 
   abstract findOrCreatePageDetails(
     url: UrlMeta,

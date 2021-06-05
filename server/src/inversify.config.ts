@@ -14,9 +14,14 @@ import { EmailService } from "@/modules/email";
 import { MailjetEmailService } from "@/modules/email/MailjetEmailService";
 import { AuthProvider } from "@/modules/auth";
 import { FirebaseAuthProvider } from "@/modules/auth/FirebaseAuthProvider";
-import { PageRepository, PageConfigRepository } from "./modules/pages/db";
+import {
+  PageRepository,
+  PageConfigRepository,
+  PageRankingRepository,
+} from "./modules/pages/db";
 import { PageMongoRepository } from "./modules/pages/db/page/PageMongoRepository";
 import { PageConfigMongoRepository } from "./modules/pages/db/page-config/PageConfigMongoRepository";
+import { PageRankingMongoRepository } from "./modules/pages/db/page-ranking/PageRankingMongoRepository";
 import { PageService } from "./modules/pages";
 import { PageServiceImpl } from "./modules/pages/PageServiceImpl";
 import { ImageService } from "./modules/image";
@@ -31,6 +36,7 @@ container.bind(ProfileRepository).to(ProfileMongoRepository);
 container.bind(CommentRepository).to(CommentMongoRepository);
 container.bind(PageRepository).to(PageMongoRepository);
 container.bind(PageConfigRepository).to(PageConfigMongoRepository);
+container.bind(PageRankingRepository).to(PageRankingMongoRepository);
 
 container.bind(UrlService).to(UrlServiceImpl);
 container.bind(ImageService).to(ImageServiceImpl);
