@@ -127,70 +127,7 @@ export class PageMongoRepository
     );
     return cursorDocToEntity(result.value);
   }
-
-  public async setVoteUp(url: UrlMeta, uid: UserId): Promise<boolean> {
-    this.findOrCreatePageDetails(url, null); // save default page data to db, if not exists
-
-    const collection = await pagesDbCollection();
-    const bulk = collection.initializeOrderedBulkOp();
-    bulk.find(urlMetaToIdFilter(url)).updateOne({
-      $pull: {
-        votesDown: uid,
-      },
-      $addToSet: {
-        votesUp: uid,
-      },
-    });
-    bulk.find(urlMetaToIdFilter(url)).updateOne([updateVotesSumAggregation]);
-
-    const result = await bulk.execute();
-    return result.nModified > 0;
-  }
-
-  public async setVoteDown(url: UrlMeta, uid: UserId): Promise<boolean> {
-    this.findOrCreatePageDetails(url, null); // save default page data to db, if not exists
-
-    const collection = await pagesDbCollection();
-    const bulk = collection.initializeOrderedBulkOp();
-    bulk.find(urlMetaToIdFilter(url)).updateOne({
-      $pull: {
-        votesUp: uid,
-      },
-      $addToSet: {
-        votesDown: uid,
-      },
-    });
-    bulk.find(urlMetaToIdFilter(url)).updateOne([updateVotesSumAggregation]);
-
-    const result = await bulk.execute();
-    return result.nModified > 0;
-  }
-
-  public async removeVote(url: UrlMeta, uid: UserId): Promise<boolean> {
-    this.findOrCreatePageDetails(url, null); // save default page data to db, if not exists
-
-    const collection = await pagesDbCollection();
-    const bulk = collection.initializeOrderedBulkOp();
-    bulk.find(urlMetaToIdFilter(url)).updateOne({
-      $pull: {
-        votesUp: uid,
-        votesDown: uid,
-      },
-    });
-    bulk.find(urlMetaToIdFilter(url)).updateOne([updateVotesSumAggregation]);
-
-    const result = await bulk.execute();
-    return result.nModified > 0;
-  }
 }
-
-const updateVotesSumAggregation = {
-  $set: {
-    votesSum: {
-      $subtract: [{ $size: "$votesUp" }, { $size: "$votesDown" }],
-    },
-  },
-};
 
 const urlMetaToIdFilter = (url: UrlMeta) => ({
   _id: {

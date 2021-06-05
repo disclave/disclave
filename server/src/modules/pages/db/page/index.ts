@@ -36,8 +36,4 @@ export abstract class PageRepository<T = unknown> extends BaseRepository<T> {
     data: PageDetailsData,
     uid: UserId | null
   ): Promise<PageDetailsEntity>;
-
-  abstract setVoteUp(url: UrlMeta, uid: UserId): Promise<boolean>;
-  abstract setVoteDown(url: UrlMeta, uid: UserId): Promise<boolean>;
-  abstract removeVote(url: UrlMeta, uid: UserId): Promise<boolean>;
 }
