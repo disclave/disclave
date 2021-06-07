@@ -8,6 +8,8 @@ import { initFirebase } from "@/connectors/firebase/Firebase";
 import { PageService } from "./modules/pages";
 import { Bucket, initAWS } from "./connectors/aws";
 import { runAllMigrations } from "./migrations";
+import { PageVoteService } from "./modules/page-voting";
+import { PageRankingService } from "./modules/page-ranking";
 
 export interface DbConfig {
   dbUri: string;
@@ -81,3 +83,5 @@ export const getProfileService = () => container.get(ProfileService);
 export const getEmailService = () => container.get(EmailService);
 export const getCommentService = () => container.get(CommentService);
 export const getPageService = () => container.get(PageService);
+export const getPageVoteService = () => container.get(PageVoteService);
+export const getPageRankingService = () => container.get(PageRankingService);
