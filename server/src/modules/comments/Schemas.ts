@@ -3,7 +3,8 @@ import { gql } from "apollo-server-micro";
 export const commentsTypeDefs = gql`
   input CommentInput {
     text: String!
-    url: String!
+    urlId: UrlId!
+    rawUrl: String!
   }
 
   type CommentUrlMeta {
@@ -32,10 +33,10 @@ export const commentsTypeDefs = gql`
   }
 
   extend type Query {
-    getComments(url: String!): [Comment!]
+    getComments(urlId: UrlId!): [Comment!]
     latestComments(minVoteSum: Int!, limit: Int!): [Comment!]
     topComments(minVoteSum: Int!, limit: Int!): [Comment!]
-    countComments(url: String!): Int!
+    countComments(urlId: UrlId!): Int!
   }
 
   extend type Mutation {

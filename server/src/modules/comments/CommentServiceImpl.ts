@@ -5,7 +5,7 @@ import { inject, injectable } from "inversify";
 import escapeHtml from "escape-html";
 import { CommentTextMaxLength, CommentTextMinLength } from "./exceptions";
 import { UserId } from "@/modules/auth";
-import { PageService } from "@/modules/pages";
+import { PageService, UrlId } from "@/modules/pages";
 
 @injectable()
 export class CommentServiceImpl implements CommentService {
@@ -19,13 +19,11 @@ export class CommentServiceImpl implements CommentService {
   private repository: CommentRepository;
 
   public async getComments(
-    url: string,
+    urlId: UrlId,
     userId: UserId | null
   ): Promise<Array<Comment>> {
-    throw "FIXME";
-    // const pageData = await this.pageService.getPageData(url);
-    // const comments = await this.repository.findComments(parsedUrl, userId); // FIXME
-    // return comments.map(toDomain);
+    const comments = await this.repository.findComments(urlId, userId);
+    return comments.map(toDomain);
   }
 
   public async getLatestComments(
@@ -54,27 +52,25 @@ export class CommentServiceImpl implements CommentService {
     return comments.map(toDomain);
   }
 
-  public async countComments(url: string): Promise<number> {
-    throw "FIXME";
-    // const pageData = await this.pageService.getPageData(url);
-    // return await this.repository.countComments(parsedUrl); // FIXME
+  public async countComments(urlId: UrlId): Promise<number> {
+    return await this.repository.countComments(urlId);
   }
 
   public async addComment(
     uid: UserId,
     text: string,
-    url: string
+    urlId: UrlId,
+    rawUrl: string
   ): Promise<Comment> {
-    throw "FIXME";
-    // const author = await this.profileService.getProfile(uid);
-    // const pageData = await this.pageService.getPageData(url);
-    // const escapedText = validateAndParseCommentText(text);
-    // const result = await this.repository.addComment(
-    //   author,
-    //   escapedText,
-    //   parsedUrl // FIXME
-    // );
-    // return toDomain(result);
+    const author = await this.profileService.getProfile(uid);
+    const escapedText = validateAndParseCommentText(text);
+    const result = await this.repository.addComment(
+      author,
+      escapedText,
+      urlId,
+      rawUrl
+    );
+    return toDomain(result);
   }
 
   public async removeVote(commentId: string, userId: UserId): Promise<boolean> {
@@ -93,7 +89,7 @@ export class CommentServiceImpl implements CommentService {
   }
 }
 
-const validateAndParseCommentText = (text: string): string => {
+function validateAndParseCommentText(text: string): string {
   if (text.length < 1)
     throw CommentTextMinLength(
       "Comment text must contain at least one character."
@@ -106,9 +102,9 @@ const validateAndParseCommentText = (text: string): string => {
     );
 
   return escapeHtml(text);
-};
+}
 
-const toDomain = (entity: CommentEntity): Comment => {
+function toDomain(entity: CommentEntity): Comment {
   return {
     id: entity.id,
     text: entity.text,
@@ -127,4 +123,4 @@ const toDomain = (entity: CommentEntity): Comment => {
       pageId: entity.url.pageId,
     },
   };
-};
+}

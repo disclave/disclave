@@ -61,18 +61,18 @@ const createApolloHandler = (path: string) => {
     typeDefs: [
       baseTypes,
       authTypeDefs,
-      commentsTypeDefs,
       pagesTypeDefs,
       pageRankingTypeDefs,
       pageVoteTypeDefs,
+      commentsTypeDefs,
       usersTypeDefs,
     ],
     resolvers: [
       authResolvers,
-      commentsResolvers,
       pagesResolvers,
       pageRankingResolvers,
       pageVoteResolvers,
+      commentsResolvers,
       usersResolvers,
     ],
     context: async ({ req, res }) => {

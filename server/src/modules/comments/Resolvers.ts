@@ -14,7 +14,7 @@ export const commentsResolvers = {
       args,
       { decodedToken }: { decodedToken: DecodedIdToken }
     ) => {
-      const comments = await service.getComments(args.url, decodedToken?.uid);
+      const comments = await service.getComments(args.urlId, decodedToken?.uid);
       return comments.map(commentToResponse);
     },
     latestComments: async (
@@ -42,7 +42,7 @@ export const commentsResolvers = {
       return comments.map(commentToResponse);
     },
     countComments: async (_, args) => {
-      return await service.countComments(args.url);
+      return await service.countComments(args.urlId);
     },
   },
   Mutation: {
@@ -53,7 +53,8 @@ export const commentsResolvers = {
       const comment = await service.addComment(
         decodedToken.uid,
         args.comment.text,
-        args.comment.url
+        args.comment.urlId,
+        args.comment.rawUrl
       );
       return commentToResponse(comment);
     },
@@ -75,7 +76,7 @@ export const commentsResolvers = {
   },
 };
 
-const commentToResponse = (comment: Comment) => {
+function commentToResponse(comment: Comment) {
   return {
     id: comment.id,
     text: comment.text,
@@ -94,4 +95,4 @@ const commentToResponse = (comment: Comment) => {
       pageId: comment.urlMeta.pageId,
     },
   };
-};
+}
