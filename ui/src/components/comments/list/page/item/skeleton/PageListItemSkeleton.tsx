@@ -12,6 +12,11 @@ const commentLineWidthArr = [
   "w-72",
   "w-80",
   "w-96",
+  "w-80",
+  "w-96",
+  "w-2/6",
+  "w-3/6",
+  "w-4/6"
 ];
 const commentMaxLines = 4;
 

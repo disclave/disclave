@@ -45,6 +45,13 @@ Empty.args = {
   comments: [],
 };
 
+export const Loading = Template.bind({});
+Loading.args = {
+  actionsHandler: EmptyActionHandler,
+  comments: [],
+  loading: true,
+};
+
 export const LongComments = Template.bind({});
 LongComments.args = {
   actionsHandler: EmptyActionHandler,
