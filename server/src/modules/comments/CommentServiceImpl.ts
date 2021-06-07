@@ -5,13 +5,10 @@ import { inject, injectable } from "inversify";
 import escapeHtml from "escape-html";
 import { CommentTextMaxLength, CommentTextMinLength } from "./exceptions";
 import { UserId } from "@/modules/auth";
-import { PageService, UrlId } from "@/modules/pages";
+import { UrlId } from "@/modules/pages";
 
 @injectable()
 export class CommentServiceImpl implements CommentService {
-  @inject(PageService)
-  private pageService: PageService;
-
   @inject(ProfileService)
   private profileService: ProfileService;
 
