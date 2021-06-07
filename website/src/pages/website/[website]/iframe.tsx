@@ -17,15 +17,18 @@ export const getServerSideProps: GetServerSideProps<IFrameProps> = async (contex
   const pageService = getPageService();
 
   const website = context.query.website as string;
-  const pageDetailsPromise = pageService.getPageDetails(website, false, userCookie?.uid);
-  const commentsPromise = commentService.getComments(website, userCookie?.uid);
+  const pageDetails = await pageService.getPageDetails(website, userCookie?.uid);
+  const commentsPromise = commentService.getComments(
+    { websiteId: pageDetails.websiteId, pageId: pageDetails.pageId },
+    userCookie?.uid
+  );
 
   const hideVotes = context.query.hideVotes !== undefined;
 
   return {
     props: {
       comments: await commentsPromise,
-      pageDetails: await pageDetailsPromise,
+      pageDetails: pageDetails,
       website: website,
       hideVotes,
       serverSideUid: userCookie ? userCookie.uid : null,
