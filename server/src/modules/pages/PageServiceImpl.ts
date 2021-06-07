@@ -149,45 +149,6 @@ export class PageServiceImpl implements PageService {
     // else return detailsToDomain(updatedPageDetails);
   }
 
-  public async setVoteUp(url: string, userId: UserId): Promise<boolean> {
-    throw "FIXME";
-    // const pageData = await this.getPageData(url);
-    // return await this.repository.setVoteUp(
-    //   {
-    //     pageId: pageData.pageId,
-    //     websiteId: pageData.websiteId,
-    //     normalized: pageData.url.normalized,
-    //   },
-    //   userId
-    // );
-  }
-
-  public async setVoteDown(url: string, userId: UserId): Promise<boolean> {
-    throw "FIXME";
-    // const pageData = await this.getPageData(url);
-    // return await this.repository.setVoteDown(
-    //   {
-    //     pageId: pageData.pageId,
-    //     websiteId: pageData.websiteId,
-    //     normalized: pageData.url.normalized,
-    //   },
-    //   userId
-    // );
-  }
-
-  public async removeVote(url: string, userId: UserId): Promise<boolean> {
-    throw "FIXME";
-    // const pageData = await this.getPageData(url);
-    // return await this.repository.removeVote(
-    //   {
-    //     pageId: pageData.pageId,
-    //     websiteId: pageData.websiteId,
-    //     normalized: pageData.url.normalized,
-    //   },
-    //   userId
-    // );
-  }
-
   private async normalizeUrl(
     url: string
   ): Promise<NormalizedWithCanonicalCandidate> {

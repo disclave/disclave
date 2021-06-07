@@ -1,6 +1,11 @@
 import { gql } from "apollo-server-micro";
 
 export const pagesTypeDefs = gql`
+  type UrlId {
+    websiteId: String!
+    pageId: String!
+  }
+
   type PageVotes {
     sum: Int!
     votedUp: Boolean!
@@ -34,11 +39,5 @@ export const pagesTypeDefs = gql`
     topCommentedPages(minCommentsVoteSum: Int!, limit: Int!): [Page!]
     topRatedPages(minVoteSum: Int!, limit: Int!): [Page!]
     pageDetails(url: String!, fetchMetaIfNoCache: Boolean!): PageDetails!
-  }
-
-  extend type Mutation {
-    removePageVote(url: String!): Boolean!
-    addPageVoteUp(url: String!): Boolean!
-    addPageVoteDown(url: String!): Boolean!
   }
 `;

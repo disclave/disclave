@@ -18,16 +18,16 @@ import {
   PageRepository,
   PageConfigRepository,
   PageRankingRepository,
-  PageVoteRepository,
 } from "./modules/pages/db";
 import { PageMongoRepository } from "./modules/pages/db/page/PageMongoRepository";
 import { PageConfigMongoRepository } from "./modules/pages/db/page-config/PageConfigMongoRepository";
 import { PageRankingMongoRepository } from "./modules/pages/db/page-ranking/PageRankingMongoRepository";
-import { PageVoteMongoRepository } from "./modules/pages/db/page-vote/PageVoteMongoRepository";
 import { PageService } from "./modules/pages";
 import { PageServiceImpl } from "./modules/pages/PageServiceImpl";
 import { ImageService } from "./modules/image";
 import { ImageServiceImpl } from "./modules/image/ImageServiceImpl";
+import { PageVoteRepository } from "./modules/page-voting/db";
+import { PageVoteMongoRepository } from "./modules/page-voting/db/PageVoteMongoRepository";
 
 const container = new Container();
 

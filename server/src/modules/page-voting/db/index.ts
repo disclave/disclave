@@ -1,10 +1,6 @@
 import { BaseRepository } from "@/repository";
 import { UserId } from "@/modules/auth";
-
-export interface UrlId {
-  websiteId: string;
-  pageId: string;
-}
+import { UrlId } from "@/modules/pages";
 
 export abstract class PageVoteRepository<
   T = unknown

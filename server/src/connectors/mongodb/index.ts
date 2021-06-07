@@ -6,6 +6,7 @@ import {
   OptionalId,
   Timestamp,
   ObjectID,
+  OrderedBulkOperation,
 } from "mongodb";
 import { retryUntilNullOrUndefined } from "@/helpers";
 
@@ -13,8 +14,10 @@ let _client: MongoClient | null = null;
 let _db: Db | null = null;
 
 export { Timestamp, ObjectID };
+export type { OrderedBulkOperation };
 
-export const timestampNow = () => new Timestamp(0, Math.floor(new Date().getTime() / 1000));
+export const timestampNow = () =>
+  new Timestamp(0, Math.floor(new Date().getTime() / 1000));
 
 export const initDatabase = async (uri: string, dbName: string) => {
   if (_db && _client) return;

@@ -1,7 +1,7 @@
-import { Page, PageDetails } from "./models";
+import { Page, PageDetails, UrlId } from "./models";
 import { UserId } from "@/modules/auth";
 
-export type { Page, PageDetails };
+export type { Page, PageDetails, UrlId };
 
 export interface UrlPageId {
   websiteId: string;
@@ -28,8 +28,4 @@ export abstract class PageService {
     fetchMetaIfNoCache: boolean,
     userId: UserId | null
   ): Promise<PageDetails>;
-
-  abstract setVoteUp(url: string, userId: UserId): Promise<boolean>;
-  abstract setVoteDown(url: string, userId: UserId): Promise<boolean>;
-  abstract removeVote(url: string, userId: UserId): Promise<boolean>;
 }
