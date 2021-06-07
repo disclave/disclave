@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { SkeletonBox } from "@/components/skeleton";
+import { SkeletonBox } from "@/components/loading";
 import { getRandomInt } from "@/helpers/random";
 
 const nameWidthArr = ["w-12", "w-14", "w-16", "w-20", "w-24", "w-28"];
