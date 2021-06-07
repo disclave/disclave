@@ -3,17 +3,14 @@ import { UserId } from "@/modules/auth";
 
 export type { PageDetails, UrlId };
 
-export interface UrlPageId {
-  websiteId: string;
-  pageId: string;
-}
-
 export abstract class PageService {
-  abstract getPageData(url: string): Promise<UrlPageId>;
+  abstract getSavedPageDetails(
+    url: string,
+    userId: UserId | null
+  ): Promise<PageDetails | null>;
 
   abstract getPageDetails(
     url: string,
-    fetchMetaIfNoCache: boolean,
     userId: UserId | null
   ): Promise<PageDetails>;
 }

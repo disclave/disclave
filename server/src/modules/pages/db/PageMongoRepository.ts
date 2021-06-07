@@ -46,16 +46,10 @@ export class PageMongoRepository
 
     const collection = await pagesDbCollection();
     const result = await collection.findOneAndUpdate(
-      // TODO: change to search by normalized url
-      // case, when value for canonical url already exists, but with a different ids,
       {
-        _id: {
-          pageId: urlMeta.pageId,
-          websiteId: urlMeta.websiteId,
-        },
+        matchingUrls: { $in: matchingUrls },
       },
       {
-        // TODO: compare with old methods and maybe update
         $setOnInsert: {
           _id: {
             pageId: urlMeta.pageId,
@@ -66,19 +60,21 @@ export class PageMongoRepository
           votesDown: [],
           votesSum: 0,
           timestamp: timestampNow(),
-          meta: data
-            ? {
-                logo: data.logo,
-                title: data.title,
-              }
-            : null,
         },
-        // $set: {
-        //   meta: {
-        //     logo: data.logo,
-        //     title: data.title,
-        //   },
-        // },
+        $set: {
+          meta: {
+            // @ts-ignore
+            $ifNull: [
+              "$meta",
+              data
+                ? {
+                    logo: data.logo,
+                    title: data.title,
+                  }
+                : null,
+            ],
+          },
+        },
         $addToSet: {
           matchingUrls: { $each: matchingUrls },
         },
@@ -91,85 +87,7 @@ export class PageMongoRepository
     );
     return cursorDocToEntity(result.value);
   }
-
-  // public async findOrCreatePageDetails(
-  //   url: UrlMeta,
-  //   uid: UserId | null
-  // ): Promise<PageDetailsEntity> {
-  //   const collection = await pagesDbCollection();
-  //   const result = await collection.findOneAndUpdate(
-  //     urlMetaToIdFilter(url),
-  //     {
-  //       $setOnInsert: toDbPageDetails(url, null),
-  //     },
-  //     {
-  //       upsert: true,
-  //       returnOriginal: false,
-  //       projection: getProjection(uid),
-  //     }
-  //   );
-  //   return cursorDocToEntity(result.value);
-  // }
-
-  // public async updatePageDetails(
-  //   url: UrlMeta,
-  //   data: PageDetailsData,
-  //   uid: UserId | null
-  // ) {
-  //   const collection = await pagesDbCollection();
-  //   const result = await collection.findOneAndUpdate(
-  //     urlMetaToIdFilter(url),
-  //     {
-  //       $setOnInsert: toPartialDbPageDetails(url),
-  //       $set: {
-  //         meta: metaToDbPageDetailsMeta(data),
-  //       },
-  //     },
-  //     {
-  //       upsert: true,
-  //       returnOriginal: false,
-  //       projection: getProjection(uid),
-  //     }
-  //   );
-  //   return cursorDocToEntity(result.value);
-  // }
 }
-
-// const urlMetaToIdFilter = (url: UrlMeta) => ({
-//   _id: {
-//     pageId: url.pageId,
-//     websiteId: url.websiteId,
-//   },
-// });
-
-const toPartialDbPageDetails = (url: UrlMeta) => ({
-  _id: {
-    pageId: url.pageId,
-    websiteId: url.websiteId,
-  },
-  normalizedUrl: url.normalized,
-  matchingUrls: [url.normalized],
-  votesUp: [],
-  votesDown: [],
-  votesSum: 0,
-  timestamp: timestampNow(),
-});
-
-// const toDbPageDetails = (
-//   url: UrlMeta,
-//   data: PageDetailsData | null
-// ): DbPageDetails => ({
-//   ...toPartialDbPageDetails(url),
-//   meta: metaToDbPageDetailsMeta(data),
-// });
-
-// const metaToDbPageDetailsMeta = (data: PageDetailsData | null) => {
-//   if (!data) return null;
-//   return {
-//     logo: data.logo,
-//     title: data.title,
-//   };
-// };
 
 function cursorDocToEntity(doc: DbPageDetails): PageDetailsEntity {
   return {
