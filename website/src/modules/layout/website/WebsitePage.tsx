@@ -1,7 +1,7 @@
 import React from 'react';
 import { Layout } from '@/modules/layout';
 import { CommentModel, PageDetailsModel } from '@disclave/client';
-import { WebsiteInfo } from './info';
+import { WebsiteInfo, WebsiteInfoSkeleton } from './info';
 import { WebsiteComments } from './comments';
 import { loginHref } from '@/pages/auth/login';
 import { websiteHrefRaw } from '@/pages/website/[website]';
@@ -24,8 +24,8 @@ export const WebsitePage: React.VFC<WebsitePageProps> = ({ website, pageDetails,
   return (
     <Layout loginHref={loginHrefWithRedirect} registerHref={registerHrefWithRedirect}>
       <div className="container mx-auto max-w-3xl py-8 px-4">
-        {/* TODO: show loading if no page details */}
-        <WebsiteInfo pageDetails={pageDetails} />
+        {pageDetails ? <WebsiteInfo pageDetails={pageDetails} /> : <WebsiteInfoSkeleton />}
+
         <WebsiteComments
           urlId={urlId}
           website={website}

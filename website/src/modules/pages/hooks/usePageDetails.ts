@@ -2,22 +2,22 @@ import { useEffect, useState } from 'react';
 import { getPageDetails, PageDetailsModel } from '@disclave/client';
 
 type UsePageDetails = {
-  pageDetails: PageDetailsModel;
+  pageDetails: PageDetailsModel | null;
   isLoading: boolean;
 };
 
-export const usePageDetails = (initialState: PageDetailsModel): UsePageDetails => {
+export const usePageDetails = (url: string, initialState: PageDetailsModel | null): UsePageDetails => {
   const [pageDetails, setPageDetails] = useState(initialState);
-  const [isLoading, setLoading] = useState(pageDetails.meta == null);
+  const [isLoading, setLoading] = useState(!pageDetails || pageDetails.meta == null);
 
   const fetchPageDetails = async () => {
-    const result = await getPageDetails(pageDetails.url, true, false);
+    const result = await getPageDetails(url, false);
     setPageDetails(result);
     setLoading(false);
   };
 
   useEffect(() => {
-    if (pageDetails.meta != null) return;
+    if (pageDetails && pageDetails.meta != null) return;
 
     fetchPageDetails();
   }, []);
