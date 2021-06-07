@@ -19,8 +19,8 @@ const defaultCommentResponseFields = `
 `;
 
 export const GET_COMMENTS = gql`
-  query($url: String!) {
-    getComments(url: $url) { ${defaultCommentResponseFields} }
+  query($urlId: UrlId!) {
+    getComments(urlId: $urlId) { ${defaultCommentResponseFields} }
   }
 `;
 

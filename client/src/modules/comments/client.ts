@@ -11,13 +11,14 @@ import {
 } from "./schemas";
 
 export const getComments = async (
-  url: string,
+  websiteId: string,
+  pageId: string,
   noCache: boolean = false
 ): Promise<Array<CommentModel>> => {
   const result = await runQuery<Array<CommentModel>>(
     GET_COMMENTS,
     {
-      url,
+      urlId: { websiteId, pageId },
     },
     "getComments",
     noCache
@@ -62,14 +63,17 @@ export const getTopComments = async (
 
 export const createComment = async (
   text: string,
-  url: string
+  websiteId: string,
+  pageId: string,
+  rawUrl: string
 ): Promise<CommentModel> => {
   const result = await client().mutate({
     mutation: CREATE_COMMENT,
     variables: {
       comment: {
         text,
-        url,
+        urlId: { websiteId, pageId },
+        rawUrl,
       },
     },
   });
