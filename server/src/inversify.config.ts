@@ -14,20 +14,17 @@ import { EmailService } from "@/modules/email";
 import { MailjetEmailService } from "@/modules/email/MailjetEmailService";
 import { AuthProvider } from "@/modules/auth";
 import { FirebaseAuthProvider } from "@/modules/auth/FirebaseAuthProvider";
-import {
-  PageRepository,
-  PageConfigRepository,
-  PageRankingRepository,
-} from "./modules/pages/db";
+import { PageRepository, PageConfigRepository } from "./modules/pages/db";
 import { PageMongoRepository } from "./modules/pages/db/page/PageMongoRepository";
 import { PageConfigMongoRepository } from "./modules/pages/db/page-config/PageConfigMongoRepository";
-import { PageRankingMongoRepository } from "./modules/pages/db/page-ranking/PageRankingMongoRepository";
 import { PageService } from "./modules/pages";
 import { PageServiceImpl } from "./modules/pages/PageServiceImpl";
 import { ImageService } from "./modules/image";
 import { ImageServiceImpl } from "./modules/image/ImageServiceImpl";
 import { PageVoteRepository } from "./modules/page-voting/db";
 import { PageVoteMongoRepository } from "./modules/page-voting/db/PageVoteMongoRepository";
+import { PageRankingRepository } from "./modules/page-ranking/db";
+import { PageRankingMongoRepository } from "./modules/page-ranking/db/PageRankingMongoRepository";
 
 const container = new Container();
 

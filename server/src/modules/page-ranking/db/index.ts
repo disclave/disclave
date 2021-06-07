@@ -1,6 +1,8 @@
-import { PageEntity } from "@/modules/pages/db/entity";
 import { BaseRepository } from "@/repository";
 import { UserId } from "@/modules/auth";
+import { PageEntity } from "./entity";
+
+export type { PageEntity };
 
 export abstract class PageRankingRepository<
   T = unknown

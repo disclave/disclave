@@ -1,7 +1,7 @@
-import { Page, PageDetails, UrlId } from "./models";
+import { PageDetails, UrlId } from "./models";
 import { UserId } from "@/modules/auth";
 
-export type { Page, PageDetails, UrlId };
+export type { PageDetails, UrlId };
 
 export interface UrlPageId {
   websiteId: string;
@@ -10,18 +10,6 @@ export interface UrlPageId {
 
 export abstract class PageService {
   abstract getPageData(url: string): Promise<UrlPageId>;
-
-  abstract getTopCommentedPages(
-    commentsMinVoteSum: number,
-    limit: number,
-    userId: UserId | null
-  ): Promise<Array<Page>>;
-
-  abstract getTopRatedPages(
-    minVoteSum: number,
-    limit: number,
-    userId: UserId | null
-  ): Promise<Array<Page>>;
 
   abstract getPageDetails(
     url: string,

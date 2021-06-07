@@ -1,7 +1,5 @@
-import { PageEntity, PageRankingRepository } from "@/modules/pages/db";
 import { injectable } from "inversify";
-import { MongoRepository } from "@/connectors/mongodb";
-import { ClientSession } from "@/connectors/mongodb";
+import { ClientSession, MongoRepository } from "@/connectors/mongodb";
 import { commentsDbCollection } from "@/database/comments";
 import { getAggregationProjection, pagesDbCollection } from "@/database/pages";
 import { commentsCollection, pagesCollection } from "@/database";
@@ -10,6 +8,8 @@ import {
   TopCommentedPagesAggregation,
   TopRatedPagesAggregation,
 } from "./aggregations";
+import { PageRankingRepository } from ".";
+import { PageEntity } from "./entity";
 
 @injectable()
 export class PageRankingMongoRepository
