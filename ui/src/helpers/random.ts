@@ -1,0 +1,9 @@
+export function getRandomElement<T>(array: Array<T>): T {
+  return array[Math.floor(Math.random() * array.length)];
+}
+
+export function getRandomInt(min: number, max: number): number {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min) + min);
+}
