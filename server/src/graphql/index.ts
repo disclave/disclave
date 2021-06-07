@@ -17,6 +17,8 @@ import { pagesTypeDefs } from "@/modules/pages/Schemas";
 import { pagesResolvers } from "@/modules/pages/Resolvers";
 import { pageVoteTypeDefs } from "@/modules/page-voting/Schemas";
 import { pageVoteResolvers } from "@/modules/page-voting/Resolvers";
+import { pageRankingTypeDefs } from "@/modules/page-ranking/Schemas";
+import { pageRankingResolvers } from "@/modules/page-ranking/Resolvers";
 
 const cors = Cors({
   allowMethods: ["POST", "GET", "OPTIONS"],
@@ -61,6 +63,7 @@ const createApolloHandler = (path: string) => {
       authTypeDefs,
       commentsTypeDefs,
       pagesTypeDefs,
+      pageRankingTypeDefs,
       pageVoteTypeDefs,
       usersTypeDefs,
     ],
@@ -68,6 +71,7 @@ const createApolloHandler = (path: string) => {
       authResolvers,
       commentsResolvers,
       pagesResolvers,
+      pageRankingResolvers,
       pageVoteResolvers,
       usersResolvers,
     ],

@@ -5,7 +5,7 @@ import { PageRankingService } from ".";
 
 const service = container.get(PageRankingService);
 
-export const pagesResolvers = {
+export const pageRankingResolvers = {
   Query: {
     topCommentedPages: async (
       _,
