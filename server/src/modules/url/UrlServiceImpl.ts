@@ -11,8 +11,8 @@ const gotOptions = { timeout: 3000 };
 const urlScrapper = metascraper([
   msTitle(),
   (msCanonicalUrl as any)(),
-  msLogo(),
   msLogoFavicon({ gotOpts: gotOptions }),
+  msLogo(),
 ]);
 
 function normalizationConfig(
