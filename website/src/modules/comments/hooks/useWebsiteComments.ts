@@ -15,10 +15,12 @@ type UseWebsiteComments = {
 
 export const useWebsiteComments = (
   initialState: Array<CommentModel>,
-  website: string
+  websiteId: string,
+  pageId: string,
+  rawUrl: string,
 ): UseWebsiteComments => {
   const fetchComments = async () => {
-    return await getComments(website, true);
+    return await getComments(websiteId, pageId, true);
   };
 
   const { comments, setComments, voteDown, voteRemove, voteUp } = useComments(
@@ -27,7 +29,7 @@ export const useWebsiteComments = (
   );
 
   const addComment: AddComment = async (text: string) => {
-    const addedComment = await createComment(text, website);
+    const addedComment = await createComment(text, websiteId, pageId, rawUrl);
     setComments([addedComment, ...comments]);
   };
 

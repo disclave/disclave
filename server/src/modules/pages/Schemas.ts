@@ -1,7 +1,7 @@
 import { gql } from "apollo-server-micro";
 
 export const pagesTypeDefs = gql`
-  type UrlId {
+input UrlId {
     websiteId: String!
     pageId: String!
   }
