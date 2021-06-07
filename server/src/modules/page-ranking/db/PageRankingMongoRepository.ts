@@ -106,44 +106,48 @@ export class PageRankingMongoRepository
   }
 }
 
-const topCommentedAggCursorDocToEntity = (
+function topCommentedAggCursorDocToEntity(
   doc: TopCommentedPagesAggregation
-): PageEntity => ({
-  id: doc._id.websiteId + doc._id.pageId,
-  pageId: doc._id.pageId,
-  websiteId: doc._id.websiteId,
-  commentsCount: doc.commentsCount,
-  url: doc.page.normalizedUrl,
-  meta: doc.page.meta
-    ? {
-        logo: doc.page.meta.logo,
-        title: doc.page.meta.title,
-      }
-    : null,
-  votes: {
-    sum: doc.page.votesSum,
-    votedUp: doc.page.votesUp?.length > 0,
-    votedDown: doc.page.votesDown?.length > 0,
-  },
-});
+): PageEntity {
+  return {
+    id: doc._id.websiteId + doc._id.pageId,
+    pageId: doc._id.pageId,
+    websiteId: doc._id.websiteId,
+    commentsCount: doc.commentsCount,
+    url: doc.page.normalizedUrl,
+    meta: doc.page.meta
+      ? {
+          logo: doc.page.meta.logo,
+          title: doc.page.meta.title,
+        }
+      : null,
+    votes: {
+      sum: doc.page.votesSum,
+      votedUp: doc.page.votesUp?.length > 0,
+      votedDown: doc.page.votesDown?.length > 0,
+    },
+  };
+}
 
-const topRatedAggCursorDocToEntity = (
+function topRatedAggCursorDocToEntity(
   doc: TopRatedPagesAggregation
-): PageEntity => ({
-  id: doc._id.websiteId + doc._id.pageId,
-  pageId: doc._id.pageId,
-  websiteId: doc._id.websiteId,
-  commentsCount: doc.comments?.count || 0,
-  url: doc.normalizedUrl,
-  meta: doc.meta
-    ? {
-        logo: doc.meta.logo,
-        title: doc.meta.title,
-      }
-    : null,
-  votes: {
-    sum: doc.votesSum,
-    votedUp: doc.votesUp?.length > 0,
-    votedDown: doc.votesDown?.length > 0,
-  },
-});
+): PageEntity {
+  return {
+    id: doc._id.websiteId + doc._id.pageId,
+    pageId: doc._id.pageId,
+    websiteId: doc._id.websiteId,
+    commentsCount: doc.comments?.count || 0,
+    url: doc.normalizedUrl,
+    meta: doc.meta
+      ? {
+          logo: doc.meta.logo,
+          title: doc.meta.title,
+        }
+      : null,
+    votes: {
+      sum: doc.votesSum,
+      votedUp: doc.votesUp?.length > 0,
+      votedDown: doc.votesDown?.length > 0,
+    },
+  };
+}

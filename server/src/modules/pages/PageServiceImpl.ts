@@ -1,14 +1,10 @@
-import {
-  PageConfigRepository,
-  PageDetailsEntity,
-  PageEntity,
-  PageRepository,
-} from "./db";
-import { PageService, Page, PageDetails, UrlPageId } from "./index";
+import { PageDetailsEntity, PageRepository } from "./db";
+import { PageService, PageDetails, UrlPageId } from "./index";
 import { inject, injectable } from "inversify";
 import { ParsedUrlData, UrlMetaData, UrlService } from "@/modules/url";
 import { ImageService } from "@/modules/image";
 import { UserId } from "@/modules/auth";
+import { PageConfigService } from "@/modules/page-config";
 
 interface NormalizedWithCanonicalCandidate {
   full: string;
@@ -25,8 +21,8 @@ export class PageServiceImpl implements PageService {
   @inject(PageRepository)
   private pageRepository: PageRepository;
 
-  @inject(PageConfigRepository)
-  private pageConfigRepository: PageConfigRepository;
+  @inject(PageConfigService)
+  private pageConfigService: PageConfigService;
 
   @inject(UrlService)
   private urlService: UrlService;
@@ -153,7 +149,7 @@ export class PageServiceImpl implements PageService {
     url: string
   ): Promise<NormalizedWithCanonicalCandidate> {
     const normalizedURLNoQP = this.urlService.normalizeUrl(url, true);
-    const pageConfig = await this.pageConfigRepository.findPageConfig(
+    const pageConfig = await this.pageConfigService.getPageConfig(
       normalizedURLNoQP
     );
 
@@ -216,28 +212,7 @@ export class PageServiceImpl implements PageService {
   }
 }
 
-const toDomain = (entity: PageEntity): Page => {
-  return {
-    id: entity.id,
-    websiteId: entity.websiteId,
-    pageId: entity.pageId,
-    commentsCount: entity.commentsCount,
-    url: entity.url,
-    meta: entity.meta
-      ? {
-          logo: entity.meta.logo,
-          title: entity.meta.title,
-        }
-      : null,
-    votes: {
-      sum: entity.votes.sum,
-      votedDown: entity.votes.votedDown,
-      votedUp: entity.votes.votedUp,
-    },
-  };
-};
-
-const detailsToDomain = (entity: PageDetailsEntity): PageDetails => {
+function detailsToDomain(entity: PageDetailsEntity): PageDetails {
   return {
     url: entity.url,
     pageId: entity.pageId,
@@ -254,4 +229,4 @@ const detailsToDomain = (entity: PageDetailsEntity): PageDetails => {
         }
       : null,
   };
-};
+}

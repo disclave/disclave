@@ -33,13 +33,13 @@ export interface AwsConfig {
 }
 
 let _initExecuted = false;
-export const init = async (
+export async function init(
   firebaseServiceAccountObject: Object,
   dbConfig: DbConfig,
   mjConfig: MailjetConfig,
   awsConfig: AwsConfig,
   skipMigrations: boolean
-) => {
+) {
   if (_initExecuted) return;
   _initExecuted = true;
 
@@ -72,7 +72,7 @@ export const init = async (
   } else {
     console.info("Migrations skipped");
   }
-};
+}
 
 export { graphqlHandler } from "./graphql";
 

@@ -5,8 +5,11 @@ import {
   UrlMeta,
 } from "@/modules/pages/db";
 import { injectable } from "inversify";
-import { MongoRepository, timestampNow } from "@/connectors/mongodb";
-import { ClientSession } from "@/connectors/mongodb";
+import {
+  ClientSession,
+  MongoRepository,
+  timestampNow,
+} from "@/connectors/mongodb";
 import { getProjection, pagesDbCollection } from "@/database/pages";
 import { DbPageDetails } from "@/database";
 import { UserId } from "@/modules/auth";
@@ -168,19 +171,21 @@ const toPartialDbPageDetails = (url: UrlMeta) => ({
 //   };
 // };
 
-const cursorDocToEntity = (doc: DbPageDetails): PageDetailsEntity => ({
-  pageId: doc._id.pageId,
-  websiteId: doc._id.websiteId,
-  url: doc.normalizedUrl,
-  votes: {
-    sum: doc.votesSum,
-    votedUp: doc.votesUp?.length > 0,
-    votedDown: doc.votesDown?.length > 0,
-  },
-  meta: doc.meta
-    ? {
-        logo: doc.meta.logo,
-        title: doc.meta.title,
-      }
-    : null,
-});
+function cursorDocToEntity(doc: DbPageDetails): PageDetailsEntity {
+  return {
+    pageId: doc._id.pageId,
+    websiteId: doc._id.websiteId,
+    url: doc.normalizedUrl,
+    votes: {
+      sum: doc.votesSum,
+      votedUp: doc.votesUp?.length > 0,
+      votedDown: doc.votesDown?.length > 0,
+    },
+    meta: doc.meta
+      ? {
+          logo: doc.meta.logo,
+          title: doc.meta.title,
+        }
+      : null,
+  };
+}

@@ -1,9 +1,8 @@
-import { PageConfigEntity, PageConfigRepository } from "@/modules/pages/db";
 import { injectable } from "inversify";
-import { MongoRepository } from "@/connectors/mongodb";
-import { ClientSession } from "@/connectors/mongodb";
+import { ClientSession, MongoRepository } from "@/connectors/mongodb";
 import { pagesConfigsDbCollection } from "@/database/pages-configs";
 import { DbPageConfig } from "@/database";
+import { PageConfigEntity, PageConfigRepository } from ".";
 
 @injectable()
 export class PageConfigMongoRepository
@@ -19,7 +18,9 @@ export class PageConfigMongoRepository
   }
 }
 
-const cursorDocToEntity = (doc: DbPageConfig): PageConfigEntity => ({
-  id: doc._id,
-  preserveQueryParams: doc.preserveQueryParams,
-});
+function cursorDocToEntity(doc: DbPageConfig): PageConfigEntity {
+  return {
+    id: doc._id,
+    preserveQueryParams: doc.preserveQueryParams,
+  };
+}

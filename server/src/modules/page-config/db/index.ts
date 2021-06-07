@@ -1,5 +1,7 @@
-import { PageConfigEntity } from "@/modules/pages/db/entity";
+import { PageConfigEntity } from "./entity";
 import { BaseRepository } from "@/repository";
+
+export type { PageConfigEntity };
 
 export abstract class PageConfigRepository<
   T = unknown

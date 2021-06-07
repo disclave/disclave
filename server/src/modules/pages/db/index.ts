@@ -1,10 +1,30 @@
-export type {
-  PageConfigEntity,
-  PageDetailsEntity,
-  UrlPageIdEntity,
-} from "./entity";
+import { PageDetailsEntity } from "./entity";
+import { BaseRepository } from "@/repository";
+import { UserId } from "@/modules/auth";
 
-export type { UrlMeta, PageDetailsData } from "./page";
+export type { PageDetailsEntity };
 
-export { PageRepository } from "./page";
-export { PageConfigRepository } from "./page-config";
+export interface UrlMeta {
+  websiteId: string;
+  pageId: string;
+  normalized: string;
+}
+
+export interface PageDetailsData {
+  title: string | null;
+  logo: string | null;
+}
+
+export abstract class PageRepository<T = unknown> extends BaseRepository<T> {
+  abstract findPageDetails(
+    normalizedUrl: string,
+    uid: UserId | null
+  ): Promise<PageDetailsEntity | null>;
+
+  abstract createOrUpdatePageDetails(
+    urlMeta: UrlMeta,
+    alternativeUrl: string | null,
+    data: PageDetailsData | null,
+    uid: UserId | null
+  ): Promise<PageDetailsEntity>;
+}

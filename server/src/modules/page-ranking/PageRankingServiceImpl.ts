@@ -35,7 +35,7 @@ export class PageRankingServiceImpl implements PageRankingService {
   }
 }
 
-const toDomain = (entity: PageEntity): Page => {
+function toDomain(entity: PageEntity): Page {
   return {
     id: entity.id,
     websiteId: entity.websiteId,
@@ -54,4 +54,4 @@ const toDomain = (entity: PageEntity): Page => {
       votedUp: entity.votes.votedUp,
     },
   };
-};
+}
