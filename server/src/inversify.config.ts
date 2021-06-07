@@ -25,7 +25,7 @@ import { PageVoteMongoRepository } from "./modules/page-voting/db/PageVoteMongoR
 import { PageRankingRepository } from "./modules/page-ranking/db";
 import { PageRankingMongoRepository } from "./modules/page-ranking/db/PageRankingMongoRepository";
 import { PageConfigService } from "./modules/page-config";
-import { PageConfigServiceImpl } from "./modules/page-config/PageServiceImpl";
+import { PageConfigServiceImpl } from "./modules/page-config/PageConfigServiceImpl";
 import { PageConfigRepository } from "./modules/page-config/db";
 import { PageConfigMongoRepository } from "./modules/page-config/db/PageConfigMongoRepository";
 import { PageRankingService } from "./modules/page-ranking";

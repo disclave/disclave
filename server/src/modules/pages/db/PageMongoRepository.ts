@@ -47,7 +47,7 @@ export class PageMongoRepository
     const collection = await pagesDbCollection();
     const result = await collection.findOneAndUpdate(
       {
-        matchingUrls: { $in: matchingUrls },
+        matchingUrls: { $elemMatch: { $in: matchingUrls } },
       },
       {
         $setOnInsert: {
@@ -62,18 +62,12 @@ export class PageMongoRepository
           timestamp: timestampNow(),
         },
         $set: {
-          meta: {
-            // @ts-ignore
-            $ifNull: [
-              "$meta",
-              data
-                ? {
-                    logo: data.logo,
-                    title: data.title,
-                  }
-                : null,
-            ],
-          },
+          meta: data
+            ? {
+                logo: data.logo,
+                title: data.title,
+              }
+            : null,
         },
         $addToSet: {
           matchingUrls: { $each: matchingUrls },
