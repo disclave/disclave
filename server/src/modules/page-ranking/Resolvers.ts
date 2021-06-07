@@ -34,21 +34,23 @@ export const pageRankingResolvers = {
   },
 };
 
-const pageToResponse = (page: Page) => ({
-  id: page.id,
-  websiteId: page.websiteId,
-  pageId: page.pageId,
-  commentsCount: page.commentsCount,
-  url: page.url,
-  meta: page.meta
-    ? {
-        logo: page.meta.logo,
-        title: page.meta.title,
-      }
-    : null,
-  votes: {
-    sum: page.votes.sum,
-    votedDown: page.votes.votedDown,
-    votedUp: page.votes.votedUp,
-  },
-});
+function pageToResponse(page: Page) {
+  return {
+    id: page.id,
+    websiteId: page.websiteId,
+    pageId: page.pageId,
+    commentsCount: page.commentsCount,
+    url: page.url,
+    meta: page.meta
+      ? {
+          logo: page.meta.logo,
+          title: page.meta.title,
+        }
+      : null,
+    votes: {
+      sum: page.votes.sum,
+      votedDown: page.votes.votedDown,
+      votedUp: page.votes.votedUp,
+    },
+  };
+}
