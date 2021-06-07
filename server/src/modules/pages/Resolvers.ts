@@ -14,7 +14,6 @@ export const pagesResolvers = {
     ) => {
       const pageDetails = await service.getPageDetails(
         args.url,
-        args.fetchMetaIfNoCache,
         decodedToken?.uid
       );
       return pageDetailsToResponse(pageDetails);

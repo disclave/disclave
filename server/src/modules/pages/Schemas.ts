@@ -26,6 +26,6 @@ export const pagesTypeDefs = gql`
   }
 
   extend type Query {
-    pageDetails(url: String!, fetchMetaIfNoCache: Boolean!): PageDetails!
+    pageDetails(url: String!): PageDetails!
   }
 `;
