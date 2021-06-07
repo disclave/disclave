@@ -47,7 +47,7 @@ export type {
 } from "./modules/comments";
 
 export { getPageDetails } from "./modules/pages";
-export type { PageDetailsModel } from "./modules/pages";
+export type { PageDetailsModel, UrlId } from "./modules/pages";
 
 export { getTopCommentedPages, getTopRatedPages } from "./modules/page-ranking";
 export type { PageModel } from "./modules/page-ranking";

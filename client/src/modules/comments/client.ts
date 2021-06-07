@@ -1,4 +1,5 @@
 import { client, runQuery } from "../../graphql";
+import { UrlId } from "../pages/models";
 import { CommentModel } from "./";
 import {
   ADD_COMMENT_VOTE_DOWN,
@@ -10,28 +11,27 @@ import {
   REMOVE_COMMENT_VOTE,
 } from "./schemas";
 
-export const getComments = async (
-  websiteId: string,
-  pageId: string,
+export async function getComments(
+  urlId: UrlId,
   noCache: boolean = false
-): Promise<Array<CommentModel>> => {
+): Promise<Array<CommentModel>> {
   const result = await runQuery<Array<CommentModel>>(
     GET_COMMENTS,
     {
-      urlId: { websiteId, pageId },
+      urlId,
     },
     "getComments",
     noCache
   );
 
   return result.map(responseToModel);
-};
+}
 
-export const getLatestComments = async (
+export async function getLatestComments(
   minVoteSum: number,
   limit: number,
   noCache: boolean = false
-): Promise<Array<CommentModel>> => {
+): Promise<Array<CommentModel>> {
   const result = await runQuery<Array<CommentModel>>(
     GET_LATEST_COMMENTS,
     {
@@ -42,13 +42,13 @@ export const getLatestComments = async (
     noCache
   );
   return result.map(responseToModel);
-};
+}
 
-export const getTopComments = async (
+export async function getTopComments(
   minVoteSum: number,
   limit: number,
   noCache: boolean = false
-): Promise<Array<CommentModel>> => {
+): Promise<Array<CommentModel>> {
   const result = await runQuery<Array<CommentModel>>(
     GET_TOP_COMMENTS,
     {
@@ -59,30 +59,27 @@ export const getTopComments = async (
     noCache
   );
   return result.map(responseToModel);
-};
+}
 
-export const createComment = async (
+export async function createComment(
   text: string,
-  websiteId: string,
-  pageId: string,
+  urlId: UrlId,
   rawUrl: string
-): Promise<CommentModel> => {
+): Promise<CommentModel> {
   const result = await client().mutate({
     mutation: CREATE_COMMENT,
     variables: {
       comment: {
         text,
-        urlId: { websiteId, pageId },
+        urlId,
         rawUrl,
       },
     },
   });
   return responseToModel(result.data.createComment);
-};
+}
 
-export const removeCommentVote = async (
-  commentId: string
-): Promise<boolean> => {
+export async function removeCommentVote(commentId: string): Promise<boolean> {
   const result = await client().mutate({
     mutation: REMOVE_COMMENT_VOTE,
     variables: {
@@ -90,9 +87,9 @@ export const removeCommentVote = async (
     },
   });
   return result.data.removeCommentVote;
-};
+}
 
-export const addCommentVoteUp = async (commentId: string): Promise<boolean> => {
+export async function addCommentVoteUp(commentId: string): Promise<boolean> {
   const result = await client().mutate({
     mutation: ADD_COMMENT_VOTE_UP,
     variables: {
@@ -100,11 +97,9 @@ export const addCommentVoteUp = async (commentId: string): Promise<boolean> => {
     },
   });
   return result.data.addCommentVoteUp;
-};
+}
 
-export const addCommentVoteDown = async (
-  commentId: string
-): Promise<boolean> => {
+export async function addCommentVoteDown(commentId: string): Promise<boolean> {
   const result = await client().mutate({
     mutation: ADD_COMMENT_VOTE_DOWN,
     variables: {
@@ -112,9 +107,9 @@ export const addCommentVoteDown = async (
     },
   });
   return result.data.addCommentVoteDown;
-};
+}
 
-const responseToModel = (data: any): CommentModel => {
+function responseToModel(data: any): CommentModel {
   return {
     id: data.id,
     text: data.text,
@@ -132,4 +127,4 @@ const responseToModel = (data: any): CommentModel => {
       pageId: data.urlMeta.pageId,
     },
   };
-};
+}

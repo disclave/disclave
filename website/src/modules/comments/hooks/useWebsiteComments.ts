@@ -1,5 +1,6 @@
-import { CommentModel, createComment, getComments } from '@disclave/client';
-import { useComments } from '@/modules/comments/hooks/useComments';
+import { CommentModel, createComment, getComments, UrlId } from '@disclave/client';
+import { useComments } from '@/modules/comments/hooks/useComments'
+import { useEffect } from 'react';
 
 type AddComment = (text: string) => Promise<void>;
 type VoteDown = (commentId: string) => Promise<void>;
@@ -15,21 +16,26 @@ type UseWebsiteComments = {
 
 export const useWebsiteComments = (
   initialState: Array<CommentModel>,
-  websiteId: string,
-  pageId: string,
+  urlId: UrlId | null,
   rawUrl: string,
 ): UseWebsiteComments => {
   const fetchComments = async () => {
-    return await getComments(websiteId, pageId, true);
+    if (!urlId) return [];
+    return await getComments(urlId, true);
   };
 
-  const { comments, setComments, voteDown, voteRemove, voteUp } = useComments(
+  const { comments, setComments, voteDown, voteRemove, voteUp, refresh } = useComments(
     initialState,
     fetchComments
   );
 
+  useEffect(() => {
+    if (!urlId) return;
+    refresh();
+  }, [urlId])
+
   const addComment: AddComment = async (text: string) => {
-    const addedComment = await createComment(text, websiteId, pageId, rawUrl);
+    const addedComment = await createComment(text, urlId, rawUrl);
     setComments([addedComment, ...comments]);
   };
 

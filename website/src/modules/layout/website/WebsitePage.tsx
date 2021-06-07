@@ -9,7 +9,7 @@ import { registerHref } from '@/pages/auth/register';
 
 export interface WebsitePageProps {
   website: string;
-  pageDetails: PageDetailsModel;
+  pageDetails: PageDetailsModel | null;
   comments: Array<CommentModel>;
 }
 
@@ -17,11 +17,17 @@ export const WebsitePage: React.VFC<WebsitePageProps> = ({ website, pageDetails,
   const loginHrefWithRedirect = loginHref(websiteHrefRaw, website);
   const registerHrefWithRedirect = registerHref(websiteHrefRaw, website);
 
+  const urlId = pageDetails
+    ? { websiteId: pageDetails.websiteId, pageId: pageDetails.pageId }
+    : null;
+
   return (
     <Layout loginHref={loginHrefWithRedirect} registerHref={registerHrefWithRedirect}>
       <div className="container mx-auto max-w-3xl py-8 px-4">
+        {/* TODO: show loading if no page details */}
         <WebsiteInfo pageDetails={pageDetails} />
         <WebsiteComments
+          urlId={urlId}
           website={website}
           comments={comments}
           loginHref={loginHrefWithRedirect}

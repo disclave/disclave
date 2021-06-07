@@ -11,12 +11,14 @@ type SetComments = (data: Array<CommentModel>) => void;
 type VoteDown = (commentId: string) => Promise<void>;
 type VoteRemove = (commentId: string) => Promise<void>;
 type VoteUp = (commentId: string) => Promise<void>;
+type Refresh = () => Promise<void>;
 type UseComments = {
   comments: CommentModel[];
   setComments: SetComments;
   voteDown: VoteDown;
   voteRemove: VoteRemove;
   voteUp: VoteUp;
+  refresh: Refresh;
 };
 
 export const useComments = (
@@ -50,11 +52,16 @@ export const useComments = (
     await removeCommentVote(commentId);
   };
 
+  const refresh = async () => {
+    await fetchComments();
+  }
+
   return {
     comments: comments,
     setComments: setComments,
     voteDown: onVoteDown,
     voteRemove: onVoteRemove,
-    voteUp: onVoteUp
+    voteUp: onVoteUp,
+    refresh: refresh
   };
 };
