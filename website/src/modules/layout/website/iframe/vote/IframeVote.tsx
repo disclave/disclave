@@ -35,6 +35,7 @@ export const IframeVote: React.VFC<IframeVoteProps> = ({ pageDetails }) => {
   return (
     <PageVoting
       enabled={!!uid}
+      loading={false}
       votes={{
         sum: pageDetails.votes.sum,
         votedDown: pageDetails.votes.votedDown,

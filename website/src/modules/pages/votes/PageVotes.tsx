@@ -36,6 +36,7 @@ export const PageVotes: React.VFC<PageVotesProps> = ({ pageDetails, horizontal =
   return (
     <Vote
       enabled={!!uid}
+      loading={false}
       votes={{
         sum: pageDetails.votes.sum,
         votedDown: pageDetails.votes.votedDown,
