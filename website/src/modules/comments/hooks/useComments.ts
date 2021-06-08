@@ -37,9 +37,10 @@ export const useComments = (
   useEffect(() => {
     if (loading) return;
 
-    if (uid != prevUid.current || prevLoading) fetchComments();
+    if (uid != prevUid.current || prevLoading.current) fetchComments();
 
     prevUid.current = uid;
+    prevLoading.current = loading;
   }, [uid, loading]);
 
   const onVoteUp = async (commentId: string) => {
