@@ -1,7 +1,7 @@
 export type PageActionsHandler = {
-  onVoteDown: (url: string) => Promise<void>;
-  onVoteRemove: (url: string) => Promise<void>;
-  onVoteUp: (url: string) => Promise<void>;
+  onVoteDown: (websiteId: string, pageId: string) => Promise<void>;
+  onVoteRemove: (websiteId: string, pageId: string) => Promise<void>;
+  onVoteUp: (websiteId: string, pageId: string) => Promise<void>;
 };
 
 export interface PageModel {

@@ -8,9 +8,9 @@ import {
 } from '@disclave/client';
 
 type SetPages = (data: Array<PageModel>) => void;
-type VoteDown = (url: string) => Promise<void>;
-type VoteRemove = (url: string) => Promise<void>;
-type VoteUp = (url: string) => Promise<void>;
+type VoteDown = (websiteId: string, pageId: string) => Promise<void>;
+type VoteRemove = (websiteId: string, pageId: string) => Promise<void>;
+type VoteUp = (websiteId: string, pageId: string) => Promise<void>;
 type UsePages = {
   pages: PageModel[];
   setPages: SetPages;
@@ -38,16 +38,16 @@ export const usePages = (
     prevUid.current = uid;
   }, [uid]);
 
-  const onVoteUp = async (url: string) => {
-    await addPageVoteUp(url);
+  const onVoteUp = async (websiteId: string, pageId: string) => {
+    await addPageVoteUp({websiteId, pageId});
   };
 
-  const onVoteDown = async (url: string) => {
-    await addPageVoteDown(url);
+  const onVoteDown = async (websiteId: string, pageId: string) => {
+    await addPageVoteDown({websiteId, pageId});
   };
 
-  const onVoteRemove = async (url: string) => {
-    await removePageVote(url);
+  const onVoteRemove = async (websiteId: string, pageId: string) => {
+    await removePageVote({websiteId, pageId});
   };
 
   return {

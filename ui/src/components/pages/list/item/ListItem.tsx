@@ -25,15 +25,15 @@ export const ListItem: React.VFC<ListItemProps> = ({
   const decodedPath = decodeURIComponent(page.pageId);
 
   const onVoteDown = async () => {
-    await actionHandler.onVoteDown(page.url);
+    await actionHandler.onVoteDown(page.websiteId, page.pageId);
   };
 
   const onVoteUp = async () => {
-    await actionHandler.onVoteUp(page.url);
+    await actionHandler.onVoteUp(page.websiteId, page.pageId);
   };
 
   const onVoteRemove = async () => {
-    await actionHandler.onVoteRemove(page.url);
+    await actionHandler.onVoteRemove(page.websiteId, page.pageId);
   };
 
   return (
