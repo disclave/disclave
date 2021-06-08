@@ -42,7 +42,7 @@ export const CookieBanner: React.VFC<CookieBannerProps> = ({ hidden }) => {
     <div className="fixed bottom-0 w-screen bg-white bg-opacity-90 p-3 shadow border-t-2 z-50">
       <div className="mx-auto w-max max-w-full flex flex-col lg:flex-row items-center">
         <div>
-          <Trans t={t} i18nKey="cookie banner.information with link">
+          <Trans ns="layout" i18nKey="cookie banner.information with link">
             Information with <CookieLink>link</CookieLink>
           </Trans>
         </div>

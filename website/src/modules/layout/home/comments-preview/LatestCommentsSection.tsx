@@ -13,7 +13,7 @@ export interface LatestCommentsSectionProps {
 }
 
 export const LatestCommentsSection: React.VFC<LatestCommentsSectionProps> = (props) => {
-  const { t } = useTranslation(['home']);
+  const { t } = useTranslation('home');
   const { comments, voteRemove, voteUp, voteDown } = useLatestComments(
     props.comments,
     props.minVoteSum,

@@ -9,7 +9,7 @@ export interface ExtensionsSectionProps {
 }
 
 export const ExtensionsSection: React.VFC<ExtensionsSectionProps> = (props) => {
-  const { t } = useTranslation(['home']);
+  const { t } = useTranslation('home');
 
   return (
     <section className={props.className}>

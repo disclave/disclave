@@ -9,7 +9,7 @@ export interface MobileSectionProps {
 }
 
 export const MobileSection: React.VFC<MobileSectionProps> = (props) => {
-  const { t } = useTranslation(['home']);
+  const { t } = useTranslation('home');
 
   return (
     <section className={props.className}>

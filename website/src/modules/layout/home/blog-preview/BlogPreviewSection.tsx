@@ -19,7 +19,7 @@ export const BlogPreviewSection: React.VFC<BlogPreviewSectionProps> = (props) =>
 
   return (
     <section className={props.className}>
-      <SectionHeader>{t('blog.title')}</SectionHeader>
+      <SectionHeader>{t('home:blog.title')}</SectionHeader>
 
       <div className="my-8">
         <MainPreview post={mainPost} />
