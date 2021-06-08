@@ -11,23 +11,23 @@ type SetComments = (data: Array<CommentModel>) => void;
 type VoteDown = (commentId: string) => Promise<void>;
 type VoteRemove = (commentId: string) => Promise<void>;
 type VoteUp = (commentId: string) => Promise<void>;
-type Refresh = () => Promise<void>;
 type UseComments = {
   comments: CommentModel[];
   setComments: SetComments;
   voteDown: VoteDown;
   voteRemove: VoteRemove;
   voteUp: VoteUp;
-  refresh: Refresh;
 };
 
 export const useComments = (
   initialState: Array<CommentModel>,
+  loading: boolean,
   getComments: () => Promise<Array<CommentModel>>
 ): UseComments => {
   const [comments, setComments] = useState(initialState);
   const { uid } = useSession();
   const prevUid = useRef(uid);
+  const prevLoading = useRef(loading);
 
   const fetchComments = async () => {
     const result = await getComments();
@@ -35,10 +35,12 @@ export const useComments = (
   };
 
   useEffect(() => {
-    if (uid != prevUid.current) fetchComments();
+    if (loading) return;
+
+    if (uid != prevUid.current || prevLoading) fetchComments();
 
     prevUid.current = uid;
-  }, [uid]);
+  }, [uid, loading]);
 
   const onVoteUp = async (commentId: string) => {
     await addCommentVoteUp(commentId);
@@ -52,16 +54,11 @@ export const useComments = (
     await removeCommentVote(commentId);
   };
 
-  const refresh = async () => {
-    await fetchComments();
-  }
-
   return {
     comments: comments,
     setComments: setComments,
     voteDown: onVoteDown,
     voteRemove: onVoteRemove,
-    voteUp: onVoteUp,
-    refresh: refresh
+    voteUp: onVoteUp
   };
 };
