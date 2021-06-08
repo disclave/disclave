@@ -30,7 +30,7 @@
     "node-mailjet": "^3.3.1",
     "normalize-url": "^6.0.1",
     "reflect-metadata": "^0.1.13",
-    "sharp": "^0.28.2"
+    "sharp": "^0.28.3"
   },
   "devDependencies": {
     "@babel/plugin-proposal-decorators": "^7.13.5",
