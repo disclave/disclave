@@ -23,6 +23,7 @@ function normalizationConfig(
     stripAuthentication: true,
     stripHash: true,
     stripTextFragment: true,
+    stripWWW: true,
     removeQueryParameters: removeQueryParams,
     sortQueryParameters: true,
   };

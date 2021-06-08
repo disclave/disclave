@@ -28,9 +28,12 @@ describe("Testing CommentService", () => {
     const userId = asUserId("user-id");
     const text = "Comment text!";
     const url = "https://google.com/example/path?q=123#bb";
-    const parsedUrl = urlService.parseUrl(url);
 
-    const result = await service.addComment(userId, text, url);
+    const normalized = urlService.normalizeUrl(url, true);
+    const parsedUrl = urlService.parseUrl(normalized);
+    const urlId = { websiteId: parsedUrl.websiteId, pageId: parsedUrl.pageId };
+
+    const result = await service.addComment(userId, text, urlId, url);
 
     expectCommentToEqualInput(result, text, parsedUrl);
   });
@@ -40,7 +43,11 @@ describe("Testing CommentService", () => {
     const text = 'Comment to <b>be</b> "escaped" <script>alert(1)</script>';
     const url = "https://google.com/example/path?q=123#bb";
 
-    const result = await service.addComment(userId, text, url);
+    const normalized = urlService.normalizeUrl(url, true);
+    const parsedUrl = urlService.parseUrl(normalized);
+    const urlId = { websiteId: parsedUrl.websiteId, pageId: parsedUrl.pageId };
+
+    const result = await service.addComment(userId, text, urlId, url);
 
     expect(result.text).toEqual(
       "Comment to &lt;b&gt;be&lt;/b&gt; &quot;escaped&quot; &lt;script&gt;alert(1)&lt;/script&gt;"
@@ -52,8 +59,12 @@ describe("Testing CommentService", () => {
     const text = "";
     const url = "https://google.com/example/path?q=123#bb";
 
+    const normalized = urlService.normalizeUrl(url, true);
+    const parsedUrl = urlService.parseUrl(normalized);
+    const urlId = { websiteId: parsedUrl.websiteId, pageId: parsedUrl.pageId };
+
     await expect(async () => {
-      await service.addComment(userId, text, url);
+      await service.addComment(userId, text, urlId, url);
     }).rejects.toThrow();
   });
 
@@ -62,20 +73,28 @@ describe("Testing CommentService", () => {
     const text = "w".repeat(10001);
     const url = "https://google.com/example/path?q=123#bb";
 
+    const normalized = urlService.normalizeUrl(url, true);
+    const parsedUrl = urlService.parseUrl(normalized);
+    const urlId = { websiteId: parsedUrl.websiteId, pageId: parsedUrl.pageId };
+
     await expect(async () => {
-      await service.addComment(userId, text, url);
+      await service.addComment(userId, text, urlId, url);
     }).rejects.toThrow();
   });
 
   test("should return added comments", async () => {
     const userId = asUserId("user-id");
     const url = "https://google.com/example/path?q=123#bb";
-    const parsedUrl = urlService.parseUrl(url);
+
+    const normalized = urlService.normalizeUrl(url, true);
+    const parsedUrl = urlService.parseUrl(normalized);
+    const urlId = { websiteId: parsedUrl.websiteId, pageId: parsedUrl.pageId };
+
     const texts = ["Comment text 1!", "Comment text 2!", "Comment text 3!"];
 
-    for (const t of texts) await service.addComment(userId, t, url);
+    for (const t of texts) await service.addComment(userId, t, urlId, url);
 
-    const result = await service.getComments(url, null);
+    const result = await service.getComments(urlId, null);
 
     expect(result).toHaveLength(texts.length);
     for (const r of result) {
@@ -98,11 +117,25 @@ describe("Testing CommentService", () => {
       },
     ];
 
-    for (const c of comments) await service.addComment(userId, c.text, c.url);
+    for (const c of comments) {
+      const normalized = urlService.normalizeUrl(c.url, true);
+      const parsedUrl = urlService.parseUrl(normalized);
+      const urlId = {
+        websiteId: parsedUrl.websiteId,
+        pageId: parsedUrl.pageId,
+      };
+      await service.addComment(userId, c.text, urlId, c.url);
+    }
 
     for (const c of comments) {
-      const parsedUrl = urlService.parseUrl(c.url);
-      const result = await service.getComments(c.url, null);
+      const normalized = urlService.normalizeUrl(c.url, true);
+      const parsedUrl = urlService.parseUrl(normalized);
+      const urlId = {
+        websiteId: parsedUrl.websiteId,
+        pageId: parsedUrl.pageId,
+      };
+
+      const result = await service.getComments(urlId, null);
 
       expect(result).toHaveLength(1);
       expectCommentToEqualInput(result[0], c.text, parsedUrl);

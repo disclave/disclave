@@ -8,4 +8,5 @@ const CanonicalUrl = () => ({
     toUrl(($) => $('link[rel="alternate"][hreflang="x-default"]').attr("href")),
   ],
 });
-export default CanonicalUrl;
+
+module.exports = CanonicalUrl;
