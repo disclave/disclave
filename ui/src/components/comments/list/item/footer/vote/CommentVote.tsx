@@ -27,6 +27,7 @@ export const CommentVote: React.VFC<CommentVoteProps> = (props) => {
   return (
     <Vote
       enabled={props.enabled}
+      loading={false}
       votes={{
         sum: props.votes.sum,
         votedDown: props.votes.votedDown,

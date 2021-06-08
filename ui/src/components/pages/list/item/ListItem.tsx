@@ -59,6 +59,7 @@ export const ListItem: React.VFC<ListItemProps> = ({
       <div className="flex flex-row items-center mt-0.5">
         <Vote
           enabled={authenticated}
+          loading={false}
           votes={{
             sum: page.votes.sum,
             votedDown: page.votes.votedDown,

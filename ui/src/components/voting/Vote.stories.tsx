@@ -72,6 +72,27 @@ DisabledVertical.args = {
   },
 };
 
+export const Loading = Template.bind({});
+Loading.args = {
+  loading: true,
+  votes: {
+    sum: 132,
+    votedUp: false,
+    votedDown: false,
+  },
+};
+
+export const LoadingVertical = Template.bind({});
+LoadingVertical.args = {
+  loading: true,
+  vertical: true,
+  votes: {
+    sum: 132,
+    votedUp: false,
+    votedDown: false,
+  },
+};
+
 export const VotedUp = Template.bind({});
 VotedUp.args = {
   enabled: true,

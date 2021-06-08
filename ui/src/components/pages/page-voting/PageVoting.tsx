@@ -5,7 +5,8 @@ import { PageVotesModel } from "../models";
 
 export interface PageVotingProps {
   enabled: boolean;
-  votes: PageVotesModel;
+  loading: boolean;
+  votes: PageVotesModel | null;
   onVoteUp: () => Promise<void>;
   onVoteDown: () => Promise<void>;
   onVoteRemove: () => Promise<void>;
@@ -20,10 +21,11 @@ export const PageVoting: React.VFC<PageVotingProps> = (props) => {
       <div className="my-2 mx-auto max-w-max">
         <Vote
           enabled={props.enabled}
+          loading={props.loading}
           votes={{
-            sum: props.votes.sum,
-            votedDown: props.votes.votedDown,
-            votedUp: props.votes.votedUp,
+            sum: props.votes?.sum ?? 0,
+            votedDown: props.votes?.votedDown ?? false,
+            votedUp: props.votes?.votedUp ?? false,
           }}
           vertical={false}
           onVoteDown={props.onVoteDown}

@@ -3,6 +3,7 @@ import { VoteUI } from "./VoteUI";
 
 export interface VoteProps {
   enabled: boolean;
+  loading: boolean;
   votes: {
     sum: number;
     votedUp: boolean;
@@ -60,6 +61,7 @@ export const Vote: React.VFC<VoteProps> = (props) => {
   return (
     <VoteUI
       enabled={props.enabled}
+      loading={props.loading}
       sum={sum}
       votedDown={votedDown}
       votedUp={votedUp}

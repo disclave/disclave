@@ -8,6 +8,7 @@
     "remove": "Remove vote"
   },
   "auth required": "Sign up or log in to vote",
+  "loading": "Loading, please wait",
   "page": {
     "do you like it": "Do you like this website?"
   }
