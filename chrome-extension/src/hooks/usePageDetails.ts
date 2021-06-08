@@ -5,6 +5,7 @@ import {
   getPageDetails,
   PageDetailsModel,
   removePageVote,
+  UrlId,
   UserModel,
 } from "@disclave/client";
 import { useActiveTab } from "./";
@@ -13,6 +14,7 @@ type AddVoteUp = () => Promise<void>;
 type AddVoteDown = () => Promise<void>;
 type RemoveVote = () => Promise<void>;
 type UsePageDetails = {
+  urlId: UrlId | null;
   pageDetails: PageDetailsModel | undefined;
   pageActions: {
     addVoteUp: AddVoteUp;
@@ -33,26 +35,39 @@ export const usePageDetails = (
     return activeTab.url;
   };
 
+  const urlId = (): UrlId => {
+    if (!pageDetails) throw "Page details not fetched yet.";
+    return {
+      websiteId: pageDetails.websiteId,
+      pageId: pageDetails.pageId,
+    };
+  };
+
   const fetchPageDetails = async (noCache: boolean = false) => {
     if (!activeTab?.url || authPending) return;
 
-    // TODO: add errors handling
-    const result = await getPageDetails(url(), false, noCache);
-    setPageDetails(result);
+    try {
+      const result = await getPageDetails(url(), noCache);
+      setPageDetails(result);
+    } catch (e) {
+      console.error(`usePageDetails - fetchPageDetails for url ${url()}`, e);
+      // TODO: add errors handling
+      throw e;
+    }
   };
 
   const addVoteUp = async () => {
-    await addPageVoteUp(url());
+    await addPageVoteUp(urlId());
     fetchPageDetails(true);
   };
 
   const addVoteDown = async () => {
-    await addPageVoteDown(url());
+    await addPageVoteDown(urlId());
     fetchPageDetails(true);
   };
 
   const removeVote = async () => {
-    await removePageVote(url());
+    await removePageVote(urlId());
     fetchPageDetails(true);
   };
 
@@ -65,6 +80,7 @@ export const usePageDetails = (
   }, [user?.uid, authPending]);
 
   return {
+    urlId: pageDetails ? urlId() : null,
     pageDetails: pageDetails,
     pageActions: {
       addVoteUp: addVoteUp,
