@@ -28,19 +28,12 @@ export const usePageDetails = (
   authPending: boolean
 ): UsePageDetails => {
   const [pageDetails, setPageDetails] = useState<PageDetailsModel>(undefined);
+  const [urlId, setUrlId] = useState<UrlId | null>(null);
   const activeTab = useActiveTab();
 
   const url = (): string => {
     if (!activeTab || !activeTab.url) throw "Active tab or url is null";
     return activeTab.url;
-  };
-
-  const urlId = (): UrlId => {
-    if (!pageDetails) throw "Page details not fetched yet.";
-    return {
-      websiteId: pageDetails.websiteId,
-      pageId: pageDetails.pageId,
-    };
   };
 
   const fetchPageDetails = async (noCache: boolean = false) => {
@@ -49,6 +42,10 @@ export const usePageDetails = (
     try {
       const result = await getPageDetails(url(), noCache);
       setPageDetails(result);
+      setUrlId({
+        websiteId: result.websiteId,
+        pageId: result.pageId,
+      });
     } catch (e) {
       console.error(`usePageDetails - fetchPageDetails for url ${url()}`, e);
       // TODO: add errors handling
@@ -57,18 +54,18 @@ export const usePageDetails = (
   };
 
   const addVoteUp = async () => {
-    await addPageVoteUp(urlId());
-    fetchPageDetails(true);
+    await addPageVoteUp(urlId);
+    await fetchPageDetails(true);
   };
 
   const addVoteDown = async () => {
-    await addPageVoteDown(urlId());
-    fetchPageDetails(true);
+    await addPageVoteDown(urlId);
+    await fetchPageDetails(true);
   };
 
   const removeVote = async () => {
-    await removePageVote(urlId());
-    fetchPageDetails(true);
+    await removePageVote(urlId);
+    await fetchPageDetails(true);
   };
 
   useEffect(() => {
@@ -80,7 +77,7 @@ export const usePageDetails = (
   }, [user?.uid, authPending]);
 
   return {
-    urlId: pageDetails ? urlId() : null,
+    urlId: urlId,
     pageDetails: pageDetails,
     pageActions: {
       addVoteUp: addVoteUp,
