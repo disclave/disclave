@@ -20,7 +20,11 @@ export const useTopComments = (
     return await getTopComments(minVoteSum, limit, true);
   };
 
-  const { comments, voteDown, voteUp, voteRemove } = useComments(initialState, fetchComments);
+  const { comments, voteDown, voteUp, voteRemove } = useComments(
+    initialState,
+    false,
+    fetchComments
+  );
 
   return {
     comments: comments,
