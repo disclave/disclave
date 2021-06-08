@@ -6,7 +6,6 @@ import comments from './public/locales/en/comments.json';
 import common from './public/locales/en/common.json';
 import extensions from './public/locales/en/extensions.json';
 import home from './public/locales/en/home.json';
-import iframe from './public/locales/en/iframe.json';
 import layout from './public/locales/en/layout.json';
 import mobile from './public/locales/en/mobile.json';
 import pages from './public/locales/en/pages.json';
@@ -21,7 +20,6 @@ declare module 'react-i18next' {
     common: typeof common;
     extensions: typeof extensions;
     home: typeof home;
-    iframe: typeof iframe;
     layout: typeof layout;
     mobile: typeof mobile;
     pages: typeof pages;
