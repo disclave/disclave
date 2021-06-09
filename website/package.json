@@ -24,11 +24,10 @@
     "gray-matter": "^4.0.3",
     "next": "^10.2.3",
     "next-i18next": "^8.4.0",
+    "next-mdx-remote": "^3.0.2",
     "next-seo": "^4.24.0",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "remark": "^13.0.0",
-    "remark-html": "^13.0.1"
+    "react-dom": "^17.0.2"
   },
   "devDependencies": {
     "@types/jest": "^26.0.22",
