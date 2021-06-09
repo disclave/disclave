@@ -6,6 +6,7 @@ import { DisclaveComments } from '@disclave/react-plugin';
 import { blogPostsImg } from '@/consts';
 import { MDXRemote } from 'next-mdx-remote';
 import Link from 'next/link';
+import { Image } from './components';
 
 const components = {
   Link: (props) => (
@@ -15,7 +16,7 @@ const components = {
   ),
   h2: (props) => <h2 className="text-2xl" {...props} />,
   p: (props) => <p className="my-5" {...props} />,
-  Image: (props) => <img {...props} />
+  Image: (props) => <Image {...props} />
 };
 
 export interface BlogPostPageProps {
