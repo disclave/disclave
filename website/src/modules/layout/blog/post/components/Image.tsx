@@ -13,8 +13,8 @@ export const Image: React.VFC<ImageProps> = ({ src, title, width, height }) => {
   const toggleActive = () => setActive(!active);
 
   const wrapperClassName = classNames('cursor-pointer', {
-    'my-5 group': !active,
-    'fixed left-0 top-0 z-50 w-screen h-screen bg-white bg-opacity-90': active
+    'my-8 group': !active,
+    'fixed left-0 top-0 z-50 w-screen h-screen bg-white bg-opacity-90 p-1.5': active
   });
 
   const figureClassName = classNames({
@@ -28,7 +28,7 @@ export const Image: React.VFC<ImageProps> = ({ src, title, width, height }) => {
   });
 
   const captionClassName = classNames({
-    'my-2 text-center text-sm text-gray-400': !active,
+    'my-4 text-center text-sm text-gray-400': !active,
     hidden: active
   });
 
