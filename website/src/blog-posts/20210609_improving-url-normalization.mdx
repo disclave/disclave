@@ -68,9 +68,35 @@ We are using this on Disclave to make sure you see all the comments left by diff
 
 For example, the **`https://www.youtube.com/watch?v=sG90GdrNEdM`** address is pointing to a YouTube video, and you can comment on it. If you use the “_Share_” button on YouTube, you can copy the **`https://youtu.be/sG90GdrNEdM`** address, an entirely different domain with a different path but still points to the same view.
 
-Now, let’s take a look at a Google search page. If you type “_disclave_” in your address bar in Chrome browser, it will redirect you to an URL similar to this one: 
+Now, let’s take a look at a Google search page. If you type “_disclave_” in your address bar in Chrome browser, it will redirect you to an URL similar to this one:
 **`https://www.google.com/search?q=disclave&rlz=1C1GCEB_enPL895PL895&oq=disclave&aqs=chrome.0.69i59j35i39j69i60l6.4117j0j7&sourceid=chrome&ie=UTF-8`**.
 Most of these address parts are random parameters used by Google but unnecessary for you. If you would like to comment on this search result, the only important part of the address is **`https://www.google.com/search?q=disclave`**.
 
-
 One more example may be on some of the news websites. If you look at **`https://www.bbc.com/sport/live/football/57074357`**, you will see a sports article. A user from a different country may see this article with a different domain, like **`https://bbc.co.uk/sport/live/football/57074357`**. Both URLs are similar and point to the same content, but addresses are not identical.
+
+## Solving the problem
+
+We want to be sure we display all the comments left by our users, even if they were using a different URL. The only thing that matters for us is the content that you are commenting or voting for. That is why, when you check a website on Disclave, we do not simply take and remember the address from you. Each time a new address shows on our platform, we need to connect to this page and make sure what content the URL is pointing to.
+
+Connecting to each website is not a fast operation, and the timing depends mainly on the target website speed. That is why when you check a new website on Disclave, sometimes you have to wait a few seconds before the content is loaded. It may not be the best user experience, but we want to be sure we will show you all the relevant content.
+
+<Image
+  src="/images/blog-image/2021/url-normalization/loading-example.png"
+  title="Waiting for the request to be processed"
+  width={1366}
+  height={1115}
+/>
+
+Of course, we apply various improvements to make this process more user-friendly. For example, if we already know a website, we don’t have to connect to it again, and we can show you the entire content immediately.
+
+Unfortunately, we can not always be sure if two contents from different URLs are identical. Our system may make some mistakes. That is why we would like to ask you to let us know if you will notice something is wrong.
+
+## More improvements coming soon
+
+We have even more improvement on our roadmap to make UX better and better. We are now working on showing website icons (and titles) every place where it is relevant. For example with comments, on all the rankings.
+
+Next, we want to display page descriptions and images if the website provides any. Also, we would like to implement a player for videos to allow watching it, without leaving our website.
+
+Similar pages, categories, tags, manual URL selection, and many more improvements are also waiting for implementation.
+
+Stay tuned, follow us on social media and let us know what you think about Disclave to help us improve the platform!
