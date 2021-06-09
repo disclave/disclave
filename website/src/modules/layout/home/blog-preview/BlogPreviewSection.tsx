@@ -21,11 +21,11 @@ export const BlogPreviewSection: React.VFC<BlogPreviewSectionProps> = (props) =>
     <section className={props.className}>
       <SectionHeader>{t('home:blog.title')}</SectionHeader>
 
-      <div className="my-8">
+      <div className="mt-8">
         <MainPreview post={mainPost} />
       </div>
 
-      <div className="my-8">
+      <div className="mb-8">
         {otherPosts.map((post) => (
           <SecondaryPreview key={post.id} post={post} />
         ))}

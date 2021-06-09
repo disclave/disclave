@@ -1,9 +1,9 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
-import remark from 'remark';
-import html from 'remark-html';
+import { serialize } from 'next-mdx-remote/serialize';
 import { Post, PostPreview, RawPost } from './models';
+import { MDXRemoteSerializeResult } from 'next-mdx-remote';
 
 const postsDirectory = path.join(process.cwd(), 'src/blog-posts');
 
@@ -26,18 +26,15 @@ export const getSortedPostsPreview = (limit?: number) => {
 
 export const getPost = async (id: string): Promise<Post> => {
   const rawPost = readRawPostFile(id);
-  const contentHtml = await markdownToHtml(rawPost.content);
-
-  const contentText = contentHtml.replace(/<[^>]*>?/gm, '');
-  const seoDescription = `${contentText.substr(0, 160)}...`;
+  const mdxSource = await markdownToMdxSource(rawPost.content);
 
   return {
     id,
     title: rawPost.title,
     date: rawPost.date,
     imageSrc: rawPost.imageSrc,
-    contentHtml: contentHtml,
-    seoDescription: seoDescription
+    mdxSource: mdxSource,
+    seoDescription: rawPost.description
   };
 };
 
@@ -45,7 +42,7 @@ export const getPostIds = () => {
   const fileNames = fs.readdirSync(postsDirectory);
   return fileNames.map((fileName) => ({
     params: {
-      id: fileName.replace(/\.md$/, '')
+      id: fileName.replace(/\.mdx$/, '')
     }
   }));
 };
@@ -53,12 +50,12 @@ export const getPostIds = () => {
 const readRawPosts = (): Array<RawPost> => {
   const fileNames = fs.readdirSync(postsDirectory);
 
-  const rawPosts = fileNames.map((f) => readRawPostFile(f.replace(/\.md$/, '')));
+  const rawPosts = fileNames.map((f) => readRawPostFile(f.replace(/\.mdx$/, '')));
   return rawPosts;
 };
 
 const readRawPostFile = (id: string): RawPost => {
-  const fullPath = path.join(postsDirectory, `${id}.md`);
+  const fullPath = path.join(postsDirectory, `${id}.mdx`);
   const fileContents = fs.readFileSync(fullPath, 'utf8');
   const matterResult = matter(fileContents);
   return matterResultToRawPost(id, matterResult);
@@ -76,13 +73,13 @@ const matterResultToRawPost = (
     content,
     title: data.title!!,
     date: data.date!!,
-    imageSrc: data.imageSrc!!
+    imageSrc: data.imageSrc!!,
+    description: data.description!!
   };
 };
 
-const markdownToHtml = async (markdown: string): Promise<string> => {
-  const processed = await remark().use(html).process(markdown);
-  return processed.toString();
+const markdownToMdxSource = async (markdown: string): Promise<MDXRemoteSerializeResult> => {
+  return await serialize(markdown);
 };
 
 function comparator<T extends string | number>(a: T, b: T): number {

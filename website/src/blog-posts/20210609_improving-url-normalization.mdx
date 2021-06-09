@@ -1,0 +1,102 @@
+---
+title: 'Making sure you know what content you are commenting on'
+date: '2021-06-09'
+imageSrc: '/images/blog-image/2021/url-normalization/url-normalization.jpg'
+description: 'Allowing users to comment on any content on the internet is the primary purpose of Disclave. Discussion and voting about any website is a great way to share your opinion and help other users to find the best pages on the whole internet.'
+---
+
+Allowing users to comment on any content on the internet is the primary purpose of Disclave. Discussion and voting about any website is a great way to share your opinion and help other users to find the best pages on the whole internet. But the real challenge for us is making sure you know what you are commenting on and if any other person left a comment about precisely the same content.
+
+## Choose a website
+
+While browsing the internet and finding some great content, you probably would like to share it with others or just praise the authors for their excellent work. Those things are significant for us, so we are trying to provide you with the best ways to do this quickly and without much distraction. With Disclave, you have a few options for commenting, voting, and viewing opinions from different people.
+
+The primary method is to copy the website URL from the browser, go to the Disclave website and paste the URL into the text field. It may not be the quickest one, but it works on every platform and every browser.
+
+<Image
+  src="/images/blog-image/2021/url-normalization/copy-paste-url.png"
+  title="How to copy website URL and use it in the Disclave"
+  width={1560}
+  height={1340}
+/>
+
+Another way is to use our browser extension. Install it in your browser and use it each time you visit an inspiring website. It will automatically show you all the comments and user opinions regarding the opened website. There is no need to copy a URL or manually navigate to the Disclave website. Visit <Link href="/extensions">https://disclave.com/extensions</Link> to learn more.
+
+<Image
+  src="/images/blog-image/2021/url-normalization/chrome-extension.png"
+  title="Using Chrome Extension to comment on a website"
+  width={1200}
+  height={832}
+/>
+
+If you are browsing from a mobile device, a browser extension may not be available. That is why we made our website installable on your phone. If your device supports it, you can easily install Disclave and use the Share menu from the browser to directly navigate the comments. You can learn more on this page: <Link href="/mobile">https://disclave.com/mobile</Link>.
+
+<Image
+  src="/images/blog-image/2021/url-normalization/pwa-example.jpg"
+  title="Using Disclave on a mobile device"
+  width={2160}
+  height={2340}
+/>
+
+The last method is the best for users but requires an action from the website owner. We have provided a way to embed the comments and votes directly on any website. After doing this, users can directly discuss the content, with no need to install any browser extension. If you are a website owner or a software developer, visit <Link href="/plugins">https://disclave.com/plugins</Link> to learn how to implement it on your website.
+
+<Image
+  src="/images/blog-image/2021/url-normalization/disclave-plugin.png"
+  title="On the disclave blog, we use the same plugin that we provide to users"
+  width={1287}
+  height={797}
+/>
+
+## Identify the content
+
+When browsing our rankings, like the <Link href="/pages/top-commented">top commented</Link> or <Link href="/pages/top-rated">top-rated</Link> pages, it is essential to quickly recognize the website and know what the content is about. We try to show you all the information directly without navigating to the external page.
+
+For each page, we are displaying not only the URL, votes, and comments. We are getting the title and icon provided by the website authors and showing it on the Disclave to make websites easily recognizable.
+
+<Image
+  src="/images/blog-image/2021/url-normalization/website-icon-and-title.png"
+  title="Website icon and title example"
+  width={1247}
+  height={478}
+/>
+
+## Content duplicates
+
+For most websites, a web address (URL) is a unique identifier that points to the content you are looking for. If you see **`https://github.com/disclave`**, you can think it is pointing to a Disclave account on the GitHub website, which is correct. If another person checks the same address, she will see the same content as you.
+
+We are using this on Disclave to make sure you see all the comments left by different users for the same website. But it is a little more complicated than it may look. Each URL should point to the same content, but it is also true that multiple URLs can point to a single page. We want to show you all comments for the page, even if a commenting user was using a different address.
+
+For example, the **`https://www.youtube.com/watch?v=sG90GdrNEdM`** address is pointing to a YouTube video, and you can comment on it. If you use the “_Share_” button on YouTube, you can copy the **`https://youtu.be/sG90GdrNEdM`** address, an entirely different domain with a different path but still points to the same view.
+
+Now, let’s take a look at a Google search page. If you type “_disclave_” in your address bar in Chrome browser, it will redirect you to an URL similar to this one:
+**`https://www.google.com/search?q=disclave&rlz=1C1GCEB_enPL895PL895&oq=disclave&aqs=chrome.0.69i59j35i39j69i60l6.4117j0j7&sourceid=chrome&ie=UTF-8`**.
+Most of these address parts are random parameters used by Google but unnecessary for you. If you would like to comment on this search result, the only important part of the address is **`https://www.google.com/search?q=disclave`**.
+
+One more example may be on some of the news websites. If you look at **`https://www.bbc.com/sport/live/football/57074357`**, you will see a sports article. A user from a different country may see this article with a different domain, like **`https://bbc.co.uk/sport/live/football/57074357`**. Both URLs are similar and point to the same content, but addresses are not identical.
+
+## Solving the problem
+
+We want to be sure we display all the comments left by our users, even if they were using a different URL. The only thing that matters for us is the content that you are commenting or voting for. That is why, when you check a website on Disclave, we do not simply take and remember the address from you. Each time a new address shows on our platform, we need to connect to this page and make sure what content the URL is pointing to.
+
+Connecting to each website is not a fast operation, and the timing depends mainly on the target website speed. That is why when you check a new website on Disclave, sometimes you have to wait a few seconds before the content is loaded. It may not be the best user experience, but we want to be sure we will show you all the relevant content.
+
+<Image
+  src="/images/blog-image/2021/url-normalization/loading-example.png"
+  title="Waiting for the request to be processed"
+  width={1366}
+  height={1115}
+/>
+
+Of course, we apply various improvements to make this process more user-friendly. For example, if we already know a website, we don’t have to connect to it again, and we can show you the entire content immediately.
+
+Unfortunately, we can not always be sure if two contents from different URLs are identical. Our system may make some mistakes. That is why we would like to ask you to let us know if you will notice something is wrong.
+
+## More improvements coming soon
+
+We have even more improvement on our roadmap to make UX better and better. We are now working on showing website icons (and titles) every place where it is relevant. For example with comments, on all the rankings.
+
+Next, we want to display page descriptions and images if the website provides any. Also, we would like to implement a player for videos to allow watching it, without leaving our website.
+
+Similar pages, categories, tags, manual URL selection, and many more improvements are also waiting for implementation.
+
+Stay tuned, follow us on social media and let us know what you think about Disclave to help us improve the platform!

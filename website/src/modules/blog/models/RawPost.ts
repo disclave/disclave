@@ -4,4 +4,5 @@ export interface RawPost {
   title: string;
   date: string;
   imageSrc: string;
+  description: string;
 }
