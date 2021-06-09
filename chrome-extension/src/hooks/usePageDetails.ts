@@ -5,6 +5,7 @@ import {
   getPageDetails,
   PageDetailsModel,
   removePageVote,
+  UrlId,
   UserModel,
 } from "@disclave/client";
 import { useActiveTab } from "./";
@@ -13,6 +14,7 @@ type AddVoteUp = () => Promise<void>;
 type AddVoteDown = () => Promise<void>;
 type RemoveVote = () => Promise<void>;
 type UsePageDetails = {
+  urlId: UrlId | null;
   pageDetails: PageDetailsModel | undefined;
   pageActions: {
     addVoteUp: AddVoteUp;
@@ -26,6 +28,7 @@ export const usePageDetails = (
   authPending: boolean
 ): UsePageDetails => {
   const [pageDetails, setPageDetails] = useState<PageDetailsModel>(undefined);
+  const [urlId, setUrlId] = useState<UrlId | null>(null);
   const activeTab = useActiveTab();
 
   const url = (): string => {
@@ -36,24 +39,33 @@ export const usePageDetails = (
   const fetchPageDetails = async (noCache: boolean = false) => {
     if (!activeTab?.url || authPending) return;
 
-    // TODO: add errors handling
-    const result = await getPageDetails(url(), false, noCache);
-    setPageDetails(result);
+    try {
+      const result = await getPageDetails(url(), noCache);
+      setPageDetails(result);
+      setUrlId({
+        websiteId: result.websiteId,
+        pageId: result.pageId,
+      });
+    } catch (e) {
+      console.error(`usePageDetails - fetchPageDetails for url ${url()}`, e);
+      // TODO: add errors handling
+      throw e;
+    }
   };
 
   const addVoteUp = async () => {
-    await addPageVoteUp(url());
-    fetchPageDetails(true);
+    await addPageVoteUp(urlId);
+    await fetchPageDetails(true);
   };
 
   const addVoteDown = async () => {
-    await addPageVoteDown(url());
-    fetchPageDetails(true);
+    await addPageVoteDown(urlId);
+    await fetchPageDetails(true);
   };
 
   const removeVote = async () => {
-    await removePageVote(url());
-    fetchPageDetails(true);
+    await removePageVote(urlId);
+    await fetchPageDetails(true);
   };
 
   useEffect(() => {
@@ -65,6 +77,7 @@ export const usePageDetails = (
   }, [user?.uid, authPending]);
 
   return {
+    urlId: urlId,
     pageDetails: pageDetails,
     pageActions: {
       addVoteUp: addVoteUp,

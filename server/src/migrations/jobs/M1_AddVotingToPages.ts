@@ -1,7 +1,7 @@
 import { pagesDbCollection } from "@/database/pages";
 import { Job } from "../Job";
 
-export const AddVotingToPages: Job = {
+export const M1_AddVotingToPages: Job = {
   id: "AddVotingToPages",
 
   run: async () => {

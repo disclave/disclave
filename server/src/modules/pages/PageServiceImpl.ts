@@ -1,14 +1,28 @@
-import { PageDetailsEntity, PageEntity, PageRepository } from "./db";
-import { PageService, Page, PageDetails } from "./index";
+import { PageDetailsEntity, PageRepository } from "./db";
+import { PageService, PageDetails } from "./index";
 import { inject, injectable } from "inversify";
-import { ParsedUrlData, UrlService } from "@/modules/url";
+import { UrlMetaData, UrlService } from "@/modules/url";
 import { ImageService } from "@/modules/image";
 import { UserId } from "@/modules/auth";
+import { PageConfigService } from "@/modules/page-config";
+
+interface NormalizedWithCanonicalCandidate {
+  full: string;
+  canonicalCandidate: string;
+}
+
+interface DefaultAndAltUrl {
+  default: string;
+  alternative: string | null;
+}
 
 @injectable()
 export class PageServiceImpl implements PageService {
   @inject(PageRepository)
   private repository: PageRepository;
+
+  @inject(PageConfigService)
+  private pageConfigService: PageConfigService;
 
   @inject(UrlService)
   private urlService: UrlService;
@@ -16,138 +30,114 @@ export class PageServiceImpl implements PageService {
   @inject(ImageService)
   private imageService: ImageService;
 
-  public async getTopCommentedPages(
-    commentsMinVoteSum: number,
-    limit: number,
+  public async getSavedPageDetails(
+    url: string,
     userId: UserId | null
-  ): Promise<Array<Page>> {
-    const pages = await this.repository.findTopCommentedPages(
-      commentsMinVoteSum,
-      limit,
-      userId
-    );
-    return pages.map(toDomain);
-  }
-
-  public async getTopRatedPages(
-    minVoteSum: number,
-    limit: number,
-    userId: UserId | null
-  ): Promise<Array<Page>> {
-    const pages = await this.repository.findTopRatedPages(
-      minVoteSum,
-      limit,
-      userId
-    );
-    return pages.map(toDomain);
+  ): Promise<PageDetails | null> {
+    const normalized = await this.normalizeUrl(url);
+    return await this.findSavedPageDetails(normalized.full, userId);
   }
 
   public async getPageDetails(
     url: string,
-    fetchMetaIfNoCache: boolean,
     userId: UserId | null
   ): Promise<PageDetails> {
-    const parsedUrl = this.urlService.parseUrl(url);
-    const savedPageDetails = await this.repository.findOrCreatePageDetails(
+    const normalized = await this.normalizeUrl(url);
+    const savedPageDetails = await this.findSavedPageDetails(
+      normalized.full,
+      userId
+    );
+    if (savedPageDetails) return savedPageDetails;
+
+    const metaData = await this.urlService.scrapUrl(url);
+    const finalURLs = this.selectDefaultAndAlternativeUrl(normalized, metaData);
+    const parsedUrl = this.urlService.parseUrl(finalURLs.default);
+
+    if (!!metaData && !!metaData.logo)
+      metaData.logo = await this.imageService.savePageLogo(
+        parsedUrl,
+        metaData.logo
+      );
+
+    const result = await this.repository.createOrUpdatePageDetails(
       {
-        pageId: parsedUrl.pageId,
         websiteId: parsedUrl.websiteId,
-        normalized: parsedUrl.normalized,
+        pageId: parsedUrl.pageId,
+        normalized: finalURLs.default,
       },
+      finalURLs.alternative,
+      metaData
+        ? {
+            logo: metaData.logo,
+            title: metaData.title,
+          }
+        : null,
       userId
     );
 
-    if (!!savedPageDetails.meta || !fetchMetaIfNoCache)
-      return detailsToDomain(savedPageDetails);
-
-    const updatedPageDetails = await this.scrapAndSavePageDetails(
-      parsedUrl,
-      userId
-    );
-
-    if (!updatedPageDetails) return detailsToDomain(savedPageDetails);
-    else return detailsToDomain(updatedPageDetails);
+    return toDomain(result);
   }
 
-  public async setVoteUp(url: string, userId: UserId): Promise<boolean> {
-    const parsedUrl = this.urlService.parseUrl(url);
-    return await this.repository.setVoteUp(
-      {
-        pageId: parsedUrl.pageId,
-        websiteId: parsedUrl.websiteId,
-        normalized: parsedUrl.normalized,
-      },
-      userId
-    );
-  }
-
-  public async setVoteDown(url: string, userId: UserId): Promise<boolean> {
-    const parsedUrl = this.urlService.parseUrl(url);
-    return await this.repository.setVoteDown(
-      {
-        pageId: parsedUrl.pageId,
-        websiteId: parsedUrl.websiteId,
-        normalized: parsedUrl.normalized,
-      },
-      userId
-    );
-  }
-
-  public async removeVote(url: string, userId: UserId): Promise<boolean> {
-    const parsedUrl = this.urlService.parseUrl(url);
-    return await this.repository.removeVote(
-      {
-        pageId: parsedUrl.pageId,
-        websiteId: parsedUrl.websiteId,
-        normalized: parsedUrl.normalized,
-      },
-      userId
-    );
-  }
-
-  private async scrapAndSavePageDetails(
-    url: ParsedUrlData,
+  private async findSavedPageDetails(
+    normalizedUrl: string,
     userId: UserId | null
-  ): Promise<PageDetailsEntity | null> {
-    const metadata = await this.urlService.scrapUrl(url.normalized);
-    if (!metadata) return null;
-
-    const title = metadata.title;
-    const logo = await this.imageService.savePageLogo(url, metadata.logo);
-
-    return await this.repository.updatePageDetails(
-      {
-        pageId: url.pageId,
-        websiteId: url.websiteId,
-        normalized: url.normalized,
-      },
-      { logo, title },
+  ): Promise<PageDetails | null> {
+    const pageDetails = await this.repository.findPageDetails(
+      normalizedUrl,
       userId
     );
+    return pageDetails ? toDomain(pageDetails) : null;
+  }
+
+  private async normalizeUrl(
+    url: string
+  ): Promise<NormalizedWithCanonicalCandidate> {
+    const normalizedURLNoQP = this.urlService.normalizeUrl(url, true);
+    const pageConfig = await this.pageConfigService.getPageConfig(
+      normalizedURLNoQP
+    );
+
+    if (pageConfig == null || !pageConfig.preserveQueryParams.length) {
+      const normalizedAllQP = this.urlService.normalizeUrl(url, false);
+      return {
+        full: normalizedAllQP,
+        canonicalCandidate: normalizedURLNoQP,
+      };
+    }
+
+    const preserved = pageConfig.preserveQueryParams
+      .map((s) => `${s}$`)
+      .join("|");
+    const matchAllExceptPreserved = `^(?!${preserved})`;
+    const regex = new RegExp(matchAllExceptPreserved, "i");
+    const normalizedDefaultQP = this.urlService.normalizeUrl(url, [regex]);
+    return {
+      full: normalizedDefaultQP,
+      canonicalCandidate: normalizedDefaultQP,
+    };
+  }
+
+  private selectDefaultAndAlternativeUrl(
+    normalized: NormalizedWithCanonicalCandidate,
+    metaData: UrlMetaData | null
+  ): DefaultAndAltUrl {
+    const canonical =
+      metaData == null || metaData.canonical == null
+        ? normalized.canonicalCandidate
+        : this.urlService.normalizeUrl(metaData.canonical, false);
+
+    return {
+      default: canonical,
+      alternative: getIfNotEqual(normalized.full, canonical),
+    };
   }
 }
-const toDomain = (entity: PageEntity): Page => {
-  return {
-    id: entity.id,
-    websiteId: entity.websiteId,
-    pageId: entity.pageId,
-    commentsCount: entity.commentsCount,
-    url: entity.url,
-    meta: entity.meta
-      ? {
-          logo: entity.meta.logo,
-          title: entity.meta.title,
-        }
-      : null,
-    votes: {
-      sum: entity.votes.sum,
-      votedDown: entity.votes.votedDown,
-      votedUp: entity.votes.votedUp,
-    },
-  };
-};
 
-const detailsToDomain = (entity: PageDetailsEntity): PageDetails => {
+function getIfNotEqual(value: string, compareTo: string): string | null {
+  return value === compareTo ? null : value;
+}
+
+function toDomain(entity: PageDetailsEntity): PageDetails {
   return {
     url: entity.url,
     pageId: entity.pageId,
@@ -164,4 +154,4 @@ const detailsToDomain = (entity: PageDetailsEntity): PageDetails => {
         }
       : null,
   };
-};
+}

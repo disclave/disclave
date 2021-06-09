@@ -17,6 +17,7 @@ export interface PageCommentsContainerProps {
   onSubmit: (text: string) => Promise<void>;
   onLogout: () => Promise<void>;
   commentsActionsHandler: CommentActionsHandler;
+  loading: boolean;
 }
 
 export const PageCommentsContainer: React.VFC<PageCommentsContainerProps> = (
@@ -47,6 +48,7 @@ export const PageCommentsContainer: React.VFC<PageCommentsContainerProps> = (
         authenticated={authenticated}
         className={commentsClasses}
         comments={props.comments}
+        loading={props.loading}
       />
       <div className={stickyFooterClasses}>
         {props.userProfile ? (

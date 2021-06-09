@@ -16,7 +16,7 @@ export interface CommentsPreviewSectionProps {
 }
 
 export const CommentsPreviewSection: React.VFC<CommentsPreviewSectionProps> = (props) => {
-  const { t } = useTranslation(['common']);
+  const { t } = useTranslation('common');
   const { isAuthenticated } = useSession();
 
   return (

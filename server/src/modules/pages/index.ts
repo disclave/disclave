@@ -1,28 +1,16 @@
-import { Page, PageDetails } from "./models";
+import { PageDetails, UrlId } from "./models";
 import { UserId } from "@/modules/auth";
 
-export type { Page, PageDetails };
+export type { PageDetails, UrlId };
 
 export abstract class PageService {
-  abstract getTopCommentedPages(
-    commentsMinVoteSum: number,
-    limit: number,
+  abstract getSavedPageDetails(
+    url: string,
     userId: UserId | null
-  ): Promise<Array<Page>>;
-
-  abstract getTopRatedPages(
-    minVoteSum: number,
-    limit: number,
-    userId: UserId | null
-  ): Promise<Array<Page>>;
+  ): Promise<PageDetails | null>;
 
   abstract getPageDetails(
     url: string,
-    fetchMetaIfNoCache: boolean,
     userId: UserId | null
   ): Promise<PageDetails>;
-
-  abstract setVoteUp(url: string, userId: UserId): Promise<boolean>;
-  abstract setVoteDown(url: string, userId: UserId): Promise<boolean>;
-  abstract removeVote(url: string, userId: UserId): Promise<boolean>;
 }

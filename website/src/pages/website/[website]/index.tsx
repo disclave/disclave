@@ -21,19 +21,25 @@ export const getServerSideProps: GetServerSideProps<WebsiteProps> = async (conte
   const commentService = getCommentService();
   const pageService = getPageService();
 
-  const website = context.query.website as string;
-  const pageDetailsPromise = pageService.getPageDetails(website, false, userCookie?.uid);
-  const commentsPromise = commentService.getComments(website, userCookie?.uid);
   const translationsPromise = serverSideTranslations(context.locale, [
     'common',
     'layout',
     'website'
   ]);
 
+  const website = context.query.website as string;
+  const pageDetails = await pageService.getSavedPageDetails(website, userCookie?.uid);
+  const commentsPromise = pageDetails
+    ? commentService.getComments(
+        { websiteId: pageDetails.websiteId, pageId: pageDetails.pageId },
+        userCookie?.uid
+      )
+    : [];
+
   return {
     props: {
       comments: await commentsPromise,
-      pageDetails: await pageDetailsPromise,
+      pageDetails: pageDetails,
       website: website,
       serverSideUid: userCookie ? userCookie.uid : null,
       ...(await translationsPromise)
@@ -43,12 +49,12 @@ export const getServerSideProps: GetServerSideProps<WebsiteProps> = async (conte
 
 interface WebsiteProps {
   comments: Array<CommentModel>;
-  pageDetails: PageDetailsModel;
+  pageDetails: PageDetailsModel | null;
   website: string;
 }
 
 const Website: React.FC<WebsiteProps> = (props) => {
-  const { pageDetails } = usePageDetails(props.pageDetails);
+  const { pageDetails } = usePageDetails(props.website, props.pageDetails);
 
   return (
     <WebsitePage website={props.website} pageDetails={pageDetails} comments={props.comments} />

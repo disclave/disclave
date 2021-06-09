@@ -12,6 +12,7 @@ export { DateTimePreview } from "./components/date/dateTimePreview";
 export { Loading } from "./components/loading";
 export { Button } from "./components/button";
 export { Menu } from "./components/menu";
+export { SkeletonBox } from "./components/loading";
 export {
   FormFactory,
   FormErrorContainer,

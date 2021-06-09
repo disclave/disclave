@@ -2,7 +2,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { GetServerSideProps } from 'next';
 import React from 'react';
 import { initServer } from '@/modules/server';
-import { getCommentService, getPageService, getUserCookie } from '@disclave/server';
+import { getCommentService, getPageRankingService, getUserCookie } from '@disclave/server';
 import { CommentModel, PageModel } from '@disclave/client';
 import { HomePage } from '@/modules/layout/home';
 import { getSortedPostsPreview, PostPreview } from '@/modules/blog';
@@ -13,7 +13,7 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (context)
   await initServer(false);
   const userCookie = getUserCookie(context.req);
   const commentService = getCommentService();
-  const pageService = getPageService();
+  const pageRankingService = getPageRankingService();
 
   const lastestBlogPosts = getSortedPostsPreview(3);
 
@@ -41,7 +41,7 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (context)
     limit: 6,
     commentsMinVoteSum: 1
   };
-  const topCommentedPagesPromise = pageService.getTopCommentedPages(
+  const topCommentedPagesPromise = pageRankingService.getTopCommentedPages(
     topCommentedPagesConfig.commentsMinVoteSum,
     topCommentedPagesConfig.limit,
     userCookie?.uid
@@ -51,7 +51,7 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (context)
     limit: 7,
     minVoteSum: 0
   };
-  const topRatedPagesPromise = pageService.getTopRatedPages(
+  const topRatedPagesPromise = pageRankingService.getTopRatedPages(
     topRatedPagesConfig.minVoteSum,
     topRatedPagesConfig.limit,
     userCookie?.uid

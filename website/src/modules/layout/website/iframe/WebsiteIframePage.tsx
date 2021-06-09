@@ -18,6 +18,11 @@ export const WebsiteIframePage: React.VFC<WebsiteIframePageProps> = (props) => {
   const containerRef = useRef<HTMLDivElement>();
   useContainerHeightMessage(containerRef);
 
+  const urlId = {
+    websiteId: props.pageDetails.websiteId,
+    pageId: props.pageDetails.pageId
+  };
+
   const {
     profile,
     actions: { logout }
@@ -25,6 +30,7 @@ export const WebsiteIframePage: React.VFC<WebsiteIframePageProps> = (props) => {
 
   const { comments, addComment, voteDown, voteUp, voteRemove } = useWebsiteComments(
     props.comments,
+    urlId,
     props.website
   );
 
@@ -49,6 +55,7 @@ export const WebsiteIframePage: React.VFC<WebsiteIframePageProps> = (props) => {
           onVoteRemove: voteRemove,
           onVoteUp: voteUp
         }}
+        loading={false}
       />
     </div>
   );

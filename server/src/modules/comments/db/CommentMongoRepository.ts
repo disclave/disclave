@@ -1,23 +1,24 @@
 import { CommentEntity } from "./CommentEntity";
-import { AuthorInfo, CommentRepository, UrlMeta } from "./index";
+import { AuthorInfo, CommentRepository } from "./index";
 import { injectable } from "inversify";
 import { Timestamp, ObjectID, MongoRepository } from "@/connectors/mongodb";
 import { ClientSession } from "mongodb";
 import { asUserId, UserId } from "@/modules/auth";
 import { commentsDbCollection, getProjection } from "@/database/comments";
 import { DbComment } from "@/database";
+import { UrlId } from "@/modules/pages";
 
 @injectable()
 export class CommentMongoRepository
   extends MongoRepository
   implements CommentRepository<ClientSession> {
   public async findComments(
-    url: UrlMeta,
+    urlId: UrlId,
     uid: UserId | null
   ): Promise<Array<CommentEntity>> {
     const collection = await commentsDbCollection();
     const cursor = collection
-      .find(urlMetaToQuery(url), {
+      .find(urlIdToQuery(urlId), {
         projection: getProjection(uid),
       })
       .sort({ timestamp: -1 });
@@ -67,18 +68,21 @@ export class CommentMongoRepository
     return await cursor.map(cursorDocToEntity).toArray();
   }
 
-  public async countComments(url: UrlMeta): Promise<number> {
+  public async countComments(urlId: UrlId): Promise<number> {
     const collection = await commentsDbCollection();
-    return await collection.countDocuments(urlMetaToQuery(url));
+    return await collection.countDocuments(urlIdToQuery(urlId));
   }
 
   public async addComment(
     author: AuthorInfo,
     text: string,
-    url: UrlMeta
+    urlId: UrlId,
+    rawUrl: string
   ): Promise<CommentEntity> {
+    const comment = toDbComment(author, text, urlId, rawUrl);
+
     const collection = await commentsDbCollection();
-    const result = await collection.insertOne(toDbComment(author, text, url));
+    const result = await collection.insertOne(comment);
 
     const doc = await collection.findOne(
       {
@@ -144,16 +148,18 @@ export class CommentMongoRepository
   }
 }
 
-const idSelector = (commentId: string) => ({
-  _id: new ObjectID(commentId),
-});
-
-const urlMetaToQuery = (url: UrlMeta) => {
+function idSelector(commentId: string) {
   return {
-    "url.websiteId": url.websiteId,
-    "url.pageId": url.pageId,
+    _id: new ObjectID(commentId),
   };
-};
+}
+
+function urlIdToQuery(urlId: UrlId) {
+  return {
+    "url.websiteId": urlId.websiteId,
+    "url.pageId": urlId.pageId,
+  };
+}
 
 const updateVotesSumAggregation = {
   $set: {
@@ -163,28 +169,31 @@ const updateVotesSumAggregation = {
   },
 };
 
-const toDbComment = (
+function toDbComment(
   author: AuthorInfo,
   text: string,
-  url: UrlMeta
-): DbComment => ({
-  text: text,
-  author: {
-    id: author.uid,
-    name: author.name,
-  },
-  votesUp: [author.uid],
-  votesDown: [],
-  votesSum: 1,
-  timestamp: new Timestamp(0, Math.floor(new Date().getTime() / 1000)),
-  url: {
-    raw: url.raw,
-    websiteId: url.websiteId,
-    pageId: url.pageId,
-  },
-});
+  urlId: UrlId,
+  rawUrl: string
+): DbComment {
+  return {
+    text: text,
+    author: {
+      id: author.uid,
+      name: author.name,
+    },
+    votesUp: [author.uid],
+    votesDown: [],
+    votesSum: 1,
+    timestamp: new Timestamp(0, Math.floor(new Date().getTime() / 1000)),
+    url: {
+      raw: rawUrl,
+      websiteId: urlId.websiteId,
+      pageId: urlId.pageId,
+    },
+  };
+}
 
-const cursorDocToEntity = (doc: DbComment): CommentEntity => {
+function cursorDocToEntity(doc: DbComment): CommentEntity {
   return {
     id: doc._id.toHexString(),
     text: doc.text,
@@ -204,4 +213,4 @@ const cursorDocToEntity = (doc: DbComment): CommentEntity => {
       pageId: doc.url.pageId,
     },
   };
-};
+}

@@ -4,6 +4,7 @@ import { useComments, usePageDetails } from "../hooks";
 import { loginHref } from "./Login";
 import { registerHref } from "./Register";
 import { useSession } from "@disclave/client";
+import { PageInfo } from "../components/PageInfo";
 
 export const homeHref = "/";
 
@@ -15,30 +16,20 @@ export const Home = () => {
     actions: { logout },
   } = useSession();
 
-  const { comments, commentsActions } = useComments(user, isLoading);
-
-  const { pageDetails, pageActions } = usePageDetails(user, isLoading);
-
-  // TODO: update loading component
-  if (!comments || !pageDetails) return <div>loading</div>;
+  const { urlId, pageDetails, pageActions } = usePageDetails(user, isLoading);
+  const { comments, commentsActions } = useComments(urlId, user, isLoading);
 
   return (
     <>
-      <PageVoting
+      <PageInfo
         enabled={!!profile}
-        votes={{
-          sum: pageDetails.votes.sum,
-          votedDown: pageDetails.votes.votedDown,
-          votedUp: pageDetails.votes.votedUp,
-        }}
-        onVoteDown={pageActions.addVoteDown}
-        onVoteRemove={pageActions.removeVote}
-        onVoteUp={pageActions.addVoteUp}
+        pageDetails={pageDetails}
+        pageActions={pageActions}
       />
       <PageCommentsContainer
         className="max-h-96"
         userProfile={profile}
-        comments={comments}
+        comments={comments || []}
         loginHref={loginHref}
         registerHref={registerHref}
         onSubmit={commentsActions.addComment}
@@ -48,6 +39,7 @@ export const Home = () => {
           onVoteRemove: commentsActions.removeVote,
           onVoteUp: commentsActions.addVoteUp,
         }}
+        loading={!urlId || !comments}
       />
     </>
   );

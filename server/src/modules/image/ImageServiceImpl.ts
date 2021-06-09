@@ -23,7 +23,7 @@ export class ImageServiceImpl implements ImageService {
 
       return await uploadFlie(
         Bucket.PAGES_BUCKET,
-        "logo/" + page.websiteId + page.pageId + ".png",
+        `logo/${page.websiteId}/${page.pageId}_${Date.now()}.png`,
         "image/png",
         buffer
       );

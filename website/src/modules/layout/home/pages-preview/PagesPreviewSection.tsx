@@ -10,13 +10,13 @@ export interface PagesPreviewSectionProps {
   pages: Array<PageModel>;
   header: string;
   href: string;
-  onVoteDown: (url: string) => Promise<void>;
-  onVoteRemove: (url: string) => Promise<void>;
-  onVoteUp: (url: string) => Promise<void>;
+  onVoteDown: (websiteId: string, pageId: string) => Promise<void>;
+  onVoteRemove: (websiteId: string, pageId: string) => Promise<void>;
+  onVoteUp: (websiteId: string, pageId: string) => Promise<void>;
 }
 
 export const PagesPreviewSection: React.VFC<PagesPreviewSectionProps> = (props) => {
-  const { t } = useTranslation(['common']);
+  const { t } = useTranslation('common');
   const { isAuthenticated } = useSession();
 
   return (

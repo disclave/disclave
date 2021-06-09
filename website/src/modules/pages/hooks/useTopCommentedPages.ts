@@ -1,9 +1,9 @@
 import { getTopCommentedPages, PageModel } from '@disclave/client';
 import { usePages } from '@/modules/pages/hooks/usePages';
 
-type VoteDown = (url: string) => Promise<void>;
-type VoteRemove = (url: string) => Promise<void>;
-type VoteUp = (url: string) => Promise<void>;
+type VoteDown = (websiteId: string, pageId: string) => Promise<void>;
+type VoteRemove = (websiteId: string, pageId: string) => Promise<void>;
+type VoteUp = (websiteId: string, pageId: string) => Promise<void>;
 type UseTopCommentedPages = {
   pages: PageModel[];
   voteDown: VoteDown;

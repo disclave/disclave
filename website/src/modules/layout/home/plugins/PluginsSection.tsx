@@ -9,7 +9,7 @@ export interface PluginsSectionProps {
 }
 
 export const PluginsSection: React.VFC<PluginsSectionProps> = (props) => {
-  const { t } = useTranslation(['home']);
+  const { t } = useTranslation('home');
   
   return (
     <section className={props.className}>

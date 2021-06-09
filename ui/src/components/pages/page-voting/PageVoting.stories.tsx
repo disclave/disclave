@@ -20,6 +20,17 @@ Default.args = {
   },
 };
 
+export const Loading = Template.bind({});
+Loading.args = {
+  enabled: true,
+  loading: true,
+  votes: {
+    sum: 132,
+    votedUp: false,
+    votedDown: false,
+  },
+};
+
 export const Zero = Template.bind({});
 Zero.args = {
   enabled: true,

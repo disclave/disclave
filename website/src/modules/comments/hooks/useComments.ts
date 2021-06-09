@@ -21,11 +21,13 @@ type UseComments = {
 
 export const useComments = (
   initialState: Array<CommentModel>,
+  loading: boolean,
   getComments: () => Promise<Array<CommentModel>>
 ): UseComments => {
   const [comments, setComments] = useState(initialState);
   const { uid } = useSession();
   const prevUid = useRef(uid);
+  const prevLoading = useRef(loading);
 
   const fetchComments = async () => {
     const result = await getComments();
@@ -33,10 +35,13 @@ export const useComments = (
   };
 
   useEffect(() => {
-    if (uid != prevUid.current) fetchComments();
+    if (loading) return;
+
+    if (uid != prevUid.current || prevLoading.current) fetchComments();
 
     prevUid.current = uid;
-  }, [uid]);
+    prevLoading.current = loading;
+  }, [uid, loading]);
 
   const onVoteUp = async (commentId: string) => {
     await addCommentVoteUp(commentId);

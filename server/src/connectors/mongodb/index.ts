@@ -6,23 +6,23 @@ import {
   OptionalId,
   Timestamp,
   ObjectID,
+  OrderedBulkOperation,
 } from "mongodb";
 import { retryUntilNullOrUndefined } from "@/helpers";
 
 let _client: MongoClient | null = null;
 let _db: Db | null = null;
 
-export { Timestamp, ObjectID };
+export const timestampNow = () =>
+  new Timestamp(0, Math.floor(new Date().getTime() / 1000));
 
-export const timestampNow = () => new Timestamp(0, Math.floor(new Date().getTime() / 1000));
-
-export const initDatabase = async (uri: string, dbName: string) => {
+export async function initDatabase(uri: string, dbName: string) {
   if (_db && _client) return;
 
   if (!_client) _client = await MongoClient.connect(uri);
 
   _db = _client.db(dbName);
-};
+}
 
 export const db = async (): Promise<Db> => {
   if (!_db) {
@@ -63,6 +63,13 @@ export const withTransaction = async <T>(
   );
 };
 
-export type { Db, ClientSession, WithTransactionCallback, OptionalId };
+export { Timestamp, ObjectID };
+export type {
+  Db,
+  ClientSession,
+  WithTransactionCallback,
+  OptionalId,
+  OrderedBulkOperation,
+};
 
 export { MongoRepository } from "./MongoRepository";

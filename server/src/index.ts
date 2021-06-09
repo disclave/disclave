@@ -8,6 +8,8 @@ import { initFirebase } from "@/connectors/firebase/Firebase";
 import { PageService } from "./modules/pages";
 import { Bucket, initAWS } from "./connectors/aws";
 import { runAllMigrations } from "./migrations";
+import { PageVoteService } from "./modules/page-voting";
+import { PageRankingService } from "./modules/page-ranking";
 
 export interface DbConfig {
   dbUri: string;
@@ -31,13 +33,13 @@ export interface AwsConfig {
 }
 
 let _initExecuted = false;
-export const init = async (
+export async function init(
   firebaseServiceAccountObject: Object,
   dbConfig: DbConfig,
   mjConfig: MailjetConfig,
   awsConfig: AwsConfig,
   skipMigrations: boolean
-) => {
+) {
   if (_initExecuted) return;
   _initExecuted = true;
 
@@ -70,7 +72,7 @@ export const init = async (
   } else {
     console.info("Migrations skipped");
   }
-};
+}
 
 export { graphqlHandler } from "./graphql";
 
@@ -81,3 +83,5 @@ export const getProfileService = () => container.get(ProfileService);
 export const getEmailService = () => container.get(EmailService);
 export const getCommentService = () => container.get(CommentService);
 export const getPageService = () => container.get(PageService);
+export const getPageVoteService = () => container.get(PageVoteService);
+export const getPageRankingService = () => container.get(PageRankingService);

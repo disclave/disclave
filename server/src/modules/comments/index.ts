@@ -1,11 +1,12 @@
 import { Comment } from "./models";
 import { UserId } from "@/modules/auth";
+import { UrlId } from "@/modules/pages";
 
 export type { Comment };
 
 export abstract class CommentService {
   abstract getComments(
-    url: string,
+    urlId: UrlId,
     userId: UserId | null
   ): Promise<Array<Comment>>;
 
@@ -21,12 +22,13 @@ export abstract class CommentService {
     userId: UserId | null
   ): Promise<Array<Comment>>;
 
-  abstract countComments(url: string): Promise<number>;
+  abstract countComments(urlId: UrlId): Promise<number>;
 
   abstract addComment(
     userId: UserId,
     text: string,
-    url: string
+    urlId: UrlId,
+    rawUrl: string
   ): Promise<Comment>;
 
   abstract setVoteUp(commentId: string, userId: UserId): Promise<boolean>;

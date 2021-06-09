@@ -13,7 +13,7 @@ export interface TopCommentedPagesSectionProps {
 }
 
 export const TopCommentedPagesSection: React.VFC<TopCommentedPagesSectionProps> = (props) => {
-  const { t } = useTranslation(['home']);
+  const { t } = useTranslation('home');
   const { pages, voteRemove, voteUp, voteDown } = useTopCommentedPages(
     props.pages,
     props.minCommentsVoteSum,

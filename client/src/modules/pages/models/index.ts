@@ -1,2 +1,2 @@
 export type { PageDetailsModel } from "./PageDetailsModel";
-export type { PageModel } from "./PageModel";
+export type { UrlId } from "./UrlId";

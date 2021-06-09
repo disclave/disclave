@@ -46,12 +46,14 @@ export type {
   CommentVotes,
 } from "./modules/comments";
 
+export { getPageDetails } from "./modules/pages";
+export type { PageDetailsModel, UrlId } from "./modules/pages";
+
+export { getTopCommentedPages, getTopRatedPages } from "./modules/page-ranking";
+export type { PageModel } from "./modules/page-ranking";
+
 export {
-  getTopCommentedPages,
-  getTopRatedPages,
-  getPageDetails,
   removePageVote,
   addPageVoteUp,
   addPageVoteDown,
-} from "./modules/pages";
-export type { PageDetailsModel, PageModel } from "./modules/pages";
+} from "./modules/page-vote";

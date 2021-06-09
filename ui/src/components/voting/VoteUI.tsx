@@ -3,9 +3,11 @@ import classNames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 import { useTranslation } from "@/i18n";
+import { SkeletonBox } from "../loading";
 
 export interface VoteUIProps {
   enabled: boolean;
+  loading: boolean;
   sum: number;
   votedUp: boolean;
   votedDown: boolean;
@@ -15,7 +17,6 @@ export interface VoteUIProps {
 }
 
 export const VoteUI: React.VFC<VoteUIProps> = ({
-  enabled,
   sum,
   votedDown,
   votedUp,
@@ -23,6 +24,8 @@ export const VoteUI: React.VFC<VoteUIProps> = ({
   ...props
 }) => {
   const { t } = useTranslation("voting");
+
+  const enabled = props.enabled && !props.loading;
 
   const wrapperClasses = classNames(
     "flex items-center max-w-max",
@@ -70,20 +73,15 @@ export const VoteUI: React.VFC<VoteUIProps> = ({
     await props.onClickMinus();
   };
 
-  const disabledTitle = t("auth required");
-  const removeTitle = t("vote.remove");
+  const btnTitle = (voted: boolean, voteT: "vote.up" | "vote.down") => {
+    if (props.loading) return t("loading");
+    if (!enabled) return t("auth required");
+    if (voted) return t("vote.remove");
+    return t(voteT);
+  };
 
-  const upBtnTitle = !enabled
-    ? disabledTitle
-    : votedUp
-    ? removeTitle
-    : t("vote.up");
-
-  const downBtnTitle = !enabled
-    ? disabledTitle
-    : votedDown
-    ? removeTitle
-    : t("vote.down");
+  const upBtnTitle = btnTitle(votedUp, "vote.up").toString();
+  const downBtnTitle = btnTitle(votedDown, "vote.down").toString();
 
   return (
     <div className={wrapperClasses}>
@@ -95,10 +93,16 @@ export const VoteUI: React.VFC<VoteUIProps> = ({
       >
         <FontAwesomeIcon icon={faPlus} className={btnIconClasses} />
       </button>
-      <div className={sumClasses} title={t("total.hint", { sum: sum })}>
-        {sum > 0 ? "+" : ""}
-        {sum}
-      </div>
+      {props.loading ? (
+        <div title={t("loading")}>
+          <SkeletonBox className="w-7 h-5" />
+        </div>
+      ) : (
+        <div className={sumClasses} title={t("total.hint", { sum: sum })}>
+          {sum > 0 ? "+" : ""}
+          {sum}
+        </div>
+      )}
       <button
         className={downBtnClasses}
         onClick={onClickMinus}

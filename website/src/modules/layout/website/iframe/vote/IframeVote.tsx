@@ -15,21 +15,27 @@ export interface IframeVoteProps {
 export const IframeVote: React.VFC<IframeVoteProps> = ({ pageDetails }) => {
   const { uid } = useSession();
 
+  const urlId = {
+    websiteId: pageDetails.websiteId,
+    pageId: pageDetails.pageId
+  };
+
   const onVoteDown = async () => {
-    await addPageVoteDown(pageDetails.url);
+    await addPageVoteDown(urlId);
   };
 
   const onVoteUp = async () => {
-    await addPageVoteUp(pageDetails.url);
+    await addPageVoteUp(urlId);
   };
 
   const onVoteRemove = async () => {
-    await removePageVote(pageDetails.url);
+    await removePageVote(urlId);
   };
 
   return (
     <PageVoting
       enabled={!!uid}
+      loading={false}
       votes={{
         sum: pageDetails.votes.sum,
         votedDown: pageDetails.votes.votedDown,

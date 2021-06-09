@@ -25,15 +25,15 @@ export const ListItem: React.VFC<ListItemProps> = ({
   const decodedPath = decodeURIComponent(page.pageId);
 
   const onVoteDown = async () => {
-    await actionHandler.onVoteDown(page.url);
+    await actionHandler.onVoteDown(page.websiteId, page.pageId);
   };
 
   const onVoteUp = async () => {
-    await actionHandler.onVoteUp(page.url);
+    await actionHandler.onVoteUp(page.websiteId, page.pageId);
   };
 
   const onVoteRemove = async () => {
-    await actionHandler.onVoteRemove(page.url);
+    await actionHandler.onVoteRemove(page.websiteId, page.pageId);
   };
 
   return (
@@ -59,6 +59,7 @@ export const ListItem: React.VFC<ListItemProps> = ({
       <div className="flex flex-row items-center mt-0.5">
         <Vote
           enabled={authenticated}
+          loading={false}
           votes={{
             sum: page.votes.sum,
             votedDown: page.votes.votedDown,

@@ -1,9 +1,10 @@
-import { CommentModel, useSession } from '@disclave/client';
+import { CommentModel, useSession, UrlId } from '@disclave/client';
 import React from 'react';
 import { PageCommentsContainer } from '@disclave/ui';
 import { useWebsiteComments } from '@/modules/comments';
 
 export interface WebsiteCommentsProps {
+  urlId: UrlId | null;
   website: string;
   comments: Array<CommentModel>;
   loginHref: string;
@@ -19,6 +20,7 @@ export const WebsiteComments: React.VFC<WebsiteCommentsProps> = (props) => {
   const website = props.website;
   const { comments, addComment, voteDown, voteUp, voteRemove } = useWebsiteComments(
     props.comments,
+    props.urlId,
     website
   );
 
@@ -38,6 +40,7 @@ export const WebsiteComments: React.VFC<WebsiteCommentsProps> = (props) => {
           onVoteRemove: voteRemove,
           onVoteUp: voteUp
         }}
+        loading={!props.urlId}
       />
     </section>
   );

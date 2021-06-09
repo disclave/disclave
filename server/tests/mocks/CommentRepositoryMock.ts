@@ -2,10 +2,10 @@ import {
   AuthorInfo,
   CommentEntity,
   CommentRepository,
-  UrlMeta,
 } from "@/modules/comments/db";
 import { injectable } from "inversify";
 import { UserId } from "@/modules/auth";
+import { UrlId } from "@/modules/pages";
 
 type DBPage = Array<CommentEntity>;
 type DBWebsite = Map<string, DBPage>;
@@ -27,7 +27,8 @@ export class CommentRepositoryMock implements CommentRepository {
   async addComment(
     author: AuthorInfo,
     text: string,
-    url: UrlMeta
+    urlId: UrlId,
+    rawUrl: string
   ): Promise<CommentEntity> {
     const entity: CommentEntity = {
       id: "random-id-" + Math.random(),
@@ -43,44 +44,44 @@ export class CommentRepositoryMock implements CommentRepository {
       },
       timestamp: CommentRepositoryMock.mockDate.toISOString(),
       url: {
-        raw: url.raw,
-        websiteId: url.websiteId,
-        pageId: url.pageId,
+        raw: rawUrl,
+        websiteId: urlId.websiteId,
+        pageId: urlId.pageId,
       },
     };
 
     const db = CommentRepositoryMock.db;
-    if (!db.has(url.websiteId))
-      db.set(url.websiteId, new Map<string, DBPage>());
+    if (!db.has(urlId.websiteId))
+      db.set(urlId.websiteId, new Map<string, DBPage>());
 
-    const website = db.get(url.websiteId)!;
-    if (!website.has(url.pageId))
-      website.set(url.pageId, new Array<CommentEntity>());
+    const website = db.get(urlId.websiteId)!;
+    if (!website.has(urlId.pageId))
+      website.set(urlId.pageId, new Array<CommentEntity>());
 
-    const page = website.get(url.pageId)!;
+    const page = website.get(urlId.pageId)!;
     page.push(entity);
 
     return entity;
   }
 
-  async countComments(url: UrlMeta): Promise<number> {
+  async countComments(urlId: UrlId): Promise<number> {
     const db = CommentRepositoryMock.db;
-    if (!db.has(url.websiteId)) return 0;
+    if (!db.has(urlId.websiteId)) return 0;
 
-    const website = db.get(url.websiteId)!;
-    if (!website.has(url.pageId)) return 0;
+    const website = db.get(urlId.websiteId)!;
+    if (!website.has(urlId.pageId)) return 0;
 
-    return website.get(url.pageId)!.length;
+    return website.get(urlId.pageId)!.length;
   }
 
-  async findComments(url: UrlMeta): Promise<Array<CommentEntity>> {
+  async findComments(urlId: UrlId): Promise<Array<CommentEntity>> {
     const db = CommentRepositoryMock.db;
-    if (!db.has(url.websiteId)) return [];
+    if (!db.has(urlId.websiteId)) return [];
 
-    const website = db.get(url.websiteId)!;
-    if (!website.has(url.pageId)) return [];
+    const website = db.get(urlId.websiteId)!;
+    if (!website.has(urlId.pageId)) return [];
 
-    return website.get(url.pageId)!;
+    return website.get(urlId.pageId)!;
   }
 
   async removeVote(commentId: string, uid: UserId): Promise<boolean> {

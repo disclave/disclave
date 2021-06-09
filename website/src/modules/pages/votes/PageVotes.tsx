@@ -16,21 +16,27 @@ export interface PageVotesProps {
 export const PageVotes: React.VFC<PageVotesProps> = ({ pageDetails, horizontal = false }) => {
   const { uid } = useSession();
 
+  const urlId = {
+    websiteId: pageDetails.websiteId,
+    pageId: pageDetails.pageId
+  };
+
   const onVoteDown = async () => {
-    await addPageVoteDown(pageDetails.url);
+    await addPageVoteDown(urlId);
   };
 
   const onVoteUp = async () => {
-    await addPageVoteUp(pageDetails.url);
+    await addPageVoteUp(urlId);
   };
 
   const onVoteRemove = async () => {
-    await removePageVote(pageDetails.url);
+    await removePageVote(urlId);
   };
 
   return (
     <Vote
       enabled={!!uid}
+      loading={false}
       votes={{
         sum: pageDetails.votes.sum,
         votedDown: pageDetails.votes.votedDown,

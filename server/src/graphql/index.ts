@@ -15,6 +15,10 @@ import {
 } from "@/modules/auth";
 import { pagesTypeDefs } from "@/modules/pages/Schemas";
 import { pagesResolvers } from "@/modules/pages/Resolvers";
+import { pageVoteTypeDefs } from "@/modules/page-voting/Schemas";
+import { pageVoteResolvers } from "@/modules/page-voting/Resolvers";
+import { pageRankingTypeDefs } from "@/modules/page-ranking/Schemas";
+import { pageRankingResolvers } from "@/modules/page-ranking/Resolvers";
 
 const cors = Cors({
   allowMethods: ["POST", "GET", "OPTIONS"],
@@ -54,8 +58,23 @@ const getIdToken = async (req: any): Promise<TokenWithDecoded | null> => {
 
 const createApolloHandler = (path: string) => {
   const apolloServer = new ApolloServer({
-    typeDefs: [baseTypes, authTypeDefs, commentsTypeDefs, pagesTypeDefs, usersTypeDefs],
-    resolvers: [authResolvers, commentsResolvers, pagesResolvers, usersResolvers],
+    typeDefs: [
+      baseTypes,
+      authTypeDefs,
+      pagesTypeDefs,
+      pageRankingTypeDefs,
+      pageVoteTypeDefs,
+      commentsTypeDefs,
+      usersTypeDefs,
+    ],
+    resolvers: [
+      authResolvers,
+      pagesResolvers,
+      pageRankingResolvers,
+      pageVoteResolvers,
+      commentsResolvers,
+      usersResolvers,
+    ],
     context: async ({ req, res }) => {
       const auth = await getIdToken(req);
 
