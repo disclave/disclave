@@ -11,10 +11,10 @@ export interface SecondaryPreviewProps {
 
 export const SecondaryPreview: React.VFC<SecondaryPreviewProps> = ({ post }) => {
   return (
-    <div className="hover:bg-gray-100">
+    <div className="hover:bg-gray-100 my-4">
       <Link href={blogPostHref(post.id)}>
         <a className="flex flex-row items-center">
-          <div className="w-52 sm:w-44 text-center">
+          <div className="w-24 sm:w-38 text-center flex-shrink-0">
             <DateTimePreview
               className="block sm:hidden pb-1 text-sm text-gray-400"
               hideTime

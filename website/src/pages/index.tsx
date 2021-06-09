@@ -18,7 +18,7 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (context)
   const lastestBlogPosts = getSortedPostsPreview(3);
 
   const topCommentsConfig = {
-    limit: 5,
+    limit: 6,
     minVoteSum: 1
   };
   const topCommentsPromise = commentService.getTopComments(
