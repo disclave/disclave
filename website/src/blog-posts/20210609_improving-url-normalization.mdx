@@ -59,3 +59,18 @@ For each page, we are displaying not only the URL, votes, and comments. We are g
   width={1247}
   height={478}
 />
+
+## Content duplicates
+
+For most websites, a web address (URL) is a unique identifier that points to the content you are looking for. If you see **`https://github.com/disclave`**, you can think it is pointing to a Disclave account on the GitHub website, which is correct. If another person checks the same address, she will see the same content as you.
+
+We are using this on Disclave to make sure you see all the comments left by different users for the same website. But it is a little more complicated than it may look. Each URL should point to the same content, but it is also true that multiple URLs can point to a single page. We want to show you all comments for the page, even if a commenting user was using a different address.
+
+For example, the **`https://www.youtube.com/watch?v=sG90GdrNEdM`** address is pointing to a YouTube video, and you can comment on it. If you use the “_Share_” button on YouTube, you can copy the **`https://youtu.be/sG90GdrNEdM`** address, an entirely different domain with a different path but still points to the same view.
+
+Now, let’s take a look at a Google search page. If you type “_disclave_” in your address bar in Chrome browser, it will redirect you to an URL similar to this one: 
+**`https://www.google.com/search?q=disclave&rlz=1C1GCEB_enPL895PL895&oq=disclave&aqs=chrome.0.69i59j35i39j69i60l6.4117j0j7&sourceid=chrome&ie=UTF-8`**.
+Most of these address parts are random parameters used by Google but unnecessary for you. If you would like to comment on this search result, the only important part of the address is **`https://www.google.com/search?q=disclave`**.
+
+
+One more example may be on some of the news websites. If you look at **`https://www.bbc.com/sport/live/football/57074357`**, you will see a sports article. A user from a different country may see this article with a different domain, like **`https://bbc.co.uk/sport/live/football/57074357`**. Both URLs are similar and point to the same content, but addresses are not identical.

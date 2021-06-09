@@ -15,7 +15,7 @@ const components = {
     </Link>
   ),
   h2: (props) => <h2 className="text-2xl" {...props} />,
-  p: (props) => <p className="my-5" {...props} />,
+  p: (props) => <p className="my-5 break-words" {...props} />,
   Image: (props) => <Image {...props} />
 };
 
