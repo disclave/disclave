@@ -28,7 +28,7 @@ export const Image: React.VFC<ImageProps> = ({ src, title, width, height }) => {
   });
 
   const captionClassName = classNames({
-    'my-4 text-center text-sm text-gray-400': !active,
+    'my-3 text-center text-sm text-gray-500': !active,
     hidden: active
   });
 
