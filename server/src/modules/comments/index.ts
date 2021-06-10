@@ -30,8 +30,4 @@ export abstract class CommentService {
     urlId: UrlId,
     rawUrl: string
   ): Promise<Comment>;
-
-  abstract setVoteUp(commentId: string, userId: UserId): Promise<boolean>;
-  abstract setVoteDown(commentId: string, userId: UserId): Promise<boolean>;
-  abstract removeVote(commentId: string, userId: UserId): Promise<boolean>;
 }

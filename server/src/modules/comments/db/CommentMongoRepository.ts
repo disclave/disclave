@@ -1,7 +1,7 @@
 import { CommentEntity } from "./CommentEntity";
 import { AuthorInfo, CommentRepository, UrlData } from "./index";
 import { injectable } from "inversify";
-import { Timestamp, ObjectID, MongoRepository } from "@/connectors/mongodb";
+import { Timestamp, MongoRepository } from "@/connectors/mongodb";
 import { ClientSession } from "mongodb";
 import { asUserId, UserId } from "@/modules/auth";
 import { commentsDbCollection, getProjection } from "@/database/comments";
@@ -93,64 +93,6 @@ export class CommentMongoRepository
     );
     return cursorDocToEntity(doc);
   }
-
-  public async removeVote(commentId: string, uid: UserId): Promise<boolean> {
-    const collection = await commentsDbCollection();
-
-    const bulk = collection.initializeOrderedBulkOp();
-    bulk.find(idSelector(commentId)).updateOne({
-      $pull: {
-        votesUp: uid,
-        votesDown: uid,
-      },
-    });
-    bulk.find(idSelector(commentId)).updateOne([updateVotesSumAggregation]);
-
-    const result = await bulk.execute();
-    return result.nModified > 0;
-  }
-
-  public async setVoteDown(commentId: string, uid: UserId): Promise<boolean> {
-    const collection = await commentsDbCollection();
-
-    const bulk = collection.initializeOrderedBulkOp();
-    bulk.find(idSelector(commentId)).updateOne({
-      $pull: {
-        votesUp: uid,
-      },
-      $addToSet: {
-        votesDown: uid,
-      },
-    });
-    bulk.find(idSelector(commentId)).updateOne([updateVotesSumAggregation]);
-
-    const result = await bulk.execute();
-    return result.nModified > 0;
-  }
-
-  public async setVoteUp(commentId: string, uid: UserId): Promise<boolean> {
-    const collection = await commentsDbCollection();
-
-    const bulk = collection.initializeOrderedBulkOp();
-    bulk.find(idSelector(commentId)).updateOne({
-      $pull: {
-        votesDown: uid,
-      },
-      $addToSet: {
-        votesUp: uid,
-      },
-    });
-    bulk.find(idSelector(commentId)).updateOne([updateVotesSumAggregation]);
-
-    const result = await bulk.execute();
-    return result.nModified > 0;
-  }
-}
-
-function idSelector(commentId: string) {
-  return {
-    _id: new ObjectID(commentId),
-  };
 }
 
 function urlIdToQuery(urlId: UrlId) {
@@ -159,14 +101,6 @@ function urlIdToQuery(urlId: UrlId) {
     "url.pageId": urlId.pageId,
   };
 }
-
-const updateVotesSumAggregation = {
-  $set: {
-    votesSum: {
-      $subtract: [{ $size: "$votesUp" }, { $size: "$votesDown" }],
-    },
-  },
-};
 
 function toDbComment(
   author: AuthorInfo,

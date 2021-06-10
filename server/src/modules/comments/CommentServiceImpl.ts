@@ -78,21 +78,6 @@ export class CommentServiceImpl implements CommentService {
     );
     return toDomain(result);
   }
-
-  public async removeVote(commentId: string, userId: UserId): Promise<boolean> {
-    return await this.repository.removeVote(commentId, userId);
-  }
-
-  public async setVoteDown(
-    commentId: string,
-    userId: UserId
-  ): Promise<boolean> {
-    return await this.repository.setVoteDown(commentId, userId);
-  }
-
-  public async setVoteUp(commentId: string, userId: UserId): Promise<boolean> {
-    return await this.repository.setVoteUp(commentId, userId);
-  }
 }
 
 function validateAndParseCommentText(text: string): string {

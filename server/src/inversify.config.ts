@@ -32,6 +32,10 @@ import { PageRankingService } from "./modules/page-ranking";
 import { PageVoteService } from "./modules/page-voting";
 import { PageRankingServiceImpl } from "./modules/page-ranking/PageRankingServiceImpl";
 import { PageVoteServiceImpl } from "./modules/page-voting/PageVoteServiceImpl";
+import { CommentVoteRepository } from "./modules/comment-voting/db";
+import { CommentVoteMongoRepository } from "./modules/comment-voting/db/CommentVoteRepository";
+import { CommentVoteService } from "./modules/comment-voting";
+import { CommentVoteServiceImpl } from "./modules/comment-voting/CommentVoteServiceImpl";
 
 const container = new Container();
 
@@ -40,6 +44,7 @@ container.bind(AuthProvider).to(FirebaseAuthProvider);
 
 container.bind(ProfileRepository).to(ProfileMongoRepository);
 container.bind(CommentRepository).to(CommentMongoRepository);
+container.bind(CommentVoteRepository).to(CommentVoteMongoRepository);
 container.bind(PageRepository).to(PageMongoRepository);
 container.bind(PageConfigRepository).to(PageConfigMongoRepository);
 container.bind(PageRankingRepository).to(PageRankingMongoRepository);
@@ -49,6 +54,7 @@ container.bind(UrlService).to(UrlServiceImpl);
 container.bind(ImageService).to(ImageServiceImpl);
 container.bind(ProfileService).to(ProfileServiceImpl);
 container.bind(CommentService).to(CommentServiceImpl);
+container.bind(CommentVoteService).to(CommentVoteServiceImpl);
 container.bind(PageService).to(PageServiceImpl);
 container.bind(PageRankingService).to(PageRankingServiceImpl);
 container.bind(PageVoteService).to(PageVoteServiceImpl);
