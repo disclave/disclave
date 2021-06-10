@@ -1,1 +1,1 @@
-export type { PageDetailsEntity } from "./PageDetailsEntity";
+export type { PageDetailsEntity, PageMetaEntity } from "./PageDetailsEntity";

@@ -1,9 +1,11 @@
-import { PageDetails, UrlId } from "./models";
+import { PageDetails, PageMeta, UrlId } from "./models";
 import { UserId } from "@/modules/auth";
 
-export type { PageDetails, UrlId };
+export type { PageDetails, PageMeta, UrlId };
 
 export abstract class PageService {
+  abstract getSavedPageMeta(urlId: UrlId): Promise<PageMeta | null>;
+
   abstract getSavedPageDetails(
     url: string,
     userId: UserId | null

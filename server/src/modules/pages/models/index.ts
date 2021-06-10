@@ -1,2 +1,2 @@
-export type { PageDetails } from "./PageDetails";
+export type { PageDetails, PageMeta } from "./PageDetails";
 export type { UrlId } from "./UrlId";

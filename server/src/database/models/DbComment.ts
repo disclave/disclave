@@ -15,5 +15,9 @@ export interface DbComment {
     raw: string;
     websiteId: string;
     pageId: string;
+    meta: null | {
+      logo: string | null;
+      title: string | null;
+    };
   };
 }

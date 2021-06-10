@@ -1,5 +1,5 @@
-import { PageDetailsEntity, PageRepository } from "./db";
-import { PageService, PageDetails } from "./index";
+import { PageDetailsEntity, PageMetaEntity, PageRepository } from "./db";
+import { PageService, PageDetails, PageMeta, UrlId } from "./index";
 import { inject, injectable } from "inversify";
 import { UrlMetaData, UrlService } from "@/modules/url";
 import { ImageService } from "@/modules/image";
@@ -29,6 +29,11 @@ export class PageServiceImpl implements PageService {
 
   @inject(ImageService)
   private imageService: ImageService;
+
+  public async getSavedPageMeta(urlId: UrlId): Promise<PageMeta | null> {
+    const entity = await this.repository.findPageMeta(urlId);
+    return metaToDomain(entity);
+  }
 
   public async getSavedPageDetails(
     url: string,
@@ -153,5 +158,13 @@ function toDomain(entity: PageDetailsEntity): PageDetails {
           title: entity.meta.title,
         }
       : null,
+  };
+}
+
+function metaToDomain(entity: PageMetaEntity | null): PageMeta | null {
+  if (!entity) return null;
+  return {
+    logo: entity.logo,
+    title: entity.title,
   };
 }

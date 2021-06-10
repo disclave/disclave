@@ -5,12 +5,15 @@ import { inject, injectable } from "inversify";
 import escapeHtml from "escape-html";
 import { CommentTextMaxLength, CommentTextMinLength } from "./exceptions";
 import { UserId } from "@/modules/auth";
-import { UrlId } from "@/modules/pages";
+import { PageService, UrlId } from "@/modules/pages";
 
 @injectable()
 export class CommentServiceImpl implements CommentService {
   @inject(ProfileService)
   private profileService: ProfileService;
+
+  @inject(PageService)
+  private pageService: PageService;
 
   @inject(CommentRepository)
   private repository: CommentRepository;
@@ -59,13 +62,19 @@ export class CommentServiceImpl implements CommentService {
     urlId: UrlId,
     rawUrl: string
   ): Promise<Comment> {
-    const author = await this.profileService.getProfile(uid);
     const escapedText = validateAndParseCommentText(text);
+
+    const authorPromise = this.profileService.getProfile(uid);
+    const pageMetaPromise = this.pageService.getSavedPageMeta(urlId);
+
     const result = await this.repository.addComment(
-      author,
+      await authorPromise,
       escapedText,
-      urlId,
-      rawUrl
+      {
+        urlId,
+        rawUrl,
+        urlMeta: await pageMetaPromise,
+      }
     );
     return toDomain(result);
   }

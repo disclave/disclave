@@ -1,5 +1,5 @@
 import { CommentEntity } from "./CommentEntity";
-import { AuthorInfo, CommentRepository } from "./index";
+import { AuthorInfo, CommentRepository, UrlData } from "./index";
 import { injectable } from "inversify";
 import { Timestamp, ObjectID, MongoRepository } from "@/connectors/mongodb";
 import { ClientSession } from "mongodb";
@@ -76,10 +76,9 @@ export class CommentMongoRepository
   public async addComment(
     author: AuthorInfo,
     text: string,
-    urlId: UrlId,
-    rawUrl: string
+    urlData: UrlData
   ): Promise<CommentEntity> {
-    const comment = toDbComment(author, text, urlId, rawUrl);
+    const comment = toDbComment(author, text, urlData);
 
     const collection = await commentsDbCollection();
     const result = await collection.insertOne(comment);
@@ -172,8 +171,7 @@ const updateVotesSumAggregation = {
 function toDbComment(
   author: AuthorInfo,
   text: string,
-  urlId: UrlId,
-  rawUrl: string
+  urlData: UrlData
 ): DbComment {
   return {
     text: text,
@@ -186,9 +184,15 @@ function toDbComment(
     votesSum: 1,
     timestamp: new Timestamp(0, Math.floor(new Date().getTime() / 1000)),
     url: {
-      raw: rawUrl,
-      websiteId: urlId.websiteId,
-      pageId: urlId.pageId,
+      raw: urlData.rawUrl,
+      websiteId: urlData.urlId.websiteId,
+      pageId: urlData.urlId.pageId,
+      meta: urlData.urlMeta
+        ? {
+            logo: urlData.urlMeta.logo ?? null,
+            title: urlData.urlMeta.title ?? null,
+          }
+        : null,
     },
   };
 }
