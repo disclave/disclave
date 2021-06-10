@@ -34,8 +34,6 @@ export const commentsTypeDefs = gql`
 
   extend type Query {
     getComments(urlId: UrlId!): [Comment!]
-    latestComments(minVoteSum: Int!, limit: Int!): [Comment!]
-    topComments(minVoteSum: Int!, limit: Int!): [Comment!]
     countComments(urlId: UrlId!): Int!
   }
 

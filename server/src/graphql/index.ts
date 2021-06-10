@@ -21,6 +21,8 @@ import { pageRankingTypeDefs } from "@/modules/page-ranking/Schemas";
 import { pageRankingResolvers } from "@/modules/page-ranking/Resolvers";
 import { commentVoteTypeDefs } from "@/modules/comment-voting/Schemas";
 import { commentVoteResolvers } from "@/modules/comment-voting/Resolvers";
+import { commentRankingTypeDefs } from "@/modules/comment-ranking/Schemas";
+import { commentRankingResolvers } from "@/modules/comment-ranking/Resolvers";
 
 const cors = Cors({
   allowMethods: ["POST", "GET", "OPTIONS"],
@@ -68,6 +70,7 @@ const createApolloHandler = (path: string) => {
       pageVoteTypeDefs,
       commentsTypeDefs,
       commentVoteTypeDefs,
+      commentRankingTypeDefs,
       usersTypeDefs,
     ],
     resolvers: [
@@ -77,6 +80,7 @@ const createApolloHandler = (path: string) => {
       pageVoteResolvers,
       commentsResolvers,
       commentVoteResolvers,
+      commentRankingResolvers,
       usersResolvers,
     ],
     context: async ({ req, res }) => {

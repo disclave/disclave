@@ -17,30 +17,6 @@ export const commentsResolvers = {
       const comments = await service.getComments(args.urlId, decodedToken?.uid);
       return comments.map(commentToResponse);
     },
-    latestComments: async (
-      _,
-      args,
-      { decodedToken }: { decodedToken: DecodedIdToken }
-    ) => {
-      const comments = await service.getLatestComments(
-        args.minVoteSum,
-        args.limit,
-        decodedToken?.uid
-      );
-      return comments.map(commentToResponse);
-    },
-    topComments: async (
-      _,
-      args,
-      { decodedToken }: { decodedToken: DecodedIdToken }
-    ) => {
-      const comments = await service.getTopComments(
-        args.minVoteSum,
-        args.limit,
-        decodedToken?.uid
-      );
-      return comments.map(commentToResponse);
-    },
     countComments: async (_, args) => {
       return await service.countComments(args.urlId);
     },

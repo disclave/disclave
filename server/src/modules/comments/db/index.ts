@@ -4,6 +4,7 @@ import { UserId } from "@/modules/auth";
 import { UrlId } from "@/modules/pages";
 
 export type { CommentEntity };
+
 export interface AuthorInfo {
   uid: UserId;
   name: string;
@@ -21,18 +22,6 @@ export interface UrlData {
 export abstract class CommentRepository<T = unknown> extends BaseRepository<T> {
   abstract findComments(
     urlId: UrlId,
-    uid: UserId | null
-  ): Promise<Array<CommentEntity>>;
-
-  abstract findLatestComments(
-    minVoteSum: number,
-    limit: number,
-    uid: UserId | null
-  ): Promise<Array<CommentEntity>>;
-
-  abstract findTopComments(
-    minVoteSum: number,
-    limit: number,
     uid: UserId | null
   ): Promise<Array<CommentEntity>>;
 
