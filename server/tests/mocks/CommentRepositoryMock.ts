@@ -3,7 +3,7 @@ import {
   CommentEntity,
   CommentRepository,
   UrlData,
-} from "@/modules/comments/db";
+} from "@/modules/comments/comments/db";
 import { injectable } from "inversify";
 import { UserId } from "@/modules/auth";
 import { UrlId } from "@/modules/pages";
