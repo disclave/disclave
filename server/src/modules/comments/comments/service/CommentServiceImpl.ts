@@ -1,4 +1,7 @@
-import { CommentEntity, CommentRepository } from "./db";
+import {
+  CommentEntity,
+  CommentRepository,
+} from "@/modules/comments/comments/db";
 import { ProfileService } from "@/modules/profiles";
 import { CommentService, Comment } from "./index";
 import { inject, injectable } from "inversify";
@@ -23,32 +26,6 @@ export class CommentServiceImpl implements CommentService {
     userId: UserId | null
   ): Promise<Array<Comment>> {
     const comments = await this.repository.findComments(urlId, userId);
-    return comments.map(toDomain);
-  }
-
-  public async getLatestComments(
-    minVoteSum: number,
-    limit: number,
-    userId: UserId | null
-  ): Promise<Array<Comment>> {
-    const comments = await this.repository.findLatestComments(
-      minVoteSum,
-      limit,
-      userId
-    );
-    return comments.map(toDomain);
-  }
-
-  public async getTopComments(
-    minVoteSum: number,
-    limit: number,
-    userId: UserId | null
-  ): Promise<Array<Comment>> {
-    const comments = await this.repository.findTopComments(
-      minVoteSum,
-      limit,
-      userId
-    );
     return comments.map(toDomain);
   }
 
@@ -77,21 +54,6 @@ export class CommentServiceImpl implements CommentService {
       }
     );
     return toDomain(result);
-  }
-
-  public async removeVote(commentId: string, userId: UserId): Promise<boolean> {
-    return await this.repository.removeVote(commentId, userId);
-  }
-
-  public async setVoteDown(
-    commentId: string,
-    userId: UserId
-  ): Promise<boolean> {
-    return await this.repository.setVoteDown(commentId, userId);
-  }
-
-  public async setVoteUp(commentId: string, userId: UserId): Promise<boolean> {
-    return await this.repository.setVoteUp(commentId, userId);
   }
 }
 

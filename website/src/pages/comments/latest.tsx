@@ -1,7 +1,7 @@
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { GetServerSideProps } from 'next';
 import { initServer } from '@/modules/server';
-import { getCommentService, getUserCookie } from '@disclave/server';
+import { getCommentRankingService, getUserCookie } from '@disclave/server';
 import { CommentModel } from '@disclave/client';
 import React from 'react';
 import { LatestCommentsPage } from '@/modules/layout/comments/latest';
@@ -11,7 +11,7 @@ export const latestCommentsHref = () => '/comments/latest';
 export const getServerSideProps: GetServerSideProps<LatestCommentsProps> = async (context) => {
   await initServer();
   const userCookie = getUserCookie(context.req);
-  const service = getCommentService();
+  const service = getCommentRankingService();
 
   const minVoteSum = 1;
   const commentsLimit = 0;

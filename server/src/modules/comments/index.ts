@@ -1,37 +1,37 @@
-import { Comment } from "./models";
-import { UserId } from "@/modules/auth";
-import { UrlId } from "@/modules/pages";
+import {
+  container as commentsContainer,
+  typeDefs as commentsTypeDefs,
+  resolvers as commentsResolvers,
+} from "./comments";
+import {
+  container as commentRankingContainer,
+  typeDefs as commentRankingTypeDefs,
+  resolvers as commentRankingResolvers,
+} from "./ranking";
+import {
+  container as commentVoteContainer,
+  typeDefs as commentVoteTypeDefs,
+  resolvers as commentVoteResolvers,
+} from "./voting";
 
-export type { Comment };
+export { CommentService } from "./comments";
+export { CommentRankingService } from "./ranking";
+export { CommentVoteService } from "./voting";
 
-export abstract class CommentService {
-  abstract getComments(
-    urlId: UrlId,
-    userId: UserId | null
-  ): Promise<Array<Comment>>;
+export const containers = [
+  commentsContainer,
+  commentRankingContainer,
+  commentVoteContainer,
+];
 
-  abstract getLatestComments(
-    minVoteSum: number,
-    limit: number,
-    userId: UserId | null
-  ): Promise<Array<Comment>>;
+export const typeDefs = [
+  commentsTypeDefs,
+  commentRankingTypeDefs,
+  commentVoteTypeDefs,
+];
 
-  abstract getTopComments(
-    minVoteSum: number,
-    limit: number,
-    userId: UserId | null
-  ): Promise<Array<Comment>>;
-
-  abstract countComments(urlId: UrlId): Promise<number>;
-
-  abstract addComment(
-    userId: UserId,
-    text: string,
-    urlId: UrlId,
-    rawUrl: string
-  ): Promise<Comment>;
-
-  abstract setVoteUp(commentId: string, userId: UserId): Promise<boolean>;
-  abstract setVoteDown(commentId: string, userId: UserId): Promise<boolean>;
-  abstract removeVote(commentId: string, userId: UserId): Promise<boolean>;
-}
+export const resolvers = () => [
+  commentsResolvers(),
+  commentRankingResolvers(),
+  commentVoteResolvers(),
+];

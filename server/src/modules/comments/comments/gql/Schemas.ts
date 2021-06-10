@@ -1,6 +1,6 @@
 import { gql } from "apollo-server-micro";
 
-export const commentsTypeDefs = gql`
+export const typeDefs = gql`
   input CommentInput {
     text: String!
     urlId: UrlId!
@@ -34,15 +34,10 @@ export const commentsTypeDefs = gql`
 
   extend type Query {
     getComments(urlId: UrlId!): [Comment!]
-    latestComments(minVoteSum: Int!, limit: Int!): [Comment!]
-    topComments(minVoteSum: Int!, limit: Int!): [Comment!]
     countComments(urlId: UrlId!): Int!
   }
 
   extend type Mutation {
     createComment(comment: CommentInput!): Comment!
-    removeCommentVote(commentId: ID!): Boolean!
-    addCommentVoteUp(commentId: ID!): Boolean!
-    addCommentVoteDown(commentId: ID!): Boolean!
   }
 `;

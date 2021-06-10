@@ -1,9 +1,10 @@
-import { CommentEntity } from "./CommentEntity";
+import { CommentEntity } from "./entity";
 import { BaseRepository } from "@/repository";
 import { UserId } from "@/modules/auth";
 import { UrlId } from "@/modules/pages";
 
 export type { CommentEntity };
+
 export interface AuthorInfo {
   uid: UserId;
   name: string;
@@ -24,18 +25,6 @@ export abstract class CommentRepository<T = unknown> extends BaseRepository<T> {
     uid: UserId | null
   ): Promise<Array<CommentEntity>>;
 
-  abstract findLatestComments(
-    minVoteSum: number,
-    limit: number,
-    uid: UserId | null
-  ): Promise<Array<CommentEntity>>;
-
-  abstract findTopComments(
-    minVoteSum: number,
-    limit: number,
-    uid: UserId | null
-  ): Promise<Array<CommentEntity>>;
-
   abstract countComments(urlId: UrlId): Promise<number>;
 
   abstract addComment(
@@ -43,8 +32,4 @@ export abstract class CommentRepository<T = unknown> extends BaseRepository<T> {
     text: string,
     urlData: UrlData
   ): Promise<CommentEntity>;
-
-  abstract setVoteUp(commentId: string, uid: UserId): Promise<boolean>;
-  abstract setVoteDown(commentId: string, uid: UserId): Promise<boolean>;
-  abstract removeVote(commentId: string, uid: UserId): Promise<boolean>;
 }

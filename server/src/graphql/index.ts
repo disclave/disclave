@@ -1,7 +1,5 @@
 import Cors from "micro-cors";
 import { ApolloServer, gql } from "apollo-server-micro";
-import { commentsTypeDefs } from "@/modules/comments/Schemas";
-import { commentsResolvers } from "@/modules/comments/Resolvers";
 import { usersTypeDefs } from "@/modules/profiles/Schemas";
 import { usersResolvers } from "@/modules/profiles/Resolvers";
 import { authTypeDefs } from "@/modules/auth/Schemas";
@@ -19,6 +17,10 @@ import { pageVoteTypeDefs } from "@/modules/page-voting/Schemas";
 import { pageVoteResolvers } from "@/modules/page-voting/Resolvers";
 import { pageRankingTypeDefs } from "@/modules/page-ranking/Schemas";
 import { pageRankingResolvers } from "@/modules/page-ranking/Resolvers";
+import {
+  typeDefs as commentsTypeDefs,
+  resolvers as commentsResolvers,
+} from "@/modules/comments/";
 
 const cors = Cors({
   allowMethods: ["POST", "GET", "OPTIONS"],
@@ -64,7 +66,7 @@ const createApolloHandler = (path: string) => {
       pagesTypeDefs,
       pageRankingTypeDefs,
       pageVoteTypeDefs,
-      commentsTypeDefs,
+      ...commentsTypeDefs,
       usersTypeDefs,
     ],
     resolvers: [
@@ -72,7 +74,7 @@ const createApolloHandler = (path: string) => {
       pagesResolvers,
       pageRankingResolvers,
       pageVoteResolvers,
-      commentsResolvers,
+      ...commentsResolvers(),
       usersResolvers,
     ],
     context: async ({ req, res }) => {
