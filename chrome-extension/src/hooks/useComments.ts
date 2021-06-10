@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import {
-  getComments,
-  createComment,
-  CommentModel,
+  getPageComments,
+  createPageComment,
+  PageCommentModel,
   addCommentVoteUp,
   addCommentVoteDown,
   removeCommentVote,
@@ -11,7 +11,7 @@ import {
 } from "@disclave/client";
 import { useActiveTab } from "./";
 
-type CommentsState = Array<CommentModel> | undefined;
+type CommentsState = Array<PageCommentModel> | undefined;
 type AddComment = (text: string) => Promise<void>;
 type AddVoteUp = (commentId: string) => Promise<void>;
 type AddVoteDown = (commentId: string) => Promise<void>;
@@ -43,13 +43,13 @@ export const useComments = (
     if (!urlId) return;
 
     // TODO: add errors handling
-    const result = await getComments(urlId, noCache);
+    const result = await getPageComments(urlId, noCache);
     setComments(result);
   };
 
   const addComment = async (text: string) => {
     // TODO: add errors handling
-    const addedComment = await createComment(text, urlId, url());
+    const addedComment = await createPageComment(text, urlId, url());
     if (!comments) setComments([addedComment]);
     else setComments([addedComment, ...comments]);
   };
