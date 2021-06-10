@@ -2,7 +2,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { GetServerSideProps } from 'next';
 import React from 'react';
 import { initServer } from '@/modules/server';
-import { getCommentService, getPageRankingService, getUserCookie } from '@disclave/server';
+import { getCommentRankingService, getPageRankingService, getUserCookie } from '@disclave/server';
 import { CommentModel, PageModel } from '@disclave/client';
 import { HomePage } from '@/modules/layout/home';
 import { getSortedPostsPreview, PostPreview } from '@/modules/blog';
@@ -12,7 +12,7 @@ export const homeHref = () => '/';
 export const getServerSideProps: GetServerSideProps<HomeProps> = async (context) => {
   await initServer(false);
   const userCookie = getUserCookie(context.req);
-  const commentService = getCommentService();
+  const commentRankingService = getCommentRankingService();
   const pageRankingService = getPageRankingService();
 
   const lastestBlogPosts = getSortedPostsPreview(3);
@@ -21,7 +21,7 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (context)
     limit: 5,
     minVoteSum: 1
   };
-  const topCommentsPromise = commentService.getTopComments(
+  const topCommentsPromise = commentRankingService.getTopComments(
     topCommentsConfig.minVoteSum,
     topCommentsConfig.limit,
     userCookie?.uid
@@ -31,7 +31,7 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (context)
     limit: 5,
     minVoteSum: 1
   };
-  const latestCommentsPromise = commentService.getLatestComments(
+  const latestCommentsPromise = commentRankingService.getLatestComments(
     latestCommentsConfig.minVoteSum,
     latestCommentsConfig.limit,
     userCookie?.uid
