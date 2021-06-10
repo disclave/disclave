@@ -1,4 +1,4 @@
-import { CommentRepository } from "@/modules/comments/db";
+import { CommentRepository } from "@/modules/comments/comments/db";
 import { CommentRepositoryMock } from "../../mocks/CommentRepositoryMock";
 import { ProfileService } from "@/modules/profiles";
 import { ProfileServiceMock } from "../../mocks/ProfileServiceMock";
