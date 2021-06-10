@@ -1,6 +1,6 @@
 import { gql } from "apollo-server-micro";
 
-export const commentsTypeDefs = gql`
+export const typeDefs = gql`
   input CommentInput {
     text: String!
     urlId: UrlId!

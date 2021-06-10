@@ -1,2 +1,2 @@
-export { commentsTypeDefs } from "./Schemas";
-export { commentsResolvers } from "./Resolvers";
+export { typeDefs } from "./Schemas";
+export { resolvers } from "./Resolvers";

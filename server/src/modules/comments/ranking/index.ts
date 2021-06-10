@@ -6,6 +6,8 @@ import { CommentRankingServiceImpl } from "./service/CommentRankingServiceImpl";
 
 export { CommentRankingService };
 
+export { typeDefs, resolvers } from "./gql";
+
 export const container = new ContainerModule((bind) => {
   bind(CommentRankingRepository).to(CommentRankingMongoRepository);
   bind(CommentRankingService).to(CommentRankingServiceImpl);

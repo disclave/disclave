@@ -7,6 +7,8 @@ import { CommentServiceImpl } from "./service/CommentServiceImpl";
 export type { Comment } from "./service";
 export { CommentService };
 
+export { typeDefs, resolvers } from "./gql";
+
 export const container = new ContainerModule((bind) => {
   bind(CommentRepository).to(CommentMongoRepository);
   bind(CommentService).to(CommentServiceImpl);

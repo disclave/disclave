@@ -3,35 +3,37 @@ import { container } from "@/inversify.config";
 import { CommentRankingService } from "@/modules/comments/ranking/service";
 import { DecodedIdToken } from "@/modules/auth";
 
-const service = container.get(CommentRankingService);
+export const resolvers = () => {
+  const service = container.get(CommentRankingService);
 
-export const commentRankingResolvers = {
-  Query: {
-    latestComments: async (
-      _,
-      args,
-      { decodedToken }: { decodedToken: DecodedIdToken }
-    ) => {
-      const comments = await service.getLatestComments(
-        args.minVoteSum,
-        args.limit,
-        decodedToken?.uid
-      );
-      return comments.map(commentToResponse);
+  return {
+    Query: {
+      latestComments: async (
+        _,
+        args,
+        { decodedToken }: { decodedToken: DecodedIdToken }
+      ) => {
+        const comments = await service.getLatestComments(
+          args.minVoteSum,
+          args.limit,
+          decodedToken?.uid
+        );
+        return comments.map(commentToResponse);
+      },
+      topComments: async (
+        _,
+        args,
+        { decodedToken }: { decodedToken: DecodedIdToken }
+      ) => {
+        const comments = await service.getTopComments(
+          args.minVoteSum,
+          args.limit,
+          decodedToken?.uid
+        );
+        return comments.map(commentToResponse);
+      },
     },
-    topComments: async (
-      _,
-      args,
-      { decodedToken }: { decodedToken: DecodedIdToken }
-    ) => {
-      const comments = await service.getTopComments(
-        args.minVoteSum,
-        args.limit,
-        decodedToken?.uid
-      );
-      return comments.map(commentToResponse);
-    },
-  },
+  };
 };
 
 function commentToResponse(comment: Comment) {

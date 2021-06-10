@@ -1,6 +1,6 @@
 import { gql } from "apollo-server-micro";
 
-export const commentVoteTypeDefs = gql`
+export const typeDefs = gql`
   extend type Mutation {
     removeCommentVote(commentId: ID!): Boolean!
     addCommentVoteUp(commentId: ID!): Boolean!

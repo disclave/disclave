@@ -1,2 +1,2 @@
-export { commentVoteTypeDefs } from "./Schemas";
-export { commentVoteResolvers } from "./Resolvers";
+export { typeDefs } from "./Schemas";
+export { resolvers } from "./Resolvers";
