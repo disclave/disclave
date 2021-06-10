@@ -2,6 +2,7 @@ import {
   AuthorInfo,
   CommentEntity,
   CommentRepository,
+  UrlData,
 } from "@/modules/comments/db";
 import { injectable } from "inversify";
 import { UserId } from "@/modules/auth";
@@ -27,8 +28,7 @@ export class CommentRepositoryMock implements CommentRepository {
   async addComment(
     author: AuthorInfo,
     text: string,
-    urlId: UrlId,
-    rawUrl: string
+    urlData: UrlData
   ): Promise<CommentEntity> {
     const entity: CommentEntity = {
       id: "random-id-" + Math.random(),
@@ -44,21 +44,21 @@ export class CommentRepositoryMock implements CommentRepository {
       },
       timestamp: CommentRepositoryMock.mockDate.toISOString(),
       url: {
-        raw: rawUrl,
-        websiteId: urlId.websiteId,
-        pageId: urlId.pageId,
+        raw: urlData.rawUrl,
+        websiteId: urlData.urlId.websiteId,
+        pageId: urlData.urlId.pageId,
       },
     };
 
     const db = CommentRepositoryMock.db;
-    if (!db.has(urlId.websiteId))
-      db.set(urlId.websiteId, new Map<string, DBPage>());
+    if (!db.has(urlData.urlId.websiteId))
+      db.set(urlData.urlId.websiteId, new Map<string, DBPage>());
 
-    const website = db.get(urlId.websiteId)!;
-    if (!website.has(urlId.pageId))
-      website.set(urlId.pageId, new Array<CommentEntity>());
+    const website = db.get(urlData.urlId.websiteId)!;
+    if (!website.has(urlData.urlId.pageId))
+      website.set(urlData.urlId.pageId, new Array<CommentEntity>());
 
-    const page = website.get(urlId.pageId)!;
+    const page = website.get(urlData.urlId.pageId)!;
     page.push(entity);
 
     return entity;

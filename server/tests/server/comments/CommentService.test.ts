@@ -2,6 +2,8 @@ import { CommentRepository } from "@/modules/comments/db";
 import { CommentRepositoryMock } from "../../mocks/CommentRepositoryMock";
 import { ProfileService } from "@/modules/profiles";
 import { ProfileServiceMock } from "../../mocks/ProfileServiceMock";
+import { PageService } from "@/modules/pages";
+import { PageServiceMock } from "../../mocks/PageServiceMock";
 import { ParsedUrlData, UrlService } from "@/modules/url";
 import { Container } from "inversify";
 import { UrlServiceImpl } from "@/modules/url/UrlServiceImpl";
@@ -15,6 +17,7 @@ describe("Testing CommentService", () => {
 
   container.bind(UrlService).toConstantValue(urlService);
   container.bind(ProfileService).to(ProfileServiceMock);
+  container.bind(PageService).to(PageServiceMock);
   container.bind(CommentRepository).to(CommentRepositoryMock);
 
   container.bind<CommentService>(CommentServiceImpl).toSelf();
