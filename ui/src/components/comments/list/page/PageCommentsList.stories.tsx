@@ -6,7 +6,7 @@ import {
   commentsTimestampComparator,
   EmptyActionHandler,
   RandomCommentsList,
-} from "@/stories/data/Comments";
+} from "@/stories/data/PageComments";
 
 const exampleComments = RandomCommentsList(10).sort(
   commentsTimestampComparator

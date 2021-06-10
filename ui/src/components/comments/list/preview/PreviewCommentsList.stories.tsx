@@ -9,8 +9,8 @@ import {
   commentsTimestampComparator,
   EmptyActionHandler,
   RandomCommentsList,
-} from "@/stories/data/Comments";
-import { CommentUrlMeta } from "@/components/comments/CommentModel";
+} from "@/stories/data/PageComments";
+import { CommentUrlMeta } from "@/types/PageCommentModel";
 
 const exampleComments = RandomCommentsList(10).sort(
   commentsTimestampComparator

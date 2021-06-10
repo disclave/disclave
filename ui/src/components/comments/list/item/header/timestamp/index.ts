@@ -1,1 +1,1 @@
-export { ListItemTimestamp } from "./ListItemTimestamp";
+export { CommentTimestamp } from "./CommentTimestamp";

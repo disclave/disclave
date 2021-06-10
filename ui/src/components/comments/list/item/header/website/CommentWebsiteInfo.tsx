@@ -1,5 +1,5 @@
 import React from "react";
-import { CommentUrlMeta } from "@/components/comments/CommentModel";
+import { CommentUrlMeta } from "@/types/PageCommentModel";
 import classNames from "classnames";
 
 export interface CommentWebsiteInfoProps {

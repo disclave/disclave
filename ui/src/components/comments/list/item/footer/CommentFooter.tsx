@@ -1,29 +1,28 @@
 import React from "react";
-import {
-  CommentActionsHandler,
-  CommentModel,
-} from "@/components/comments/CommentModel";
 import { CommentVote } from "./vote";
+import { CommentActionsHandler, CommentVotesModel } from "@/types";
 
-export interface ListItemFooterProps {
+export interface CommentFooterProps {
   actionsHandler: CommentActionsHandler;
   authenticated: boolean;
   className?: string;
-  comment: CommentModel;
+  commentId: string;
+  votes: CommentVotesModel;
 }
 
-export const ListItemFooter: React.VFC<ListItemFooterProps> = ({
+export const CommentFooter: React.VFC<CommentFooterProps> = ({
+  actionsHandler,
   authenticated,
   className,
-  comment,
-  actionsHandler,
+  commentId,
+  votes,
 }) => {
   return (
     <div className={className}>
       <CommentVote
-        commentId={comment.id}
+        commentId={commentId}
         enabled={authenticated}
-        votes={comment.votes}
+        votes={votes}
         onVoteUp={actionsHandler.onVoteUp}
         onVoteDown={actionsHandler.onVoteDown}
         onVoteRemove={actionsHandler.onVoteRemove}

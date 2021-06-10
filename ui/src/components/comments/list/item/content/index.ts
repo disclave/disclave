@@ -1,1 +1,1 @@
-export { ListItemContent } from "./ListItemContent";
+export { CommentContent } from "./CommentContent";

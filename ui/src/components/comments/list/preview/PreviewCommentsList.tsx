@@ -3,7 +3,7 @@ import {
   CommentActionsHandler,
   CommentModel,
   CommentUrlMeta,
-} from "@/components/comments/CommentModel";
+} from "@/types/PageCommentModel";
 import { useTranslation } from "@/i18n";
 import { PreviewListItem } from "@/components/comments/list/preview/item";
 

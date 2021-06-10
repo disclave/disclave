@@ -2,7 +2,7 @@ import React from "react";
 import {
   CommentActionsHandler,
   CommentModel,
-} from "@/components/comments/CommentModel";
+} from "@/types/PageCommentModel";
 import { useTranslation } from "@/i18n";
 import { PageListItem } from "@/components/comments/list/page/item";
 import { PageListItemSkeleton } from "./item/skeleton/PageListItemSkeleton";

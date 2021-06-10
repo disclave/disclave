@@ -1,11 +1,11 @@
 import React from "react";
-import { CommentVotes } from "@/components/comments/CommentModel";
 import { Vote } from "@/components/voting";
+import { CommentVotesModel } from "@/types";
 
 export interface CommentVoteProps {
   commentId: string;
   enabled: boolean;
-  votes: CommentVotes;
+  votes: CommentVotesModel;
   onVoteUp: (commentId: string) => Promise<void>;
   onVoteDown: (commentId: string) => Promise<void>;
   onVoteRemove: (commentId: string) => Promise<void>;

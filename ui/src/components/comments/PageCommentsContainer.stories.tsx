@@ -9,7 +9,7 @@ import {
   commentsTimestampComparator,
   EmptyActionHandler,
   RandomCommentsList,
-} from "@/stories/data/Comments";
+} from "@/stories/data/PageComments";
 import { ExampleUserProfile } from "@/stories/data/UserProfiles";
 
 const exampleCommentsShort = RandomCommentsList(10).sort(

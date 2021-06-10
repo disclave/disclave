@@ -6,8 +6,8 @@ import {
   ExampleComment,
   buildExampleComment,
   EmptyActionHandler,
-} from "@/stories/data/Comments";
-import { CommentUrlMeta } from "@/components/comments/CommentModel";
+} from "@/stories/data/PageComments";
+import { CommentUrlMeta } from "@/types/PageCommentModel";
 
 const hrefBuilder = (urlMeta: CommentUrlMeta, commentId?: string) =>
   urlMeta.websiteId +

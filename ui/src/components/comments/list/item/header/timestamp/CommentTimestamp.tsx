@@ -1,19 +1,18 @@
 import React from "react";
-import { CommentModel } from "@/components/comments/CommentModel";
 import { getAnchorWrapper } from "@/config";
 import { DateTimePreview } from "@/components/date/dateTimePreview";
 import classNames from "classnames";
 
-export interface ListItemTimestampProps {
+export interface CommentTimestampProps {
   className?: string;
-  comment: CommentModel;
   href?: string;
+  timestamp: string;
 }
 
-export const ListItemTimestamp: React.VFC<ListItemTimestampProps> = ({
+export const CommentTimestamp: React.VFC<CommentTimestampProps> = ({
   className,
-  comment,
   href,
+  timestamp,
 }) => {
   const AnchorTag = getAnchorWrapper() ?? "a";
   const dateTimeClassName = classNames(
@@ -25,7 +24,7 @@ export const ListItemTimestamp: React.VFC<ListItemTimestampProps> = ({
   );
 
   const Timestamp = () => (
-    <DateTimePreview className={dateTimeClassName} iso={comment.timestamp} />
+    <DateTimePreview className={dateTimeClassName} iso={timestamp} />
   );
 
   if (!href) return <Timestamp />;

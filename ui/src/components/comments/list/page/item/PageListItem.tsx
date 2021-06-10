@@ -2,7 +2,7 @@ import React from "react";
 import {
   CommentActionsHandler,
   CommentModel,
-} from "@/components/comments/CommentModel";
+} from "@/types/PageCommentModel";
 import {
   ListItemContent,
   ListItemFooter,

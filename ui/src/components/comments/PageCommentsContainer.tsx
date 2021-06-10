@@ -1,5 +1,5 @@
 import * as React from "react";
-import { CommentActionsHandler, CommentModel } from "./CommentModel";
+import { CommentActionsHandler, CommentModel } from "../../types/PageCommentModel";
 import { PageCommentsList } from "./list";
 import { CommentAddForm } from "./add";
 import { CommentAddAuth } from "./auth";

@@ -6,7 +6,7 @@ import {
   ExampleComment,
   buildExampleComment,
   EmptyActionHandler,
-} from "@/stories/data/Comments";
+} from "@/stories/data/PageComments";
 
 export default {
   title: "Comments/Lists/Page/PageListItem",

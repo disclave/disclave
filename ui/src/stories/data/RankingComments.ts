@@ -1,17 +1,9 @@
-import {
-  CommentActionsHandler,
-  CommentModel,
-} from "@/components/comments/CommentModel";
+import { RankingCommentModel } from "@/types";
 import { randomDate, randomInt } from "./helpers";
-
-
-export const commentsTimestampComparator = (a: CommentModel, b: CommentModel) =>
-  Date.parse(b.timestamp) - Date.parse(a.timestamp);
 
 export interface BuildExampleCommentProps {
   text?: string;
   timestamp?: Date;
-  authorId?: string;
   authorName?: string;
   voteSum?: number;
   votedUp?: boolean;
@@ -29,7 +21,7 @@ export const buildExampleComment = ({
   votedDown = false,
   websiteId = "example.com",
   pageId = "%2Fpage%2Fwith%2Fexample%2Furl",
-}: BuildExampleCommentProps): CommentModel => ({
+}: BuildExampleCommentProps): RankingCommentModel => ({
   id: "mock-comment-id-" + Math.random(),
   text: text,
   author: {
@@ -41,17 +33,18 @@ export const buildExampleComment = ({
     votedDown: votedDown,
   },
   timestamp: timestamp.toISOString(),
-  urlMeta: {
+  page: {
     websiteId: websiteId,
     pageId: pageId,
+    meta: null,
   },
 });
 
 export const RandomCommentsList = (
   size: number,
   text?: string
-): CommentModel[] => {
-  const result: CommentModel[] = [];
+): RankingCommentModel[] => {
+  const result: RankingCommentModel[] = [];
   while (size--) {
     result.push(
       buildExampleComment({
@@ -62,7 +55,7 @@ export const RandomCommentsList = (
   return result;
 };
 
-export const ExampleComment: CommentModel = {
+export const ExampleComment: RankingCommentModel = {
   id: "mock-comment-id",
   text: "This is example comment text!",
   author: {
@@ -74,14 +67,9 @@ export const ExampleComment: CommentModel = {
     votedDown: false,
   },
   timestamp: new Date().toISOString(),
-  urlMeta: {
+  page: {
     websiteId: "example.com",
     pageId: "%2Fpage%2Fwith%2Fexample%2Furl",
+    meta: null,
   },
-};
-
-export const EmptyActionHandler: CommentActionsHandler = {
-  onVoteDown: async () => {},
-  onVoteRemove: async () => {},
-  onVoteUp: async () => {},
 };

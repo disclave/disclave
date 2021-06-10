@@ -5,7 +5,7 @@ import {
   CommentWebsiteInfoProps,
 } from "./CommentWebsiteInfo";
 import { Story } from "@storybook/react";
-import { CommentUrlMeta } from "@/components/comments/CommentModel";
+import { CommentUrlMeta } from "@/types/PageCommentModel";
 
 const hrefBuilder = (urlMeta: CommentUrlMeta) =>
   urlMeta.websiteId + decodeURIComponent(urlMeta.pageId);

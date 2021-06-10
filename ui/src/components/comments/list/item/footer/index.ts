@@ -1,1 +1,1 @@
-export { ListItemFooter } from "./ListItemFooter";
+export { CommentFooter } from "./CommentFooter";
