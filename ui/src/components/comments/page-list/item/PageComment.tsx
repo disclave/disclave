@@ -1,39 +1,37 @@
 import React from "react";
+import { CommentActionsHandler, PageCommentModel } from "@/types";
 import {
-  CommentActionsHandler,
-  CommentModel,
-} from "@/types/PageCommentModel";
-import {
-  ListItemContent,
-  ListItemFooter,
-  ListItemTimestamp,
-} from "@/components/comments/list/item";
+  CommentContent,
+  CommentFooter,
+  CommentTimestamp,
+} from "@/components/comments/list-item";
 
-export interface PageListItemProps {
+export interface PageCommentProps {
   actionsHandler: CommentActionsHandler;
   authenticated: boolean;
-  comment: CommentModel;
+  comment: PageCommentModel;
 }
 
-export const PageListItem: React.VFC<PageListItemProps> = (props) => {
+export const PageComment: React.VFC<PageCommentProps> = (props) => {
   return (
     <div className="px-2 py-1">
       <div className="mb-0.5">
         <span className="font-semibold text-sm">
           {props.comment.author.name}
         </span>
-        <ListItemTimestamp comment={props.comment} />
+        <CommentTimestamp timestamp={props.comment.timestamp} />
       </div>
 
       <div id={props.comment.id} className="pt-32 -mt-32">
-        <ListItemContent comment={props.comment} />
+        <CommentContent text={props.comment.text} />
       </div>
 
-      <ListItemFooter
+      <CommentFooter
         actionsHandler={props.actionsHandler}
         authenticated={props.authenticated}
         className="mt-1"
-        comment={props.comment}
+        commentId={props.comment.id}
+        votes={props.comment.votes}
       />
     </div>
   );

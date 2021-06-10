@@ -1,17 +1,14 @@
 import React from "react";
-import {
-  CommentActionsHandler,
-  CommentModel,
-} from "@/types/PageCommentModel";
+import { CommentActionsHandler, PageCommentModel } from "@/types";
 import { useTranslation } from "@/i18n";
-import { PageListItem } from "@/components/comments/list/page/item";
-import { PageListItemSkeleton } from "./item/skeleton/PageListItemSkeleton";
+import { PageComment } from "./item";
+import { PageCommentSkeleton } from "./item/skeleton";
 
 export interface PageCommentsListProps {
   actionsHandler: CommentActionsHandler;
   authenticated: boolean;
   className?: string;
-  comments: Array<CommentModel>;
+  comments: Array<PageCommentModel>;
   loading: boolean;
 }
 
@@ -28,10 +25,10 @@ export const PageCommentsList: React.VFC<PageCommentsListProps> = ({
     return (
       <div className={className}>
         <div className="flex flex-col space-y-4">
-          <PageListItemSkeleton />
-          <PageListItemSkeleton />
-          <PageListItemSkeleton />
-          <PageListItemSkeleton />
+          <PageCommentSkeleton />
+          <PageCommentSkeleton />
+          <PageCommentSkeleton />
+          <PageCommentSkeleton />
         </div>
       </div>
     );
@@ -48,7 +45,7 @@ export const PageCommentsList: React.VFC<PageCommentsListProps> = ({
   return (
     <div className={className}>
       {comments.map((c) => (
-        <PageListItem
+        <PageComment
           key={c.id}
           actionsHandler={actionsHandler}
           authenticated={authenticated}

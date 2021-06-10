@@ -1,14 +1,14 @@
-import * as React from "react";
-import { CommentActionsHandler, CommentModel } from "../../types/PageCommentModel";
-import { PageCommentsList } from "./list";
+import React from "react";
+import { PageCommentsList } from "./page-list";
 import { CommentAddForm } from "./add";
 import { CommentAddAuth } from "./auth";
 import { UserProfileModel, UserSelfAvatar } from "@/components/auth";
 import classNames from "classnames";
+import { CommentActionsHandler, PageCommentModel } from "@/types";
 
 export interface PageCommentsContainerProps {
   className?: string;
-  comments: Array<CommentModel>;
+  comments: Array<PageCommentModel>;
   iframe?: boolean;
   inputTop?: boolean;
   loginHref: string;

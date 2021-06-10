@@ -1,21 +1,17 @@
 import React from "react";
-import {
-  CommentActionsHandler,
-  CommentModel,
-  CommentUrlMeta,
-} from "@/types/PageCommentModel";
 import { useTranslation } from "@/i18n";
-import { PreviewListItem } from "@/components/comments/list/preview/item";
+import { RankingComment } from "./item";
+import { CommentActionsHandler, RankingCommentModel, UrlId } from "@/types";
 
-export interface PreviewCommentsListProps {
+export interface RankingCommentsListProps {
   actionsHandler: CommentActionsHandler;
   authenticated: boolean;
   className?: string;
-  comments: Array<CommentModel>;
-  hrefBuilder: (urlMeta: CommentUrlMeta, commentId?: string) => string;
+  comments: Array<RankingCommentModel>;
+  hrefBuilder: (urlId: UrlId, commentId?: string) => string;
 }
 
-export const PreviewCommentsList: React.VFC<PreviewCommentsListProps> = ({
+export const RankingCommentsList: React.VFC<RankingCommentsListProps> = ({
   actionsHandler,
   authenticated,
   className,
@@ -31,7 +27,7 @@ export const PreviewCommentsList: React.VFC<PreviewCommentsListProps> = ({
   return (
     <div className={className}>
       {comments.map((c) => (
-        <PreviewListItem
+        <RankingComment
           key={c.id}
           actionsHandler={actionsHandler}
           authenticated={authenticated}

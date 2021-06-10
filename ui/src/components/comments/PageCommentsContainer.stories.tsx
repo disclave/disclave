@@ -5,12 +5,10 @@ import {
   PageCommentsContainerProps,
 } from "./PageCommentsContainer";
 import { Story } from "@storybook/react";
-import {
-  commentsTimestampComparator,
-  EmptyActionHandler,
-  RandomCommentsList,
-} from "@/stories/data/PageComments";
+import { RandomCommentsList } from "@/stories/data/PageComments";
 import { ExampleUserProfile } from "@/stories/data/UserProfiles";
+import { commentsTimestampComparator } from "@/stories/data/helpers";
+import { EmptyActionHandler } from "@/stories/data/CommentActionsHandler";
 
 const exampleCommentsShort = RandomCommentsList(10).sort(
   commentsTimestampComparator
@@ -79,7 +77,6 @@ Empty.args = {
   commentsActionsHandler: EmptyActionHandler,
 };
 
-
 export const InputTopEmpty = Template.bind({});
 InputTopEmpty.args = {
   userProfile: ExampleUserProfile,
@@ -88,4 +85,3 @@ InputTopEmpty.args = {
   className: "max-h-56",
   commentsActionsHandler: EmptyActionHandler,
 };
-

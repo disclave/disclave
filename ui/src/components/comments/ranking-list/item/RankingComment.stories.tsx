@@ -1,26 +1,26 @@
 import React from "react";
 
-import { PreviewListItem, PreviewListItemProps } from "./PreviewListItem";
+import { RankingComment, RankingCommentProps } from "./RankingComment";
 import { Story } from "@storybook/react";
 import {
   ExampleComment,
   buildExampleComment,
-  EmptyActionHandler,
-} from "@/stories/data/PageComments";
-import { CommentUrlMeta } from "@/types/PageCommentModel";
+} from "@/stories/data/RankingComments";
+import { UrlId } from "@/types";
+import { EmptyActionHandler } from "@/stories/data/CommentActionsHandler";
 
-const hrefBuilder = (urlMeta: CommentUrlMeta, commentId?: string) =>
-  urlMeta.websiteId +
-  decodeURIComponent(urlMeta.pageId) +
+const hrefBuilder = (urlId: UrlId, commentId?: string) =>
+  urlId.websiteId +
+  decodeURIComponent(urlId.pageId) +
   (commentId ? `#${commentId}` : "");
 
 export default {
-  title: "Comments/Lists/Preview/PreviewListItem",
-  component: PreviewListItem,
+  title: "Comments/Lists/Ranking/RankingComment",
+  component: RankingComment,
 };
 
-const Template: Story<PreviewListItemProps> = (args) => (
-  <PreviewListItem {...args} />
+const Template: Story<RankingCommentProps> = (args) => (
+  <RankingComment {...args} />
 );
 
 export const Default = Template.bind({});

@@ -26,7 +26,7 @@ export {
   UserSelfAvatar,
 } from "./components/auth";
 export {
-  PreviewCommentsList,
+  RankingCommentsList,
   PageCommentsList,
   PageCommentsContainer,
 } from "./components/comments";

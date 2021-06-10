@@ -1,0 +1,1 @@
+export { RankingCommentsList } from "./RankingCommentsList";

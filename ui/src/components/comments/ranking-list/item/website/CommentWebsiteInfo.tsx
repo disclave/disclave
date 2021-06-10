@@ -1,25 +1,25 @@
 import React from "react";
-import { CommentUrlMeta } from "@/types/PageCommentModel";
 import classNames from "classnames";
+import { UrlId } from "@/types";
 
 export interface CommentWebsiteInfoProps {
   className?: string;
-  urlMeta: CommentUrlMeta;
+  urlId: UrlId;
 }
 
 export const CommentWebsiteInfo: React.VFC<CommentWebsiteInfoProps> = ({
   className,
-  urlMeta,
+  urlId,
 }) => {
   const wrapperClassName = classNames(
     "text-sm truncate hover:underline",
     className
   );
-  const decodedPageId = decodeURIComponent(urlMeta.pageId);
+  const decodedPageId = decodeURIComponent(urlId.pageId);
 
   return (
-    <div className={wrapperClassName} title={urlMeta.websiteId + decodedPageId}>
-      <span className="font-bold">{urlMeta.websiteId}</span>
+    <div className={wrapperClassName} title={urlId.websiteId + decodedPageId}>
+      <span className="font-bold">{urlId.websiteId}</span>
       <span className="font-semibold">{decodedPageId}</span>
     </div>
   );

@@ -1,30 +1,31 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-  CommentActionsHandler,
-  CommentModel,
-  CommentUrlMeta,
-} from "@/types/PageCommentModel";
+import { CommentActionsHandler, RankingCommentModel, UrlId } from "@/types";
 import { useTranslation } from "@/i18n";
-import {
-  CommentWebsiteInfo,
-  ListItemContent,
-  ListItemFooter,
-  ListItemTimestamp,
-} from "@/components/comments/list/item";
 import { LinkBox } from "@/components/links";
+import {
+  CommentContent,
+  CommentFooter,
+  CommentTimestamp,
+} from "@/components/comments/list-item";
+import { CommentWebsiteInfo } from "./website";
 
-export interface PreviewListItemProps {
+export interface RankingCommentProps {
   actionsHandler: CommentActionsHandler;
   authenticated: boolean;
-  comment: CommentModel;
-  hrefBuilder: (urlMeta: CommentUrlMeta, commentId?: string) => string;
+  comment: RankingCommentModel;
+  hrefBuilder: (urlId: UrlId, commentId?: string) => string;
 }
 
-export const PreviewListItem: React.VFC<PreviewListItemProps> = (props) => {
+export const RankingComment: React.VFC<RankingCommentProps> = (props) => {
   const { t } = useTranslation("comments");
   const [showMoreVisible, setShowMoreVisible] = useState(false);
   const textWrapperRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLParagraphElement>(null);
+
+  const urlId = {
+    websiteId: props.comment.page.websiteId,
+    pageId: props.comment.page.pageId,
+  };
 
   useEffect(() => {
     if (!textWrapperRef.current || !textRef.current) return;
@@ -34,10 +35,7 @@ export const PreviewListItem: React.VFC<PreviewListItemProps> = (props) => {
     );
   });
 
-  const detailsHref = props.hrefBuilder(
-    props.comment.urlMeta,
-    props.comment.id
-  );
+  const detailsHref = props.hrefBuilder(urlId, props.comment.id);
 
   const ShowMoreText = () => (
     <span className="uppercase text-primary text-xs hover:underline">
@@ -47,26 +45,27 @@ export const PreviewListItem: React.VFC<PreviewListItemProps> = (props) => {
 
   return (
     <LinkBox className="px-2 py-1" href={detailsHref}>
-      <CommentWebsiteInfo urlMeta={props.comment.urlMeta} />
+      <CommentWebsiteInfo urlId={urlId} />
 
       <div className="mb-0.5">
         <span className="font-semibold text-sm">
           {props.comment.author.name}
         </span>
-        <ListItemTimestamp comment={props.comment} />
+        <CommentTimestamp timestamp={props.comment.timestamp} />
       </div>
 
       <div ref={textWrapperRef} className="max-h-10 overflow-hidden">
-        <ListItemContent ref={textRef} comment={props.comment} />
+        <CommentContent ref={textRef} text={props.comment.text} />
       </div>
 
       {showMoreVisible ? <ShowMoreText /> : null}
 
-      <ListItemFooter
+      <CommentFooter
         actionsHandler={props.actionsHandler}
         authenticated={props.authenticated}
         className="mt-1"
-        comment={props.comment}
+        commentId={props.comment.id}
+        votes={props.comment.votes}
       />
     </LinkBox>
   );

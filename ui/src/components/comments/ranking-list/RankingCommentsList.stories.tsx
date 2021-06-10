@@ -1,16 +1,13 @@
 import React from "react";
-
 import {
-  PreviewCommentsList,
-  PreviewCommentsListProps,
-} from "./PreviewCommentsList";
+  RankingCommentsList,
+  RankingCommentsListProps,
+} from "./RankingCommentsList";
 import { Story } from "@storybook/react";
-import {
-  commentsTimestampComparator,
-  EmptyActionHandler,
-  RandomCommentsList,
-} from "@/stories/data/PageComments";
-import { CommentUrlMeta } from "@/types/PageCommentModel";
+import { RandomCommentsList } from "@/stories/data/RankingComments";
+import { commentsTimestampComparator } from "@/stories/data/helpers";
+import { UrlId } from "@/types";
+import { EmptyActionHandler } from "@/stories/data/CommentActionsHandler";
 
 const exampleComments = RandomCommentsList(10).sort(
   commentsTimestampComparator
@@ -23,18 +20,18 @@ const exampleLongComments = RandomCommentsList(
   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`
 ).sort(commentsTimestampComparator);
 
-const hrefBuilder = (urlMeta: CommentUrlMeta, commentId?: string) =>
-  urlMeta.websiteId +
-  decodeURIComponent(urlMeta.pageId) +
+const hrefBuilder = (urlId: UrlId, commentId?: string) =>
+  urlId.websiteId +
+  decodeURIComponent(urlId.pageId) +
   (commentId ? `#${commentId}` : "");
 
 export default {
-  title: "Comments/Lists/Preview/PreviewCommentsList",
-  component: PreviewCommentsList,
+  title: "Comments/Lists/Ranking/RankingCommentsList",
+  component: RankingCommentsList,
 };
 
-const Template: Story<PreviewCommentsListProps> = (args) => (
-  <PreviewCommentsList {...args} />
+const Template: Story<RankingCommentsListProps> = (args) => (
+  <RankingCommentsList {...args} />
 );
 
 export const Default = Template.bind({});

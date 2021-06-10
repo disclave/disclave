@@ -2,11 +2,9 @@ import React from "react";
 
 import { PageCommentsList, PageCommentsListProps } from "./PageCommentsList";
 import { Story } from "@storybook/react";
-import {
-  commentsTimestampComparator,
-  EmptyActionHandler,
-  RandomCommentsList,
-} from "@/stories/data/PageComments";
+import { RandomCommentsList } from "@/stories/data/PageComments";
+import { commentsTimestampComparator } from "@/stories/data/helpers";
+import { EmptyActionHandler } from "@/stories/data/CommentActionsHandler";
 
 const exampleComments = RandomCommentsList(10).sort(
   commentsTimestampComparator

@@ -18,7 +18,7 @@ const commentLineWidthArr = [
 ];
 const commentMaxLines = 4;
 
-export const PageListItemSkeleton: React.VFC = () => {
+export const PageCommentSkeleton: React.VFC = () => {
   const commentsLines = getRandomInt(1, commentMaxLines + 1);
 
   return (

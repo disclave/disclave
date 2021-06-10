@@ -1,19 +1,19 @@
 import React from "react";
 
-import { PageListItem, PageListItemProps } from "./PageListItem";
+import { PageComment, PageCommentProps } from "./PageComment";
 import { Story } from "@storybook/react";
 import {
   ExampleComment,
   buildExampleComment,
-  EmptyActionHandler,
 } from "@/stories/data/PageComments";
+import { EmptyActionHandler } from "@/stories/data/CommentActionsHandler";
 
 export default {
-  title: "Comments/Lists/Page/PageListItem",
-  component: PageListItem,
+  title: "Comments/Lists/Page/PageComment",
+  component: PageComment,
 };
 
-const Template: Story<PageListItemProps> = (args) => <PageListItem {...args} />;
+const Template: Story<PageCommentProps> = (args) => <PageComment {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
