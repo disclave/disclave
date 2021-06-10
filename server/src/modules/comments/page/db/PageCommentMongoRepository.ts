@@ -1,4 +1,9 @@
-import { AuthorInfo, CommentRepository, UrlData, CommentEntity } from "./index";
+import {
+  AuthorInfo,
+  PageCommentRepository,
+  UrlData,
+  PageCommentEntity,
+} from "./index";
 import { injectable } from "inversify";
 import {
   Timestamp,
@@ -11,13 +16,13 @@ import { DbComment } from "@/database";
 import { UrlId } from "@/modules/pages";
 
 @injectable()
-export class CommentMongoRepository
+export class PageCommentMongoRepository
   extends MongoRepository
-  implements CommentRepository<ClientSession> {
-  public async findComments(
+  implements PageCommentRepository<ClientSession> {
+  public async findPageComments(
     urlId: UrlId,
     uid: UserId | null
-  ): Promise<Array<CommentEntity>> {
+  ): Promise<Array<PageCommentEntity>> {
     const collection = await commentsDbCollection();
     const cursor = collection
       .find(urlIdToQuery(urlId), {
@@ -28,16 +33,11 @@ export class CommentMongoRepository
     return await cursor.map(cursorDocToEntity).toArray();
   }
 
-  public async countComments(urlId: UrlId): Promise<number> {
-    const collection = await commentsDbCollection();
-    return await collection.countDocuments(urlIdToQuery(urlId));
-  }
-
-  public async addComment(
+  public async addPageComment(
     author: AuthorInfo,
     text: string,
     urlData: UrlData
-  ): Promise<CommentEntity> {
+  ): Promise<PageCommentEntity> {
     const comment = toDbComment(author, text, urlData);
 
     const collection = await commentsDbCollection();
@@ -91,12 +91,11 @@ function toDbComment(
   };
 }
 
-function cursorDocToEntity(doc: DbComment): CommentEntity {
+function cursorDocToEntity(doc: DbComment): PageCommentEntity {
   return {
     id: doc._id.toHexString(),
     text: doc.text,
     author: {
-      id: asUserId(doc.author.id),
       name: doc.author.name,
     },
     votes: {
@@ -105,10 +104,5 @@ function cursorDocToEntity(doc: DbComment): CommentEntity {
       votedDown: doc.votesDown?.length > 0,
     },
     timestamp: new Date(doc.timestamp.getHighBits() * 1000).toUTCString(),
-    url: {
-      raw: doc.url.raw,
-      websiteId: doc.url.websiteId,
-      pageId: doc.url.pageId,
-    },
   };
 }

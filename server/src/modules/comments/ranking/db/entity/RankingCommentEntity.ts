@@ -1,12 +1,15 @@
-import { UserId } from "@/modules/auth";
-
-export interface CommentUrlMeta {
-  websiteId: string;
-  pageId: string;
+interface PageMeta {
+  logo: string | null;
+  title: string | null;
 }
 
-export interface CommentAuthor {
-  id: UserId;
+interface Page {
+  websiteId: string;
+  pageId: string;
+  meta: PageMeta | null;
+}
+
+interface Author {
   name: string;
 }
 
@@ -16,11 +19,11 @@ interface Votes {
   votedDown: boolean;
 }
 
-export interface Comment {
+export interface RankingCommentEntity {
   id: string;
   text: string;
-  author: CommentAuthor;
+  author: Author;
   votes: Votes;
   timestamp: string;
-  urlMeta: CommentUrlMeta;
+  page: Page;
 }

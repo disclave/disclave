@@ -1,9 +1,9 @@
 import {
-  CommentEntity,
-  CommentRepository,
-} from "@/modules/comments/comments/db";
+  PageCommentEntity,
+  PageCommentRepository,
+} from "@/modules/comments/page/db";
 import { ProfileService } from "@/modules/profiles";
-import { CommentService, Comment } from "./index";
+import { PageCommentService, PageComment } from "./index";
 import { inject, injectable } from "inversify";
 import escapeHtml from "escape-html";
 import { CommentTextMaxLength, CommentTextMinLength } from "./exceptions";
@@ -11,40 +11,36 @@ import { UserId } from "@/modules/auth";
 import { PageService, UrlId } from "@/modules/pages";
 
 @injectable()
-export class CommentServiceImpl implements CommentService {
+export class PageCommentServiceImpl implements PageCommentService {
   @inject(ProfileService)
   private profileService: ProfileService;
 
   @inject(PageService)
   private pageService: PageService;
 
-  @inject(CommentRepository)
-  private repository: CommentRepository;
+  @inject(PageCommentRepository)
+  private repository: PageCommentRepository;
 
-  public async getComments(
+  public async getPageComments(
     urlId: UrlId,
     userId: UserId | null
-  ): Promise<Array<Comment>> {
-    const comments = await this.repository.findComments(urlId, userId);
+  ): Promise<Array<PageComment>> {
+    const comments = await this.repository.findPageComments(urlId, userId);
     return comments.map(toDomain);
   }
 
-  public async countComments(urlId: UrlId): Promise<number> {
-    return await this.repository.countComments(urlId);
-  }
-
-  public async addComment(
+  public async addPageComment(
     uid: UserId,
     text: string,
     urlId: UrlId,
     rawUrl: string
-  ): Promise<Comment> {
+  ): Promise<PageComment> {
     const escapedText = validateAndParseCommentText(text);
 
     const authorPromise = this.profileService.getProfile(uid);
     const pageMetaPromise = this.pageService.getSavedPageMeta(urlId);
 
-    const result = await this.repository.addComment(
+    const result = await this.repository.addPageComment(
       await authorPromise,
       escapedText,
       {
@@ -72,12 +68,11 @@ function validateAndParseCommentText(text: string): string {
   return escapeHtml(text);
 }
 
-function toDomain(entity: CommentEntity): Comment {
+function toDomain(entity: PageCommentEntity): PageComment {
   return {
     id: entity.id,
     text: entity.text,
     author: {
-      id: entity.author.id,
       name: entity.author.name,
     },
     votes: {
@@ -86,9 +81,5 @@ function toDomain(entity: CommentEntity): Comment {
       votedDown: entity.votes.votedDown,
     },
     timestamp: entity.timestamp,
-    urlMeta: {
-      websiteId: entity.url.websiteId,
-      pageId: entity.url.pageId,
-    },
   };
 }

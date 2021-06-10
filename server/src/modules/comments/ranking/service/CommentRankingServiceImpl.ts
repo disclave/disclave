@@ -1,9 +1,8 @@
 import {
   CommentRankingRepository,
-  CommentEntity,
+  RankingCommentEntity,
 } from "@/modules/comments/ranking/db";
-import { CommentRankingService } from "./index";
-import { Comment } from "@/modules/comments/comments";
+import { CommentRankingService, RankingComment } from "./index";
 import { inject, injectable } from "inversify";
 import { UserId } from "@/modules/auth";
 
@@ -16,7 +15,7 @@ export class CommentRankingServiceImpl implements CommentRankingService {
     minVoteSum: number,
     limit: number,
     userId: UserId | null
-  ): Promise<Array<Comment>> {
+  ): Promise<Array<RankingComment>> {
     const comments = await this.repository.findLatestComments(
       minVoteSum,
       limit,
@@ -29,7 +28,7 @@ export class CommentRankingServiceImpl implements CommentRankingService {
     minVoteSum: number,
     limit: number,
     userId: UserId | null
-  ): Promise<Array<Comment>> {
+  ): Promise<Array<RankingComment>> {
     const comments = await this.repository.findTopComments(
       minVoteSum,
       limit,
@@ -39,12 +38,11 @@ export class CommentRankingServiceImpl implements CommentRankingService {
   }
 }
 
-function toDomain(entity: CommentEntity): Comment {
+function toDomain(entity: RankingCommentEntity): RankingComment {
   return {
     id: entity.id,
     text: entity.text,
     author: {
-      id: entity.author.id,
       name: entity.author.name,
     },
     votes: {
@@ -53,9 +51,15 @@ function toDomain(entity: CommentEntity): Comment {
       votedDown: entity.votes.votedDown,
     },
     timestamp: entity.timestamp,
-    urlMeta: {
-      websiteId: entity.url.websiteId,
-      pageId: entity.url.pageId,
+    page: {
+      websiteId: entity.page.websiteId,
+      pageId: entity.page.pageId,
+      meta: entity.page.meta
+        ? {
+            logo: entity.page.meta.logo ?? null,
+            title: entity.page.meta.title ?? null,
+          }
+        : null,
     },
   };
 }

@@ -1,8 +1,8 @@
-import { CommentEntity } from "@/modules/comments/comments/db/entity/CommentEntity";
+import { RankingCommentEntity } from "./entity";
 import { BaseRepository } from "@/repository";
 import { UserId } from "@/modules/auth";
 
-export type { CommentEntity };
+export type { RankingCommentEntity };
 
 export abstract class CommentRankingRepository<
   T = unknown
@@ -11,11 +11,11 @@ export abstract class CommentRankingRepository<
     minVoteSum: number,
     limit: number,
     uid: UserId | null
-  ): Promise<Array<CommentEntity>>;
+  ): Promise<Array<RankingCommentEntity>>;
 
   abstract findTopComments(
     minVoteSum: number,
     limit: number,
     uid: UserId | null
-  ): Promise<Array<CommentEntity>>;
+  ): Promise<Array<RankingCommentEntity>>;
 }

@@ -4,6 +4,7 @@ import { CommentRankingMongoRepository } from "./db/CommentRankingMongoRepositor
 import { CommentRankingService } from "./service";
 import { CommentRankingServiceImpl } from "./service/CommentRankingServiceImpl";
 
+export type { RankingComment } from "./service";
 export { CommentRankingService };
 
 export { typeDefs, resolvers } from "./gql";

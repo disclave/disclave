@@ -1,9 +1,9 @@
-import { CommentEntity } from "./entity";
+import { PageCommentEntity } from "./entity";
 import { BaseRepository } from "@/repository";
 import { UserId } from "@/modules/auth";
 import { UrlId } from "@/modules/pages";
 
-export type { CommentEntity };
+export type { PageCommentEntity };
 
 export interface AuthorInfo {
   uid: UserId;
@@ -19,17 +19,17 @@ export interface UrlData {
   };
 }
 
-export abstract class CommentRepository<T = unknown> extends BaseRepository<T> {
-  abstract findComments(
+export abstract class PageCommentRepository<
+  T = unknown
+> extends BaseRepository<T> {
+  abstract findPageComments(
     urlId: UrlId,
     uid: UserId | null
-  ): Promise<Array<CommentEntity>>;
+  ): Promise<Array<PageCommentEntity>>;
 
-  abstract countComments(urlId: UrlId): Promise<number>;
-
-  abstract addComment(
+  abstract addPageComment(
     author: AuthorInfo,
     text: string,
     urlData: UrlData
-  ): Promise<CommentEntity>;
+  ): Promise<PageCommentEntity>;
 }

@@ -1,12 +1,12 @@
-import { Comment } from "@/modules/comments/comments";
+import { PageComment } from "@/modules/comments/page";
 import { container } from "@/inversify.config";
-import { CommentService } from "@/modules/comments/comments/service";
+import { PageCommentService } from "@/modules/comments/page/service";
 import { Unauthorized } from "@/exceptions/exceptions";
 import { AuthProvider, DecodedIdToken, IdToken } from "@/modules/auth";
 
 export const resolvers = () => {
   const authProvider = container.get(AuthProvider);
-  const service = container.get(CommentService);
+  const service = container.get(PageCommentService);
 
   return {
     Query: {
@@ -15,14 +15,11 @@ export const resolvers = () => {
         args,
         { decodedToken }: { decodedToken: DecodedIdToken }
       ) => {
-        const comments = await service.getComments(
+        const comments = await service.getPageComments(
           args.urlId,
           decodedToken?.uid
         );
-        return comments.map(commentToResponse);
-      },
-      countComments: async (_, args) => {
-        return await service.countComments(args.urlId);
+        return comments.map(toResponse);
       },
     },
     Mutation: {
@@ -30,24 +27,23 @@ export const resolvers = () => {
         if (!idToken)
           throw Unauthorized("You have to be authorized to create comment.");
         const decodedToken = await authProvider.verifyIdToken(idToken, true);
-        const comment = await service.addComment(
+        const comment = await service.addPageComment(
           decodedToken.uid,
           args.comment.text,
           args.comment.urlId,
           args.comment.rawUrl
         );
-        return commentToResponse(comment);
+        return toResponse(comment);
       },
     },
   };
 };
 
-function commentToResponse(comment: Comment) {
+function toResponse(comment: PageComment) {
   return {
     id: comment.id,
     text: comment.text,
     author: {
-      id: comment.author.id,
       name: comment.author.name,
     },
     votes: {
@@ -56,9 +52,5 @@ function commentToResponse(comment: Comment) {
       votedDown: comment.votes.votedDown,
     },
     timestamp: comment.timestamp,
-    urlMeta: {
-      websiteId: comment.urlMeta.websiteId,
-      pageId: comment.urlMeta.pageId,
-    },
   };
 }

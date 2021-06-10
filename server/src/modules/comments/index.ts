@@ -1,8 +1,8 @@
 import {
-  container as commentsContainer,
-  typeDefs as commentsTypeDefs,
-  resolvers as commentsResolvers,
-} from "./comments";
+  container as pageCommentsContainer,
+  typeDefs as pageCommentsTypeDefs,
+  resolvers as pageCommentsResolvers,
+} from "./page";
 import {
   container as commentRankingContainer,
   typeDefs as commentRankingTypeDefs,
@@ -14,24 +14,24 @@ import {
   resolvers as commentVoteResolvers,
 } from "./voting";
 
-export { CommentService } from "./comments";
+export { PageCommentService } from "./page";
 export { CommentRankingService } from "./ranking";
 export { CommentVoteService } from "./voting";
 
 export const containers = [
-  commentsContainer,
+  pageCommentsContainer,
   commentRankingContainer,
   commentVoteContainer,
 ];
 
 export const typeDefs = [
-  commentsTypeDefs,
+  pageCommentsTypeDefs,
   commentRankingTypeDefs,
   commentVoteTypeDefs,
 ];
 
 export const resolvers = () => [
-  commentsResolvers(),
+  pageCommentsResolvers(),
   commentRankingResolvers(),
   commentVoteResolvers(),
 ];

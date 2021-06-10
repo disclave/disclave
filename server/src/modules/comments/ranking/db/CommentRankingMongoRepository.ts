@@ -1,8 +1,11 @@
-import { CommentRankingRepository, CommentEntity } from "./index";
+import { CommentRankingRepository, RankingCommentEntity } from "./index";
 import { injectable } from "inversify";
 import { MongoRepository, ClientSession } from "@/connectors/mongodb";
-import { asUserId, UserId } from "@/modules/auth";
-import { commentsDbCollection, getProjection } from "@/database/comments";
+import { UserId } from "@/modules/auth";
+import {
+  commentsDbCollection,
+  getRankingProjection,
+} from "@/database/comments";
 import { DbComment } from "@/database";
 
 @injectable()
@@ -13,7 +16,7 @@ export class CommentRankingMongoRepository
     minVoteSum: number,
     limit: number,
     uid: UserId | null
-  ): Promise<Array<CommentEntity>> {
+  ): Promise<Array<RankingCommentEntity>> {
     const collection = await commentsDbCollection();
     const cursor = collection
       .find(
@@ -21,7 +24,7 @@ export class CommentRankingMongoRepository
           votesSum: { $gte: minVoteSum },
         },
         {
-          projection: getProjection(uid),
+          projection: getRankingProjection(uid),
         }
       )
       .sort({ timestamp: -1 })
@@ -34,7 +37,7 @@ export class CommentRankingMongoRepository
     minVoteSum: number,
     limit: number,
     uid: UserId | null
-  ): Promise<Array<CommentEntity>> {
+  ): Promise<Array<RankingCommentEntity>> {
     const collection = await commentsDbCollection();
     const cursor = collection
       .find(
@@ -42,7 +45,7 @@ export class CommentRankingMongoRepository
           votesSum: { $gte: minVoteSum },
         },
         {
-          projection: getProjection(uid),
+          projection: getRankingProjection(uid),
         }
       )
       .sort({ votesSum: -1, timestamp: -1 })
@@ -52,12 +55,11 @@ export class CommentRankingMongoRepository
   }
 }
 
-function cursorDocToEntity(doc: DbComment): CommentEntity {
+function cursorDocToEntity(doc: DbComment): RankingCommentEntity {
   return {
     id: doc._id.toHexString(),
     text: doc.text,
     author: {
-      id: asUserId(doc.author.id),
       name: doc.author.name,
     },
     votes: {
@@ -66,10 +68,15 @@ function cursorDocToEntity(doc: DbComment): CommentEntity {
       votedDown: doc.votesDown?.length > 0,
     },
     timestamp: new Date(doc.timestamp.getHighBits() * 1000).toUTCString(),
-    url: {
-      raw: doc.url.raw,
+    page: {
       websiteId: doc.url.websiteId,
       pageId: doc.url.pageId,
+      meta: doc.url.meta
+        ? {
+            logo: doc.url.meta.logo ?? null,
+            title: doc.url.meta.title ?? null,
+          }
+        : null,
     },
   };
 }
