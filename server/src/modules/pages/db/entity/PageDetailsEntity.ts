@@ -4,13 +4,14 @@ interface Votes {
   votedDown: boolean;
 }
 
+export interface PageMetaEntity {
+  logo: string | null;
+  title: string | null;
+}
 export interface PageDetailsEntity {
   pageId: string;
   websiteId: string;
   url: string;
-  meta: null | {
-    logo: string | null;
-    title: string | null;
-  };
+  meta: PageMetaEntity | null;
   votes: Votes;
 }

@@ -9,6 +9,15 @@ export interface AuthorInfo {
   name: string;
 }
 
+export interface UrlData {
+  urlId: UrlId;
+  rawUrl: string;
+  urlMeta: null | {
+    logo: string | null;
+    title: string | null;
+  };
+}
+
 export abstract class CommentRepository<T = unknown> extends BaseRepository<T> {
   abstract findComments(
     urlId: UrlId,
@@ -32,8 +41,7 @@ export abstract class CommentRepository<T = unknown> extends BaseRepository<T> {
   abstract addComment(
     author: AuthorInfo,
     text: string,
-    urlId: UrlId,
-    rawUrl: string
+    urlData: UrlData
   ): Promise<CommentEntity>;
 
   abstract setVoteUp(commentId: string, uid: UserId): Promise<boolean>;

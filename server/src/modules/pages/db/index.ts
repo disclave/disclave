@@ -1,8 +1,9 @@
-import { PageDetailsEntity } from "./entity";
+import { PageDetailsEntity, PageMetaEntity } from "./entity";
 import { BaseRepository } from "@/repository";
 import { UserId } from "@/modules/auth";
+import { UrlId } from "..";
 
-export type { PageDetailsEntity };
+export type { PageDetailsEntity, PageMetaEntity };
 
 export interface UrlMeta {
   websiteId: string;
@@ -16,6 +17,8 @@ export interface PageDetailsData {
 }
 
 export abstract class PageRepository<T = unknown> extends BaseRepository<T> {
+  abstract findPageMeta(urlId: UrlId): Promise<PageMetaEntity | null>;
+
   abstract findPageDetails(
     normalizedUrl: string,
     uid: UserId | null
