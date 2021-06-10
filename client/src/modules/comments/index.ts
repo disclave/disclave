@@ -1,15 +1,11 @@
+export type { PageCommentModel } from "./page";
+export { getPageComments, createPageComment } from "./page";
+
+export type { RankingCommentModel } from "./ranking";
+export { getLatestCommentsRanking, getTopCommentsRanking } from "./ranking";
+
 export {
-  getComments,
-  getLatestComments,
-  getTopComments,
-  createComment,
   removeCommentVote,
   addCommentVoteUp,
   addCommentVoteDown,
-} from "./client";
-export type {
-  CommentModel,
-  CommentUrlMeta,
-  CommentAuthor,
-  CommentVotes,
-} from "./CommentModel";
+} from "./vote";
