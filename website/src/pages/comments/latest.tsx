@@ -2,7 +2,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { GetServerSideProps } from 'next';
 import { initServer } from '@/modules/server';
 import { getCommentRankingService, getUserCookie } from '@disclave/server';
-import { CommentModel } from '@disclave/client';
+import { RankingCommentModel } from '@disclave/client';
 import React from 'react';
 import { LatestCommentsPage } from '@/modules/layout/comments/latest';
 
@@ -35,7 +35,7 @@ export const getServerSideProps: GetServerSideProps<LatestCommentsProps> = async
 };
 
 interface LatestCommentsProps {
-  comments: Array<CommentModel>;
+  comments: Array<RankingCommentModel>;
   commentsLimit: number;
   minVoteSum: number;
 }

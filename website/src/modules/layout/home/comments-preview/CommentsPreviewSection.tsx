@@ -1,13 +1,13 @@
 import React from 'react';
 import { useTranslation } from 'next-i18next';
-import { CommentModel, useSession } from '@disclave/client';
-import { Button, PreviewCommentsList } from '@disclave/ui';
+import { RankingCommentModel, useSession } from '@disclave/client';
+import { Button, RankingCommentsList } from '@disclave/ui';
 import { websiteHrefFromMeta } from '@/pages/website/[website]';
 import { SectionHeader } from '../components';
 
 export interface CommentsPreviewSectionProps {
   className?: string;
-  comments: Array<CommentModel>;
+  comments: Array<RankingCommentModel>;
   header: string;
   href: string;
   onVoteDown: (commentId: string) => Promise<void>;
@@ -22,7 +22,7 @@ export const CommentsPreviewSection: React.VFC<CommentsPreviewSectionProps> = (p
   return (
     <section className={props.className}>
       <SectionHeader>{props.header}</SectionHeader>
-      <PreviewCommentsList
+      <RankingCommentsList
         className="py-8"
         actionsHandler={{
           onVoteDown: props.onVoteDown,

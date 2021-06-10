@@ -1,6 +1,6 @@
 import React from 'react';
 import { Layout } from '@/modules/layout';
-import { CommentModel, PageDetailsModel } from '@disclave/client';
+import { PageCommentModel, PageDetailsModel } from '@disclave/client';
 import { WebsiteInfo, WebsiteInfoSkeleton } from './info';
 import { WebsiteComments } from './comments';
 import { loginHref } from '@/pages/auth/login';
@@ -10,7 +10,7 @@ import { registerHref } from '@/pages/auth/register';
 export interface WebsitePageProps {
   website: string;
   pageDetails: PageDetailsModel | null;
-  comments: Array<CommentModel>;
+  comments: Array<PageCommentModel>;
 }
 
 export const WebsitePage: React.VFC<WebsitePageProps> = ({ website, pageDetails, comments }) => {

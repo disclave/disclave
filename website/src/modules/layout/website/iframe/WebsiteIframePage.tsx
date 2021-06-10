@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { CommentModel, PageDetailsModel, useSession } from '@disclave/client';
+import { PageCommentModel, PageDetailsModel, useSession } from '@disclave/client';
 import { loginHref } from '@/pages/auth/login';
 import { PageCommentsContainer } from '@disclave/ui';
 import { useWebsiteComments } from '@/modules/comments';
@@ -10,7 +10,7 @@ import { IframeVote } from './vote';
 export interface WebsiteIframePageProps {
   website: string;
   pageDetails: PageDetailsModel;
-  comments: Array<CommentModel>;
+  comments: Array<PageCommentModel>;
   hideVotes: boolean;
 }
 

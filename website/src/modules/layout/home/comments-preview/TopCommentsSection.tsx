@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'next-i18next';
-import { CommentModel } from '@disclave/client';
+import { RankingCommentModel } from '@disclave/client';
 import { useTopComments } from '@/modules/comments';
 import { CommentsPreviewSection } from '@/modules/layout/home/comments-preview/CommentsPreviewSection';
 import { topCommentsHref } from '@/pages/comments/top';
@@ -8,7 +8,7 @@ import { topCommentsHref } from '@/pages/comments/top';
 export interface TopCommentsSectionProps {
   className?: string;
   commentsLimit: number;
-  comments: Array<CommentModel>;
+  comments: Array<RankingCommentModel>;
   minVoteSum: number;
 }
 

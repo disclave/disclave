@@ -1,7 +1,7 @@
 import React from 'react';
 import { Layout } from '@/modules/layout';
 import { MainSection } from './main';
-import { CommentModel, PageModel } from '@disclave/client';
+import { RankingCommentModel, PageModel } from '@disclave/client';
 import { LatestCommentsSection, TopCommentsSection } from '@/modules/layout/home/comments-preview';
 import { PluginsSection } from '@/modules/layout/home/plugins';
 import { ExtensionsSection } from '@/modules/layout/home/extensions';
@@ -15,7 +15,7 @@ export interface HomePageProps {
     latestPosts: Array<PostPreview>;
   };
   topComments: {
-    comments: Array<CommentModel>;
+    comments: Array<RankingCommentModel>;
     limit: number;
     minVoteSum: number;
   };
@@ -30,7 +30,7 @@ export interface HomePageProps {
     minVoteSum: number;
   };
   latestComments: {
-    comments: Array<CommentModel>;
+    comments: Array<RankingCommentModel>;
     limit: number;
     minVoteSum: number;
   };

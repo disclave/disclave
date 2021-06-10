@@ -2,28 +2,27 @@ import { useState, useEffect, useRef } from 'react';
 import {
   addCommentVoteDown,
   addCommentVoteUp,
-  CommentModel,
   removeCommentVote,
   useSession
 } from '@disclave/client';
 
-type SetComments = (data: Array<CommentModel>) => void;
+type SetComments<T> = (data: Array<T>) => void;
 type VoteDown = (commentId: string) => Promise<void>;
 type VoteRemove = (commentId: string) => Promise<void>;
 type VoteUp = (commentId: string) => Promise<void>;
-type UseComments = {
-  comments: CommentModel[];
-  setComments: SetComments;
+type UseComments<T> = {
+  comments: Array<T>;
+  setComments: SetComments<T>;
   voteDown: VoteDown;
   voteRemove: VoteRemove;
   voteUp: VoteUp;
 };
 
-export const useComments = (
-  initialState: Array<CommentModel>,
+export const useComments = <T>(
+  initialState: Array<T>,
   loading: boolean,
-  getComments: () => Promise<Array<CommentModel>>
-): UseComments => {
+  getComments: () => Promise<Array<T>>
+): UseComments<T> => {
   const [comments, setComments] = useState(initialState);
   const { uid } = useSession();
   const prevUid = useRef(uid);
