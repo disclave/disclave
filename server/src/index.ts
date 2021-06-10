@@ -1,5 +1,5 @@
 import { container } from "./inversify.config";
-import { CommentService } from "@/modules/comments";
+import { CommentService, CommentRankingService } from "@/modules/comments";
 import { initDatabase } from "@/connectors/mongodb";
 import { EmailTemplate, initMailjet } from "@/connectors/mailjet";
 import { EmailService } from "@/modules/email";
@@ -8,9 +8,7 @@ import { initFirebase } from "@/connectors/firebase/Firebase";
 import { PageService } from "./modules/pages";
 import { Bucket, initAWS } from "./connectors/aws";
 import { runAllMigrations } from "./migrations";
-import { PageVoteService } from "./modules/page-voting";
 import { PageRankingService } from "./modules/page-ranking";
-import { CommentRankingService } from "./modules/comment-ranking";
 
 export interface DbConfig {
   dbUri: string;
@@ -86,6 +84,6 @@ export const getEmailService = () => container.get(EmailService);
 export const getCommentService = () => container.get(CommentService);
 export const getCommentRankingService = () =>
   container.get(CommentRankingService);
-  
+
 export const getPageService = () => container.get(PageService);
 export const getPageRankingService = () => container.get(PageRankingService);

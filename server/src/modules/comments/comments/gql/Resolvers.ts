@@ -1,6 +1,6 @@
-import { Comment } from "./models";
+import { Comment } from "@/modules/comments/comments";
 import { container } from "@/inversify.config";
-import { CommentService } from "./index";
+import { CommentService } from "@/modules/comments/comments/service";
 import { Unauthorized } from "@/exceptions/exceptions";
 import { AuthProvider, DecodedIdToken, IdToken } from "@/modules/auth";
 

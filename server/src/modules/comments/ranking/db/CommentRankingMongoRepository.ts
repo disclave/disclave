@@ -1,8 +1,6 @@
-import { CommentEntity } from "@/modules/comments/db/CommentEntity";
-import { CommentRankingRepository } from "./index";
+import { CommentRankingRepository, CommentEntity } from "./index";
 import { injectable } from "inversify";
-import { MongoRepository } from "@/connectors/mongodb";
-import { ClientSession } from "mongodb";
+import { MongoRepository, ClientSession } from "@/connectors/mongodb";
 import { asUserId, UserId } from "@/modules/auth";
 import { commentsDbCollection, getProjection } from "@/database/comments";
 import { DbComment } from "@/database";

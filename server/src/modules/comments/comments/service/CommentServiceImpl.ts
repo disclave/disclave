@@ -1,4 +1,7 @@
-import { CommentEntity, CommentRepository } from "./db";
+import {
+  CommentEntity,
+  CommentRepository,
+} from "@/modules/comments/comments/db";
 import { ProfileService } from "@/modules/profiles";
 import { CommentService, Comment } from "./index";
 import { inject, injectable } from "inversify";

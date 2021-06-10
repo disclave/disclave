@@ -1,4 +1,4 @@
-import { Comment } from "@/modules/comments";
+import { Comment } from "@/modules/comments/comments";
 import { UserId } from "@/modules/auth";
 
 export abstract class CommentRankingService {

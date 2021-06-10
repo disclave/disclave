@@ -1,4 +1,4 @@
-import { CommentEntity } from "./CommentEntity";
+import { CommentEntity } from "./entity";
 import { BaseRepository } from "@/repository";
 import { UserId } from "@/modules/auth";
 import { UrlId } from "@/modules/pages";

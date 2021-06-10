@@ -1,7 +1,5 @@
 import Cors from "micro-cors";
 import { ApolloServer, gql } from "apollo-server-micro";
-import { commentsTypeDefs } from "@/modules/comments/Schemas";
-import { commentsResolvers } from "@/modules/comments/Resolvers";
 import { usersTypeDefs } from "@/modules/profiles/Schemas";
 import { usersResolvers } from "@/modules/profiles/Resolvers";
 import { authTypeDefs } from "@/modules/auth/Schemas";
@@ -19,10 +17,18 @@ import { pageVoteTypeDefs } from "@/modules/page-voting/Schemas";
 import { pageVoteResolvers } from "@/modules/page-voting/Resolvers";
 import { pageRankingTypeDefs } from "@/modules/page-ranking/Schemas";
 import { pageRankingResolvers } from "@/modules/page-ranking/Resolvers";
-import { commentVoteTypeDefs } from "@/modules/comment-voting/Schemas";
-import { commentVoteResolvers } from "@/modules/comment-voting/Resolvers";
-import { commentRankingTypeDefs } from "@/modules/comment-ranking/Schemas";
-import { commentRankingResolvers } from "@/modules/comment-ranking/Resolvers";
+import {
+  commentsResolvers,
+  commentsTypeDefs,
+} from "@/modules/comments/comments/gql";
+import {
+  commentRankingResolvers,
+  commentRankingTypeDefs,
+} from "@/modules/comments/ranking/gql";
+import {
+  commentVoteResolvers,
+  commentVoteTypeDefs,
+} from "@/modules/comments/voting/gql";
 
 const cors = Cors({
   allowMethods: ["POST", "GET", "OPTIONS"],
@@ -69,8 +75,8 @@ const createApolloHandler = (path: string) => {
       pageRankingTypeDefs,
       pageVoteTypeDefs,
       commentsTypeDefs,
-      commentVoteTypeDefs,
       commentRankingTypeDefs,
+      commentVoteTypeDefs,
       usersTypeDefs,
     ],
     resolvers: [
@@ -79,8 +85,8 @@ const createApolloHandler = (path: string) => {
       pageRankingResolvers,
       pageVoteResolvers,
       commentsResolvers,
-      commentVoteResolvers,
       commentRankingResolvers,
+      commentVoteResolvers,
       usersResolvers,
     ],
     context: async ({ req, res }) => {

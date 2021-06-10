@@ -1,7 +1,11 @@
 import { CommentVoteRepository } from "./index";
 import { injectable } from "inversify";
-import { ObjectID, MongoRepository } from "@/connectors/mongodb";
-import { ClientSession, OrderedBulkOperation } from "mongodb";
+import {
+  ObjectID,
+  MongoRepository,
+  ClientSession,
+  OrderedBulkOperation,
+} from "@/connectors/mongodb";
 import { UserId } from "@/modules/auth";
 import { commentsDbCollection } from "@/database/comments";
 

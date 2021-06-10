@@ -1,9 +1,6 @@
 import { Container } from "inversify";
 import "reflect-metadata";
-import { CommentRepository } from "@/modules/comments/db";
-import { CommentMongoRepository } from "@/modules/comments/db/CommentMongoRepository";
-import { CommentService } from "@/modules/comments";
-import { CommentServiceImpl } from "@/modules/comments/CommentServiceImpl";
+
 import { ProfileMongoRepository } from "@/modules/profiles/db/ProfileMongoRepository";
 import { ProfileRepository } from "@/modules/profiles/db";
 import { ProfileService } from "@/modules/profiles";
@@ -32,24 +29,17 @@ import { PageRankingService } from "./modules/page-ranking";
 import { PageVoteService } from "./modules/page-voting";
 import { PageRankingServiceImpl } from "./modules/page-ranking/PageRankingServiceImpl";
 import { PageVoteServiceImpl } from "./modules/page-voting/PageVoteServiceImpl";
-import { CommentVoteRepository } from "./modules/comment-voting/db";
-import { CommentVoteMongoRepository } from "./modules/comment-voting/db/CommentVoteRepository";
-import { CommentVoteService } from "./modules/comment-voting";
-import { CommentVoteServiceImpl } from "./modules/comment-voting/CommentVoteServiceImpl";
-import { CommentRankingRepository } from "./modules/comment-ranking/db";
-import { CommentRankingMongoRepository } from "./modules/comment-ranking/db/CommentRankingMongoRepository";
-import { CommentRankingService } from "./modules/comment-ranking";
-import { CommentRankingServiceImpl } from "./modules/comment-ranking/CommentRankingServiceImpl";
+
+import { containers as commentsContainers } from "@/modules/comments";
 
 const container = new Container();
 
 container.bind(EmailService).to(MailjetEmailService);
 container.bind(AuthProvider).to(FirebaseAuthProvider);
 
+container.load(...commentsContainers);
+
 container.bind(ProfileRepository).to(ProfileMongoRepository);
-container.bind(CommentRepository).to(CommentMongoRepository);
-container.bind(CommentVoteRepository).to(CommentVoteMongoRepository);
-container.bind(CommentRankingRepository).to(CommentRankingMongoRepository);
 container.bind(PageRepository).to(PageMongoRepository);
 container.bind(PageConfigRepository).to(PageConfigMongoRepository);
 container.bind(PageRankingRepository).to(PageRankingMongoRepository);
@@ -58,9 +48,6 @@ container.bind(PageVoteRepository).to(PageVoteMongoRepository);
 container.bind(UrlService).to(UrlServiceImpl);
 container.bind(ImageService).to(ImageServiceImpl);
 container.bind(ProfileService).to(ProfileServiceImpl);
-container.bind(CommentService).to(CommentServiceImpl);
-container.bind(CommentVoteService).to(CommentVoteServiceImpl);
-container.bind(CommentRankingService).to(CommentRankingServiceImpl);
 container.bind(PageService).to(PageServiceImpl);
 container.bind(PageRankingService).to(PageRankingServiceImpl);
 container.bind(PageVoteService).to(PageVoteServiceImpl);

@@ -1,21 +1,13 @@
-import { Comment } from "./models";
-import { UserId } from "@/modules/auth";
-import { UrlId } from "@/modules/pages";
+import { container as commentsContainer } from "./comments";
+import { container as commentRankingContainer } from "./ranking";
+import { container as commentVoteContainer } from "./voting";
 
-export type { Comment };
+export { CommentService } from "./comments";
+export { CommentRankingService } from "./ranking";
+export { CommentVoteService } from "./voting";
 
-export abstract class CommentService {
-  abstract getComments(
-    urlId: UrlId,
-    userId: UserId | null
-  ): Promise<Array<Comment>>;
-
-  abstract countComments(urlId: UrlId): Promise<number>;
-
-  abstract addComment(
-    userId: UserId,
-    text: string,
-    urlId: UrlId,
-    rawUrl: string
-  ): Promise<Comment>;
-}
+export const containers = [
+  commentsContainer,
+  commentRankingContainer,
+  commentVoteContainer,
+]

@@ -1,6 +1,8 @@
-import { CommentEntity } from "@/modules/comments/db/CommentEntity";
+import { CommentEntity } from "@/modules/comments/comments/db/entity/CommentEntity";
 import { BaseRepository } from "@/repository";
 import { UserId } from "@/modules/auth";
+
+export type { CommentEntity };
 
 export abstract class CommentRankingRepository<
   T = unknown

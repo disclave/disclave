@@ -1,5 +1,5 @@
 import { container } from "@/inversify.config";
-import { CommentVoteService } from "./index";
+import { CommentVoteService } from "@/modules/comments/voting/service";
 import { Unauthorized } from "@/exceptions/exceptions";
 import { AuthProvider, IdToken } from "@/modules/auth";
 

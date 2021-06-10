@@ -1,4 +1,4 @@
-import { CommentVoteRepository } from "./db";
+import { CommentVoteRepository } from "@/modules/comments/voting/db";
 import { CommentVoteService } from "./index";
 import { inject, injectable } from "inversify";
 import { UserId } from "@/modules/auth";

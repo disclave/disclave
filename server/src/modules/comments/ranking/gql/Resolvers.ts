@@ -1,6 +1,6 @@
-import { Comment } from "@/modules/comments";
+import { Comment } from "@/modules/comments/comments";
 import { container } from "@/inversify.config";
-import { CommentRankingService } from "./index";
+import { CommentRankingService } from "@/modules/comments/ranking/service";
 import { DecodedIdToken } from "@/modules/auth";
 
 const service = container.get(CommentRankingService);

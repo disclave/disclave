@@ -1,7 +1,9 @@
-import { CommentRankingRepository } from "./db";
-import { CommentEntity } from "@/modules/comments/db";
+import {
+  CommentRankingRepository,
+  CommentEntity,
+} from "@/modules/comments/ranking/db";
 import { CommentRankingService } from "./index";
-import { Comment } from "@/modules/comments";
+import { Comment } from "@/modules/comments/comments";
 import { inject, injectable } from "inversify";
 import { UserId } from "@/modules/auth";
 
