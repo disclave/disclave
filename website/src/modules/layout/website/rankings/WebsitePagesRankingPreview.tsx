@@ -20,6 +20,7 @@ export const WebsitePagesRankingPreview: React.VFC<WebsitePagesRankingPreviewPro
     <section className={props.className}>
       <h4 className="text-xl">{props.header}</h4>
       {/* TODO: hide domain and icon from preview (it is always the same) */}
+      {/* TODO: fix link - it is not refreshing the page */}
       <PagesList
         className="py-3"
         actionHandler={{

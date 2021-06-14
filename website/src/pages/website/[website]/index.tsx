@@ -50,7 +50,7 @@ export const getServerSideProps: GetServerSideProps<WebsiteProps> = async (conte
 
   const topRatedPagesConfig = {
     limit: 5,
-    pageMinVoteSum: 0,
+    pageMinVoteSum: 1,
     commentsMinVoteSum: 0,
     websiteId: pageDetails?.websiteId ?? null,
     excludePageId: pageDetails?.pageId ?? null
