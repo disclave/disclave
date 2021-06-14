@@ -1,17 +1,19 @@
-import { runQuery } from "../../graphql";
-import { PageModel } from "./models";
+import { runQuery } from "../../../graphql";
+import {
+  RankingPageModel,
+  TopCommentedPageRankingParams,
+  TopRatedPageRankingParams,
+} from "./models";
 import { GET_TOP_COMMENTED_PAGES, GET_TOP_RATED_PAGES } from "./schemas";
 
 export async function getTopCommentedPages(
-  minCommentsVoteSum: number,
-  limit: number,
+  params: TopCommentedPageRankingParams,
   noCache: boolean = false
-): Promise<Array<PageModel>> {
-  const result = await runQuery<Array<PageModel>>(
+): Promise<Array<RankingPageModel>> {
+  const result = await runQuery<Array<RankingPageModel>>(
     GET_TOP_COMMENTED_PAGES,
     {
-      minCommentsVoteSum,
-      limit,
+      params,
     },
     "topCommentedPages",
     noCache
@@ -20,15 +22,13 @@ export async function getTopCommentedPages(
 }
 
 export async function getTopRatedPages(
-  minVoteSum: number,
-  limit: number,
+  params: TopRatedPageRankingParams,
   noCache: boolean = false
-): Promise<Array<PageModel>> {
-  const result = await runQuery<Array<PageModel>>(
+): Promise<Array<RankingPageModel>> {
+  const result = await runQuery<Array<RankingPageModel>>(
     GET_TOP_RATED_PAGES,
     {
-      minVoteSum,
-      limit,
+      params,
     },
     "topRatedPages",
     noCache
@@ -36,7 +36,7 @@ export async function getTopRatedPages(
   return result.map(responseToModel);
 }
 
-function responseToModel(data: any): PageModel {
+function responseToModel(data: any): RankingPageModel {
   return {
     id: data.id,
     websiteId: data.websiteId,

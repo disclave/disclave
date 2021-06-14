@@ -18,16 +18,16 @@ const defaultPageRankingResponse = `
 `;
 
 export const GET_TOP_COMMENTED_PAGES = gql`
-  query($minCommentsVoteSum: Int!, $limit: Int!) {
-    topCommentedPages(minCommentsVoteSum: $minCommentsVoteSum, limit: $limit) {
+  query($params: TopCommentedPageRankingParams!) {
+    topCommentedPages(params: $params) {
       ${defaultPageRankingResponse}
     }
   }
 `;
 
 export const GET_TOP_RATED_PAGES = gql`
-  query($minVoteSum: Int!, $limit: Int!) {
-    topRatedPages(minVoteSum: $minVoteSum, limit: $limit) {
+  query($params: TopRatedPageRankingParams!) {
+    topRatedPages(params: $params) {
       ${defaultPageRankingResponse}
     }
   }
