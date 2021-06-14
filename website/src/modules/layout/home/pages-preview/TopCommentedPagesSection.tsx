@@ -17,7 +17,9 @@ export const TopCommentedPagesSection: React.VFC<TopCommentedPagesSectionProps> 
   const { pages, voteRemove, voteUp, voteDown } = useTopCommentedPages(
     props.pages,
     props.minCommentsVoteSum,
-    props.pagesLimit
+    props.pagesLimit,
+    null,
+    null
   );
 
   return (

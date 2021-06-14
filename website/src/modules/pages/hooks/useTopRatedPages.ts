@@ -15,7 +15,9 @@ export const useTopRatedPages = (
   initialState: Array<RankingPageModel>,
   minPagesVoteSum: number,
   minCommentsVoteSum: number,
-  limit: number
+  limit: number,
+  websiteId: string | null,
+  excludePageId: string | null
 ): UseTopRatedPages => {
   const fetchPages = async () => {
     return await getTopRatedPages(
@@ -23,8 +25,8 @@ export const useTopRatedPages = (
         commentsMinVoteSum: minCommentsVoteSum,
         pageMinVoteSum: minPagesVoteSum,
         limit: limit,
-        excludePageId: null,
-        websiteId: null
+        excludePageId: excludePageId,
+        websiteId: websiteId
       },
       true
     );
