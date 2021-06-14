@@ -1,7 +1,7 @@
 import React from 'react';
 import { Layout } from '@/modules/layout';
 import { MainSection } from './main';
-import { RankingCommentModel, PageModel } from '@disclave/client';
+import { RankingCommentModel, RankingPageModel } from '@disclave/client';
 import { LatestCommentsSection, TopCommentsSection } from '@/modules/layout/home/comments-preview';
 import { PluginsSection } from '@/modules/layout/home/plugins';
 import { ExtensionsSection } from '@/modules/layout/home/extensions';
@@ -17,17 +17,18 @@ export interface HomePageProps {
   topComments: {
     comments: Array<RankingCommentModel>;
     limit: number;
-    minVoteSum: number;
+    minPagesVoteSum: number;
   };
   topCommentedPages: {
-    pages: Array<PageModel>;
+    pages: Array<RankingPageModel>;
     limit: number;
     minCommentsVoteSum: number;
   };
   topRatedPages: {
-    pages: Array<PageModel>;
+    pages: Array<RankingPageModel>;
     limit: number;
-    minVoteSum: number;
+    minPagesVoteSum: number;
+    minCommentsVoteSum: number;
   };
   latestComments: {
     comments: Array<RankingCommentModel>;
@@ -51,7 +52,7 @@ export const HomePage: React.VFC<HomePageProps> = (props) => {
             className="lg:w-1/2 p-4"
             commentsLimit={props.topComments.limit}
             comments={props.topComments.comments}
-            minVoteSum={props.topComments.minVoteSum}
+            minVoteSum={props.topComments.minPagesVoteSum}
           />
 
           <BlogPreviewSection className="lg:w-1/2 p-4" posts={props.blog.latestPosts} />
@@ -83,7 +84,8 @@ export const HomePage: React.VFC<HomePageProps> = (props) => {
             className="lg:w-1/2 p-4"
             pages={props.topRatedPages.pages}
             pagesLimit={props.topRatedPages.limit}
-            minVoteSum={props.topRatedPages.minVoteSum}
+            minPagesVoteSum={props.topRatedPages.minPagesVoteSum}
+            minCommentsVoteSum={props.topRatedPages.minCommentsVoteSum}
           />
 
           <PluginsSection className="lg:w-1/2 p-4" />

@@ -94,7 +94,10 @@ export class PageRankingMongoRepository
       {
         $lookup: {
           from: commentsCollection,
-          let: { websiteId: "$_id.websiteId", pageId: "$_id.pageId" },
+          let: {
+            websiteId: "$_id.websiteId",
+            pageId: "$_id.pageId",
+          },
           pipeline: [
             {
               $match: {
@@ -102,7 +105,7 @@ export class PageRankingMongoRepository
                   $and: [
                     { $eq: ["$url.websiteId", "$$websiteId"] },
                     { $eq: ["$url.pageId", "$$pageId"] },
-                    { $gte: ["votesSum", params.commentsMinVoteSum] },
+                    { $gte: ["$votesSum", params.commentsMinVoteSum] },
                   ],
                 },
               },
