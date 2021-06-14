@@ -70,6 +70,10 @@ export const ExampleComment: RankingCommentModel = {
   page: {
     websiteId: "example.com",
     pageId: "%2Fpage%2Fwith%2Fexample%2Furl",
-    meta: null,
+    meta: {
+      logo:
+        "https://disclave-pages.s3.amazonaws.com/logo/disclave.com%252F.png",
+      title: "This is a title",
+    },
   },
 };

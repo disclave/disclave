@@ -7,7 +7,7 @@ import {
   CommentFooter,
   CommentTimestamp,
 } from "@/components/comments/list-item";
-import { CommentWebsiteInfo } from "./website";
+import { CommentPageInfo } from "./page";
 
 export interface RankingCommentProps {
   actionsHandler: CommentActionsHandler;
@@ -45,7 +45,7 @@ export const RankingComment: React.VFC<RankingCommentProps> = (props) => {
 
   return (
     <LinkBox className="px-2 py-1" href={detailsHref}>
-      <CommentWebsiteInfo urlId={urlId} />
+      <CommentPageInfo page={props.comment.page} />
 
       <div className="mb-0.5">
         <span className="font-semibold text-sm">
