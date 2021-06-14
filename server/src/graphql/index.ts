@@ -11,16 +11,14 @@ import {
   DecodedIdToken,
   IdToken,
 } from "@/modules/auth";
-import { pagesTypeDefs } from "@/modules/pages/Schemas";
-import { pagesResolvers } from "@/modules/pages/Resolvers";
-import { pageVoteTypeDefs } from "@/modules/page-voting/Schemas";
-import { pageVoteResolvers } from "@/modules/page-voting/Resolvers";
-import { pageRankingTypeDefs } from "@/modules/page-ranking/Schemas";
-import { pageRankingResolvers } from "@/modules/page-ranking/Resolvers";
 import {
   typeDefs as commentsTypeDefs,
   resolvers as commentsResolvers,
-} from "@/modules/comments/";
+} from "@/modules/comments";
+import {
+  typeDefs as pagesTypeDefs,
+  resolvers as pagesResolvers,
+} from "@/modules/pages";
 
 const cors = Cors({
   allowMethods: ["POST", "GET", "OPTIONS"],
@@ -63,17 +61,13 @@ const createApolloHandler = (path: string) => {
     typeDefs: [
       baseTypes,
       authTypeDefs,
-      pagesTypeDefs,
-      pageRankingTypeDefs,
-      pageVoteTypeDefs,
+      ...pagesTypeDefs,
       ...commentsTypeDefs,
       usersTypeDefs,
     ],
     resolvers: [
       authResolvers,
-      pagesResolvers,
-      pageRankingResolvers,
-      pageVoteResolvers,
+      ...pagesResolvers(),
       ...commentsResolvers(),
       usersResolvers,
     ],

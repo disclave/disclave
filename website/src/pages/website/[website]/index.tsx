@@ -1,7 +1,7 @@
 import React from 'react';
 import { GetServerSideProps } from 'next';
 import { PageCommentModel, UrlId, encodeUrl, PageDetailsModel } from '@disclave/client';
-import { getPageCommentService, getUserCookie, getPageService } from '@disclave/server';
+import { getPageCommentService, getUserCookie, getPageDetailsService } from '@disclave/server';
 import { WebsitePage } from '@/modules/layout/website';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { initServer } from '@/modules/server';
@@ -19,7 +19,7 @@ export const getServerSideProps: GetServerSideProps<WebsiteProps> = async (conte
   await initServer();
   const userCookie = getUserCookie(context.req);
   const commentService = getPageCommentService();
-  const pageService = getPageService();
+  const pageDetailsService = getPageDetailsService();
 
   const translationsPromise = serverSideTranslations(context.locale, [
     'common',
@@ -28,7 +28,7 @@ export const getServerSideProps: GetServerSideProps<WebsiteProps> = async (conte
   ]);
 
   const website = context.query.website as string;
-  const pageDetails = await pageService.getSavedPageDetails(website, userCookie?.uid);
+  const pageDetails = await pageDetailsService.getSavedPageDetails(website, userCookie?.uid);
   const commentsPromise = pageDetails
     ? commentService.getPageComments(
         { websiteId: pageDetails.websiteId, pageId: pageDetails.pageId },

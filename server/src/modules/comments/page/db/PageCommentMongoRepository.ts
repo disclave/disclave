@@ -10,7 +10,7 @@ import {
   MongoRepository,
   ClientSession,
 } from "@/connectors/mongodb";
-import { asUserId, UserId } from "@/modules/auth";
+import { UserId } from "@/modules/auth";
 import { commentsDbCollection, getProjection } from "@/database/comments";
 import { DbComment } from "@/database";
 import { UrlId } from "@/modules/pages";

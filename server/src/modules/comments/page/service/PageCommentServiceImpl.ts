@@ -8,15 +8,16 @@ import { inject, injectable } from "inversify";
 import escapeHtml from "escape-html";
 import { CommentTextMaxLength, CommentTextMinLength } from "./exceptions";
 import { UserId } from "@/modules/auth";
-import { PageService, UrlId } from "@/modules/pages";
+import { PageDetailsService } from "@/modules/pages/details/service";
+import { UrlId } from "@/modules/pages";
 
 @injectable()
 export class PageCommentServiceImpl implements PageCommentService {
   @inject(ProfileService)
   private profileService: ProfileService;
 
-  @inject(PageService)
-  private pageService: PageService;
+  @inject(PageDetailsService)
+  private pageDetailsService: PageDetailsService;
 
   @inject(PageCommentRepository)
   private repository: PageCommentRepository;
@@ -38,7 +39,7 @@ export class PageCommentServiceImpl implements PageCommentService {
     const escapedText = validateAndParseCommentText(text);
 
     const authorPromise = this.profileService.getProfile(uid);
-    const pageMetaPromise = this.pageService.getSavedPageMeta(urlId);
+    const pageMetaPromise = this.pageDetailsService.getSavedPageMeta(urlId);
 
     const result = await this.repository.addPageComment(
       await authorPromise,
