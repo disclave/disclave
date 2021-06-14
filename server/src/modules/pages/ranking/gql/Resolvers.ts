@@ -17,10 +17,10 @@ export const resolvers = () => {
       ) => {
         const pages = await service.getTopCommentedPages(
           {
-            limit: args.limit,
-            websiteId: args.websiteId ?? null,
-            excludePageId: args.excludePageId ?? null,
-            commentsMinVoteSum: args.commentsMinVoteSum,
+            limit: args.params.limit,
+            websiteId: args.params.websiteId ?? null,
+            excludePageId: args.params.excludePageId ?? null,
+            commentsMinVoteSum: args.params.commentsMinVoteSum,
           },
           decodedToken?.uid
         );
@@ -33,11 +33,11 @@ export const resolvers = () => {
       ) => {
         const pages = await service.getTopRatedPages(
           {
-            limit: args.limit,
-            websiteId: args.websiteId ?? null,
-            excludePageId: args.excludePageId ?? null,
-            commentsMinVoteSum: args.commentsMinVoteSum,
-            pageMinVoteSum: args.pageMinVoteSum,
+            limit: args.params.limit,
+            websiteId: args.params.websiteId ?? null,
+            excludePageId: args.params.excludePageId ?? null,
+            commentsMinVoteSum: args.params.commentsMinVoteSum,
+            pageMinVoteSum: args.params.pageMinVoteSum,
           },
           decodedToken?.uid
         );

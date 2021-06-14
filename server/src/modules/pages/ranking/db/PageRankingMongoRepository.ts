@@ -24,7 +24,7 @@ export class PageRankingMongoRepository
       {
         $match: {
           votesSum: { $gte: params.commentsMinVoteSum },
-          ...(params.websiteId ? { "url.webisteId": params.websiteId } : {}),
+          ...(params.websiteId ? { "url.websiteId": params.websiteId } : {}),
           ...(params.excludePageId
             ? { "url.pageId": { $ne: params.excludePageId } }
             : {}),
@@ -82,7 +82,7 @@ export class PageRankingMongoRepository
       {
         $match: {
           votesSum: { $gte: params.pageMinVoteSum },
-          ...(params.websiteId ? { "_id.webisteId": params.websiteId } : {}),
+          ...(params.websiteId ? { "_id.websiteId": params.websiteId } : {}),
           ...(params.excludePageId
             ? { "_id.pageId": { $ne: params.excludePageId } }
             : {}),
