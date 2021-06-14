@@ -28,6 +28,24 @@ Default.args = {
   page: ExamplePage,
 };
 
+export const HideDomainAndLogo = Template.bind({});
+HideDomainAndLogo.args = {
+  hrefBuilder: mockHrefBuilder,
+  authenticated: true,
+  hideDomain: true,
+  hideLogo: true,
+  page: ExamplePage,
+};
+
+export const HideDomainAndLogoMainPage = Template.bind({});
+HideDomainAndLogoMainPage.args = {
+  hrefBuilder: mockHrefBuilder,
+  authenticated: true,
+  hideDomain: true,
+  hideLogo: true,
+  page: buildExamplePage({ pageId: "/" }),
+};
+
 export const WithoutLogo = Template.bind({});
 WithoutLogo.args = {
   hrefBuilder: mockHrefBuilder,

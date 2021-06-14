@@ -8,6 +8,8 @@ export interface PagesListProps {
   authenticated: boolean;
   className?: string;
   pages: Array<PageModel>;
+  hideDomain: boolean;
+  hideLogo: boolean;
   hrefBuilder: (url: string) => string;
 }
 
@@ -15,6 +17,8 @@ export const PagesList: React.VFC<PagesListProps> = ({
   actionHandler,
   authenticated,
   className,
+  hideDomain,
+  hideLogo,
   pages,
   hrefBuilder,
 }) => {
@@ -32,6 +36,8 @@ export const PagesList: React.VFC<PagesListProps> = ({
           page={p}
           actionHandler={actionHandler}
           authenticated={authenticated}
+          hideDomain={hideDomain}
+          hideLogo={hideLogo}
           hrefBuilder={hrefBuilder}
         />
       ))}
