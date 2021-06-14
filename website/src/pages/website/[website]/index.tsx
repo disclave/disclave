@@ -71,6 +71,7 @@ export const getServerSideProps: GetServerSideProps<WebsiteProps> = async (conte
 
   return {
     props: {
+      key: website,
       comments: await commentsPromise,
       pageDetails: pageDetails,
       website: website,

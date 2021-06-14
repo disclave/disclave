@@ -19,7 +19,6 @@ export const WebsitePagesRankingPreview: React.VFC<WebsitePagesRankingPreviewPro
   return (
     <section className={props.className}>
       <h4 className="text-xl">{props.header}</h4>
-      {/* TODO: fix link - it is not refreshing the page */}
       <PagesList
         className="py-3"
         actionHandler={{
