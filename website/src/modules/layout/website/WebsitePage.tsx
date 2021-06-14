@@ -8,6 +8,7 @@ import { loginHref } from '@/pages/auth/login';
 import { websiteHrefRaw } from '@/pages/website/[website]';
 import { registerHref } from '@/pages/auth/register';
 import { WebsiteTopCommentedPages, WebsiteTopRatedPages } from './rankings';
+import { SkeletonBox } from '@disclave/ui';
 
 export interface WebsitePageProps {
   website: string;
@@ -58,10 +59,13 @@ export const WebsitePage: React.VFC<WebsitePageProps> = ({
             />
           </div>
           <div>
-            <h3 className="text-lg">
-              {/* TODO: add skeleton loader if urlId is null */}
-              <span>{t('more from.header')} </span>
-              <span className="font-semibold">{urlId?.websiteId}</span>
+            <h3 className="text-lg pb-2">
+              <span className="align-middle">{t('more from.header')} </span>
+              {urlId ? (
+                <span className="font-semibold align-middle">{urlId?.websiteId}</span>
+              ) : (
+                <SkeletonBox className="w-36 h-5 inline-block align-middle" />
+              )}
             </h3>
 
             {/* TODO: add skeleton loading if no urlId */}
