@@ -1,26 +1,36 @@
-import { getTopRatedPages, PageModel } from '@disclave/client';
-import { usePages } from '@/modules/pages/hooks/usePages';
+import { getTopRatedPages, RankingPageModel } from '@disclave/client';
+import { usePageRanking } from '@/modules/pages/hooks/usePageRanking';
 
 type VoteDown = (websiteId: string, pageId: string) => Promise<void>;
 type VoteRemove = (websiteId: string, pageId: string) => Promise<void>;
 type VoteUp = (websiteId: string, pageId: string) => Promise<void>;
 type UseTopRatedPages = {
-  pages: PageModel[];
+  pages: RankingPageModel[];
   voteDown: VoteDown;
   voteRemove: VoteRemove;
   voteUp: VoteUp;
 };
 
 export const useTopRatedPages = (
-  initialState: Array<PageModel>,
-  minVoteSum: number,
+  initialState: Array<RankingPageModel>,
+  minPagesVoteSum: number,
+  minCommentsVoteSum: number,
   limit: number
 ): UseTopRatedPages => {
   const fetchPages = async () => {
-    return await getTopRatedPages(minVoteSum, limit, true);
+    return await getTopRatedPages(
+      {
+        commentsMinVoteSum: minCommentsVoteSum,
+        pageMinVoteSum: minPagesVoteSum,
+        limit: limit,
+        excludePageId: null,
+        websiteId: null
+      },
+      true
+    );
   };
 
-  const { pages, voteUp, voteDown, voteRemove } = usePages(initialState, fetchPages);
+  const { pages, voteUp, voteDown, voteRemove } = usePageRanking(initialState, fetchPages);
 
   return {
     pages: pages,

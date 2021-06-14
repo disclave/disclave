@@ -1,15 +1,16 @@
 import React from 'react';
 import { Layout } from '@/modules/layout';
-import { PageModel, useSession } from '@disclave/client';
+import { RankingPageModel, useSession } from '@disclave/client';
 import { PagesList } from '@disclave/ui';
 import { websiteHref } from '@/pages/website/[website]';
 import { useTranslation } from 'next-i18next';
 import { useTopRatedPages } from '@/modules/pages';
 
 export interface TopRatedPagesProps {
-  pages: Array<PageModel>;
+  pages: Array<RankingPageModel>;
   pagesLimit: number;
-  minVoteSum: number;
+  minPagesVoteSum: number;
+  minCommentsVoteSum: number;
 }
 
 export const TopRatedPages: React.VFC<TopRatedPagesProps> = (props) => {
@@ -17,7 +18,8 @@ export const TopRatedPages: React.VFC<TopRatedPagesProps> = (props) => {
   const { isAuthenticated } = useSession();
   const { pages, voteRemove, voteUp, voteDown } = useTopRatedPages(
     props.pages,
-    props.minVoteSum,
+    props.minPagesVoteSum,
+    props.minCommentsVoteSum,
     props.pagesLimit
   );
 

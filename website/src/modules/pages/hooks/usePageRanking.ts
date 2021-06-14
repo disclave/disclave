@@ -2,26 +2,26 @@ import { useEffect, useRef, useState } from 'react';
 import {
   addPageVoteDown,
   addPageVoteUp,
-  PageModel,
+  RankingPageModel,
   removePageVote,
   useSession
 } from '@disclave/client';
 
-type SetPages = (data: Array<PageModel>) => void;
+type SetPages = (data: Array<RankingPageModel>) => void;
 type VoteDown = (websiteId: string, pageId: string) => Promise<void>;
 type VoteRemove = (websiteId: string, pageId: string) => Promise<void>;
 type VoteUp = (websiteId: string, pageId: string) => Promise<void>;
 type UsePages = {
-  pages: PageModel[];
+  pages: RankingPageModel[];
   setPages: SetPages;
   voteDown: VoteDown;
   voteRemove: VoteRemove;
   voteUp: VoteUp;
 };
 
-export const usePages = (
-  initialState: Array<PageModel>,
-  getPages: () => Promise<Array<PageModel>>
+export const usePageRanking = (
+  initialState: Array<RankingPageModel>,
+  getPages: () => Promise<Array<RankingPageModel>>
 ): UsePages => {
   const [pages, setPages] = useState(initialState);
   const { uid } = useSession();
@@ -39,15 +39,15 @@ export const usePages = (
   }, [uid]);
 
   const onVoteUp = async (websiteId: string, pageId: string) => {
-    await addPageVoteUp({websiteId, pageId});
+    await addPageVoteUp({ websiteId, pageId });
   };
 
   const onVoteDown = async (websiteId: string, pageId: string) => {
-    await addPageVoteDown({websiteId, pageId});
+    await addPageVoteDown({ websiteId, pageId });
   };
 
   const onVoteRemove = async (websiteId: string, pageId: string) => {
-    await removePageVote({websiteId, pageId});
+    await removePageVote({ websiteId, pageId });
   };
 
   return {

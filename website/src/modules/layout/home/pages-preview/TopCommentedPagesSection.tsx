@@ -1,13 +1,13 @@
 import React from 'react';
 import { useTranslation } from 'next-i18next';
-import { PageModel } from '@disclave/client';
+import { RankingPageModel } from '@disclave/client';
 import { topCommentedPagesHref } from '@/pages/pages/top-commented';
 import { useTopCommentedPages } from '@/modules/pages';
 import { PagesPreviewSection } from './PagesPreviewSection';
 
 export interface TopCommentedPagesSectionProps {
   className?: string;
-  pages: Array<PageModel>;
+  pages: Array<RankingPageModel>;
   pagesLimit: number;
   minCommentsVoteSum: number;
 }

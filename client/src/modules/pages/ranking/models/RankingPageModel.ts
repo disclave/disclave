@@ -1,4 +1,4 @@
-export interface PageModel {
+export interface RankingPageModel {
   id: string;
   websiteId: string;
   pageId: string;

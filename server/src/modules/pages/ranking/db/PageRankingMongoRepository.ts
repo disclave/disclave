@@ -8,7 +8,7 @@ import {
   TopCommentedPagesAggregation,
   TopRatedPagesAggregation,
 } from "./aggregations";
-import { PageRankingRepository } from ".";
+import { TopCommentedParams, TopRatedParams, PageRankingRepository } from ".";
 import { RankingPageEntity } from "./entity";
 
 @injectable()
@@ -16,21 +16,28 @@ export class PageRankingMongoRepository
   extends MongoRepository
   implements PageRankingRepository<ClientSession> {
   public async findTopCommentedPages(
-    commentsMinVoteSum: number,
-    limit: number,
+    params: TopCommentedParams,
     uid: UserId | null
   ): Promise<Array<RankingPageEntity>> {
     const collection = await commentsDbCollection();
     const cursor = collection.aggregate<TopCommentedPagesAggregation>([
-      { $match: { votesSum: { $gte: commentsMinVoteSum } } },
+      {
+        $match: {
+          votesSum: { $gte: params.commentsMinVoteSum },
+          ...(params.websiteId ? { "url.websiteId": params.websiteId } : {}),
+          ...(params.excludePageId
+            ? { "url.pageId": { $ne: params.excludePageId } }
+            : {}),
+        },
+      },
       {
         $group: {
           _id: { websiteId: "$url.websiteId", pageId: "$url.pageId" },
           commentsCount: { $sum: 1 },
         },
       },
-      { $sort: { commentsCount: -1 } },
-      { $limit: limit },
+      { $sort: { commentsCount: -1, "_id.pageId": 1, "_id.websiteId": 1 } },
+      { $limit: params.limit },
       {
         $lookup: {
           from: pagesCollection,
@@ -53,27 +60,44 @@ export class PageRankingMongoRepository
       },
       { $match: { page: { $exists: true, $size: 1 } } },
       { $unwind: "$page" },
-      { $sort: { commentsCount: -1, "page.votesSum": -1 } },
+      {
+        $sort: {
+          commentsCount: -1,
+          "page.votesSum": -1,
+          "_id.pageId": 1,
+          "_id.websiteId": 1,
+        },
+      },
     ]);
 
     return await cursor.map(topCommentedAggCursorDocToEntity).toArray();
   }
 
   public async findTopRatedPages(
-    minVoteSum: number,
-    limit: number,
+    params: TopRatedParams,
     uid: UserId | null
   ): Promise<Array<RankingPageEntity>> {
     const collection = await pagesDbCollection();
     const cursor = collection.aggregate<TopRatedPagesAggregation>([
-      { $match: { votesSum: { $gte: minVoteSum } } },
-      { $sort: { votesSum: -1 } },
-      { $limit: limit },
+      {
+        $match: {
+          votesSum: { $gte: params.pageMinVoteSum },
+          ...(params.websiteId ? { "_id.websiteId": params.websiteId } : {}),
+          ...(params.excludePageId
+            ? { "_id.pageId": { $ne: params.excludePageId } }
+            : {}),
+        },
+      },
+      { $sort: { votesSum: -1, timestamp: -1 } },
+      { $limit: params.limit },
       { $project: getAggregationProjection(uid) },
       {
         $lookup: {
           from: commentsCollection,
-          let: { websiteId: "$_id.websiteId", pageId: "$_id.pageId" },
+          let: {
+            websiteId: "$_id.websiteId",
+            pageId: "$_id.pageId",
+          },
           pipeline: [
             {
               $match: {
@@ -81,6 +105,7 @@ export class PageRankingMongoRepository
                   $and: [
                     { $eq: ["$url.websiteId", "$$websiteId"] },
                     { $eq: ["$url.pageId", "$$pageId"] },
+                    { $gte: ["$votesSum", params.commentsMinVoteSum] },
                   ],
                 },
               },
@@ -99,7 +124,7 @@ export class PageRankingMongoRepository
         },
       },
       { $unwind: { path: "$comments", preserveNullAndEmptyArrays: true } },
-      { $sort: { votesSum: -1, "comments.count": -1 } },
+      { $sort: { votesSum: -1, "comments.count": -1, timestamp: -1 } },
     ]);
 
     return await cursor.map(topRatedAggCursorDocToEntity).toArray();

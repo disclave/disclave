@@ -3,7 +3,7 @@ import { GetServerSideProps } from 'next';
 import React from 'react';
 import { initServer } from '@/modules/server';
 import { getCommentRankingService, getPageRankingService, getUserCookie } from '@disclave/server';
-import { RankingCommentModel, PageModel } from '@disclave/client';
+import { RankingCommentModel, RankingPageModel } from '@disclave/client';
 import { HomePage } from '@/modules/layout/home';
 import { getSortedPostsPreview, PostPreview } from '@/modules/blog';
 
@@ -39,21 +39,24 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (context)
 
   const topCommentedPagesConfig = {
     limit: 6,
-    commentsMinVoteSum: 1
+    commentsMinVoteSum: 0,
+    websiteId: null,
+    excludePageId: null
   };
   const topCommentedPagesPromise = pageRankingService.getTopCommentedPages(
-    topCommentedPagesConfig.commentsMinVoteSum,
-    topCommentedPagesConfig.limit,
+    topCommentedPagesConfig,
     userCookie?.uid
   );
 
   const topRatedPagesConfig = {
     limit: 7,
-    minVoteSum: 0
+    pageMinVoteSum: 0,
+    commentsMinVoteSum: 0,
+    websiteId: null,
+    excludePageId: null
   };
   const topRatedPagesPromise = pageRankingService.getTopRatedPages(
-    topRatedPagesConfig.minVoteSum,
-    topRatedPagesConfig.limit,
+    topRatedPagesConfig,
     userCookie?.uid
   );
 
@@ -67,7 +70,7 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (context)
       topComments: {
         comments: await topCommentsPromise,
         limit: topCommentsConfig.limit,
-        minVoteSum: topCommentsConfig.minVoteSum
+        minPagesVoteSum: topCommentsConfig.minVoteSum
       },
       topCommentedPages: {
         pages: await topCommentedPagesPromise,
@@ -77,7 +80,8 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (context)
       topRatedPages: {
         pages: await topRatedPagesPromise,
         limit: topRatedPagesConfig.limit,
-        minVoteSum: topRatedPagesConfig.minVoteSum
+        minPagesVoteSum: topRatedPagesConfig.pageMinVoteSum,
+        minCommentsVoteSum: topRatedPagesConfig.commentsMinVoteSum
       },
       latestComments: {
         comments: await latestCommentsPromise,
@@ -97,17 +101,18 @@ interface HomeProps {
   topComments: {
     comments: Array<RankingCommentModel>;
     limit: number;
-    minVoteSum: number;
+    minPagesVoteSum: number;
   };
   topCommentedPages: {
-    pages: Array<PageModel>;
+    pages: Array<RankingPageModel>;
     limit: number;
     minCommentsVoteSum: number;
   };
   topRatedPages: {
-    pages: Array<PageModel>;
+    pages: Array<RankingPageModel>;
     limit: number;
-    minVoteSum: number;
+    minPagesVoteSum: number;
+    minCommentsVoteSum: number;
   };
   latestComments: {
     comments: Array<RankingCommentModel>;

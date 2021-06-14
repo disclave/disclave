@@ -1,4 +1,4 @@
-import { runQuery } from "../../graphql";
+import { runQuery } from "../../../graphql";
 import { PageDetailsModel } from "./models";
 import { GET_PAGE_DETAILS } from "./schemas";
 

@@ -1,5 +1,5 @@
-import { client } from "../../graphql";
-import { UrlId } from "../pages/models";
+import { client } from "../../../graphql";
+import { UrlId } from "../models";
 import {
   ADD_PAGE_VOTE_DOWN,
   ADD_PAGE_VOTE_UP,

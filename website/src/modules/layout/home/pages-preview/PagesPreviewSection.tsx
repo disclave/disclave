@@ -1,13 +1,13 @@
 import React from 'react';
 import { useTranslation } from 'next-i18next';
-import { PageModel, useSession } from '@disclave/client';
+import { RankingPageModel, useSession } from '@disclave/client';
 import { Button, PagesList } from '@disclave/ui';
 import { websiteHref } from '@/pages/website/[website]';
 import { SectionHeader } from '../components';
 
 export interface PagesPreviewSectionProps {
   className?: string;
-  pages: Array<PageModel>;
+  pages: Array<RankingPageModel>;
   header: string;
   href: string;
   onVoteDown: (websiteId: string, pageId: string) => Promise<void>;

@@ -3,16 +3,29 @@ import { UserId } from "@/modules/auth";
 
 export type { RankingPage };
 
+export interface RankingConfig {
+  limit: number;
+  websiteId: string | null;
+  excludePageId: string | null;
+}
+
+export interface TopCommentedConfig extends RankingConfig {
+  commentsMinVoteSum: number;
+}
+
+export interface TopRatedConfig extends RankingConfig {
+  pageMinVoteSum: number;
+  commentsMinVoteSum: number;
+}
+
 export abstract class PageRankingService {
   abstract getTopCommentedPages(
-    commentsMinVoteSum: number,
-    limit: number,
+    config: TopCommentedConfig,
     userId: UserId | null
   ): Promise<Array<RankingPage>>;
 
   abstract getTopRatedPages(
-    minVoteSum: number,
-    limit: number,
+    config: TopRatedConfig,
     userId: UserId | null
   ): Promise<Array<RankingPage>>;
 }
