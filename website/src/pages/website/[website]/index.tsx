@@ -30,7 +30,7 @@ export const getServerSideProps: GetServerSideProps<WebsiteProps> = async (conte
   const website = context.query.website as string;
   const pageDetails = await pageService.getSavedPageDetails(website, userCookie?.uid);
   const commentsPromise = pageDetails
-    ? commentService.getComments(
+    ? commentService.getPageComments(
         { websiteId: pageDetails.websiteId, pageId: pageDetails.pageId },
         userCookie?.uid
       )

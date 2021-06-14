@@ -23,7 +23,7 @@ export const getServerSideProps: GetServerSideProps<IFrameProps> = async (contex
     pageId: pageDetails.pageId
   };
 
-  const commentsPromise = commentService.getComments(urlId, userCookie?.uid);
+  const commentsPromise = commentService.getPageComments(urlId, userCookie?.uid);
 
   const hideVotes = context.query.hideVotes !== undefined;
 
