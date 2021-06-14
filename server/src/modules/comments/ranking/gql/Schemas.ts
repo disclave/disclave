@@ -19,7 +19,7 @@ export const typeDefs = gql`
   type RankingCommentPage {
     websiteId: String!
     pageId: String!
-    meta: RankingCommentPageMeta;
+    meta: RankingCommentPageMeta
   }
 
   type RankingComment {
