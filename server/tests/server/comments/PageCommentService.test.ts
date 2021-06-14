@@ -1,30 +1,30 @@
-import { CommentRepository } from "@/modules/comments/comments/db";
-import { CommentRepositoryMock } from "../../mocks/CommentRepositoryMock";
+import { PageCommentRepository } from "@/modules/comments/page/db";
+import { PageCommentRepositoryMock } from "../../mocks/PageCommentRepositoryMock";
 import { ProfileService } from "@/modules/profiles";
 import { ProfileServiceMock } from "../../mocks/ProfileServiceMock";
 import { PageService } from "@/modules/pages";
 import { PageServiceMock } from "../../mocks/PageServiceMock";
-import { ParsedUrlData, UrlService } from "@/modules/url";
+import { UrlService } from "@/modules/url";
 import { Container } from "inversify";
 import { UrlServiceImpl } from "@/modules/url/UrlServiceImpl";
-import { Comment, CommentService } from "@/modules/comments/comments";
-import { CommentServiceImpl } from "@/modules/comments/comments/service/CommentServiceImpl";
+import { PageComment, PageCommentService } from "@/modules/comments/page";
+import { PageCommentServiceImpl } from "@/modules/comments/page/service/PageCommentServiceImpl";
 import { asUserId } from "@/modules/auth";
 
-describe("Testing CommentService", () => {
+describe("Testing PageCommentService", () => {
   const container = new Container();
   const urlService = new UrlServiceImpl();
 
   container.bind(UrlService).toConstantValue(urlService);
   container.bind(ProfileService).to(ProfileServiceMock);
   container.bind(PageService).to(PageServiceMock);
-  container.bind(CommentRepository).to(CommentRepositoryMock);
+  container.bind(PageCommentRepository).to(PageCommentRepositoryMock);
 
-  container.bind<CommentService>(CommentServiceImpl).toSelf();
-  const service = container.get<CommentService>(CommentServiceImpl);
+  container.bind<PageCommentService>(PageCommentServiceImpl).toSelf();
+  const service = container.get<PageCommentService>(PageCommentServiceImpl);
 
   afterEach(() => {
-    CommentRepositoryMock.deleteAll();
+    PageCommentRepositoryMock.deleteAll();
   });
 
   test("should add and return comment", async () => {
@@ -36,9 +36,9 @@ describe("Testing CommentService", () => {
     const parsedUrl = urlService.parseUrl(normalized);
     const urlId = { websiteId: parsedUrl.websiteId, pageId: parsedUrl.pageId };
 
-    const result = await service.addComment(userId, text, urlId, url);
+    const result = await service.addPageComment(userId, text, urlId, url);
 
-    expectCommentToEqualInput(result, text, parsedUrl);
+    expectCommentToEqualInput(result, text);
   });
 
   test("should escape html in comment text", async () => {
@@ -50,7 +50,7 @@ describe("Testing CommentService", () => {
     const parsedUrl = urlService.parseUrl(normalized);
     const urlId = { websiteId: parsedUrl.websiteId, pageId: parsedUrl.pageId };
 
-    const result = await service.addComment(userId, text, urlId, url);
+    const result = await service.addPageComment(userId, text, urlId, url);
 
     expect(result.text).toEqual(
       "Comment to &lt;b&gt;be&lt;/b&gt; &quot;escaped&quot; &lt;script&gt;alert(1)&lt;/script&gt;"
@@ -67,7 +67,7 @@ describe("Testing CommentService", () => {
     const urlId = { websiteId: parsedUrl.websiteId, pageId: parsedUrl.pageId };
 
     await expect(async () => {
-      await service.addComment(userId, text, urlId, url);
+      await service.addPageComment(userId, text, urlId, url);
     }).rejects.toThrow();
   });
 
@@ -81,7 +81,7 @@ describe("Testing CommentService", () => {
     const urlId = { websiteId: parsedUrl.websiteId, pageId: parsedUrl.pageId };
 
     await expect(async () => {
-      await service.addComment(userId, text, urlId, url);
+      await service.addPageComment(userId, text, urlId, url);
     }).rejects.toThrow();
   });
 
@@ -95,15 +95,15 @@ describe("Testing CommentService", () => {
 
     const texts = ["Comment text 1!", "Comment text 2!", "Comment text 3!"];
 
-    for (const t of texts) await service.addComment(userId, t, urlId, url);
+    for (const t of texts) await service.addPageComment(userId, t, urlId, url);
 
-    const result = await service.getComments(urlId, null);
+    const result = await service.getPageComments(urlId, null);
 
     expect(result).toHaveLength(texts.length);
     for (const r of result) {
       const t = texts.find((t) => t == r.text);
       expect(t).not.toBeUndefined();
-      expectCommentToEqualInput(r, t, parsedUrl);
+      expectCommentToEqualInput(r, t);
     }
   });
 
@@ -127,7 +127,7 @@ describe("Testing CommentService", () => {
         websiteId: parsedUrl.websiteId,
         pageId: parsedUrl.pageId,
       };
-      await service.addComment(userId, c.text, urlId, c.url);
+      await service.addPageComment(userId, c.text, urlId, c.url);
     }
 
     for (const c of comments) {
@@ -138,28 +138,22 @@ describe("Testing CommentService", () => {
         pageId: parsedUrl.pageId,
       };
 
-      const result = await service.getComments(urlId, null);
+      const result = await service.getPageComments(urlId, null);
 
       expect(result).toHaveLength(1);
-      expectCommentToEqualInput(result[0], c.text, parsedUrl);
+      expectCommentToEqualInput(result[0], c.text);
     }
   });
 
   const expectCommentToEqualInput = (
-    comment: Comment,
-    text: string,
-    parsedUrl: ParsedUrlData
+    comment: PageComment,
+    text: string
   ) => {
     expect(comment.id).not.toBeNull();
     expect(comment.id).not.toBe("");
     expect(comment.text).toEqual(text);
     expect(comment.timestamp).toEqual(
-      CommentRepositoryMock.mockDate.toISOString()
-    );
-    expect(comment.urlMeta.websiteId).toEqual(parsedUrl.websiteId);
-    expect(comment.urlMeta.pageId).toEqual(parsedUrl.pageId);
-    expect(comment.author.id).toEqual(
-      ProfileServiceMock.defaultUserProfile.uid
+      PageCommentRepositoryMock.mockDate.toISOString()
     );
     expect(comment.author.name).toEqual(
       ProfileServiceMock.defaultUserProfile.name
