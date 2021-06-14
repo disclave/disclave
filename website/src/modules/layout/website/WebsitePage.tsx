@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'next-i18next';
 import { Layout } from '@/modules/layout';
 import { PageCommentModel, PageDetailsModel, RankingPageModel } from '@disclave/client';
 import { WebsiteInfo, WebsiteInfoSkeleton } from './info';
@@ -32,6 +33,8 @@ export const WebsitePage: React.VFC<WebsitePageProps> = ({
   topCommentedPages,
   topRatedPages
 }) => {
+  const { t } = useTranslation('website');
+
   const loginHrefWithRedirect = loginHref(websiteHrefRaw, website);
   const registerHrefWithRedirect = registerHref(websiteHrefRaw, website);
 
@@ -57,8 +60,8 @@ export const WebsitePage: React.VFC<WebsitePageProps> = ({
           <div>
             <h3 className="text-lg">
               {/* TODO: add skeleton loader if urlId is null */}
-              {/* TODO: add translations */}
-              More from <span className="font-semibold">{urlId?.websiteId}</span>
+              <span>{t('more from.header')} </span>
+              <span className="font-semibold">{urlId?.websiteId}</span>
             </h3>
 
             {/* TODO: add skeleton loading if no urlId */}

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'next-i18next';
 import { RankingPageModel, UrlId } from '@disclave/client';
 import { useTopRatedPages } from '@/modules/pages';
 import { WebsitePagesRankingPreview } from './WebsitePagesRankingPreview';
@@ -14,6 +15,7 @@ export interface WebsiteTopRatedPagesProps {
 }
 
 export const WebsiteTopRatedPages: React.VFC<WebsiteTopRatedPagesProps> = (props) => {
+  const { t } = useTranslation('website');
   const { pages, voteRemove, voteUp, voteDown } = useTopRatedPages(
     props.pages,
     props.minPagesVoteSum,
@@ -23,12 +25,11 @@ export const WebsiteTopRatedPages: React.VFC<WebsiteTopRatedPagesProps> = (props
     props.urlId.pageId
   );
 
-  // TODO: add translations
   return (
     <WebsitePagesRankingPreview
       className={props.className}
       pages={pages}
-      header="Top rated"
+      header={t('more from.top rated header')}
       href={topRatedPagesHref()}
       onVoteDown={voteDown}
       onVoteRemove={voteRemove}
