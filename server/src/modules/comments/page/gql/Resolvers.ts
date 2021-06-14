@@ -10,7 +10,7 @@ export const resolvers = () => {
 
   return {
     Query: {
-      getComments: async (
+      getPageComments: async (
         _,
         args,
         { decodedToken }: { decodedToken: DecodedIdToken }
@@ -23,7 +23,7 @@ export const resolvers = () => {
       },
     },
     Mutation: {
-      createComment: async (_, args, { idToken }: { idToken: IdToken }) => {
+      createPageComment: async (_, args, { idToken }: { idToken: IdToken }) => {
         if (!idToken)
           throw Unauthorized("You have to be authorized to create comment.");
         const decodedToken = await authProvider.verifyIdToken(idToken, true);
