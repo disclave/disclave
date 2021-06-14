@@ -1,9 +1,14 @@
-import { PageService, UrlId, PageMeta, PageDetails } from "@/modules/pages";
+import {
+  PageDetailsService,
+  PageMeta,
+  PageDetails,
+} from "@/modules/pages/details";
+import { UrlId } from "@/modules/pages";
 import { injectable } from "inversify";
 import { UserId } from "@/modules/auth";
 
 @injectable()
-export class PageServiceMock implements PageService {
+export class PageDetailsServiceMock implements PageDetailsService {
   async getSavedPageMeta(urlId: UrlId): Promise<PageMeta | null> {
     return null;
   }
