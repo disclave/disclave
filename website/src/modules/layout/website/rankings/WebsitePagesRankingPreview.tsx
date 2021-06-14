@@ -19,7 +19,6 @@ export const WebsitePagesRankingPreview: React.VFC<WebsitePagesRankingPreviewPro
   return (
     <section className={props.className}>
       <h4 className="text-xl">{props.header}</h4>
-      {/* TODO: hide domain and icon from preview (it is always the same) */}
       {/* TODO: fix link - it is not refreshing the page */}
       <PagesList
         className="py-3"
@@ -29,6 +28,8 @@ export const WebsitePagesRankingPreview: React.VFC<WebsitePagesRankingPreviewPro
           onVoteUp: props.onVoteUp
         }}
         authenticated={isAuthenticated}
+        hideDomain={true}
+        hideLogo={true}
         hrefBuilder={websiteHref}
         pages={props.pages}
       />

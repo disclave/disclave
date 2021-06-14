@@ -20,12 +20,14 @@ export const TopRatedPages: React.VFC<TopRatedPagesProps> = (props) => {
     props.pages,
     props.minPagesVoteSum,
     props.minCommentsVoteSum,
-    props.pagesLimit
+    props.pagesLimit,
+    null,
+    null
   );
 
   return (
     <Layout>
-      <section className="container mx-auto max-w-3xl py-8 px-4">
+      <section className="container mx-auto max-w-4xl py-8 px-4">
         <h1 className="text-3xl pb-4">{t('top rated.header')}</h1>
         <PagesList
           authenticated={isAuthenticated}
@@ -34,6 +36,8 @@ export const TopRatedPages: React.VFC<TopRatedPagesProps> = (props) => {
             onVoteUp: voteUp,
             onVoteRemove: voteRemove
           }}
+          hideDomain={false}
+          hideLogo={false}
           hrefBuilder={websiteHref}
           pages={pages}
         />

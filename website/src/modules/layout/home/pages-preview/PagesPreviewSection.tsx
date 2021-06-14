@@ -30,6 +30,8 @@ export const PagesPreviewSection: React.VFC<PagesPreviewSectionProps> = (props) 
           onVoteUp: props.onVoteUp
         }}
         authenticated={isAuthenticated}
+        hideDomain={false}
+        hideLogo={false}
         hrefBuilder={websiteHref}
         pages={props.pages}
       />

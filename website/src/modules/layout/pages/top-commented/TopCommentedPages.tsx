@@ -18,7 +18,9 @@ export const TopCommentedPages: React.VFC<TopCommentedPagesProps> = (props) => {
   const { pages, voteRemove, voteUp, voteDown } = useTopCommentedPages(
     props.pages,
     props.minCommentsVoteSum,
-    props.pagesLimit
+    props.pagesLimit,
+    null,
+    null
   );
 
   return (
@@ -32,6 +34,8 @@ export const TopCommentedPages: React.VFC<TopCommentedPagesProps> = (props) => {
             onVoteUp: voteUp,
             onVoteRemove: voteRemove
           }}
+          hideDomain={false}
+          hideLogo={false}
           hrefBuilder={websiteHref}
           pages={pages}
         />
