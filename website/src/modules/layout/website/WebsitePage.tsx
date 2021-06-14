@@ -1,5 +1,4 @@
 import React from 'react';
-import { useTranslation } from 'next-i18next';
 import { Layout } from '@/modules/layout';
 import { PageCommentModel, PageDetailsModel, RankingPageModel } from '@disclave/client';
 import { WebsiteInfo, WebsiteInfoSkeleton } from './info';
@@ -7,8 +6,7 @@ import { WebsiteComments } from './comments';
 import { loginHref } from '@/pages/auth/login';
 import { websiteHrefRaw } from '@/pages/website/[website]';
 import { registerHref } from '@/pages/auth/register';
-import { WebsiteTopCommentedPages, WebsiteTopRatedPages } from './rankings';
-import { SkeletonBox } from '@disclave/ui';
+import { MoreFrom } from './more-from';
 
 export interface WebsitePageProps {
   website: string;
@@ -34,8 +32,6 @@ export const WebsitePage: React.VFC<WebsitePageProps> = ({
   topCommentedPages,
   topRatedPages
 }) => {
-  const { t } = useTranslation('website');
-
   const loginHrefWithRedirect = loginHref(websiteHrefRaw, website);
   const registerHrefWithRedirect = registerHref(websiteHrefRaw, website);
 
@@ -59,35 +55,11 @@ export const WebsitePage: React.VFC<WebsitePageProps> = ({
             />
           </div>
           <div>
-            <h3 className="text-lg pb-2">
-              <span className="align-middle">{t('more from.header')} </span>
-              {urlId ? (
-                <span className="font-semibold align-middle">{urlId?.websiteId}</span>
-              ) : (
-                <SkeletonBox className="w-36 h-5 inline-block align-middle" />
-              )}
-            </h3>
-
-            {/* TODO: add skeleton loading if no urlId */}
-            {urlId ? (
-              <WebsiteTopCommentedPages
-                pages={topCommentedPages.pages}
-                pagesLimit={topCommentedPages.limit}
-                minCommentsVoteSum={topCommentedPages.minCommentsVoteSum}
-                urlId={urlId}
-              />
-            ) : null}
-
-            {/* TODO: add skeleton loading if no urlId */}
-            {urlId ? (
-              <WebsiteTopRatedPages
-                pages={topRatedPages.pages}
-                pagesLimit={topRatedPages.limit}
-                minCommentsVoteSum={topRatedPages.minCommentsVoteSum}
-                minPagesVoteSum={topRatedPages.minPagesVoteSum}
-                urlId={urlId}
-              />
-            ) : null}
+            <MoreFrom
+              urlId={urlId}
+              topCommentedPages={topCommentedPages}
+              topRatedPages={topRatedPages}
+            />
           </div>
         </div>
       </div>
