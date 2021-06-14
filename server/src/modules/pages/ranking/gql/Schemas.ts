@@ -1,6 +1,21 @@
 import { gql } from "apollo-server-micro";
 
 export const typeDefs = gql`
+  input TopCommentedPageRankingParams {
+    limit: Int!
+    websiteId: String
+    excludePageId: String
+    commentsMinVoteSum: Int!
+  }
+
+  input TopRatedPageRankingParams {
+    limit: Int!
+    websiteId: String
+    excludePageId: String
+    commentsMinVoteSum: Int!
+    pageMinVoteSum: Int!
+  }
+
   type Page {
     id: ID!
     websiteId: String!
@@ -12,7 +27,7 @@ export const typeDefs = gql`
   }
 
   extend type Query {
-    topCommentedPages(minCommentsVoteSum: Int!, limit: Int!): [Page!]
-    topRatedPages(minVoteSum: Int!, limit: Int!): [Page!]
+    topCommentedPages(params: TopCommentedPageRankingParams!): [Page!]
+    topRatedPages(params: TopRatedPageRankingParams!): [Page!]
   }
 `;

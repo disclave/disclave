@@ -1,5 +1,10 @@
 import { RankingPageEntity, PageRankingRepository } from "../db";
-import { RankingPage, PageRankingService } from "./index";
+import {
+  RankingPage,
+  PageRankingService,
+  TopCommentedConfig,
+  TopRatedConfig,
+} from "./index";
 import { inject, injectable } from "inversify";
 import { UserId } from "@/modules/auth";
 
@@ -9,26 +14,33 @@ export class PageRankingServiceImpl implements PageRankingService {
   private repository: PageRankingRepository;
 
   public async getTopCommentedPages(
-    commentsMinVoteSum: number,
-    limit: number,
+    config: TopCommentedConfig,
     userId: UserId | null
   ): Promise<Array<RankingPage>> {
     const pages = await this.repository.findTopCommentedPages(
-      commentsMinVoteSum,
-      limit,
+      {
+        limit: config.limit,
+        websiteId: config.websiteId,
+        excludePageId: config.excludePageId,
+        commentsMinVoteSum: config.commentsMinVoteSum,
+      },
       userId
     );
     return pages.map(toDomain);
   }
 
   public async getTopRatedPages(
-    minVoteSum: number,
-    limit: number,
+    config: TopRatedConfig,
     userId: UserId | null
   ): Promise<Array<RankingPage>> {
     const pages = await this.repository.findTopRatedPages(
-      minVoteSum,
-      limit,
+      {
+        limit: config.limit,
+        websiteId: config.websiteId,
+        excludePageId: config.excludePageId,
+        commentsMinVoteSum: config.commentsMinVoteSum,
+        pageMinVoteSum: config.pageMinVoteSum,
+      },
       userId
     );
     return pages.map(toDomain);

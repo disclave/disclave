@@ -16,8 +16,12 @@ export const resolvers = () => {
         { decodedToken }: { decodedToken: DecodedIdToken }
       ) => {
         const pages = await service.getTopCommentedPages(
-          args.minCommentsVoteSum,
-          args.limit,
+          {
+            limit: args.limit,
+            websiteId: args.websiteId ?? null,
+            excludePageId: args.excludePageId ?? null,
+            commentsMinVoteSum: args.commentsMinVoteSum,
+          },
           decodedToken?.uid
         );
         return pages.map(pageToResponse);
@@ -28,8 +32,13 @@ export const resolvers = () => {
         { decodedToken }: { decodedToken: DecodedIdToken }
       ) => {
         const pages = await service.getTopRatedPages(
-          args.minVoteSum,
-          args.limit,
+          {
+            limit: args.limit,
+            websiteId: args.websiteId ?? null,
+            excludePageId: args.excludePageId ?? null,
+            commentsMinVoteSum: args.commentsMinVoteSum,
+            pageMinVoteSum: args.pageMinVoteSum,
+          },
           decodedToken?.uid
         );
         return pages.map(pageToResponse);
