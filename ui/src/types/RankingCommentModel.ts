@@ -9,7 +9,7 @@ interface Meta {
   title: string | null;
 }
 
-interface Page {
+export interface RankingCommentPageModel {
   websiteId: string;
   pageId: string;
   meta: Meta | null;
@@ -21,5 +21,5 @@ export interface RankingCommentModel {
   timestamp: string;
   author: Author;
   votes: CommentVotesModel;
-  page: Page;
+  page: RankingCommentPageModel;
 }
