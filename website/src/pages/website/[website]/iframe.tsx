@@ -1,7 +1,7 @@
 import React from 'react';
 import { GetServerSideProps } from 'next';
 import { PageCommentModel, PageDetailsModel } from '@disclave/client';
-import { getPageCommentService, getPageService, getUserCookie } from '@disclave/server';
+import { getPageCommentService, getPageDetailsService, getUserCookie } from '@disclave/server';
 import { initServer } from '@/modules/server';
 import { WebsiteIframePage } from '@/modules/layout/website/iframe';
 import { NextSeo } from 'next-seo';
@@ -14,10 +14,10 @@ export const getServerSideProps: GetServerSideProps<IFrameProps> = async (contex
   await initServer();
   const userCookie = getUserCookie(context.req);
   const commentService = getPageCommentService();
-  const pageService = getPageService();
+  const pageDetailsService = getPageDetailsService();
 
   const website = context.query.website as string;
-  const pageDetails = await pageService.getPageDetails(website, userCookie?.uid);
+  const pageDetails = await pageDetailsService.getPageDetails(website, userCookie?.uid);
   const urlId = {
     websiteId: pageDetails.websiteId,
     pageId: pageDetails.pageId
