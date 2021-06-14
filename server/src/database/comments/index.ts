@@ -6,24 +6,17 @@ import { DbComment } from "../models";
 export const getProjection = (uid: UserId | null) => ({
   text: 1,
   author: {
-    id: 1,
     name: 1,
   },
   votesUp: uid ? { $elemMatch: { $eq: uid } } : undefined,
   votesDown: uid ? { $elemMatch: { $eq: uid } } : undefined,
   votesSum: 1,
   timestamp: 1,
-  url: {
-    raw: 1,
-    websiteId: 1,
-    pageId: 1,
-  },
 });
 
-export const getProjectionWithUrlMeta = (uid: UserId | null) => ({
+export const getRankingProjection = (uid: UserId | null) => ({
   text: 1,
   author: {
-    id: 1,
     name: 1,
   },
   votesUp: uid ? { $elemMatch: { $eq: uid } } : undefined,
@@ -31,7 +24,6 @@ export const getProjectionWithUrlMeta = (uid: UserId | null) => ({
   votesSum: 1,
   timestamp: 1,
   url: {
-    raw: 1,
     websiteId: 1,
     pageId: 1,
     meta: {

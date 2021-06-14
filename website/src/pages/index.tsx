@@ -3,7 +3,7 @@ import { GetServerSideProps } from 'next';
 import React from 'react';
 import { initServer } from '@/modules/server';
 import { getCommentRankingService, getPageRankingService, getUserCookie } from '@disclave/server';
-import { CommentModel, PageModel } from '@disclave/client';
+import { RankingCommentModel, PageModel } from '@disclave/client';
 import { HomePage } from '@/modules/layout/home';
 import { getSortedPostsPreview, PostPreview } from '@/modules/blog';
 
@@ -95,7 +95,7 @@ interface HomeProps {
     latestPosts: Array<PostPreview>;
   };
   topComments: {
-    comments: Array<CommentModel>;
+    comments: Array<RankingCommentModel>;
     limit: number;
     minVoteSum: number;
   };
@@ -110,7 +110,7 @@ interface HomeProps {
     minVoteSum: number;
   };
   latestComments: {
-    comments: Array<CommentModel>;
+    comments: Array<RankingCommentModel>;
     limit: number;
     minVoteSum: number;
   };

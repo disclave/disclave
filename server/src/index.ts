@@ -1,5 +1,5 @@
 import { container } from "./inversify.config";
-import { CommentService, CommentRankingService } from "@/modules/comments";
+import { PageCommentService, CommentRankingService } from "@/modules/comments";
 import { initDatabase } from "@/connectors/mongodb";
 import { EmailTemplate, initMailjet } from "@/connectors/mailjet";
 import { EmailService } from "@/modules/email";
@@ -81,7 +81,7 @@ export type { UserCookieContent } from "./modules/auth";
 export const getProfileService = () => container.get(ProfileService);
 export const getEmailService = () => container.get(EmailService);
 
-export const getCommentService = () => container.get(CommentService);
+export const getPageCommentService = () => container.get(PageCommentService);
 export const getCommentRankingService = () =>
   container.get(CommentRankingService);
 

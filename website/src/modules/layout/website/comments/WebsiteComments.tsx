@@ -1,4 +1,4 @@
-import { CommentModel, useSession, UrlId } from '@disclave/client';
+import { PageCommentModel, useSession, UrlId } from '@disclave/client';
 import React from 'react';
 import { PageCommentsContainer } from '@disclave/ui';
 import { useWebsiteComments } from '@/modules/comments';
@@ -6,7 +6,7 @@ import { useWebsiteComments } from '@/modules/comments';
 export interface WebsiteCommentsProps {
   urlId: UrlId | null;
   website: string;
-  comments: Array<CommentModel>;
+  comments: Array<PageCommentModel>;
   loginHref: string;
   registerHref: string;
 }

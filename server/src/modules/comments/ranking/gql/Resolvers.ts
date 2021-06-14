@@ -1,4 +1,4 @@
-import { Comment } from "@/modules/comments/comments";
+import { RankingComment } from "@/modules/comments/ranking";
 import { container } from "@/inversify.config";
 import { CommentRankingService } from "@/modules/comments/ranking/service";
 import { DecodedIdToken } from "@/modules/auth";
@@ -8,7 +8,7 @@ export const resolvers = () => {
 
   return {
     Query: {
-      latestComments: async (
+      latestCommentsRanking: async (
         _,
         args,
         { decodedToken }: { decodedToken: DecodedIdToken }
@@ -18,9 +18,9 @@ export const resolvers = () => {
           args.limit,
           decodedToken?.uid
         );
-        return comments.map(commentToResponse);
+        return comments.map(toResponse);
       },
-      topComments: async (
+      topCommentsRanking: async (
         _,
         args,
         { decodedToken }: { decodedToken: DecodedIdToken }
@@ -30,18 +30,17 @@ export const resolvers = () => {
           args.limit,
           decodedToken?.uid
         );
-        return comments.map(commentToResponse);
+        return comments.map(toResponse);
       },
     },
   };
 };
 
-function commentToResponse(comment: Comment) {
+function toResponse(comment: RankingComment) {
   return {
     id: comment.id,
     text: comment.text,
     author: {
-      id: comment.author.id,
       name: comment.author.name,
     },
     votes: {
@@ -50,9 +49,15 @@ function commentToResponse(comment: Comment) {
       votedDown: comment.votes.votedDown,
     },
     timestamp: comment.timestamp,
-    urlMeta: {
-      websiteId: comment.urlMeta.websiteId,
-      pageId: comment.urlMeta.pageId,
+    page: {
+      websiteId: comment.page.websiteId,
+      pageId: comment.page.pageId,
+      meta: comment.page.meta
+        ? {
+            logo: comment.page.meta.logo ?? null,
+            title: comment.page.meta.title ?? null,
+          }
+        : null,
     },
   };
 }

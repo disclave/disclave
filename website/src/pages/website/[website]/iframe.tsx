@@ -1,7 +1,7 @@
 import React from 'react';
 import { GetServerSideProps } from 'next';
-import { CommentModel, PageDetailsModel } from '@disclave/client';
-import { getCommentService, getPageService, getUserCookie } from '@disclave/server';
+import { PageCommentModel, PageDetailsModel } from '@disclave/client';
+import { getPageCommentService, getPageService, getUserCookie } from '@disclave/server';
 import { initServer } from '@/modules/server';
 import { WebsiteIframePage } from '@/modules/layout/website/iframe';
 import { NextSeo } from 'next-seo';
@@ -13,7 +13,7 @@ export const websiteIframeHref = (url: string) => `/website/${url}/iframe/`;
 export const getServerSideProps: GetServerSideProps<IFrameProps> = async (context) => {
   await initServer();
   const userCookie = getUserCookie(context.req);
-  const commentService = getCommentService();
+  const commentService = getPageCommentService();
   const pageService = getPageService();
 
   const website = context.query.website as string;
@@ -23,7 +23,7 @@ export const getServerSideProps: GetServerSideProps<IFrameProps> = async (contex
     pageId: pageDetails.pageId
   };
 
-  const commentsPromise = commentService.getComments(urlId, userCookie?.uid);
+  const commentsPromise = commentService.getPageComments(urlId, userCookie?.uid);
 
   const hideVotes = context.query.hideVotes !== undefined;
 
@@ -40,7 +40,7 @@ export const getServerSideProps: GetServerSideProps<IFrameProps> = async (contex
 };
 
 interface IFrameProps {
-  comments: Array<CommentModel>;
+  comments: Array<PageCommentModel>;
   pageDetails: PageDetailsModel;
   website: string;
   hideVotes: boolean;

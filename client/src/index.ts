@@ -31,20 +31,15 @@ export type { ProfileModel, UserModel, SessionMessage } from "./modules/auth";
 export { isUrl, stringToUrl, encodeUrl } from "./modules/url";
 
 export {
-  getComments,
-  getLatestComments,
-  getTopComments,
-  createComment,
+  getPageComments,
+  createPageComment,
+  getLatestCommentsRanking,
+  getTopCommentsRanking,
   removeCommentVote,
   addCommentVoteUp,
   addCommentVoteDown,
 } from "./modules/comments";
-export type {
-  CommentModel,
-  CommentUrlMeta,
-  CommentAuthor,
-  CommentVotes,
-} from "./modules/comments";
+export type { PageCommentModel, RankingCommentModel } from "./modules/comments";
 
 export { getPageDetails } from "./modules/pages";
 export type { PageDetailsModel, UrlId } from "./modules/pages";

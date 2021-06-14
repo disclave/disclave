@@ -1,0 +1,1 @@
+export { RankingComment } from "./RankingComment";

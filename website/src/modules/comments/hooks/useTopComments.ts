@@ -1,23 +1,23 @@
-import { CommentModel, getTopComments } from '@disclave/client';
+import { RankingCommentModel, getTopCommentsRanking } from '@disclave/client';
 import { useComments } from '@/modules/comments/hooks/useComments';
 
 type VoteDown = (commentId: string) => Promise<void>;
 type VoteRemove = (commentId: string) => Promise<void>;
 type VoteUp = (commentId: string) => Promise<void>;
 type UseTopComments = {
-  comments: CommentModel[];
+  comments: RankingCommentModel[];
   voteDown: VoteDown;
   voteRemove: VoteRemove;
   voteUp: VoteUp;
 };
 
 export const useTopComments = (
-  initialState: Array<CommentModel>,
+  initialState: Array<RankingCommentModel>,
   minVoteSum: number,
   limit: number
 ): UseTopComments => {
   const fetchComments = async () => {
-    return await getTopComments(minVoteSum, limit, true);
+    return await getTopCommentsRanking(minVoteSum, limit, true);
   };
 
   const { comments, voteDown, voteUp, voteRemove } = useComments(
