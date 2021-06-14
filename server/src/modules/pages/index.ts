@@ -1,18 +1,40 @@
-import { PageDetails, PageMeta, UrlId } from "./models";
-import { UserId } from "@/modules/auth";
+import { container as pageConfigContainer } from "./config";
+import {
+  container as pageDetailsContainer,
+  typeDefs as pageDetailsTypeDefs,
+  resolvers as pageDetailsResolvers,
+} from "./details";
+import {
+  container as pageRankingContainer,
+  typeDefs as pageRankingTypeDefs,
+  resolvers as pageRankingResolvers,
+} from "./ranking";
+import {
+  container as pageVoteContainer,
+  typeDefs as pageVoteTypeDefs,
+  resolvers as pageVoteResolvers,
+} from "./voting";
 
-export type { PageDetails, PageMeta, UrlId };
+export type { UrlId } from "./models";
 
-export abstract class PageService {
-  abstract getSavedPageMeta(urlId: UrlId): Promise<PageMeta | null>;
+export { PageDetailsService } from "./details";
+export { PageRankingService } from "./ranking";
 
-  abstract getSavedPageDetails(
-    url: string,
-    userId: UserId | null
-  ): Promise<PageDetails | null>;
+export const containers = [
+  pageConfigContainer,
+  pageDetailsContainer,
+  pageRankingContainer,
+  pageVoteContainer,
+];
 
-  abstract getPageDetails(
-    url: string,
-    userId: UserId | null
-  ): Promise<PageDetails>;
-}
+export const typeDefs = [
+  pageDetailsTypeDefs,
+  pageRankingTypeDefs,
+  pageVoteTypeDefs,
+];
+
+export const resolvers = () => [
+  pageDetailsResolvers(),
+  pageRankingResolvers(),
+  pageVoteResolvers(),
+];
