@@ -31,6 +31,13 @@ HideDomainAndLogo.args = {
   hrefBuilder: mockHrefBuilder,
 };
 
+export const Loading = Template.bind({});
+Loading.args = {
+  pages: [],
+  loading: true,
+  hrefBuilder: mockHrefBuilder,
+};
+
 export const Empty = Template.bind({});
 Empty.args = {
   pages: [],
