@@ -76,7 +76,7 @@ async function fetchHtml(
   console.info(`Fetching HTML from '${targetUrl}'`);
   const response = await fetch(targetUrl);
   console.info(
-    `HTML fetched with - response status ${response.status} and redirected ${response.redirected} from '${targetUrl}'`
+    `HTML fetched with - received URL '${response.url}', response status ${response.status} and redirected ${response.redirected} from '${targetUrl}'`
   );
   const html = await response.text();
   return {
