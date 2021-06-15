@@ -1,0 +1,1 @@
+export { RankingPageSkeleton } from "./RankingPageSkeleton";
