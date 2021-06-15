@@ -52,10 +52,12 @@ export class UrlServiceImpl implements UrlService {
 
   public async scrapeUrl(targetUrl: string): Promise<UrlMetaData | null> {
     try {
+      console.info(`Scrape URL - starting for '${targetUrl}'`);
       const { html, url } = await fetchHtml(targetUrl);
+      console.info(`Scrape URL - html fetched for '${targetUrl}'`);
       return await scrapeHtml(html, url);
     } catch (e) {
-      console.warn("scrapUrl", e);
+      console.warn("Scrape URL failed", e);
     }
     return null;
   }
@@ -71,7 +73,11 @@ function encodeURI(str: string): string {
 async function fetchHtml(
   targetUrl: string
 ): Promise<{ html: string; url: string }> {
+  console.info(`Fetching HTML from '${targetUrl}'`);
   const response = await fetch(targetUrl);
+  console.info(
+    `HTML fetched with - response status ${response.status} and redirected ${response.redirected} from '${targetUrl}'`
+  );
   const html = await response.text();
   return {
     html,
