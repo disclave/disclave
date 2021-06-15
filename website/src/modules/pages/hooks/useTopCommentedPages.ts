@@ -13,6 +13,7 @@ type UseTopCommentedPages = {
 
 export const useTopCommentedPages = (
   initialState: Array<RankingPageModel>,
+  loading: boolean,
   minCommentsVoteSum: number,
   limit: number,
   websiteId: string | null,
@@ -30,7 +31,7 @@ export const useTopCommentedPages = (
     );
   };
 
-  const { pages, voteUp, voteDown, voteRemove } = usePageRanking(initialState, fetchPages);
+  const { pages, voteUp, voteDown, voteRemove } = usePageRanking(initialState, loading, fetchPages);
 
   return {
     pages: pages,

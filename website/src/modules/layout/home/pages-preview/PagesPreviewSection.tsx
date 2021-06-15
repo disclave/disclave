@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'next-i18next';
 import { RankingPageModel, useSession } from '@disclave/client';
-import { Button, PagesList } from '@disclave/ui';
+import { Button, RankingPagesList } from '@disclave/ui';
 import { websiteHref } from '@/pages/website/[website]';
 import { SectionHeader } from '../components';
 
@@ -22,7 +22,7 @@ export const PagesPreviewSection: React.VFC<PagesPreviewSectionProps> = (props) 
   return (
     <section className={props.className}>
       <SectionHeader>{props.header}</SectionHeader>
-      <PagesList
+      <RankingPagesList
         className="py-8"
         actionHandler={{
           onVoteDown: props.onVoteDown,
@@ -33,6 +33,7 @@ export const PagesPreviewSection: React.VFC<PagesPreviewSectionProps> = (props) 
         hideDomain={false}
         hideLogo={false}
         hrefBuilder={websiteHref}
+        loading={false}
         pages={props.pages}
       />
 

@@ -3,24 +3,27 @@ import { useTranslation } from 'next-i18next';
 import { RankingPageModel, UrlId } from '@disclave/client';
 import { useTopCommentedPages } from '@/modules/pages';
 import { WebsitePagesRankingPreview } from './WebsitePagesRankingPreview';
-import { topRatedPagesHref } from '@/pages/pages/top-rated';
 
 export interface WebsiteTopCommentedPagesProps {
   className?: string;
   pages: Array<RankingPageModel>;
   pagesLimit: number;
   minCommentsVoteSum: number;
-  urlId: UrlId;
+  urlId: UrlId | null;
 }
 
 export const WebsiteTopCommentedPages: React.VFC<WebsiteTopCommentedPagesProps> = (props) => {
   const { t } = useTranslation('website');
+
+  const loading = props.urlId == null;
+
   const { pages, voteRemove, voteUp, voteDown } = useTopCommentedPages(
     props.pages,
+    loading,
     props.minCommentsVoteSum,
     props.pagesLimit,
-    props.urlId.websiteId,
-    props.urlId.pageId
+    props.urlId?.websiteId,
+    props.urlId?.pageId
   );
 
   return (
@@ -28,7 +31,7 @@ export const WebsiteTopCommentedPages: React.VFC<WebsiteTopCommentedPagesProps> 
       className={props.className}
       pages={pages}
       header={t('more from.top commented header')}
-      href={topRatedPagesHref()}
+      loading={loading}
       onVoteDown={voteDown}
       onVoteRemove={voteRemove}
       onVoteUp={voteUp}

@@ -13,6 +13,7 @@ type UseTopRatedPages = {
 
 export const useTopRatedPages = (
   initialState: Array<RankingPageModel>,
+  loading: boolean,
   minPagesVoteSum: number,
   minCommentsVoteSum: number,
   limit: number,
@@ -32,7 +33,7 @@ export const useTopRatedPages = (
     );
   };
 
-  const { pages, voteUp, voteDown, voteRemove } = usePageRanking(initialState, fetchPages);
+  const { pages, voteUp, voteDown, voteRemove } = usePageRanking(initialState, loading, fetchPages);
 
   return {
     pages: pages,

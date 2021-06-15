@@ -33,26 +33,20 @@ export const MoreFrom: React.VFC<MoreFromProps> = ({ urlId, topCommentedPages, t
         )}
       </h3>
 
-      {/* TODO: add skeleton loading if no urlId */}
-      {urlId ? (
-        <WebsiteTopCommentedPages
-          pages={topCommentedPages.pages}
-          pagesLimit={topCommentedPages.limit}
-          minCommentsVoteSum={topCommentedPages.minCommentsVoteSum}
-          urlId={urlId}
-        />
-      ) : null}
+      <WebsiteTopCommentedPages
+        pages={topCommentedPages.pages}
+        pagesLimit={topCommentedPages.limit}
+        minCommentsVoteSum={topCommentedPages.minCommentsVoteSum}
+        urlId={urlId}
+      />
 
-      {/* TODO: add skeleton loading if no urlId */}
-      {urlId ? (
-        <WebsiteTopRatedPages
-          pages={topRatedPages.pages}
-          pagesLimit={topRatedPages.limit}
-          minCommentsVoteSum={topRatedPages.minCommentsVoteSum}
-          minPagesVoteSum={topRatedPages.minPagesVoteSum}
-          urlId={urlId}
-        />
-      ) : null}
+      <WebsiteTopRatedPages
+        pages={topRatedPages.pages}
+        pagesLimit={topRatedPages.limit}
+        minCommentsVoteSum={topRatedPages.minCommentsVoteSum}
+        minPagesVoteSum={topRatedPages.minPagesVoteSum}
+        urlId={urlId}
+      />
     </div>
   );
 };

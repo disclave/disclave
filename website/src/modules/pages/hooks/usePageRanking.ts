@@ -21,11 +21,13 @@ type UsePages = {
 
 export const usePageRanking = (
   initialState: Array<RankingPageModel>,
+  loading: boolean,
   getPages: () => Promise<Array<RankingPageModel>>
 ): UsePages => {
   const [pages, setPages] = useState(initialState);
   const { uid } = useSession();
   const prevUid = useRef(uid);
+  const prevLoading = useRef(loading);
 
   const fetchPages = async () => {
     const result = await getPages();
@@ -33,10 +35,13 @@ export const usePageRanking = (
   };
 
   useEffect(() => {
-    if (uid != prevUid.current) fetchPages();
+    if (loading) return;
+
+    if (uid != prevUid.current || prevLoading.current) fetchPages();
 
     prevUid.current = uid;
-  }, [uid]);
+    prevLoading.current = loading;
+  }, [uid, loading]);
 
   const onVoteUp = async (websiteId: string, pageId: string) => {
     await addPageVoteUp({ websiteId, pageId });
