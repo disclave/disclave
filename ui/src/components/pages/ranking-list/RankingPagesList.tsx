@@ -1,19 +1,19 @@
 import React from "react";
-import { PageActionsHandler, PageModel } from "@/components/pages/PageModel";
+import { PageActionsHandler, RankingPageModel } from "@/types";
 import { useTranslation } from "@/i18n";
-import { ListItem } from "./item";
+import { RankingPage } from "./item";
 
-export interface PagesListProps {
+export interface RankingPagesListProps {
   actionHandler: PageActionsHandler;
   authenticated: boolean;
   className?: string;
-  pages: Array<PageModel>;
+  pages: Array<RankingPageModel>;
   hideDomain: boolean;
   hideLogo: boolean;
   hrefBuilder: (url: string) => string;
 }
 
-export const PagesList: React.VFC<PagesListProps> = ({
+export const RankingPagesList: React.VFC<RankingPagesListProps> = ({
   actionHandler,
   authenticated,
   className,
@@ -31,7 +31,7 @@ export const PagesList: React.VFC<PagesListProps> = ({
   return (
     <div className={className}>
       {pages.map((p) => (
-        <ListItem
+        <RankingPage
           key={p.id}
           page={p}
           actionHandler={actionHandler}

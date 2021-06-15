@@ -1,6 +1,6 @@
 import React from "react";
 
-import { PagesList, PagesListProps } from "./PagesList";
+import { RankingPagesList, RankingPagesListProps } from "./RankingPagesList";
 import { Story } from "@storybook/react";
 import { RandomPagesList } from "@/stories/data/Pages";
 
@@ -9,11 +9,13 @@ const examplePages = RandomPagesList(10);
 const mockHrefBuilder = (url: string) => url;
 
 export default {
-  title: "Pages/List",
-  component: PagesList,
+  title: "Pages/Ranking List",
+  component: RankingPagesList,
 };
 
-const Template: Story<PagesListProps> = (args) => <PagesList {...args} />;
+const Template: Story<RankingPagesListProps> = (args) => (
+  <RankingPagesList {...args} />
+);
 
 export const Default = Template.bind({});
 Default.args = {

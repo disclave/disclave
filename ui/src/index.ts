@@ -30,4 +30,4 @@ export {
   PageCommentsList,
   PageCommentsContainer,
 } from "./components/comments";
-export { PagesList, PageVoting } from "./components/pages";
+export { RankingPagesList, PageVoting } from "./components/pages";

@@ -1,20 +1,20 @@
 import React from "react";
-import { PageActionsHandler, PageModel } from "@/components/pages/PageModel";
+import { PageActionsHandler, RankingPageModel } from "@/types";
 import { useTranslation } from "@/i18n";
 import { LinkBox } from "@/components/links";
 import { Vote } from "@/components/voting";
 import classNames from "classnames";
 
-export interface ListItemProps {
+export interface RankingPageProps {
   actionHandler: PageActionsHandler;
   authenticated: boolean;
   hideDomain: boolean;
   hideLogo: boolean;
   hrefBuilder: (url: string) => string;
-  page: PageModel;
+  page: RankingPageModel;
 }
 
-export const ListItem: React.VFC<ListItemProps> = ({
+export const RankingPage: React.VFC<RankingPageProps> = ({
   actionHandler,
   authenticated,
   hideDomain,
@@ -56,13 +56,15 @@ export const ListItem: React.VFC<ListItemProps> = ({
           />
         ) : null}
         {!hideDomain ? (
-          <span className="font-semibold ">{page.websiteId}</span>
+          <span className="font-semibold">{page.websiteId}</span>
         ) : null}
         <span className={classNames({ "font-semibold": hideDomain })}>
           {decodedPath}
         </span>
         {showMainPageIndicator ? (
-          <span className="ml-1 text-gray-400">{t("list.item.main page.label")}</span>
+          <span className="ml-1 text-gray-500">
+            {t("list.item.main page.label")}
+          </span>
         ) : null}
       </div>
       {title ? (
@@ -70,7 +72,6 @@ export const ListItem: React.VFC<ListItemProps> = ({
           {title}
         </div>
       ) : null}
-      {}
       <div className="flex flex-row items-center mt-0.5">
         <Vote
           enabled={authenticated}

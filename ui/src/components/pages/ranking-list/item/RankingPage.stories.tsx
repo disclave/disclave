@@ -1,6 +1,6 @@
 import React from "react";
 
-import { ListItem, ListItemProps } from "./ListItem";
+import { RankingPage, RankingPageProps } from "./RankingPage";
 import { Story } from "@storybook/react";
 import {
   buildExamplePage,
@@ -15,11 +15,11 @@ import {
 const mockHrefBuilder = (url: string) => url;
 
 export default {
-  title: "Pages/List/Item/Pages List Item",
-  component: ListItem,
+  title: "Pages/Ranking List/Item/RankingPage",
+  component: RankingPage,
 };
 
-const Template: Story<ListItemProps> = (args) => <ListItem {...args} />;
+const Template: Story<RankingPageProps> = (args) => <RankingPage {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {

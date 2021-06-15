@@ -5,4 +5,8 @@ export type {
   RankingCommentModel,
   RankingCommentPageModel,
 } from "./RankingCommentModel";
+
 export type { UrlId } from "./UrlId";
+
+export type { PageActionsHandler } from "./PageActionsHandler";
+export type { RankingPageModel } from "./RankingPageModel";

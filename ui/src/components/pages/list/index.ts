@@ -1,1 +1,0 @@
-export { PagesList } from "./PagesList";
