@@ -50,11 +50,10 @@ export class UrlServiceImpl implements UrlService {
     };
   }
 
-  public async scrapUrl(targetUrl: string): Promise<UrlMetaData | null> {
+  public async scrapeUrl(targetUrl: string): Promise<UrlMetaData | null> {
     try {
       const { html, url } = await fetchHtml(targetUrl);
-
-      return await scrapHtml(html, url);
+      return await scrapeHtml(html, url);
     } catch (e) {
       console.warn("scrapUrl", e);
     }
@@ -80,7 +79,7 @@ async function fetchHtml(
   };
 }
 
-async function scrapHtml(html: string, url: string): Promise<UrlMetaData> {
+async function scrapeHtml(html: string, url: string): Promise<UrlMetaData> {
   const data = await urlScrapper({ html, url });
   return {
     canonical: (data as any).canonical || null,

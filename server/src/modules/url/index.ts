@@ -16,5 +16,5 @@ export abstract class UrlService {
 
   abstract parseUrl(normalizedUrl: string): ParsedUrlData;
 
-  abstract scrapUrl(url: string): Promise<UrlMetaData | null>;
+  abstract scrapeUrl(url: string): Promise<UrlMetaData | null>;
 }

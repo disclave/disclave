@@ -59,7 +59,7 @@ export class PageDetailsServiceImpl implements PageDetailsService {
     );
     if (savedPageDetails) return savedPageDetails;
 
-    const metaData = await this.urlService.scrapUrl(url);
+    const metaData = await this.urlService.scrapeUrl(url);
     const finalURLs = this.selectDefaultAndAlternativeUrl(normalized, metaData);
     const parsedUrl = this.urlService.parseUrl(finalURLs.default);
 
