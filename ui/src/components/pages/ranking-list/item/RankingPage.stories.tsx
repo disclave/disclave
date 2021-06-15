@@ -1,6 +1,6 @@
 import React from "react";
 
-import { ListItem, ListItemProps } from "./ListItem";
+import { RankingPage, RankingPageProps } from "./RankingPage";
 import { Story } from "@storybook/react";
 import {
   buildExamplePage,
@@ -15,17 +15,35 @@ import {
 const mockHrefBuilder = (url: string) => url;
 
 export default {
-  title: "Pages/List/Item/Pages List Item",
-  component: ListItem,
+  title: "Pages/Ranking List/Item/RankingPage",
+  component: RankingPage,
 };
 
-const Template: Story<ListItemProps> = (args) => <ListItem {...args} />;
+const Template: Story<RankingPageProps> = (args) => <RankingPage {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
   hrefBuilder: mockHrefBuilder,
   authenticated: true,
   page: ExamplePage,
+};
+
+export const HideDomainAndLogo = Template.bind({});
+HideDomainAndLogo.args = {
+  hrefBuilder: mockHrefBuilder,
+  authenticated: true,
+  hideDomain: true,
+  hideLogo: true,
+  page: ExamplePage,
+};
+
+export const HideDomainAndLogoMainPage = Template.bind({});
+HideDomainAndLogoMainPage.args = {
+  hrefBuilder: mockHrefBuilder,
+  authenticated: true,
+  hideDomain: true,
+  hideLogo: true,
+  page: buildExamplePage({ pageId: "/" }),
 };
 
 export const WithoutLogo = Template.bind({});

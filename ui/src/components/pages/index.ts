@@ -1,2 +1,2 @@
-export { PagesList } from "./list";
+export { RankingPagesList } from "./ranking-list";
 export { PageVoting } from "./page-voting";

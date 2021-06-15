@@ -1,0 +1,1 @@
+export { RankingPagesList } from "./RankingPagesList";

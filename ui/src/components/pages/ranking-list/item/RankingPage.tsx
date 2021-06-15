@@ -1,19 +1,24 @@
 import React from "react";
-import { PageActionsHandler, PageModel } from "@/components/pages/PageModel";
+import { PageActionsHandler, RankingPageModel } from "@/types";
 import { useTranslation } from "@/i18n";
 import { LinkBox } from "@/components/links";
 import { Vote } from "@/components/voting";
+import classNames from "classnames";
 
-export interface ListItemProps {
+export interface RankingPageProps {
   actionHandler: PageActionsHandler;
   authenticated: boolean;
+  hideDomain: boolean;
+  hideLogo: boolean;
   hrefBuilder: (url: string) => string;
-  page: PageModel;
+  page: RankingPageModel;
 }
 
-export const ListItem: React.VFC<ListItemProps> = ({
+export const RankingPage: React.VFC<RankingPageProps> = ({
   actionHandler,
   authenticated,
+  hideDomain,
+  hideLogo,
   page,
   hrefBuilder,
 }) => {
@@ -23,6 +28,8 @@ export const ListItem: React.VFC<ListItemProps> = ({
   const title = page.meta?.title ?? null;
 
   const decodedPath = decodeURIComponent(page.pageId);
+
+  const showMainPageIndicator = hideDomain && decodedPath == "/";
 
   const onVoteDown = async () => {
     await actionHandler.onVoteDown(page.websiteId, page.pageId);
@@ -39,7 +46,7 @@ export const ListItem: React.VFC<ListItemProps> = ({
   return (
     <LinkBox className="px-2 py-1" href={hrefBuilder(page.url)}>
       <div className="text-sm truncate" title={page.url}>
-        {logo ? (
+        {!hideLogo && !!logo ? (
           <img
             src={logo}
             alt={page.websiteId}
@@ -48,8 +55,17 @@ export const ListItem: React.VFC<ListItemProps> = ({
             className="mr-1 inline"
           />
         ) : null}
-        <span className="font-semibold ">{page.websiteId}</span>
-        <span>{decodedPath}</span>
+        {!hideDomain ? (
+          <span className="font-semibold">{page.websiteId}</span>
+        ) : null}
+        <span className={classNames({ "font-semibold": hideDomain })}>
+          {decodedPath}
+        </span>
+        {showMainPageIndicator ? (
+          <span className="ml-1 text-gray-500">
+            {t("list.item.main page.label")}
+          </span>
+        ) : null}
       </div>
       {title ? (
         <div className="truncate" title={title}>

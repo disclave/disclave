@@ -1,4 +1,4 @@
-import { PageModel } from "@/components/pages/PageModel";
+import { RankingPageModel } from "@/types/RankingPageModel";
 import { randomInt } from "./helpers";
 
 export interface BuildExamplePageProps {
@@ -7,36 +7,38 @@ export interface BuildExamplePageProps {
   commentsCount?: number;
 }
 
-export const buildExamplePage = ({
+export function buildExamplePage({
   websiteId = "example.com",
   pageId = "%2Fpage%2Fwith%2Fexample%2Furl",
   commentsCount = randomInt(1, 10000),
-}: BuildExamplePageProps): PageModel => ({
-  id: websiteId + pageId + Math.random(),
-  websiteId: websiteId,
-  pageId: pageId,
-  commentsCount: commentsCount,
-  url: "https://example.com/page/with/example/url",
-  meta: {
-    logo: "https://disclave.com/favicon.ico",
-    title: "Example page title - this is awesome page!",
-  },
-  votes: {
-    sum: 325,
-    votedDown: false,
-    votedUp: false,
-  },
-});
+}: BuildExamplePageProps): RankingPageModel {
+  return {
+    id: websiteId + pageId + Math.random(),
+    websiteId: websiteId,
+    pageId: pageId,
+    commentsCount: commentsCount,
+    url: "https://example.com/page/with/example/url",
+    meta: {
+      logo: "https://disclave.com/favicon.ico",
+      title: "Example page title - this is awesome page!",
+    },
+    votes: {
+      sum: 325,
+      votedDown: false,
+      votedUp: false,
+    },
+  };
+}
 
-export const RandomPagesList = (size: number): PageModel[] => {
-  const result: PageModel[] = [];
+export const RandomPagesList = (size: number): RankingPageModel[] => {
+  const result: RankingPageModel[] = [];
   while (size--) {
     result.push(buildExamplePage({}));
   }
   return result;
 };
 
-export const ExamplePage: PageModel = {
+export const ExamplePage: RankingPageModel = {
   id: "example.com%2Fpath",
   pageId: "%2Fpath",
   websiteId: "example.com",
@@ -53,7 +55,7 @@ export const ExamplePage: PageModel = {
   },
 };
 
-export const ExamplePageWithoutLogo: PageModel = {
+export const ExamplePageWithoutLogo: RankingPageModel = {
   id: "example.com%2Fpath",
   pageId: "%2Fpath",
   websiteId: "example.com",
@@ -70,7 +72,7 @@ export const ExamplePageWithoutLogo: PageModel = {
   },
 };
 
-export const ExamplePageWithoutTitle: PageModel = {
+export const ExamplePageWithoutTitle: RankingPageModel = {
   id: "example.com%2Fpath",
   pageId: "%2Fpath",
   websiteId: "example.com",
@@ -87,7 +89,7 @@ export const ExamplePageWithoutTitle: PageModel = {
   },
 };
 
-export const ExamplePageWithoutMeta: PageModel = {
+export const ExamplePageWithoutMeta: RankingPageModel = {
   id: "example.com%2Fpath",
   pageId: "%2Fpath",
   websiteId: "example.com",
@@ -101,7 +103,7 @@ export const ExamplePageWithoutMeta: PageModel = {
   },
 };
 
-export const ExamplePageVotedUp: PageModel = {
+export const ExamplePageVotedUp: RankingPageModel = {
   id: "example.com%2Fpath",
   pageId: "%2Fpath",
   websiteId: "example.com",
@@ -118,7 +120,7 @@ export const ExamplePageVotedUp: PageModel = {
   },
 };
 
-export const ExamplePageVotedDown: PageModel = {
+export const ExamplePageVotedDown: RankingPageModel = {
   id: "example.com%2Fpath",
   pageId: "%2Fpath",
   websiteId: "example.com",

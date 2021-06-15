@@ -16,8 +16,11 @@ export const TopCommentedPagesSection: React.VFC<TopCommentedPagesSectionProps> 
   const { t } = useTranslation('home');
   const { pages, voteRemove, voteUp, voteDown } = useTopCommentedPages(
     props.pages,
+    false,
     props.minCommentsVoteSum,
-    props.pagesLimit
+    props.pagesLimit,
+    null,
+    null
   );
 
   return (

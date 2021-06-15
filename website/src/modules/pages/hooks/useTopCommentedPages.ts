@@ -13,22 +13,25 @@ type UseTopCommentedPages = {
 
 export const useTopCommentedPages = (
   initialState: Array<RankingPageModel>,
+  loading: boolean,
   minCommentsVoteSum: number,
-  limit: number
+  limit: number,
+  websiteId: string | null,
+  excludePageId: string | null
 ): UseTopCommentedPages => {
   const fetchPages = async () => {
     return await getTopCommentedPages(
       {
         commentsMinVoteSum: minCommentsVoteSum,
         limit: limit,
-        excludePageId: null,
-        websiteId: null
+        excludePageId: excludePageId,
+        websiteId: websiteId
       },
       true
     );
   };
 
-  const { pages, voteUp, voteDown, voteRemove } = usePageRanking(initialState, fetchPages);
+  const { pages, voteUp, voteDown, voteRemove } = usePageRanking(initialState, loading, fetchPages);
 
   return {
     pages: pages,

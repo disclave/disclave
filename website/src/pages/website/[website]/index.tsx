@@ -1,7 +1,18 @@
 import React from 'react';
 import { GetServerSideProps } from 'next';
-import { PageCommentModel, UrlId, encodeUrl, PageDetailsModel } from '@disclave/client';
-import { getPageCommentService, getUserCookie, getPageDetailsService } from '@disclave/server';
+import {
+  PageCommentModel,
+  UrlId,
+  encodeUrl,
+  PageDetailsModel,
+  RankingPageModel
+} from '@disclave/client';
+import {
+  getPageCommentService,
+  getUserCookie,
+  getPageDetailsService,
+  getPageRankingService
+} from '@disclave/server';
 import { WebsitePage } from '@/modules/layout/website';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { initServer } from '@/modules/server';
@@ -20,6 +31,7 @@ export const getServerSideProps: GetServerSideProps<WebsiteProps> = async (conte
   const userCookie = getUserCookie(context.req);
   const commentService = getPageCommentService();
   const pageDetailsService = getPageDetailsService();
+  const pageRankingService = getPageRankingService();
 
   const translationsPromise = serverSideTranslations(context.locale, [
     'common',
@@ -36,11 +48,44 @@ export const getServerSideProps: GetServerSideProps<WebsiteProps> = async (conte
       )
     : [];
 
+  const topRatedPagesConfig = {
+    limit: 5,
+    pageMinVoteSum: 1,
+    commentsMinVoteSum: 0,
+    websiteId: pageDetails?.websiteId ?? null,
+    excludePageId: pageDetails?.pageId ?? null
+  };
+  const topRatedPagesPromise = pageDetails
+    ? pageRankingService.getTopRatedPages(topRatedPagesConfig, userCookie?.uid)
+    : [];
+
+  const topCommentedPagesConfig = {
+    limit: 5,
+    commentsMinVoteSum: 0,
+    websiteId: pageDetails?.websiteId ?? null,
+    excludePageId: pageDetails?.pageId ?? null
+  };
+  const topCommentedPagesPromise = pageDetails
+    ? pageRankingService.getTopCommentedPages(topCommentedPagesConfig, userCookie?.uid)
+    : [];
+
   return {
     props: {
+      key: website,
       comments: await commentsPromise,
       pageDetails: pageDetails,
       website: website,
+      topCommentedPages: {
+        pages: await topCommentedPagesPromise,
+        limit: topCommentedPagesConfig.limit,
+        minCommentsVoteSum: topCommentedPagesConfig.commentsMinVoteSum
+      },
+      topRatedPages: {
+        pages: await topRatedPagesPromise,
+        limit: topRatedPagesConfig.limit,
+        minPagesVoteSum: topRatedPagesConfig.pageMinVoteSum,
+        minCommentsVoteSum: topRatedPagesConfig.commentsMinVoteSum
+      },
       serverSideUid: userCookie ? userCookie.uid : null,
       ...(await translationsPromise)
     }
@@ -51,13 +96,30 @@ interface WebsiteProps {
   comments: Array<PageCommentModel>;
   pageDetails: PageDetailsModel | null;
   website: string;
+  topCommentedPages: {
+    pages: Array<RankingPageModel>;
+    limit: number;
+    minCommentsVoteSum: number;
+  };
+  topRatedPages: {
+    pages: Array<RankingPageModel>;
+    limit: number;
+    minPagesVoteSum: number;
+    minCommentsVoteSum: number;
+  };
 }
 
 const Website: React.FC<WebsiteProps> = (props) => {
   const { pageDetails } = usePageDetails(props.website, props.pageDetails);
 
   return (
-    <WebsitePage website={props.website} pageDetails={pageDetails} comments={props.comments} />
+    <WebsitePage
+      website={props.website}
+      pageDetails={pageDetails}
+      comments={props.comments}
+      topCommentedPages={props.topCommentedPages}
+      topRatedPages={props.topRatedPages}
+    />
   );
 };
 export default Website;

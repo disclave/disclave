@@ -25,7 +25,7 @@ export const WebsiteComments: React.VFC<WebsiteCommentsProps> = (props) => {
   );
 
   return (
-    <section className="my-4">
+    <section>
       <PageCommentsContainer
         userProfile={profile}
         comments={comments}

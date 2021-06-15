@@ -2,5 +2,10 @@
   "info": {
     "main page": "(main page)",
     "visit": "Visit {{url}}"
+  },
+  "more from": {
+    "header": "More from",
+    "top rated header": "Top rated",
+    "top commented header": "Top commented"
   }
 }

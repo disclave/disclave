@@ -1,45 +1,38 @@
 import React from 'react';
-import { useTranslation } from 'next-i18next';
 import { RankingPageModel, useSession } from '@disclave/client';
-import { Button, RankingPagesList } from '@disclave/ui';
+import { RankingPagesList } from '@disclave/ui';
 import { websiteHref } from '@/pages/website/[website]';
-import { SectionHeader } from '../components';
 
-export interface PagesPreviewSectionProps {
+export interface WebsitePagesRankingPreviewProps {
   className?: string;
   pages: Array<RankingPageModel>;
   header: string;
-  href: string;
+  loading: boolean;
   onVoteDown: (websiteId: string, pageId: string) => Promise<void>;
   onVoteRemove: (websiteId: string, pageId: string) => Promise<void>;
   onVoteUp: (websiteId: string, pageId: string) => Promise<void>;
 }
 
-export const PagesPreviewSection: React.VFC<PagesPreviewSectionProps> = (props) => {
-  const { t } = useTranslation('common');
+export const WebsitePagesRankingPreview: React.VFC<WebsitePagesRankingPreviewProps> = (props) => {
   const { isAuthenticated } = useSession();
 
   return (
     <section className={props.className}>
-      <SectionHeader>{props.header}</SectionHeader>
+      <h4 className="text-xl">{props.header}</h4>
       <RankingPagesList
-        className="py-8"
+        className="py-3"
         actionHandler={{
           onVoteDown: props.onVoteDown,
           onVoteRemove: props.onVoteRemove,
           onVoteUp: props.onVoteUp
         }}
         authenticated={isAuthenticated}
-        hideDomain={false}
-        hideLogo={false}
+        hideDomain={true}
+        hideLogo={true}
         hrefBuilder={websiteHref}
-        loading={false}
+        loading={props.loading}
         pages={props.pages}
       />
-
-      <Button href={props.href} outlined>
-        {t('buttons.view all')}
-      </Button>
     </section>
   );
 };
