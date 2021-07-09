@@ -4,6 +4,7 @@
         "sourceMap": true,
         "strict": true,
         "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
         "module": "es6",
         "moduleResolution": "node",
         "target": "es5",
