@@ -77,12 +77,18 @@ export { graphqlHandler } from "./graphql";
 export { getUserCookie } from "./cookies";
 export type { UserCookieContent } from "./modules/auth";
 
+export type { ProfileService };
 export const getProfileService = () => container.get(ProfileService);
+export type { EmailService };
 export const getEmailService = () => container.get(EmailService);
 
+export type { PageCommentService };
 export const getPageCommentService = () => container.get(PageCommentService);
+export type { CommentRankingService };
 export const getCommentRankingService = () =>
   container.get(CommentRankingService);
 
+export type { PageDetailsService };
 export const getPageDetailsService = () => container.get(PageDetailsService);
+export type { PageRankingService };
 export const getPageRankingService = () => container.get(PageRankingService);

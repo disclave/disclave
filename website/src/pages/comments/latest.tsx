@@ -1,44 +1,19 @@
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { GetServerSideProps } from 'next';
-import { initServer } from '@/modules/server';
-import { getCommentRankingService, getUserCookie } from '@disclave/server';
-import { RankingCommentModel } from '@disclave/client';
 import React from 'react';
 import { LatestCommentsPage } from '@/modules/layout/comments/latest';
+import { getLatestCommentsSSP, LatestCommentsProps } from '@/modules/server/comments';
 
 export const latestCommentsHref = () => '/comments/latest';
 
-export const getServerSideProps: GetServerSideProps<LatestCommentsProps> = async (context) => {
-  await initServer();
-  const userCookie = getUserCookie(context.req);
-  const service = getCommentRankingService();
-
-  const minVoteSum = 1;
-  const commentsLimit = 0;
-
-  const topCommentsPromise = service.getLatestComments(minVoteSum, commentsLimit, userCookie?.uid);
-  const translationsPromise = serverSideTranslations(context.locale, [
-    'comments',
-    'common',
-    'layout'
-  ]);
-
+export const getServerSideProps: GetServerSideProps<LatestCommentsProps> = async ({
+  req,
+  locale
+}) => {
+  const props = await getLatestCommentsSSP(req, locale!, ['comments', 'common', 'layout']);
   return {
-    props: {
-      comments: await topCommentsPromise,
-      commentsLimit: commentsLimit,
-      minVoteSum: minVoteSum,
-      serverSideUid: userCookie ? userCookie.uid : null,
-      ...(await translationsPromise)
-    }
+    props
   };
 };
-
-interface LatestCommentsProps {
-  comments: Array<RankingCommentModel>;
-  commentsLimit: number;
-  minVoteSum: number;
-}
 
 const LatestComments: React.VFC<LatestCommentsProps> = (props) => {
   return (

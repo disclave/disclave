@@ -32,8 +32,8 @@ export const WebsitePage: React.VFC<WebsitePageProps> = ({
   topCommentedPages,
   topRatedPages
 }) => {
-  const loginHrefWithRedirect = loginHref(websiteHrefRaw, website);
-  const registerHrefWithRedirect = registerHref(websiteHrefRaw, website);
+  const loginHrefWithRedirect = loginHref(websiteHrefRaw(), website);
+  const registerHrefWithRedirect = registerHref(websiteHrefRaw(), website);
 
   const urlId = pageDetails
     ? { websiteId: pageDetails.websiteId, pageId: pageDetails.pageId }

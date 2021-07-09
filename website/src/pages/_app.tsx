@@ -3,30 +3,39 @@ import Link from 'next/link';
 import Head from 'next/head';
 import { appWithTranslation } from 'next-i18next';
 import { setAnchorWrapper } from '@disclave/ui';
-import { init } from '@disclave/client';
+import { init, SessionProvider } from '@disclave/client';
 import { config } from '@fortawesome/fontawesome-svg-core';
 import { DefaultSeo } from 'next-seo';
-import { SEO } from '@/consts';
+import { AppTitle, SEO } from '@/consts';
 import { AppHead } from '@/modules/head';
 import React, { useEffect } from 'react';
 import { swOnLoadEventListener } from '@/modules/sw';
 import { useAnalytics } from '@/modules/analytics';
-import { SessionProvider } from '@disclave/client';
 import { CookieBanner } from '@/modules/cookies';
+import { AppProps } from 'next/app';
 
 config.autoAddCss = false;
 
+if (!process.env.FIREBASE_CLIENT_CONFIG)
+  throw new Error('FIREBASE_CLIENT_CONFIG env variable is missing');
 const firebaseConfig = JSON.parse(process.env.FIREBASE_CLIENT_CONFIG);
+
+if (!process.env.DOMAIN) throw new Error('DOMAIN env variable is missing');
 const domain = process.env.DOMAIN;
+
 init(firebaseConfig, domain + '/api/graphql', domain);
 
-setAnchorWrapper((props) => (
-  <Link href={props.href}>
-    <a {...props} />
-  </Link>
-));
+setAnchorWrapper((props) => {
+  if (!props.href) throw new Error('"href" is a requried parameter for anchor wrapper');
 
-const Disclave = ({ Component, pageProps }) => {
+  return (
+    <Link href={props.href}>
+      <a {...props} />
+    </Link>
+  );
+});
+
+const Disclave: React.VFC<AppProps> = ({ Component, pageProps }) => {
   useEffect(() => {
     if ('serviceWorker' in navigator)
       window.addEventListener('load', () => swOnLoadEventListener());
@@ -37,7 +46,7 @@ const Disclave = ({ Component, pageProps }) => {
   return (
     <>
       <Head>
-        <title>Disclave</title>
+        <title>{AppTitle}</title>
 
         <AppHead />
       </Head>

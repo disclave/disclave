@@ -5,18 +5,20 @@ import { DateTimePreview } from '@disclave/ui';
 import { DisclaveComments } from '@disclave/react-plugin';
 import { blogPostsImg } from '@/consts';
 import { MDXRemote } from 'next-mdx-remote';
-import Link from 'next/link';
-import { Image } from './components';
+import Link, { LinkProps } from 'next/link';
+import { Image, ImageProps } from './components';
 
 const components = {
-  Link: (props) => (
+  Link: (props: React.PropsWithChildren<LinkProps>) => (
     <Link href={props.href}>
       <a className="text-primary font-semibold hover:underline">{props.children}</a>
     </Link>
   ),
-  h2: (props) => <h2 className="text-2xl" {...props} />,
-  p: (props) => <p className="my-5 break-words" {...props} />,
-  Image: (props) => <Image {...props} />
+  h2: (props: React.HTMLProps<HTMLHeadingElement>) => <h2 className="text-2xl" {...props} />,
+  p: (props: React.HTMLProps<HTMLParagraphElement>) => (
+    <p className="my-5 break-words" {...props} />
+  ),
+  Image: (props: ImageProps) => <Image {...props} />
 };
 
 export interface BlogPostPageProps {

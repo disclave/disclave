@@ -6,8 +6,8 @@ import { Button } from '@disclave/ui';
 import { useTranslation } from 'next-i18next';
 
 export interface NotAuthenticatedProps {
-  loginHref: string;
-  registerHref: string;
+  loginHref?: string;
+  registerHref?: string;
 }
 
 export const NotAuthenticated: React.VFC<NotAuthenticatedProps> = (props) => {

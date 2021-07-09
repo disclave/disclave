@@ -5,7 +5,7 @@ import { WebsiteTopCommentedPages, WebsiteTopRatedPages } from './rankings';
 import { SkeletonBox } from '@disclave/ui';
 
 export interface MoreFromProps {
-  urlId: UrlId;
+  urlId: UrlId | null;
   topCommentedPages: {
     pages: Array<RankingPageModel>;
     limit: number;

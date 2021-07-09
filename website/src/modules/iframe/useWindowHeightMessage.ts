@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { sendMessage, MessageType } from '@disclave/client';
 
-export const useContainerHeightMessage = (containerRef: React.MutableRefObject<HTMLElement>) => {
+export const useContainerHeightMessage = (containerRef: React.MutableRefObject<HTMLElement | null>) => {
   useEffect(() => {
     if (!containerRef.current) return;
 

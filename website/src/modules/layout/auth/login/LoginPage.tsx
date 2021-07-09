@@ -48,6 +48,8 @@ export const LoginPage: React.VFC = () => {
 
       if (redirectUrl) await router.push(redirectUrl);
       else if (window.opener) {
+        if (!authToken) throw new Error('Missing auth token');
+
         const message: SessionMessage = {
           user,
           authToken
