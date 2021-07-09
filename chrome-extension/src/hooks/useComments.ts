@@ -48,6 +48,7 @@ export const useComments = (
   };
 
   const addComment = async (text: string) => {
+    if (!urlId) throw new Error("UrlId is missing");
     // TODO: add errors handling
     const addedComment = await createPageComment(text, urlId, url());
     if (!comments) setComments([addedComment]);

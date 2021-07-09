@@ -15,7 +15,7 @@ type AddVoteDown = () => Promise<void>;
 type RemoveVote = () => Promise<void>;
 type UsePageDetails = {
   urlId: UrlId | null;
-  pageDetails: PageDetailsModel | undefined;
+  pageDetails: PageDetailsModel | null;
   pageActions: {
     addVoteUp: AddVoteUp;
     addVoteDown: AddVoteDown;
@@ -27,7 +27,7 @@ export const usePageDetails = (
   user: UserModel | null,
   authPending: boolean
 ): UsePageDetails => {
-  const [pageDetails, setPageDetails] = useState<PageDetailsModel>(undefined);
+  const [pageDetails, setPageDetails] = useState<PageDetailsModel | null>(null);
   const [urlId, setUrlId] = useState<UrlId | null>(null);
   const activeTab = useActiveTab();
 
@@ -54,16 +54,19 @@ export const usePageDetails = (
   };
 
   const addVoteUp = async () => {
+    if (!urlId) throw new Error("UrlId is missing");
     await addPageVoteUp(urlId);
     await fetchPageDetails(true);
   };
 
   const addVoteDown = async () => {
+    if (!urlId) throw new Error("UrlId is missing");
     await addPageVoteDown(urlId);
     await fetchPageDetails(true);
   };
 
   const removeVote = async () => {
+    if (!urlId) throw new Error("UrlId is missing");
     await removePageVote(urlId);
     await fetchPageDetails(true);
   };
