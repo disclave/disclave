@@ -28,8 +28,8 @@ export const getDefaultProps = async (
 
   return {
     serverSideUid: userCookie?.uid ?? null,
-    iframe: config?.iframe,
-    key: config?.key,
+    ...(config?.iframe ? { iframe: config.iframe } : {}),
+    ...(config?.key ? { key: config.key } : {}),
     ...translations
   };
 };
