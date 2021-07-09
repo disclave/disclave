@@ -30,6 +30,8 @@ export const useWebsiteComments = (
   );
 
   const addComment: AddComment = async (text: string) => {
+    if (!urlId) throw new Error('UrlId is required to add new comment');
+
     const addedComment = await createPageComment(text, urlId, rawUrl);
     setComments([addedComment, ...comments]);
   };

@@ -7,7 +7,7 @@ import { getHomeSSP, HomeProps } from '@/modules/server/home';
 export const homeHref: PageUrl = () => '/';
 
 export const getServerSideProps: GetServerSideProps<HomeProps> = async ({ req, locale }) => {
-  const props = await getHomeSSP(req, locale, ['common', 'home', 'layout']);
+  const props = await getHomeSSP(req, locale!, ['common', 'home', 'layout']);
   return {
     props
   };

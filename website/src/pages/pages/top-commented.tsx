@@ -10,7 +10,7 @@ export const getServerSideProps: GetServerSideProps<TopCommentedPagesProps> = as
   req,
   locale
 }) => {
-  const props = await getTopCommentedPagesSSP(req, locale, ['common', 'layout', 'pages']);
+  const props = await getTopCommentedPagesSSP(req, locale!, ['common', 'layout', 'pages']);
   return {
     props
   };

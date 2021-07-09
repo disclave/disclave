@@ -24,8 +24,8 @@ export const WebsiteTopRatedPages: React.VFC<WebsiteTopRatedPagesProps> = (props
     props.minPagesVoteSum,
     props.minCommentsVoteSum,
     props.pagesLimit,
-    props.urlId?.websiteId,
-    props.urlId?.pageId
+    props.urlId?.websiteId ?? null,
+    props.urlId?.pageId ?? null
   );
 
   return (

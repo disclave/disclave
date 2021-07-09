@@ -10,7 +10,7 @@ export const getServerSideProps: GetServerSideProps<LatestCommentsProps> = async
   req,
   locale
 }) => {
-  const props = await getLatestCommentsSSP(req, locale, ['comments', 'common', 'layout']);
+  const props = await getLatestCommentsSSP(req, locale!, ['comments', 'common', 'layout']);
   return {
     props
   };

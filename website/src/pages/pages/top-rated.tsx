@@ -10,7 +10,7 @@ export const getServerSideProps: GetServerSideProps<TopRatedPagesProps> = async 
   req,
   locale
 }) => {
-  const props = await getTopRatedPagesSSP(req, locale, ['common', 'layout', 'pages']);
+  const props = await getTopRatedPagesSSP(req, locale!, ['common', 'layout', 'pages']);
   return {
     props
   };

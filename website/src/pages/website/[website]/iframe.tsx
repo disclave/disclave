@@ -18,7 +18,7 @@ export const getServerSideProps: GetServerSideProps<IFrameProps> = async ({
   const website = query.website as string;
   const hideVotes = query.hideVotes ? true : undefined;
 
-  const props = await getIFrameSSP({ website, hideVotes }, req, locale, ['common']);
+  const props = await getIFrameSSP({ website, hideVotes }, req, locale!, ['common']);
   return {
     props
   };

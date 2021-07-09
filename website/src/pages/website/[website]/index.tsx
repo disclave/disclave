@@ -22,7 +22,7 @@ export const getServerSideProps: GetServerSideProps<WebsiteProps> = async ({
   // TODO: add validation
   const website = query.website as string;
 
-  const props = await getWebsiteSSP({ website }, req, locale, ['common', 'layout', 'website']);
+  const props = await getWebsiteSSP({ website }, req, locale!, ['common', 'layout', 'website']);
   return {
     props
   };

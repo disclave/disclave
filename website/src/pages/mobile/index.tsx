@@ -13,6 +13,6 @@ export default Plugins;
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => ({
   props: {
-    ...(await serverSideTranslations(locale, ['common', 'layout', 'mobile']))
+    ...(await serverSideTranslations(locale!, ['common', 'layout', 'mobile']))
   }
 });

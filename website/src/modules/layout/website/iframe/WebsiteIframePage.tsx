@@ -15,7 +15,7 @@ export interface WebsiteIframePageProps {
 }
 
 export const WebsiteIframePage: React.VFC<WebsiteIframePageProps> = (props) => {
-  const containerRef = useRef<HTMLDivElement>();
+  const containerRef = useRef<HTMLDivElement>(null);
   useContainerHeightMessage(containerRef);
 
   const urlId = {

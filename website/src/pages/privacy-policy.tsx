@@ -12,6 +12,6 @@ export default PrivacyPolicy;
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => ({
   props: {
-    ...(await serverSideTranslations(locale, ['common', 'layout']))
+    ...(await serverSideTranslations(locale!, ['common', 'layout']))
   }
 });

@@ -22,8 +22,8 @@ export const WebsiteTopCommentedPages: React.VFC<WebsiteTopCommentedPagesProps> 
     loading,
     props.minCommentsVoteSum,
     props.pagesLimit,
-    props.urlId?.websiteId,
-    props.urlId?.pageId
+    props.urlId?.websiteId ?? null,
+    props.urlId?.pageId ?? null
   );
 
   return (

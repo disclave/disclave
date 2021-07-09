@@ -7,7 +7,7 @@ import { PageUrl } from '@/PageUrl';
 export const topCommentsHref: PageUrl = () => '/comments/top';
 
 export const getServerSideProps: GetServerSideProps<TopCommentsProps> = async ({ req, locale }) => {
-  const props = await getTopCommentsSSP(req, locale, ['comments', 'common', 'layout']);
+  const props = await getTopCommentsSSP(req, locale!, ['comments', 'common', 'layout']);
   return {
     props
   };

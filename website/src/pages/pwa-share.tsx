@@ -11,9 +11,9 @@ const PwaShare: React.VFC = () => {
   const url = router.query.url as string | undefined;
 
   let link: string | undefined;
-  if (isUrl(url)) link = stringToUrl(url);
-  else if (isUrl(text)) link = stringToUrl(text);
-  else if (isUrl(title)) link = stringToUrl(title);
+  if (url && isUrl(url)) link = stringToUrl(url);
+  else if (text && isUrl(text)) link = stringToUrl(text);
+  else if (title && isUrl(title)) link = stringToUrl(title);
 
   if (!!link) {
     const href = websiteHref(link);
@@ -29,6 +29,6 @@ export default PwaShare;
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => ({
   props: {
-    ...(await serverSideTranslations(locale, ['common', 'layout']))
+    ...(await serverSideTranslations(locale!, ['common', 'layout']))
   }
 });

@@ -16,15 +16,24 @@ import { AppProps } from 'next/app';
 
 config.autoAddCss = false;
 
+if (!process.env.FIREBASE_CLIENT_CONFIG)
+  throw new Error('FIREBASE_CLIENT_CONFIG env vvariable is missing');
 const firebaseConfig = JSON.parse(process.env.FIREBASE_CLIENT_CONFIG);
+
+if (!process.env.DOMAIN) throw new Error('DOMAIN env vvariable is missing');
 const domain = process.env.DOMAIN;
+
 init(firebaseConfig, domain + '/api/graphql', domain);
 
-setAnchorWrapper((props) => (
-  <Link href={props.href}>
-    <a {...props} />
-  </Link>
-));
+setAnchorWrapper((props) => {
+  if (!props.href) throw new Error('"href" is a requried parameter for anchor wrapper');
+
+  return (
+    <Link href={props.href}>
+      <a {...props} />
+    </Link>
+  );
+});
 
 const Disclave: React.VFC<AppProps> = ({ Component, pageProps }) => {
   useEffect(() => {

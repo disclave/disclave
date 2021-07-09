@@ -9,6 +9,6 @@ export default EmailActionHandler;
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => ({
   props: {
-    ...(await serverSideTranslations(locale, ['auth', 'common', 'layout']))
+    ...(await serverSideTranslations(locale!, ['auth', 'common', 'layout']))
   }
 });

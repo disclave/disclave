@@ -40,6 +40,8 @@ export const RegisterPage: React.VFC = () => {
     const checkRedirects = async () => {
       if (redirectUrl) await router.push(redirectUrl);
       else if (window.opener) {
+        if (!user || !authToken) throw new Error('Missing user or auth token');
+
         const message: SessionMessage = {
           user,
           authToken

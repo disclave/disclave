@@ -56,8 +56,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   // TODO: add params validation
-  const postPromise = getPost(params.id as string);
-  const translationsPromise = serverSideTranslations(locale, ['blog', 'common', 'layout']);
+  const postPromise = getPost(params!.id as string);
+  const translationsPromise = serverSideTranslations(locale!, ['blog', 'common', 'layout']);
 
   return {
     props: {
