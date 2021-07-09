@@ -17,10 +17,10 @@ import { AppProps } from 'next/app';
 config.autoAddCss = false;
 
 if (!process.env.FIREBASE_CLIENT_CONFIG)
-  throw new Error('FIREBASE_CLIENT_CONFIG env vvariable is missing');
+  throw new Error('FIREBASE_CLIENT_CONFIG env variable is missing');
 const firebaseConfig = JSON.parse(process.env.FIREBASE_CLIENT_CONFIG);
 
-if (!process.env.DOMAIN) throw new Error('DOMAIN env vvariable is missing');
+if (!process.env.DOMAIN) throw new Error('DOMAIN env variable is missing');
 const domain = process.env.DOMAIN;
 
 init(firebaseConfig, domain + '/api/graphql', domain);
