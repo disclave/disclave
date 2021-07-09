@@ -3,13 +3,9 @@ import { LoginPage } from '@/modules/layout/auth/login';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { NextSeo } from 'next-seo';
 import { domain } from '@/consts';
-import { PageUrl } from '@/PageUrl';
 import { GetStaticProps } from 'next';
 
-export const loginHref: PageUrl = (
-  redirectPath?: string,
-  redirectPathParamToEncode?: string
-): string => {
+export const loginHref = (redirectPath?: string, redirectPathParamToEncode?: string): string => {
   let path = '/auth/login';
 
   const params = valuesToParamsArray(redirectPath, redirectPathParamToEncode);

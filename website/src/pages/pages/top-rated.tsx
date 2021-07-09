@@ -1,10 +1,9 @@
 import { GetServerSideProps } from 'next';
 import React from 'react';
 import { TopRatedPages } from '@/modules/layout/pages/top-rated';
-import { PageUrl } from '@/PageUrl';
 import { getTopRatedPagesSSP, TopRatedPagesProps } from '@/modules/server/pages';
 
-export const topRatedPagesHref: PageUrl = () => '/pages/top-rated';
+export const topRatedPagesHref = () => '/pages/top-rated';
 
 export const getServerSideProps: GetServerSideProps<TopRatedPagesProps> = async ({
   req,

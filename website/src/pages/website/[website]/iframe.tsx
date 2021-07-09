@@ -4,10 +4,9 @@ import { WebsiteIframePage } from '@/modules/layout/website/iframe';
 import { NextSeo } from 'next-seo';
 import { domain } from '@/consts';
 import { websiteHref } from '.';
-import { PageUrl } from '@/PageUrl';
 import { getIFrameSSP, IFrameProps } from '@/modules/server/website';
 
-export const websiteIframeHref: PageUrl = (url: string) => `/website/${url}/iframe/`;
+export const websiteIframeHref = (url: string) => `/website/${url}/iframe/`;
 
 export const getServerSideProps: GetServerSideProps<IFrameProps> = async ({
   req,

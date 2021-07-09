@@ -1,11 +1,10 @@
 import { getSortedPostsPreview, PostPreview } from '@/modules/blog';
 import { BlogPage } from '@/modules/layout/blog';
-import { PageUrl } from '@/PageUrl';
 import { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import React from 'react';
 
-export const blogHref: PageUrl = () => '/blog';
+export const blogHref = () => '/blog';
 
 interface BlogProps {
   postsPreview: Array<PostPreview>;

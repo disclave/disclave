@@ -1,9 +1,8 @@
 import { TermsOfServicePage } from '@/modules/layout/terms-and-privacy';
-import { PageUrl } from '@/PageUrl';
 import { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-export const termsOfServiceHref: PageUrl = () => '/terms-of-service';
+export const termsOfServiceHref = () => '/terms-of-service';
 
 const TermsOfService: React.VFC = () => {
   return <TermsOfServicePage />;

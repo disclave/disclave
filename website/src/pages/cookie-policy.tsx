@@ -1,9 +1,8 @@
 import { CookiePolicyPage } from '@/modules/layout/terms-and-privacy';
-import { PageUrl } from '@/PageUrl';
 import { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-export const cookiePolicyHref: PageUrl = () => '/cookie-policy';
+export const cookiePolicyHref = () => '/cookie-policy';
 
 const CookiePolicy: React.VFC = () => {
   return <CookiePolicyPage />;

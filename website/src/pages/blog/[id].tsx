@@ -1,14 +1,13 @@
 import { blogPostsImg, domain } from '@/consts';
 import { getPost, getPostIds, Post } from '@/modules/blog';
 import { BlogPostPage } from '@/modules/layout/blog/post';
-import { PageUrl } from '@/PageUrl';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { NextSeo } from 'next-seo';
 import React from 'react';
 
-export const blogPostHref: PageUrl = (id: string) => `/blog/${id}`;
+export const blogPostHref = (id: string) => `/blog/${id}`;
 
 interface BlogPostProps {
   post: Post;

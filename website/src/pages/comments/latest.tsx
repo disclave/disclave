@@ -1,10 +1,9 @@
 import { GetServerSideProps } from 'next';
 import React from 'react';
 import { LatestCommentsPage } from '@/modules/layout/comments/latest';
-import { PageUrl } from '@/PageUrl';
 import { getLatestCommentsSSP, LatestCommentsProps } from '@/modules/server/comments';
 
-export const latestCommentsHref: PageUrl = () => '/comments/latest';
+export const latestCommentsHref = () => '/comments/latest';
 
 export const getServerSideProps: GetServerSideProps<LatestCommentsProps> = async ({
   req,

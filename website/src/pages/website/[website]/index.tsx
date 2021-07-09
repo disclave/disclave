@@ -3,16 +3,15 @@ import { GetServerSideProps } from 'next';
 import { UrlId, encodeUrl } from '@disclave/client';
 import { WebsitePage } from '@/modules/layout/website';
 import { usePageDetails } from '@/modules/pages';
-import { PageUrl } from '@/PageUrl';
 import { getWebsiteSSP, WebsiteProps } from '@/modules/server/website';
 
-export const websiteHrefFromIds: PageUrl = (websiteId: string, pageId: string) =>
+export const websiteHrefFromIds = (websiteId: string, pageId: string) =>
   websiteHrefFromMeta({ websiteId, pageId });
-export const websiteHrefFromMeta: PageUrl = (urlId: UrlId, commentId?: string) =>
+export const websiteHrefFromMeta = (urlId: UrlId, commentId?: string) =>
   websiteHref(urlId.websiteId + urlId.pageId + (commentId ? `#${commentId}` : ''), true);
-export const websiteHref: PageUrl = (url: string, encoded: boolean = false) =>
+export const websiteHref = (url: string, encoded: boolean = false) =>
   websiteHrefRaw() + (encoded ? url : encodeUrl(url));
-export const websiteHrefRaw: PageUrl = () => '/website/';
+export const websiteHrefRaw = () => '/website/';
 
 export const getServerSideProps: GetServerSideProps<WebsiteProps> = async ({
   req,

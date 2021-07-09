@@ -1,10 +1,9 @@
 import { GetServerSideProps } from 'next';
 import React from 'react';
 import { HomePage } from '@/modules/layout/home';
-import { PageUrl } from '@/PageUrl';
 import { getHomeSSP, HomeProps } from '@/modules/server/home';
 
-export const homeHref: PageUrl = () => '/';
+export const homeHref = () => '/';
 
 export const getServerSideProps: GetServerSideProps<HomeProps> = async ({ req, locale }) => {
   const props = await getHomeSSP(req, locale!, ['common', 'home', 'layout']);

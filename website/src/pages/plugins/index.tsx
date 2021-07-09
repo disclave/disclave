@@ -1,10 +1,9 @@
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import React from 'react';
 import { PluginsPage } from '@/modules/layout/plugins';
-import { PageUrl } from '@/PageUrl';
 import { GetStaticProps } from 'next';
 
-export const pluginsHref: PageUrl = () => '/plugins';
+export const pluginsHref = () => '/plugins';
 
 const Plugins: React.VFC = () => {
   return <PluginsPage />;
