@@ -28,7 +28,7 @@ export const getServerSideProps: GetServerSideProps<WebsiteProps> = async ({
   };
 };
 
-const Website: React.FC<WebsiteProps> = (props) => {
+const Website: React.VFC<WebsiteProps> = (props) => {
   const { pageDetails } = usePageDetails(props.website, props.pageDetails);
 
   return (
