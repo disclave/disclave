@@ -86,6 +86,7 @@ export class AuthProviderMock implements AuthProvider {
   async getUserCookieContent(
     idToken: IdToken | null
   ): Promise<UserCookieContent | null> {
+    if (!idToken) return null;
     return {
       uid: asUserId(idToken),
     };

@@ -31,7 +31,7 @@ describe("Testing ProfileService", () => {
     const findResult = await service.getProfile(userId);
 
     expect(insertResult.name).toEqual(name);
-    expect(findResult.name).toEqual(name);
+    expect(findResult?.name).toEqual(name);
   });
 
   test("should not create user profile if already exists", async () => {

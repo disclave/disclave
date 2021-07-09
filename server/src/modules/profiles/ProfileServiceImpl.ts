@@ -17,10 +17,10 @@ import { AuthProvider, UserId } from "@/modules/auth";
 @injectable()
 export class ProfileServiceImpl implements ProfileService {
   @inject(ProfileRepository)
-  private repository: ProfileRepository;
+  private repository!: ProfileRepository;
 
   @inject(AuthProvider)
-  private authProvider: AuthProvider;
+  private authProvider!: AuthProvider;
 
   public async createProfile(uid: UserId, name: string): Promise<Profile> {
     validateUserName(name);
@@ -54,7 +54,7 @@ export class ProfileServiceImpl implements ProfileService {
       );
     });
 
-    return await this.repository.getProfile(user.uid);
+    return await this.repository.getProfile(user.uid) as Profile;
   }
 
   public async getProfile(uid: UserId): Promise<Profile | null> {
