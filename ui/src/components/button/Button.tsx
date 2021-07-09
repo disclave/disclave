@@ -88,6 +88,6 @@ const getClassNames = ({
     "text-sm font-medium uppercase",
     "rounded",
     "focus:outline-none",
-    "appearance-none"
+    "inline-block appearance-none"
   );
 };
