@@ -26,7 +26,7 @@ setAnchorWrapper((props) => (
   </Link>
 ));
 
-export const Disclave: React.VFC<AppProps> = ({ Component, pageProps }) => {
+const Disclave: React.VFC<AppProps> = ({ Component, pageProps }) => {
   useEffect(() => {
     if ('serviceWorker' in navigator)
       window.addEventListener('load', () => swOnLoadEventListener());

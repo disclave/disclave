@@ -24,12 +24,12 @@ export const getDefaultProps = async (
   await initServer(false);
   const userCookie = getUserCookie(context.req);
 
-  const translationsPromise = await serverSideTranslations(context.locale, translationNamespaces);
+  const translations = await serverSideTranslations(context.locale, translationNamespaces);
 
   return {
     serverSideUid: userCookie?.uid ?? null,
     iframe: config.iframe,
     key: config.key,
-    ...translationsPromise
+    ...translations
   };
 };
