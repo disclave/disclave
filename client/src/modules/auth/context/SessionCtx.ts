@@ -12,4 +12,19 @@ export interface SessionCtxData {
   };
 }
 
-export const SessionCtx = React.createContext<SessionCtxData>(undefined);
+export const SessionCtx = React.createContext<SessionCtxData>({
+  uid: null,
+  user: undefined,
+  authToken: null,
+  actions: {
+    createProfile: () => {
+      throw new Error("Session context not initialized");
+    },
+    logout: () => {
+      throw new Error("Session context not initialized");
+    },
+    sendVerificationEmail: () => {
+      throw new Error("Session context not initialized");
+    },
+  },
+});

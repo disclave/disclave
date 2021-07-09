@@ -10,8 +10,8 @@ import { setContext } from "@apollo/client/link/context";
 
 let clientInstance: ApolloClient<NormalizedCacheObject> | null = null;
 
-let authToken: string | undefined = undefined;
-export const setAuthToken = (token: string | undefined) => (authToken = token);
+let authToken: string | null = null;
+export const setAuthToken = (token: string | null) => (authToken = token);
 
 export const initApolloClient = (uri: string) => {
   const httpLink = createHttpLink({

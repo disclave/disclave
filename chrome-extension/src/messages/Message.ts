@@ -20,7 +20,7 @@ export const addMessageListener = (listener: Listener) => {
     const result = listener(request, sender);
 
     if (result && typeof result.then === "function") {
-      result.then((response) => sendResponse(response));
+      result.then((response: Response) => sendResponse(response));
       return true;
     }
 

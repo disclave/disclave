@@ -29,6 +29,8 @@ export const register = async (
     email,
     password
   );
+
+  if (!userCredential.user) throw new Error("Missing user object");
   await checkAndSendEmailVerification(userCredential.user, emailRedirectUrl);
 };
 
@@ -48,6 +50,8 @@ const signInWithPopup = async (
   emailRedirectUrl?: string
 ) => {
   const userCredential = await auth().signInWithPopup(provider);
+
+  if (!userCredential.user) throw new Error("Missing user object");
   await checkAndSendEmailVerification(userCredential.user, emailRedirectUrl);
 };
 

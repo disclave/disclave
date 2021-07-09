@@ -24,6 +24,8 @@ export const useActiveTab = (): ActiveTab | null => {
   useEffect(() => {
     const getActiveTab = async () => {
       const activeTab = await getChromeActiveTab();
+      if (!activeTab.url) throw new Error("Active Tab url is missing");
+
       setTab({
         url: activeTab.url,
       });

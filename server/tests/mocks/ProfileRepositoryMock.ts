@@ -38,6 +38,6 @@ export class ProfileRepositoryMock implements ProfileRepository<{}> {
   }
 
   async getProfile(uid: UserId): Promise<ProfileEntity | null> {
-    return ProfileRepositoryMock.db.get(uid);
+    return ProfileRepositoryMock.db.get(uid) ?? null;
   }
 }
