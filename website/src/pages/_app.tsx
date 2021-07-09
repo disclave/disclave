@@ -3,16 +3,16 @@ import Link from 'next/link';
 import Head from 'next/head';
 import { appWithTranslation } from 'next-i18next';
 import { setAnchorWrapper } from '@disclave/ui';
-import { init } from '@disclave/client';
+import { init, SessionProvider } from '@disclave/client';
 import { config } from '@fortawesome/fontawesome-svg-core';
 import { DefaultSeo } from 'next-seo';
-import { SEO } from '@/consts';
+import { AppTitle, SEO } from '@/consts';
 import { AppHead } from '@/modules/head';
 import React, { useEffect } from 'react';
 import { swOnLoadEventListener } from '@/modules/sw';
 import { useAnalytics } from '@/modules/analytics';
-import { SessionProvider } from '@disclave/client';
 import { CookieBanner } from '@/modules/cookies';
+import { AppProps } from 'next/app';
 
 config.autoAddCss = false;
 
@@ -26,7 +26,7 @@ setAnchorWrapper((props) => (
   </Link>
 ));
 
-const Disclave = ({ Component, pageProps }) => {
+export const Disclave: React.VFC<AppProps> = ({ Component, pageProps }) => {
   useEffect(() => {
     if ('serviceWorker' in navigator)
       window.addEventListener('load', () => swOnLoadEventListener());
@@ -37,7 +37,7 @@ const Disclave = ({ Component, pageProps }) => {
   return (
     <>
       <Head>
-        <title>Disclave</title>
+        <title>{AppTitle}</title>
 
         <AppHead />
       </Head>

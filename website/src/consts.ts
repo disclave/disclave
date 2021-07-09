@@ -1,5 +1,7 @@
 export const domain = process.env.DOMAIN;
 
+export const AppTitle = 'Disclave';
+
 export const disclaveFacebook = 'https://fb.me/disclave';
 export const disclaveMessenger = 'https://m.me/disclave';
 export const disclaveGithub = 'https://github.com/disclave';

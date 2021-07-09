@@ -1,5 +1,8 @@
 import { init } from '@disclave/server';
 
+export type { DefaultProps } from './DefaultProps';
+export { getDefaultProps } from './DefaultProps';
+
 export const initServer = async (skipMigrations: boolean = true) => {
   const firebaseCert = JSON.parse(process.env.FIREBASE_CERT);
 

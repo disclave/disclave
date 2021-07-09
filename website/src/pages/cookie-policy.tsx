@@ -1,14 +1,16 @@
 import { CookiePolicyPage } from '@/modules/layout/terms-and-privacy';
+import { PageUrl } from '@/PageUrl';
+import { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-export const cookiePolicyHref = () => '/cookie-policy';
+export const cookiePolicyHref: PageUrl = () => '/cookie-policy';
 
-const CookiePolicy = () => {
+const CookiePolicy: React.VFC = () => {
   return <CookiePolicyPage />;
 };
 export default CookiePolicy;
 
-export const getStaticProps = async ({ locale }) => ({
+export const getStaticProps: GetStaticProps = async ({ locale }) => ({
   props: {
     ...(await serverSideTranslations(locale, ['common', 'layout']))
   }

@@ -2,8 +2,9 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useRouter } from 'next/router';
 import { websiteHref } from '@/pages/website/[website]';
 import { isUrl, stringToUrl } from '@disclave/client';
+import { GetStaticProps } from 'next';
 
-const PwaShare = () => {
+const PwaShare: React.VFC = () => {
   const router = useRouter();
   const title = router.query.title as string | undefined;
   const text = router.query.text as string | undefined;
@@ -26,7 +27,7 @@ const PwaShare = () => {
 };
 export default PwaShare;
 
-export const getStaticProps = async ({ locale }) => ({
+export const getStaticProps: GetStaticProps = async ({ locale }) => ({
   props: {
     ...(await serverSideTranslations(locale, ['common', 'layout']))
   }

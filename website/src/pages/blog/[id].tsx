@@ -1,12 +1,14 @@
 import { blogPostsImg, domain } from '@/consts';
 import { getPost, getPostIds, Post } from '@/modules/blog';
 import { BlogPostPage } from '@/modules/layout/blog/post';
+import { PageUrl } from '@/PageUrl';
+import { GetStaticPaths, GetStaticProps } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { NextSeo } from 'next-seo';
 import React from 'react';
 
-export const blogPostHref = (id: string) => `/blog/${id}`;
+export const blogPostHref: PageUrl = (id: string) => `/blog/${id}`;
 
 interface BlogPostProps {
   post: Post;
@@ -44,7 +46,7 @@ const BlogPost: React.VFC<BlogPostProps> = (props) => {
 };
 export default BlogPost;
 
-export const getStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = async () => {
   const paths = getPostIds();
   return {
     paths,
@@ -52,8 +54,9 @@ export const getStaticPaths = async () => {
   };
 };
 
-export const getStaticProps = async ({ params, locale }) => {
-  const postPromise = getPost(params.id);
+export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
+  // TODO: add params validation
+  const postPromise = getPost(params.id as string);
   const translationsPromise = serverSideTranslations(locale, ['blog', 'common', 'layout']);
 
   return {
