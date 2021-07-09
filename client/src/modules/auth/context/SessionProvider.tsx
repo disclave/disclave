@@ -72,7 +72,7 @@ export const SessionProvider: React.FC<SessionProviderProps> = (props) => {
       const profile = await fetchUserProfile(fbUser.uid != user?.uid);
       updatedUser = {
         uid: asUserId(fbUser.uid),
-        email: fbUser.email,
+        email: fbUser.email ?? "", // TODO: how to handle missing email?
         emailVerified: fbUser.emailVerified,
         profile: profile,
       };
@@ -109,7 +109,7 @@ export const SessionProvider: React.FC<SessionProviderProps> = (props) => {
   const ctxData: SessionCtxData = {
     user: user,
     uid: uid,
-    authToken: authToken,
+    authToken: authToken ?? null,
     actions: {
       createProfile: onCreateProfile,
       logout: onLogout,
