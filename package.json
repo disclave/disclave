@@ -15,6 +15,7 @@
     "chrome-extension",
     "client",
     "plugins/react",
+    "server",
     "services",
     "ui",
     "website"

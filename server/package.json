@@ -1,0 +1,31 @@
+{
+  "name": "@disclave/server",
+  "private": true,
+  "version": "1.0.2",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "source": "src/index.ts",
+  "scripts": {
+    "build": "rollup -c --environment NODE_ENV:production",
+    "build-watch": "rollup -c -w",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@disclave/services": "^1.0.2",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "@rollup/plugin-babel": "^5.3.0",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-typescript": "^8.2.1",
+    "@types/jest": "^26.0.22",
+    "jest": "^26.6.3",
+    "rollup": "^2.44.0",
+    "rollup-plugin-delete": "^2.0.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "ts-jest": "^26.5.4",
+    "typescript": "^4.2.3"
+  },
+  "license": "GPL-3.0"
+}

@@ -1,20 +1,15 @@
-const express = require('express');
+const server = require('@disclave/server');
 const next = require('next');
 
 const dev = process.env.NODE_ENV !== 'production';
 const port = parseInt(process.env.PORT) || 3000;
 
-const serverApp = express();
-const webApp = next({
+const app = next({
   dev
 });
 
-const webAppHandler = webApp.getRequestHandler();
+const handler = app.getRequestHandler();
 
-webApp.prepare().then(() => {
-  serverApp.use(webAppHandler);
-  serverApp.listen(port, (err) => {
-    if (err) throw err;
-    console.log(`> Ready on http://localhost:${port}`);
-  });
+app.prepare().then(() => {
+  server.runServer(port, handler);
 });
