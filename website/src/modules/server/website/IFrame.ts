@@ -1,7 +1,7 @@
 import { DefaultProps, getDefaultProps } from '@/modules/server';
 import { PageCommentModel, PageDetailsModel } from '@disclave/client';
 import { IncomingMessage } from 'http';
-import { getPageCommentService, getPageDetailsService } from '@disclave/server';
+import { getPageCommentService, getPageDetailsService } from '@disclave/services';
 
 export interface IFrameProps extends DefaultProps {
   comments: Array<PageCommentModel>;

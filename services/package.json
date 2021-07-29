@@ -1,5 +1,5 @@
 {
-  "name": "@disclave/server",
+  "name": "@disclave/services",
   "private": true,
   "version": "1.0.2",
   "main": "dist/index.cjs.js",

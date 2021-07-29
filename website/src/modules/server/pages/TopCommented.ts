@@ -1,7 +1,7 @@
 import { DefaultProps, getDefaultProps } from '@/modules/server';
 import { RankingPageModel } from '@disclave/client';
 import { IncomingMessage } from 'http';
-import { getPageRankingService } from '@disclave/server';
+import { getPageRankingService } from '@disclave/services';
 
 export interface TopCommentedPagesProps extends DefaultProps {
   pages: Array<RankingPageModel>;

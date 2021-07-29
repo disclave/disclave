@@ -4,7 +4,7 @@ import {
   getCommentRankingService,
   getPageRankingService,
   PageRankingService
-} from '@disclave/server';
+} from '@disclave/services';
 import { RankingCommentModel, RankingPageModel } from '@disclave/client';
 import { DefaultProps, getDefaultProps } from '@/modules/server';
 import { IncomingMessage } from 'http';

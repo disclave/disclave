@@ -1,7 +1,7 @@
 import { DefaultProps, getDefaultProps } from '@/modules/server';
 import { RankingCommentModel } from '@disclave/client';
 import { IncomingMessage } from 'http';
-import { getCommentRankingService } from '@disclave/server';
+import { getCommentRankingService } from '@disclave/services';
 
 export interface LatestCommentsProps extends DefaultProps {
   comments: Array<RankingCommentModel>;

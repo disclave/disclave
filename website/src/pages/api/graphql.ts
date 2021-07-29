@@ -1,4 +1,4 @@
-import { graphqlHandler } from '@disclave/server';
+import { graphqlHandler } from '@disclave/services';
 import { initServer } from '@/modules/server';
 
 initServer().catch((e) => console.error(e));

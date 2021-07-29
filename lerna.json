@@ -1,11 +1,11 @@
 {
   "packages": [
-    "client",
-    "server",
-    "ui",
-    "website",
     "chrome-extension",
-    "plugins/react"
+    "client",
+    "plugins/react",
+    "services",
+    "ui",
+    "website"
   ],
   "version": "independent",
   "npmClient": "yarn",

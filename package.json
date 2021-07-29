@@ -12,12 +12,12 @@
     "start": "cd website && yarn start"
   },
   "workspaces": [
-    "client",
-    "server",
-    "ui",
-    "website",
     "chrome-extension",
-    "plugins/react"
+    "client",
+    "plugins/react",
+    "services",
+    "ui",
+    "website"
   ],
   "devDependencies": {
     "lerna": "^4.0.0"

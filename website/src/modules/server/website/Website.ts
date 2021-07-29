@@ -5,7 +5,7 @@ import {
   getPageCommentService,
   getPageDetailsService,
   getPageRankingService
-} from '@disclave/server';
+} from '@disclave/services';
 
 export interface WebsiteProps extends DefaultProps {
   comments: Array<PageCommentModel>;

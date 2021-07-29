@@ -3,7 +3,7 @@
   "version": "1.0.2",
   "private": true,
   "scripts": {
-    "dev": "node src/server.js",
+    "dev": "next dev",
     "build": "next build",
     "start": "NODE_ENV=production PORT=$PORT node src/server.js",
     "start:windows": "set NODE_ENV=production&& set PORT=3000&& node src/server.js",
@@ -14,7 +14,7 @@
   "dependencies": {
     "@disclave/client": "^1.0.2",
     "@disclave/react-plugin": "^1.0.2",
-    "@disclave/server": "^1.0.2",
+    "@disclave/services": "^1.0.2",
     "@disclave/ui": "^1.0.2",
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
     "@fortawesome/free-brands-svg-icons": "^5.15.3",

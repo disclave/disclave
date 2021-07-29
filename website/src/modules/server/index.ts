@@ -1,4 +1,4 @@
-import { init } from '@disclave/server';
+import { init } from '@disclave/services';
 
 export type { DefaultProps } from './DefaultProps';
 export { getDefaultProps } from './DefaultProps';

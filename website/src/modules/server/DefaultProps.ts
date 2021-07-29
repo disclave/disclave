@@ -1,6 +1,6 @@
 import { SSRConfig } from 'next-i18next';
 import { IncomingMessage } from 'http';
-import { getUserCookie } from '@disclave/server';
+import { getUserCookie } from '@disclave/services';
 import { initServer } from '.';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
