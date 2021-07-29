@@ -3,9 +3,10 @@
   "version": "1.0.2",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "node src/server.js",
     "build": "next build",
-    "start": "next start -p $PORT",
+    "start": "NODE_ENV=production PORT=$PORT node src/server.js",
+    "start:windows": "set NODE_ENV=production&& set PORT=3000&& node src/server.js",
     "test": "jest --passWithNoTests",
     "lint": "eslint --fix .",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
