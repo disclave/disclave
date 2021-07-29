@@ -3,7 +3,7 @@
   "version": "1.0.2",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "node src/server.js",
     "build": "next build",
     "start": "NODE_ENV=production PORT=$PORT node src/server.js",
     "start:windows": "set NODE_ENV=production&& set PORT=3000&& node src/server.js",
@@ -22,6 +22,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
     "@fortawesome/react-fontawesome": "^0.1.14",
     "classnames": "^2.3.1",
+    "express": "^4.17.1",
     "gray-matter": "^4.0.3",
     "next": "^10.2.3",
     "next-i18next": "^8.4.0",
