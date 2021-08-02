@@ -1,23 +1,18 @@
 import {
   getAuthProvider,
   getProfileService,
-  DecodedIdToken,
-  IdToken,
   Profile,
 } from "@disclave/services";
 import { Unauthorized } from "@/exceptions";
+import { Resolvers } from "@/graphql";
 
-export const resolvers = () => {
+export const resolvers = (): Resolvers => {
   const authProvider = getAuthProvider();
   const service = getProfileService();
 
   return {
     Query: {
-      getSelfProfile: async (
-        _,
-        args,
-        { decodedToken }: { decodedToken: DecodedIdToken }
-      ) => {
+      getSelfProfile: async (_, {}, { decodedToken }) => {
         if (!decodedToken)
           throw Unauthorized("You have to be authorized to get self profile.");
         const profile = await service.getProfile(decodedToken.uid);
@@ -26,7 +21,11 @@ export const resolvers = () => {
       },
     },
     Mutation: {
-      createSelfProfile: async (_, args, { idToken }: { idToken: IdToken }) => {
+      createSelfProfile: async (
+        _,
+        args: { profile: { name: string } },
+        { idToken }
+      ) => {
         if (!idToken)
           throw Unauthorized(
             "You have to be authorized to create self profile."
@@ -41,11 +40,11 @@ export const resolvers = () => {
       },
     },
   };
-
-  const profileToResponse = (profile: Profile) => {
-    return {
-      uid: profile.uid,
-      name: profile.name,
-    };
-  };
 };
+
+function profileToResponse(profile: Profile) {
+  return {
+    uid: profile.uid,
+    name: profile.name,
+  };
+}

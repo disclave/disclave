@@ -1,23 +1,19 @@
 import { Unauthorized } from "@/exceptions";
+import { Resolvers } from "@/graphql";
 import {
   getAuthProvider,
   getPageCommentService,
-  DecodedIdToken,
-  IdToken,
+  UrlId,
   PageComment,
 } from "@disclave/services";
 
-export const resolvers = () => {
+export const resolvers = (): Resolvers => {
   const authProvider = getAuthProvider();
   const service = getPageCommentService();
 
   return {
     Query: {
-      getPageComments: async (
-        _,
-        args,
-        { decodedToken }: { decodedToken: DecodedIdToken }
-      ) => {
+      getPageComments: async (_, args: { urlId: UrlId }, { decodedToken }) => {
         const comments = await service.getPageComments(
           args.urlId,
           decodedToken?.uid
@@ -26,7 +22,11 @@ export const resolvers = () => {
       },
     },
     Mutation: {
-      createPageComment: async (_, args, { idToken }: { idToken: IdToken }) => {
+      createPageComment: async (
+        _,
+        args: { comment: { text: string; urlId: UrlId; rawUrl: string } },
+        { idToken }
+      ) => {
         if (!idToken)
           throw Unauthorized("You have to be authorized to create comment.");
         const decodedToken = await authProvider.verifyIdToken(idToken, true);

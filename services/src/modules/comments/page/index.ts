@@ -4,7 +4,7 @@ import { PageCommentMongoRepository } from "./db/PageCommentMongoRepository";
 import { PageCommentService } from "./service";
 import { PageCommentServiceImpl } from "./service/PageCommentServiceImpl";
 
-export type { PageComment } from "./service";
+export type { PageComment, UrlId } from "./service";
 export { PageCommentService };
 
 export const container = new ContainerModule((bind) => {

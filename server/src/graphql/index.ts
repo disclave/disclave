@@ -1,4 +1,4 @@
-import { ApolloServer, gql } from "apollo-server-express";
+import { ApolloServer, ExpressContext, gql } from "apollo-server-express";
 import {
   getAuthProvider,
   DecodedIdToken,
@@ -30,19 +30,39 @@ const baseTypes = gql`
   }
 `;
 
-const authProvider = getAuthProvider();
 type TokenWithDecoded = { idToken: IdToken; decodedToken: DecodedIdToken };
 
-const getIdToken = async (req: any): Promise<TokenWithDecoded | null> => {
-  const authorization = req?.headers?.authorization || null;
-  if (!authorization || !authorization.startsWith("Bearer ")) return null;
+export interface Context extends ExpressContext {
+  idToken: IdToken | null;
+  decodedToken: DecodedIdToken | null;
+}
 
-  const idToken = asIdToken(authorization.replace("Bearer ", ""));
-  const decodedToken = await authProvider.verifyIdToken(idToken, false);
-  return { idToken, decodedToken };
+type Resolver<T> = (
+  parent: undefined,
+  args: T,
+  context: Context
+) => any | Promise<any>;
+
+export type Resolvers<T = any> = {
+  Mutation?: {
+    [P in keyof T]: Resolver<T[P]>;
+  };
+  Query?: {
+    [P in keyof T]: Resolver<T[P]>;
+  };
 };
 
-const createApolloHandler = (path: string) => {
+export const prepareApolloServer = (): ApolloServer => {
+  const authProvider = getAuthProvider();
+  const getIdToken = async (req: any): Promise<TokenWithDecoded | null> => {
+    const authorization = req?.headers?.authorization || null;
+    if (!authorization || !authorization.startsWith("Bearer ")) return null;
+
+    const idToken = asIdToken(authorization.replace("Bearer ", ""));
+    const decodedToken = await authProvider.verifyIdToken(idToken, false);
+    return { idToken, decodedToken };
+  };
+
   const apolloServer = new ApolloServer({
     typeDefs: [
       baseTypes,
@@ -57,7 +77,7 @@ const createApolloHandler = (path: string) => {
       ...commentsResolvers(),
       profileResolvers(),
     ],
-    context: async ({ req, res }) => {
+    context: async ({ req, res }): Promise<Context> => {
       const auth = await getIdToken(req);
 
       return {
@@ -69,17 +89,5 @@ const createApolloHandler = (path: string) => {
     },
   });
 
-  return apolloServer.createHandler({ path });
-};
-
-export const graphqlHandler = (path: string) => {
-  const apolloHandler = createApolloHandler(path);
-
-  return cors((req, res) => {
-    if (req.method === "OPTIONS") {
-      return res.end();
-    }
-
-    return apolloHandler(req, res);
-  });
+  return apolloServer;
 };

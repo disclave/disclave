@@ -1,18 +1,15 @@
-import {
-  getCommentRankingService,
-  DecodedIdToken,
-  RankingComment,
-} from "@disclave/services";
+import { Resolvers } from "@/graphql";
+import { getCommentRankingService, RankingComment } from "@disclave/services";
 
-export const resolvers = () => {
+export const resolvers = (): Resolvers => {
   const service = getCommentRankingService();
 
   return {
     Query: {
       latestCommentsRanking: async (
         _,
-        args,
-        { decodedToken }: { decodedToken: DecodedIdToken }
+        args: { minVoteSum: number; limit: number },
+        { decodedToken }
       ) => {
         const comments = await service.getLatestComments(
           args.minVoteSum,
@@ -23,8 +20,8 @@ export const resolvers = () => {
       },
       topCommentsRanking: async (
         _,
-        args,
-        { decodedToken }: { decodedToken: DecodedIdToken }
+        args: { minVoteSum: number; limit: number },
+        { decodedToken }
       ) => {
         const comments = await service.getTopComments(
           args.minVoteSum,

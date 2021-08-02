@@ -2,12 +2,12 @@ import { gql } from "apollo-server-express";
 
 export const typeDefs = gql`
   input UserProfileInput {
-    name: String
+    name: String!
   }
 
   type UserProfile {
-    uid: ID
-    name: String
+    uid: ID!
+    name: String!
   }
 
   extend type Query {
@@ -15,6 +15,6 @@ export const typeDefs = gql`
   }
 
   extend type Mutation {
-    createSelfProfile(profile: UserProfileInput!): UserProfile
+    createSelfProfile(profile: UserProfileInput!): UserProfile!
   }
 `;

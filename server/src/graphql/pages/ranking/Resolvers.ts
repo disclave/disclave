@@ -1,18 +1,22 @@
-import {
-  DecodedIdToken,
-  getPageRankingService,
-  RankingPage,
-} from "@disclave/services";
+import { Resolvers } from "@/graphql";
+import { getPageRankingService, RankingPage } from "@disclave/services";
 
-export const resolvers = () => {
+export const resolvers = (): Resolvers => {
   const service = getPageRankingService();
 
   return {
     Query: {
       topCommentedPages: async (
         _,
-        args,
-        { decodedToken }: { decodedToken: DecodedIdToken }
+        args: {
+          params: {
+            limit: number;
+            websiteId?: string;
+            excludePageId?: string;
+            commentsMinVoteSum: number;
+          };
+        },
+        { decodedToken }
       ) => {
         const pages = await service.getTopCommentedPages(
           {
@@ -27,8 +31,16 @@ export const resolvers = () => {
       },
       topRatedPages: async (
         _,
-        args,
-        { decodedToken }: { decodedToken: DecodedIdToken }
+        args: {
+          params: {
+            limit: number;
+            websiteId?: string;
+            excludePageId?: string;
+            commentsMinVoteSum: number;
+            pageMinVoteSum: number;
+          };
+        },
+        { decodedToken }
       ) => {
         const pages = await service.getTopRatedPages(
           {

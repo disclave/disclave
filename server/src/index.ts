@@ -1,7 +1,13 @@
 import { IncomingMessage, ServerResponse } from "http";
 import { UrlWithParsedQuery } from "url";
 import express from "express";
-import { ApolloServer, gql } from "apollo-server-express";
+import { prepareApolloServer } from "./graphql";
+import {
+  init as initServices,
+  DbConfig,
+  MailjetConfig,
+  AwsConfig,
+} from "@disclave/services";
 
 type WebAppHandler = (
   req: IncomingMessage,
@@ -9,20 +15,26 @@ type WebAppHandler = (
   parsedUrl?: UrlWithParsedQuery
 ) => Promise<void>;
 
-export const runServer = async (port: number, webAppHandler: WebAppHandler) => {
-  const typeDefs = gql`
-    type Query {
-      hello: String
-    }
-  `;
+type Config = {
+  port: number;
+  firebaseServiceAccountObject: Object;
+  dbConfig: DbConfig;
+  mjConfig: MailjetConfig;
+  awsConfig: AwsConfig;
+};
 
-  const resolvers = {
-    Query: {
-      hello: () => 'Hello world!',
-    },
-  };
+export const runServer = async (
+  config: Config,
+  webAppHandler: WebAppHandler
+) => {
+  await initServices(
+    config.firebaseServiceAccountObject,
+    config.dbConfig,
+    config.mjConfig,
+    config.awsConfig,
+  );
 
-  const server = new ApolloServer({ typeDefs, resolvers });
+  const server = prepareApolloServer();
   await server.start();
 
   const app = express();
@@ -33,7 +45,11 @@ export const runServer = async (port: number, webAppHandler: WebAppHandler) => {
     webAppHandler(req, res);
   });
 
-  await new Promise<void>(resolve => app.listen({ port: port }, resolve));
-  console.log(`> Ready on http://localhost:${port}`);
-  console.log(`> GQL server ready at http://localhost:${port}${server.graphqlPath}`);
+  await new Promise<void>((resolve) =>
+    app.listen({ port: config.port }, resolve)
+  );
+  console.log(`> Ready on http://localhost:${config.port}`);
+  console.log(
+    `> GQL server ready at http://localhost:${config.port}${server.graphqlPath}`
+  );
 };

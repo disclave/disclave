@@ -2,7 +2,7 @@ import { PageComment } from "./models";
 import { UserId } from "@/modules/auth";
 import { UrlId } from "@/modules/pages";
 
-export type { PageComment };
+export type { PageComment, UrlId };
 
 export abstract class PageCommentService {
   abstract getPageComments(

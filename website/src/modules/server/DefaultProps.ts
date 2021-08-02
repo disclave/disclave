@@ -1,7 +1,6 @@
 import { SSRConfig } from 'next-i18next';
 import { IncomingMessage } from 'http';
 import { getUserCookie } from '@disclave/services';
-import { initServer } from '.';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 export interface DefaultProps extends SSRConfig {
@@ -21,7 +20,6 @@ export const getDefaultProps = async (
     key?: string;
   }
 ): Promise<DefaultProps> => {
-  await initServer(false);
   const userCookie = getUserCookie(context.req);
 
   const translations = await serverSideTranslations(context.locale, translationNamespaces);

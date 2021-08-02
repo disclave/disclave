@@ -1,19 +1,12 @@
-import {
-  DecodedIdToken,
-  getPageDetailsService,
-  PageDetails,
-} from "@disclave/services";
+import { Resolvers } from "@/graphql";
+import { getPageDetailsService, PageDetails } from "@disclave/services";
 
-export const resolvers = () => {
+export const resolvers = (): Resolvers => {
   const service = getPageDetailsService();
 
   return {
     Query: {
-      pageDetails: async (
-        _,
-        args,
-        { decodedToken }: { decodedToken: DecodedIdToken }
-      ) => {
+      pageDetails: async (_, args: { url: string }, { decodedToken }) => {
         const pageDetails = await service.getPageDetails(
           args.url,
           decodedToken?.uid
