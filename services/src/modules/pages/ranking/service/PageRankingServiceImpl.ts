@@ -11,7 +11,7 @@ import { UserId } from "@/modules/auth";
 @injectable()
 export class PageRankingServiceImpl implements PageRankingService {
   @inject(PageRankingRepository)
-  private repository: PageRankingRepository;
+  private repository!: PageRankingRepository;
 
   public async getTopCommentedPages(
     config: TopCommentedConfig,

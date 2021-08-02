@@ -7,8 +7,6 @@ import { PageCommentServiceImpl } from "./service/PageCommentServiceImpl";
 export type { PageComment } from "./service";
 export { PageCommentService };
 
-export { typeDefs, resolvers } from "./gql";
-
 export const container = new ContainerModule((bind) => {
   bind(PageCommentRepository).to(PageCommentMongoRepository);
   bind(PageCommentService).to(PageCommentServiceImpl);

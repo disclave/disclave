@@ -41,11 +41,13 @@ const resizeImageToMaxSizeJpg = async (
   let img = sharp(buffer);
   const meta = await img.metadata();
 
-  if (meta.width > maxSize || meta.height > maxSize) {
-    const resizeProps = { height: undefined, width: undefined };
-    if (meta.width > meta.height) resizeProps.width = maxSize;
-    else resizeProps.height = maxSize;
-    img = img.resize(resizeProps);
+  if (meta.width && meta.height) {
+    if (meta.width > maxSize || meta.height > maxSize) {
+      const resizeProps: { height?: number; width?: number } = {};
+      if (meta.width > meta.height) resizeProps.width = maxSize;
+      else resizeProps.height = maxSize;
+      img = img.resize(resizeProps);
+    }
   }
 
   return img.png().toBuffer();

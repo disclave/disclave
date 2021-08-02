@@ -57,7 +57,7 @@ export class CommentRankingMongoRepository
 
 function cursorDocToEntity(doc: DbComment): RankingCommentEntity {
   return {
-    id: doc._id.toHexString(),
+    id: doc._id!.toHexString(),
     text: doc.text,
     author: {
       name: doc.author.name,

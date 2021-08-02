@@ -138,7 +138,7 @@ function topCommentedAggCursorDocToEntity(
     id: doc._id.websiteId + doc._id.pageId,
     pageId: doc._id.pageId,
     websiteId: doc._id.websiteId,
-    commentsCount: doc.commentsCount,
+    commentsCount: doc.commentsCount ?? 0,
     url: doc.page.normalizedUrl,
     meta: doc.page.meta
       ? {
@@ -148,8 +148,8 @@ function topCommentedAggCursorDocToEntity(
       : null,
     votes: {
       sum: doc.page.votesSum,
-      votedUp: doc.page.votesUp?.length > 0,
-      votedDown: doc.page.votesDown?.length > 0,
+      votedUp: !!doc.page.votesUp && doc.page.votesUp.length > 0,
+      votedDown: !!doc.page.votesDown && doc.page.votesDown.length > 0,
     },
   };
 }
@@ -171,8 +171,8 @@ function topRatedAggCursorDocToEntity(
       : null,
     votes: {
       sum: doc.votesSum,
-      votedUp: doc.votesUp?.length > 0,
-      votedDown: doc.votesDown?.length > 0,
+      votedUp: !!doc.votesUp && doc.votesUp.length > 0,
+      votedDown: !!doc.votesDown && doc.votesDown.length > 0,
     },
   };
 }

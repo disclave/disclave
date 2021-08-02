@@ -31,7 +31,7 @@ export const uploadFlie = async (
   if (!_s3Client) throw "AWS not initialized";
 
   const upload = _s3Client.upload({
-    Bucket: _buckets.get(bucket),
+    Bucket: _buckets.get(bucket)!, // TODO: add check if bucket exists
     Key: key,
     Body: buffer,
     ContentType: contentType,

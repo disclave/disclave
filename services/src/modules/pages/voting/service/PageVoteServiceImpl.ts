@@ -7,7 +7,7 @@ import { UrlId } from "@/modules/pages";
 @injectable()
 export class PageVoteServiceImpl implements PageVoteService {
   @inject(PageVoteRepository)
-  private repository: PageVoteRepository;
+  private repository!: PageVoteRepository;
 
   public async setVoteUp(urlId: UrlId, userId: UserId): Promise<boolean> {
     return await this.repository.setVoteUp(urlId, userId);

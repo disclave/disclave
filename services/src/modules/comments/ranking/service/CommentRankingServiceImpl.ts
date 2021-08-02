@@ -9,7 +9,7 @@ import { UserId } from "@/modules/auth";
 @injectable()
 export class CommentRankingServiceImpl implements CommentRankingService {
   @inject(CommentRankingRepository)
-  private repository: CommentRankingRepository;
+  private repository!: CommentRankingRepository;
 
   public async getLatestComments(
     minVoteSum: number,

@@ -6,7 +6,7 @@ import { UserId } from "@/modules/auth";
 @injectable()
 export class CommentVoteServiceImpl implements CommentVoteService {
   @inject(CommentVoteRepository)
-  private repository: CommentVoteRepository;
+  private repository!: CommentVoteRepository;
 
   public async removeVote(commentId: string, userId: UserId): Promise<boolean> {
     return await this.repository.removeVote(commentId, userId);

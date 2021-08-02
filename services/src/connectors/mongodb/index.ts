@@ -26,7 +26,7 @@ export async function initDatabase(uri: string, dbName: string) {
 
 export const db = async (): Promise<Db> => {
   if (!_db) {
-    const retry = retryUntilNullOrUndefined(() => _db, 5, 100);
+    const retry = await retryUntilNullOrUndefined(() => _db, 5, 100);
     if (!retry) throw "Database connection is not initialized!";
 
     return retry;
@@ -45,7 +45,7 @@ export const withSession = async <T>(
   await _client.withSession(async (session: ClientSession) => {
     result = await run(session);
   });
-  return result;
+  return result!;
 };
 
 export const withTransaction = async <T>(
@@ -58,7 +58,7 @@ export const withTransaction = async <T>(
       await session.withTransaction(async (session: ClientSession) => {
         result = await run(session);
       });
-      return result;
+      return result!;
     }
   );
 };

@@ -101,7 +101,7 @@ export class PageDetailsMongoRepository
         projection: getProjection(uid),
       }
     );
-    return cursorDocToEntity(result.value);
+    return cursorDocToEntity(result.value!);
   }
 }
 

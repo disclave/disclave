@@ -51,7 +51,7 @@ export class PageCommentMongoRepository
         projection: getProjection(author.uid),
       }
     );
-    return cursorDocToEntity(doc);
+    return cursorDocToEntity(doc!);
   }
 }
 
@@ -93,7 +93,7 @@ function toDbComment(
 
 function cursorDocToEntity(doc: DbComment): PageCommentEntity {
   return {
-    id: doc._id.toHexString(),
+    id: doc._id!.toHexString(),
     text: doc.text,
     author: {
       name: doc.author.name,

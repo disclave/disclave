@@ -6,7 +6,7 @@ import { PageRankingServiceImpl } from "./service/PageRankingServiceImpl";
 
 export { PageRankingService };
 
-export { typeDefs, resolvers } from "./gql";
+export type { RankingPage } from "./service";
 
 export const container = new ContainerModule((bind) => {
   bind(PageRankingRepository).to(PageRankingMongoRepository);

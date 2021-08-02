@@ -14,13 +14,13 @@ import { UrlId } from "@/modules/pages";
 @injectable()
 export class PageCommentServiceImpl implements PageCommentService {
   @inject(ProfileService)
-  private profileService: ProfileService;
+  private profileService!: ProfileService;
 
   @inject(PageDetailsService)
-  private pageDetailsService: PageDetailsService;
+  private pageDetailsService!: PageDetailsService;
 
   @inject(PageCommentRepository)
-  private repository: PageCommentRepository;
+  private repository!: PageCommentRepository;
 
   public async getPageComments(
     urlId: UrlId,
@@ -41,15 +41,14 @@ export class PageCommentServiceImpl implements PageCommentService {
     const authorPromise = this.profileService.getProfile(uid);
     const pageMetaPromise = this.pageDetailsService.getSavedPageMeta(urlId);
 
-    const result = await this.repository.addPageComment(
-      await authorPromise,
-      escapedText,
-      {
-        urlId,
-        rawUrl,
-        urlMeta: await pageMetaPromise,
-      }
-    );
+    const author = await authorPromise;
+    if (!author) throw new Error("User profile not found");
+
+    const result = await this.repository.addPageComment(author, escapedText, {
+      urlId,
+      rawUrl,
+      urlMeta: await pageMetaPromise,
+    });
     return toDomain(result);
   }
 }

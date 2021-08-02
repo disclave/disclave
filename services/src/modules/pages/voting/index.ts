@@ -6,8 +6,6 @@ import { PageVoteServiceImpl } from "./service/PageVoteServiceImpl";
 
 export { PageVoteService };
 
-export { typeDefs, resolvers } from "./gql";
-
 export const container = new ContainerModule((bind) => {
   bind(PageVoteRepository).to(PageVoteMongoRepository);
   bind(PageVoteService).to(PageVoteServiceImpl);

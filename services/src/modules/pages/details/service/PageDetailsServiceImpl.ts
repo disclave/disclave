@@ -24,16 +24,16 @@ interface DefaultAndAltUrl {
 @injectable()
 export class PageDetailsServiceImpl implements PageDetailsService {
   @inject(PageDetailsRepository)
-  private repository: PageDetailsRepository;
+  private repository!: PageDetailsRepository;
 
   @inject(PageConfigService)
-  private pageConfigService: PageConfigService;
+  private pageConfigService!: PageConfigService;
 
   @inject(UrlService)
-  private urlService: UrlService;
+  private urlService!: UrlService;
 
   @inject(ImageService)
-  private imageService: ImageService;
+  private imageService!: ImageService;
 
   public async getSavedPageMeta(urlId: UrlId): Promise<PageMeta | null> {
     const entity = await this.repository.findPageMeta(urlId);

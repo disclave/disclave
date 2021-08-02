@@ -17,7 +17,7 @@ export class FirebaseAuthProvider implements AuthProvider {
     const user = await auth().getUser(uid);
     return {
       uid: uid,
-      email: user.email,
+      email: user.email!, // TODO: can it be null?
       emailVerified: !!user.emailVerified,
       disabled: user.disabled,
     };

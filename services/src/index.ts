@@ -1,10 +1,6 @@
 import { container } from "./inversify.config";
-import { PageCommentService, CommentRankingService } from "@/modules/comments";
-import { PageDetailsService, PageRankingService } from "@/modules/pages";
 import { initDatabase } from "@/connectors/mongodb";
 import { EmailTemplate, initMailjet } from "@/connectors/mailjet";
-import { EmailService } from "@/modules/email";
-import { ProfileService } from "@/modules/profiles";
 import { initFirebase } from "@/connectors/firebase/Firebase";
 import { Bucket, initAWS } from "./connectors/aws";
 import { runAllMigrations } from "./migrations";
@@ -72,23 +68,52 @@ export async function init(
   }
 }
 
-export { graphqlHandler } from "./graphql";
+export type { Profile } from "@/modules/profiles";
 
-export { getUserCookie } from "./cookies";
-export type { UserCookieContent } from "./modules/auth";
+export type {
+  UserId,
+  IdToken,
+  Email,
+  UserCookieContent,
+  DecodedIdToken,
+} from "@/modules/auth";
+export { asUserId, asIdToken, asEmail } from "@/modules/auth";
+import { AuthProvider } from "@/modules/auth";
+export type { AuthProvider };
+export const getAuthProvider = () => container.get(AuthProvider);
 
-export type { ProfileService };
-export const getProfileService = () => container.get(ProfileService);
+import { EmailService } from "@/modules/email";
 export type { EmailService };
 export const getEmailService = () => container.get(EmailService);
 
+import { ProfileService } from "@/modules/profiles";
+export type { ProfileService };
+export const getProfileService = () => container.get(ProfileService);
+
+export type { PageComment } from "@/modules/comments/page";
+export type { RankingComment } from "@/modules/comments/ranking";
+import {
+  PageCommentService,
+  CommentRankingService,
+  CommentVoteService,
+} from "@/modules/comments";
 export type { PageCommentService };
 export const getPageCommentService = () => container.get(PageCommentService);
 export type { CommentRankingService };
 export const getCommentRankingService = () =>
   container.get(CommentRankingService);
+export const getCommentVoteService = () => container.get(CommentVoteService);
 
+export type { PageDetails } from "@/modules/pages/details";
+export type { RankingPage } from "@/modules/pages/ranking";
+import {
+  PageDetailsService,
+  PageRankingService,
+  PageVoteService,
+} from "@/modules/pages";
 export type { PageDetailsService };
 export const getPageDetailsService = () => container.get(PageDetailsService);
 export type { PageRankingService };
 export const getPageRankingService = () => container.get(PageRankingService);
+export type { PageVoteService };
+export const getPageVoteService = () => container.get(PageVoteService);

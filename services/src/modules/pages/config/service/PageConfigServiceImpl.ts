@@ -6,7 +6,7 @@ import { PageConfig } from "./models";
 @injectable()
 export class PageConfigServiceImpl implements PageConfigService {
   @inject(PageConfigRepository)
-  private repository: PageConfigRepository;
+  private repository!: PageConfigRepository;
 
   public async getPageConfig(
     normalizedUrl: string
