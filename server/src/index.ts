@@ -23,6 +23,8 @@ type Config = {
   awsConfig: AwsConfig;
 };
 
+export { getUserCookie } from "./cookies";
+
 export const runServer = async (
   config: Config,
   webAppHandler: WebAppHandler
@@ -31,7 +33,7 @@ export const runServer = async (
     config.firebaseServiceAccountObject,
     config.dbConfig,
     config.mjConfig,
-    config.awsConfig,
+    config.awsConfig
   );
 
   const server = prepareApolloServer();
