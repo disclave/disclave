@@ -3,10 +3,10 @@
   "version": "1.0.2",
   "private": true,
   "scripts": {
-    "dev": "node src/server.js",
+    "dev": "ts-node src/server.ts",
     "build": "next build",
-    "start": "NODE_ENV=production PORT=$PORT node src/server.js",
-    "start:windows": "set NODE_ENV=production&& set PORT=3000&& node src/server.js",
+    "start": "NODE_ENV=production PORT=$PORT ts-node src/server.ts",
+    "start:windows": "set NODE_ENV=production&& set PORT=3000&& ts-node src/server.ts",
     "test": "jest --passWithNoTests",
     "lint": "eslint --fix .",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
@@ -33,6 +33,7 @@
   },
   "devDependencies": {
     "@types/jest": "^26.0.22",
+    "@types/node": "^16.4.10",
     "@types/react": "^17.0.3",
     "@typescript-eslint/eslint-plugin": "^4.21.0",
     "@typescript-eslint/parser": "^4.21.0",
@@ -49,6 +50,7 @@
     "prettier": "^2.2.1",
     "tailwindcss": "^2.1.1",
     "ts-jest": "^26.5.4",
+    "ts-node": "^10.1.0",
     "typescript": "^4.3.2"
   },
   "license": "GPL-3.0"

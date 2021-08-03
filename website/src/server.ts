@@ -2,7 +2,7 @@ const server = require('@disclave/server');
 const next = require('next');
 
 const dev = process.env.NODE_ENV !== 'production';
-const port = parseInt(process.env.PORT) || 3000;
+const port = process.env.PORT ? parseInt(process.env.PORT) : 3000;
 
 const app = next({
   dev

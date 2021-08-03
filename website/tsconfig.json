@@ -21,7 +21,8 @@
     "jsx": "preserve",
     "types": [
       "reflect-metadata",
-      "jest"
+      "jest",
+      "node"
     ],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
@@ -31,6 +32,12 @@
       ]
     },
     "skipLibCheck": true
+  },
+  "ts-node": {
+    "transpileOnly": true,
+    "compilerOptions": {
+      "module": "commonjs"
+    }
   },
   "include": [
     "next-env.d.ts",
