@@ -2,7 +2,6 @@ import { initDatabase } from "@/connectors/mongodb";
 import { EmailTemplate, initMailjet } from "@/connectors/mailjet";
 import { initFirebase } from "@/connectors/firebase/Firebase";
 import { Bucket, initAWS } from "./connectors/aws";
-import { runAllMigrations } from "./migrations";
 
 export interface DbConfig {
   dbUri: string;
@@ -25,39 +24,46 @@ export interface AwsConfig {
   };
 }
 
+export interface ServicesConfig {
+  firebaseServiceAccountObject: Object;
+  dbConfig: DbConfig;
+  mjConfig: MailjetConfig;
+  awsConfig: AwsConfig;
+}
+
 let _initExecuted = false;
-export async function init(
-  firebaseServiceAccountObject: Object,
-  dbConfig: DbConfig,
-  mjConfig: MailjetConfig,
-  awsConfig: AwsConfig
-) {
+export async function init(config: ServicesConfig) {
   if (_initExecuted) return;
   _initExecuted = true;
 
-  console.info("Initializing server");
+  console.info("Initializing services");
 
   const emailTemplates = new Map<EmailTemplate, number>();
   emailTemplates.set(
     EmailTemplate.EMAIL_VERIFICATION,
-    Number(mjConfig.templates.emailVerification)
+    Number(config.mjConfig.templates.emailVerification)
   );
 
   const buckets = new Map<Bucket, string>();
-  buckets.set(Bucket.PAGES_BUCKET, awsConfig.buckets.pages);
+  buckets.set(Bucket.PAGES_BUCKET, config.awsConfig.buckets.pages);
 
   console.info("Initializing AWS");
-  initAWS(awsConfig.accessKeyId, awsConfig.secretAccessKey, buckets);
+  initAWS(
+    config.awsConfig.accessKeyId,
+    config.awsConfig.secretAccessKey,
+    buckets
+  );
 
   console.info("Initializing Mailjet");
-  initMailjet(mjConfig.apiKey, mjConfig.apiSecret, emailTemplates);
+  initMailjet(
+    config.mjConfig.apiKey,
+    config.mjConfig.apiSecret,
+    emailTemplates
+  );
 
   console.info("Initializing Firebase");
-  initFirebase(firebaseServiceAccountObject);
+  initFirebase(config.firebaseServiceAccountObject);
 
   console.info("Initializing Database");
-  await initDatabase(dbConfig.dbUri, dbConfig.dbName);
-
-  console.info("Cheking migrations");
-  await runAllMigrations();
+  await initDatabase(config.dbConfig.dbUri, config.dbConfig.dbName);
 }

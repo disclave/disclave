@@ -4,9 +4,8 @@ import express from "express";
 import { prepareApolloServer } from "./graphql";
 import {
   init as initServices,
-  DbConfig,
-  MailjetConfig,
-  AwsConfig,
+  runAllMigrations,
+  ServicesConfig,
 } from "@disclave/services";
 
 type WebAppHandler = (
@@ -15,27 +14,20 @@ type WebAppHandler = (
   parsedUrl?: UrlWithParsedQuery
 ) => Promise<void>;
 
-type Config = {
+export interface ServerConfig extends ServicesConfig {
   port: number;
-  firebaseServiceAccountObject: Object;
-  dbConfig: DbConfig;
-  mjConfig: MailjetConfig;
-  awsConfig: AwsConfig;
-};
+}
 
 export { getUserCookie } from "./cookies";
 
 export const runServer = async (
-  config: Config,
+  config: ServerConfig,
   webAppHandler: WebAppHandler
 ) => {
-  await initServices(
-    config.firebaseServiceAccountObject,
-    config.dbConfig,
-    config.mjConfig,
-    config.awsConfig
-  );
+  console.info("Running server");
+  await initServices(config);
 
+  console.info("Services initialized. Straring GraphQL");
   const server = prepareApolloServer();
   await server.start();
 
@@ -47,9 +39,14 @@ export const runServer = async (
     webAppHandler(req, res);
   });
 
+  console.info("Starting Express listener");
   await new Promise<void>((resolve) =>
     app.listen({ port: config.port }, resolve)
   );
+
+  console.info("Cheking migrations");
+  await runAllMigrations();
+
   console.log(`> Ready on http://localhost:${config.port}`);
   console.log(
     `> GQL server ready at http://localhost:${config.port}${server.graphqlPath}`

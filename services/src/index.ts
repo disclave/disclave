@@ -1,7 +1,13 @@
 import { container } from "./inversify.config";
 
-export type { DbConfig, MailjetConfig, AwsConfig } from "./init";
+export type {
+  ServicesConfig,
+  DbConfig,
+  MailjetConfig,
+  AwsConfig,
+} from "./init";
 export { init } from "./init";
+export { runAllMigrations } from "./migrations";
 
 export type { Profile } from "@/modules/profiles";
 

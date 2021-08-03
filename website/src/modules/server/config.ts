@@ -1,6 +1,8 @@
+import { ServerConfig } from '@disclave/server';
+
 const port = process.env.PORT ? parseInt(process.env.PORT) : 3000;
 
-export const getConfig = () => ({
+export const getConfig = (): ServerConfig => ({
   port: port,
   firebaseServiceAccountObject: firebaseCert(),
   dbConfig: dbConfig(),

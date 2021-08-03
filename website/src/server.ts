@@ -1,5 +1,5 @@
 const server = require('@disclave/server');
-const config = require('./server-config.ts');
+const config = require('./modules/server/config.ts');
 const next = require('next');
 
 const dev = process.env.NODE_ENV !== 'production';
